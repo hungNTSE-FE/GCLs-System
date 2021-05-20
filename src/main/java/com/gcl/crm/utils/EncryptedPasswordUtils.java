@@ -2,10 +2,10 @@ package com.gcl.crm.utils;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-public class EncrytedPasswordUtils {
+public class EncryptedPasswordUtils {
 
-    //Encryte Password with BcryptPasswordEncoder
-    public static String encrytePassword(String password) {
+    //Encrypt Password with BcryptPasswordEncoder
+    public static String encryptPassword(String password) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder.encode(password);
     }
