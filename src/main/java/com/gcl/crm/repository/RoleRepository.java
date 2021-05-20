@@ -1,4 +1,4 @@
-package com.gcl.crm.dao;
+package com.gcl.crm.repository;
 
 import com.gcl.crm.entity.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class AppRoleDAO {
+public class RoleRepository {
 
     @Autowired
     private EntityManager entityManager;

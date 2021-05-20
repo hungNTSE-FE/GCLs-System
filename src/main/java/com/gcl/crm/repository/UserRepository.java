@@ -1,4 +1,4 @@
-package com.gcl.crm.dao;
+package com.gcl.crm.repository;
 
 import com.gcl.crm.entity.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 
 @Repository
 @Transactional
-public class AppUserDAO {
+public class UserRepository {
 
     @Autowired
     private EntityManager entityManager;

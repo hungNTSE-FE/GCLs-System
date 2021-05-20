@@ -1,7 +1,7 @@
 package com.gcl.crm.service;
 
-import com.gcl.crm.dao.AppRoleDAO;
-import com.gcl.crm.dao.AppUserDAO;
+import com.gcl.crm.repository.RoleRepository;
+import com.gcl.crm.repository.UserRepository;
 import com.gcl.crm.entity.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,14 +19,14 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private AppUserDAO appUserDAO;
+    private UserRepository userRepository;
 
     @Autowired
-    private AppRoleDAO appRoleDAO;
+    private RoleRepository roleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        AppUser appUser = this.appUserDAO.findUserAccount(userName);
+        AppUser appUser = this.userRepository.findUserAccount(userName);
 
         if (appUser == null) {
             System.out.println("User not found! " + userName);
@@ -36,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         System.out.println("Found User: " + appUser);
 
         //[ROLE_PERSONAL,...]
-        List<String> roleNames = this.appRoleDAO.getRoleNames(appUser.getUserId());
+        List<String> roleNames = this.roleRepository.getRoleNames(appUser.getUserId());
 
         List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
         if (roleNames != null) {

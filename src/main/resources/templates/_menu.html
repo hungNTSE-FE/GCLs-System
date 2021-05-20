@@ -12,9 +12,6 @@
   <a th:href="@{/admin}">Admin</a>
 
   | &nbsp;
-  <form th:action="@{/logout}" method="post">
-    <input type="submit" value="Log out Button"/>
-  </form>
   <a th:if="${#request.userPrincipal != null}" th:href="@{/logout}">Logout</a>
 
 </div>
