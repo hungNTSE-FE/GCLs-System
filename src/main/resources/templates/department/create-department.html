@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Phòng ban</title>
+</head>
+<body>
+    <h1>Tạo mới phòng ban</h1>
+    <form action="/department/create" method="POST" th:object="${department}">
+        Tên Phòng ban:
+        <input type="text" th:field="*{name}" />
+        <hr/>
+
+        <ul th:if="${permissions}">
+            Các quyền được phép:
+            <li th:each="permission : ${permissions}">
+                <input type="checkbox" name="permission-list" th:value="${permission.id}" th:id="'per-' + ${permission.id}" />
+                <label th:for="${'per-' + permission.id}" th:text="${permission.name}"></label>
+            </li>
+        </ul>
+        <input type="submit" value="Tạo"/>
+    </form>
+</body>
+</html>
