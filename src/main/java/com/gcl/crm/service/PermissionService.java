@@ -5,6 +5,7 @@ import com.gcl.crm.entity.Permission;
 import java.util.List;
 
 public interface PermissionService {
-    List<Permission> findAllPermission();
+    List<Permission> findAllPermissions();
     Permission findById(Long id);
+    List<Permission> findPermissionsByIdList(List<Long> idList);
 }

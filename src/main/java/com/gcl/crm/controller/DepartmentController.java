@@ -2,7 +2,6 @@ package com.gcl.crm.controller;
 
 import com.gcl.crm.entity.Department;
 import com.gcl.crm.entity.Permission;
-import com.gcl.crm.enums.PermissionStatus;
 import com.gcl.crm.service.DepartmentService;
 import com.gcl.crm.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +54,7 @@ public class DepartmentController {
     @GetMapping({"/create"})
     public String goCreatePage(Model model){
         Department department = new Department();
-        List<Permission> permissions = permissionService.findAllPermission();
+        List<Permission> permissions = permissionService.findAllPermissions();
         model.addAttribute("department", department);
         model.addAttribute("permissions", permissions);
         return "department/create-department";
@@ -64,15 +63,8 @@ public class DepartmentController {
     @PostMapping({"/create"})
     public String create(Model model, @ModelAttribute("department") Department department,
                          @Nullable @RequestParam("permission-list") List<Long> permissionIds){
-        List<Permission> permissions;
-        if (permissionIds != null){
-            permissions = new ArrayList<>();
-            for (int i = 0; i < permissionIds.size(); i++){
-                Permission permission = permissionService.findById(permissionIds.get(i));
-                if (permission != null){
-                    permissions.add(permission);
-                }
-            }
+        List<Permission> permissions = permissionService.findPermissionsByIdList(permissionIds);
+        if (permissions != null){
             department.setPermissions(permissions);
         }
         departmentService.createDepartment(department);
