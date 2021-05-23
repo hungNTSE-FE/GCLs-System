@@ -9,6 +9,6 @@ public interface DepartmentService {
     List<Department> findAllDepartments(Pageable pageable);
     Department findDepartmentById(Long id);
     List<Department> findDepartmentsByName(String keyword, Pageable pageable);
-    List<Integer> getPageList(int pageSize, String keyword);
+    List<String> getPageList(int pageSize, String keyword);
     void createDepartment(Department department);
 }

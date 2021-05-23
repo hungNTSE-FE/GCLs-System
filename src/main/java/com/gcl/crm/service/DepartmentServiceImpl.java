@@ -31,8 +31,8 @@ public class DepartmentServiceImpl implements DepartmentService{
     }
 
     @Override
-    public List<Integer> getPageList(int pageSize, String keyword) {
-        List<Integer> list = new ArrayList<>();
+    public List<String> getPageList(int pageSize, String keyword) {
+        List<String> urlList = new ArrayList<>();
         int page = 0;
         int record = departmentRepository.countAllByNameContaining(keyword);
         if (record > 0){
@@ -41,12 +41,18 @@ public class DepartmentServiceImpl implements DepartmentService{
                 page++;
             }
             if (page > 0){
-                for (int i = 1; i >= page; i++){
-                    list.add(i);
+                String url = "/department/";
+                String param = "";
+                if (!keyword.isEmpty()){
+                    url += "search/";
+                    param += "?k=" + keyword;
+                }
+                for (int i = 1; i <= page; i++){
+                    urlList.add(url + i + param);
                 }
             }
         }
-        return list;
+        return urlList;
     }
 
     @Override

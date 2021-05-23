@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -30,10 +29,12 @@ public class DepartmentController {
     @GetMapping({"/{page}", ""})
     public String viewAll(Model model, @Nullable @PathVariable("page") Integer page) {
         if (page == null) {
-            page = 0;
+            page = 1;
         }
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        Pageable pageable = PageRequest.of(page - 1, PAGE_SIZE);
         List<Department> departments = departmentService.findAllDepartments(pageable);
+        List<String> urlList = departmentService.getPageList(PAGE_SIZE, "");
+        model.addAttribute("urlList", urlList);
         model.addAttribute("departments", departments);
         return "department/department";
     }
@@ -42,10 +43,12 @@ public class DepartmentController {
     public String searchByName(Model model, @RequestParam("k") String keyword,
                                @Nullable @PathVariable("page") Integer page) {
         if (page == null) {
-            page = 0;
+            page = 1;
         }
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        Pageable pageable = PageRequest.of(page - 1, PAGE_SIZE);
         List<Department> departments = departmentService.findDepartmentsByName(keyword, pageable);
+        List<String> urlList = departmentService.getPageList(PAGE_SIZE, keyword);
+        model.addAttribute("urlList", urlList);
         model.addAttribute("keyword", keyword);
         model.addAttribute("departments", departments);
         return "department/department";

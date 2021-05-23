@@ -21,9 +21,9 @@
             <td th:text="${department.name}"></td>
         </tr>
     </table>
+    <div th:each="url : ${urlList}">
+        <a th:href="${url}" th:text="${urlList.indexOf(url) + 1}"></a>
+    </div>
     <a href="/department/create">Tạo mới phòng ban</a>
-<!--    <ul>-->
-<!--        <li th:each="${pages}"></li>-->
-<!--    </ul>-->
 </body>
 </html>
