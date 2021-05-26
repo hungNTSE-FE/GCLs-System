@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
-@EnableJpaRepositories("com.gcl.crm.entity")
+//@EnableJpaRepositories("com.gcl.crm.entity")
 public class CrmApplication extends WebMvcConfigurerAdapter {
 
     public static void main(String[] args) {

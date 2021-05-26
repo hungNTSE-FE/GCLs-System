@@ -1,9 +1,7 @@
 package com.gcl.crm.entity;
 
-import com.gcl.crm.enums.PermissionStatus;
+import com.gcl.crm.enums.Status;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,7 +20,7 @@ public class Permission {
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status", nullable = false)
-    private PermissionStatus status;
+    private Status status;
 
     @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY)
     private List<Department> departments;

@@ -1,5 +1,5 @@
 package com.gcl.crm.enums;
 
-public enum PermissionStatus {
+public enum Status {
     ACTIVE, INACTIVE
 }

@@ -35,6 +35,6 @@ public class Identification {
     @Column(name = "permanent_place", nullable = false)
     private String permanentPlace;
 
-    @OneToOne(mappedBy = "identification", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "identification", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Employee employee;
 }
