@@ -6,12 +6,10 @@ import com.gcl.crm.enums.Status;
 import com.gcl.crm.service.CompanyService;
 import com.gcl.crm.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -54,20 +52,32 @@ public class DepartmentController {
     }
 
     @GetMapping({"/edit"})
-    public String goEditPage(Model model){
-
+    public String goEditPage(Model model,@Nullable @RequestParam("did") String id){
+        Department department = departmentService.findDepartmentById(id);
+        if (department == null){
+            return "redirect:/department/home";
+        }
+        List<Company> companies = companyService.findAllCompanies();
+        model.addAttribute("companies", companies);
+        model.addAttribute("department", department);
         return "department/edit-department-page";
     }
 
     @PostMapping({"/edit"})
-    public String edit(Model model){
-        boolean done = departmentService.updateDepartment(new Department());
-        return "department/edit-department-page";
+    public String edit(Model model,@Nullable @ModelAttribute("department") Department department){
+        if (department == null){
+            return "redirect:/department/home";
+        }
+        boolean done = departmentService.updateDepartment(department);
+        return "redirect:/department/edit?did=" + department.getId();
     }
 
     @PostMapping({"/delete"})
-    public String delete(Model model){
-        boolean done = departmentService.deleteDepartment(123L);
+    public String delete(Model model, @Nullable @RequestParam("did") String id){
+        if (id == null){
+            return "redirect:/department/home";
+        }
+        boolean done = departmentService.deleteDepartment(id);
         return "redirect:/department/home";
     }
 }

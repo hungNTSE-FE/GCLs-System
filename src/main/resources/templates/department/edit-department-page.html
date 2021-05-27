@@ -31,13 +31,16 @@
     </div>
     <div class="col-md-8" style="padding-top: 10px">
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button type="button" class="btn btn-lg me-md-2" style="background-color: #ffeb3b; color: #1266f1">
+        <button form="update-form" type="submit" class="btn btn-lg me-md-2" style="background-color: #ffeb3b; color: #1266f1">
           CẬP NHẬT
         </button>
         <!-- Remove Button -->
-        <button type="button" class="btn btn-danger" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
-          Xoá
-        </button>
+        <form id="delete-form" th:action="@{/department/delete}" method="POST">
+          <input type="hidden" name="did" th:value="${department.id}" />
+        </form>
+          <button form="delete-form" type="submit" class="btn btn-danger" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+            Xoá
+          </button>
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -78,7 +81,8 @@
     </div>
 
     <div style="padding: 8px">
-      <form>
+      <form id="update-form" th:action="@{/department/edit}" method="POST" th:object="${department}">
+        <input type="hidden" th:field="*{id}" />
         <div class="row mb-3">
           <label class="col-sm-2 col-form-label">
             <strong>
@@ -87,7 +91,7 @@
             <span style="color: red">*</span>
           </label>
           <div class="col-sm-7 mx-3">
-            <input type="input" class="form-control" />
+            <input type="text" th:field="*{name}" class="form-control" />
           </div>
         </div>
         <div class="row mb-3">
@@ -98,11 +102,9 @@
             <span style="color: red">*</span>
           </label>
           <div class="col-sm-7 mx-3">
-            <select class="form-select" aria-label="Default select example">
-              <option selected>Phòng sales kinh doanh</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+            <select th:field="*{company.id}" class="form-select" aria-label="Default select example">
+              <option th:selected="${department.company.id == company.id}" th:each="company : ${companies}"
+                      th:value="${company.id}" th:text="${company.name}"></option>
             </select>
           </div>
         </div>
@@ -113,7 +115,7 @@
             </strong>
           </label>
           <div class="col-sm-7 mx-3">
-            <textarea class="form-control" id="textAreaExample" rows="4"></textarea>
+            <textarea th:field="*{note}" class="form-control" id="textAreaExample" rows="4"></textarea>
           </div>
         </div>
         <div class="row mb-3">

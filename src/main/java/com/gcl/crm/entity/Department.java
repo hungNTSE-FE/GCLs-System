@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -26,6 +27,9 @@ public class Department {
 
     @Column(name = "note", length = 1000)
     private String note;
+
+    @Column(name = "last_update", nullable = false)
+    private Timestamp lastModified;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "department_permission", joinColumns = @JoinColumn(name = "department_id"),

@@ -35,12 +35,12 @@
           <div th:each="department : ${company.departments}">
             <tr th:each="employee : ${department.employees}">
               <td th:text="${employee.id}"></td>
-              <td>Chưa liên kết entity</td>
+              <td th:text="${employee.appUser.userName}"></td>
               <td th:text="${employee.name}"></td>
               <td>Chưa biết</td>
               <td th:text="${employee.identification.birthDate}"></td>
               <td th:text="${department.name}"></td>
-              <td>Chưa liên kết entity</td>
+              <td th:text="${employee.phone}"></td>
               <td th:text="${employee.companyEmail}"></td>
             </tr>
           </div>

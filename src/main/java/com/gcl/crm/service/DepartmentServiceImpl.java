@@ -1,5 +1,6 @@
 package com.gcl.crm.service;
 
+import com.gcl.crm.entity.Company;
 import com.gcl.crm.entity.Department;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.repository.DepartmentRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService{
@@ -16,14 +18,24 @@ public class DepartmentServiceImpl implements DepartmentService{
     @Autowired
     DepartmentRepository departmentRepository;
 
+    @Autowired
+    CompanyService companyService;
+
     @Override
     public List<Department> findAllDepartments() {
-        return departmentRepository.findAll();
+        return departmentRepository.findAllByStatus(Status.ACTIVE);
     }
 
     @Override
-    public Department findDepartmentById(Long id) {
-        return departmentRepository.findById(id).get();
+    public Department findDepartmentById(String id) {
+        Long departmentId;
+        try {
+            departmentId = Long.parseLong(id);
+        } catch (NumberFormatException ex){
+            return null;
+        }
+        Department department = departmentRepository.findByIdAndStatus(departmentId, Status.ACTIVE);
+        return department;
     }
 
     @Override
@@ -34,15 +46,29 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Override
     public boolean updateDepartment(Department department) {
+        if (department.getId() == null){
+            return false;
+        }
+        Company company = companyService.findCompanyById(department.getCompany().getId());
+        department.setCompany(company);
+        department.setStatus(Status.ACTIVE);
         Department depart = departmentRepository.save(department);
         return depart != null;
     }
 
     @Override
-    public boolean deleteDepartment(Long id) {
-        Department department = departmentRepository.findById(id).get();
+    public boolean deleteDepartment(String id) {
+        Department department = this.findDepartmentById(id);
+        if (department == null){
+            return false;
+        }
         department.setStatus(Status.INACTIVE);
         Department depart = departmentRepository.save(department);
         return depart != null;
+    }
+
+    @Override
+    public List<Department> findDepartmentsByCompany(Company company) {
+        return departmentRepository.findAllByStatusAndCompany(Status.ACTIVE, company);
     }
 }

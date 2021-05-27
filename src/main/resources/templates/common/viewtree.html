@@ -9,7 +9,7 @@
   </head>
   <body>
     <div class="outer">
-      <input type="text" value="" id="sizevalue" />
+      <input name="did" type="hidden" form="go-update-form" value="" id="sizevalue" />
         <ul id="ul">
           <li th:each="company : ${companies}">
             <span class="caret" th:text="${company.name}"></span>

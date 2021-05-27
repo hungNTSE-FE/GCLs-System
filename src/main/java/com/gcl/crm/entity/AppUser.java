@@ -21,6 +21,9 @@ public class AppUser {
     @Column(name = "Enabled", length = 1, nullable = false)
     private boolean enabled;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
 
 //    private Date createDate;
 //

@@ -68,4 +68,7 @@ public class Employee {
     @JoinTable(name = "employee_permission", joinColumns = @JoinColumn(name = "employee_id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id"))
     private List<Permission> permissions;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "employee")
+    private AppUser appUser;
 }
