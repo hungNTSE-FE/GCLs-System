@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -9,35 +9,28 @@
   </head>
   <body>
     <div class="outer">
-      <ul id="ul">
-        <li th:each="company : ${companies}">
-          <span class="caret" th:text="${company.name}"></span>
-          <ul class="nested">
-            <a th:each="department : ${company.departments}" href="#">
-              <li th:text="${department.name}"></li>
-            </a>
-<!--            <li>Item 2</li>-->
-<!--            <li>-->
-<!--              <span class="caret">Item 3</span>-->
-<!--              <ul class="nested">-->
-<!--                <li>Item 3.1</li>-->
-<!--                <li>Item 3.2</li>-->
-<!--                <li>-->
-<!--                  <span class="caret">Item 3.3</span>-->
-<!--                  <ul class="nested">-->
-<!--                    <li>Item 3.3.1</li>-->
-<!--                    <li>Item 3.3.2</li>-->
-<!--                    <li>Item 3.3.3</li>-->
-<!--                  </ul>-->
-<!--                </li>-->
-<!--              </ul>-->
-<!--            </li>-->
-          </ul>
-        </li>
-      </ul>
+      <input type="text" value="" id="sizevalue" />
+        <ul id="ul">
+          <li th:each="company : ${companies}">
+            <span class="caret" th:text="${company.name}"></span>
+            <ul class="nested" id="nestedId">
+              <li th:each="department : ${company.departments}" th:data-value="${department.id}">
+                <a th:text="${department.name}"  href="#"></a>
+              </li>
+            </ul>
+          </li>
+        </ul>
     </div>
-
     <!-- SCRIPT: VIEW TREE  -->
     <script type="text/javascript" src="/js/view-tree.js"></script>
+    <script src="https://code.jquery.com/jquery-2.0.2.js" integrity="sha256-0u0HIBCKddsNUySLqONjMmWAZMQYlxTRbA8RfvtCAW0=" crossorigin="anonymous"></script>
+    <script th:inline="javascript">
+      $("#nestedId").on("click", "a", function (e) {
+        e.preventDefault();
+        var $this = $(this).parent();
+        $this.addClass("select").siblings().removeClass("select");
+        $("#sizevalue").val($this.data("value"));
+      });
+    </script>
   </body>
 </html>

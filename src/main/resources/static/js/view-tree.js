@@ -6,4 +6,5 @@ for (i = 0; i < toggler.length; i++) {
     this.parentElement.querySelector(".nested").classList.toggle("active");
     this.classList.toggle("caret-down");
   });
-}
+};
+
