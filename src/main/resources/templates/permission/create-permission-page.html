@@ -94,40 +94,159 @@
         <h5 style="padding: 8px">Chọn quyền</h5>
       </div>
 
-      <div style="padding: 8px" class="d-grid gap-3 d-md-flex justify-content-between">
-        <div id="treeview-container">
-          <ul>
-            <li>Khách hàng</li>
-            <li>
-              Báo cáo
-              <ul>
-                <li>node 2.1</li>
-                <li>
-                  node 2.2
-                  <ul>
-                    <li data-value="2.2.1">subnode 2.2.1</li>
-                    <li data-value="2.2.2">subnode 2.2.2</li>
-                    <li data-value="2.2.3">subnode 2.2.3</li>
-                  </ul>
-                </li>
-                <li>node 2.3</li>
-              </ul>
-            </li>
-            <li>
-              Mua hàng
-              <ul>
-                <li data-value="3.1">node 3.1</li>
-                <li data-value="3.2">node 3.2</li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+      <div id="treeview-container" class="d-grid gap-3 d-md-flex justify-content-between mh-100">
+        <ul>
+          <li>
+            Khách hàng
+            <ul>
+              <li>
+                Email
+                <ul>
+                  <li>Gửi email hàng loạt</li>
+                  <li>Gửi email KH</li>
+                </ul>
+              </li>
+              <li>
+                Khách hàng
+                <ul>
+                  <li>Chia sẻ khách hàng</li>
+                  <li>Chuyển chủ sở hữu</li>
+                  <li>Điểm thưởng</li>
+                  <li>Đồng bộ dữ liệu cloud</li>
+                  <li>Nhập khẩu khách hàng</li>
+                  <li>Sửa ngày tạo KH</li>
+                  <li>Sửa thông tin khách hàng</li>
+                  <li>Sửa thông tin khách hàng được chia sẻ</li>
+                  <li>Thêm một khách hàng</li>
+                  <li>Thiết lập khách hàng chung</li>
+                  <li>Tra cứu chia sẻ chuyển CSH</li>
+                  <li>Tra cứu thông tin khách hàng</li>
+                  <li>Xem khách hàng</li>
+                  <li>Xem khách hàng chung</li>
+                  <li>Xuất khẩu khách hàng</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            Báo cáo
+            <ul>
+              <li>
+                Báo cáo bán hàng
+                <ul>
+                  <li>Báo cáo chi tiết bán hàng</li>
+                  <li>Báo cáo chi tiết bán hàng theo khách hàng</li>
+                  <li>Báo cáo chi tiết bán hàng theo loại mặt hàng</li>
+                  <li>Báo cáo chi tiết cơ hội</li>
+                  <li>Báo cáo chi tiết hợp đồng theo nhân viên</li>
+                  <li>Báo cáo doanh thu theo khách hàng</li>
+                  <li>Báo cáo doanh thu theo loại khách hàng</li>
+                  <li>Báo cáo doanh thu theo mặt hàng</li>
+                  <li>Báo cáo lợi nhuận</li>
+                  <li>Báo cáo lợi nhuận thực</li>
+                  <li>Báo cáo nguyên nhân cơ hội thất bại</li>
+                  <li>Báo cáo push sale</li>
+                  <li>Báo cáo tổng hợp bán hàng theo loại mặt hàng</li>
+                  <li>Báo cáo tổng hợp bán hàng theo mặt hàng</li>
+                  <li>Báo cáo tổng hợp cơ hội</li>
+                  <li>Báo cáo tổng hợp doanh số theo nhân viên</li>
+                  <li>Biểu đồ doanh thu</li>
+                  <li>Biểu đồ doanh thu vị trí địa lý</li>
+                </ul>
+              </li>
+              <li>
+                Báo cáo công nợ
+                <ul>
+                  <li>Báo cáo chi tiết công nợ theo khách hàng</li>
+                  <li>Báo cáo chi tiết công nợ theo nhà cung cấp</li>
+                  <li>Báo cáo chi tiết công nợ theo nhân viên</li>
+                  <li>Báo cáo thu chi tiền mặt</li>
+                  <li>Báo cáo tiến độ thanh toán</li>
+                  <li>Báo cáo tổng hợp công nợ theo khách hàng</li>
+                  <li>Báo cáo tổng hợp công nợ theo nhà cung cấp</li>
+                </ul>
+              </li>
+              <li>
+                Báo cáo công việc
+                <ul>
+                  <li>Báo cáo chi tiết công việc</li>
+                  <li>Báo cáo KPI cho nhân viên</li>
+                  <li>Báo cáo tổng hợp công việc</li>
+                  <li>Xuất báo cáo dự án chi tiết</li>
+                  <li>Xuất báo cáo dự án tổng hợp</li>
+                  <li>Xuất báo cáo KPI chi thợpết</li>
+                  <li>Xuất báo cáo KPI tổng </li>
+                </ul>
+              </li>
+              <li>
+                Báo cáo khách hàng
+                <ul>
+                  <li>Báo cáo chăm sóc khách hàng</li>
+                  <li>Báo cáo khách hàng không tái ký hợp đồng</li>
+                  <li>Báo cáo theo dõi giao dịch khách hàng</li>
+                  <li>Báo cáo tình trạng khách hàng</li>
+                  <li>Biểu đồ phát triển khách hàng mới</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <ul>
+          <li>Marketing</li>
+          <li>
+            Chiến dịch
+            <ul>
+              <li>node 2.1</li>
+              <li>
+                node 2.2
+                <ul>
+                  <li data-value="2.2.1">subnode 2.2.1</li>
+                  <li data-value="2.2.2">subnode 2.2.2</li>
+                  <li data-value="2.2.3">subnode 2.2.3</li>
+                </ul>
+              </li>
+              <li>node 2.3</li>
+            </ul>
+          </li>
+          <li>
+            Email
+            <ul>
+              <li data-value="3.1">node 3.1</li>
+              <li data-value="3.2">node 3.2</li>
+            </ul>
+          </li>
+        </ul>
+
+        <ul>
+          <li>Khách hàng</li>
+          <li>
+            Báo cáo
+            <ul>
+              <li>node 2.1</li>
+              <li>
+                node 2.2
+                <ul>
+                  <li data-value="2.2.1">subnode 2.2.1</li>
+                  <li data-value="2.2.2">subnode 2.2.2</li>
+                  <li data-value="2.2.3">subnode 2.2.3</li>
+                </ul>
+              </li>
+              <li>node 2.3</li>
+            </ul>
+          </li>
+          <li>
+            Mua hàng
+            <ul>
+              <li data-value="3.1">node 3.1</li>
+              <li data-value="3.2">node 3.2</li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 
-  <!--Footer-->
-  <th:block th:include="/common/footer.html"></th:block>
 
   <!-- MDB -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.5.0/mdb.min.js"></script>

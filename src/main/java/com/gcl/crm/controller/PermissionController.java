@@ -13,4 +13,7 @@ public class PermissionController {
     public String getHome(Model model) {
         return "permission/home-permission-page";
     }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public String getEdit(Model model) { return "permission/edit-permission-page";}
 }
