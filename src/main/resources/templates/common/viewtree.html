@@ -9,21 +9,42 @@
   </head>
   <body>
     <div class="outer">
-      <input name="did" type="hidden" form="go-update-form" value="" id="sizevalue" />
-        <ul id="ul">
-          <li th:each="company : ${companies}">
-            <span class="caret" th:text="${company.name}"></span>
-            <ul class="nested" id="nestedId">
-              <li th:each="department : ${company.departments}" th:data-value="${department.id}">
-                <a th:text="${department.name}"  href="#"></a>
-              </li>
-            </ul>
-          </li>
-        </ul>
+      <input name="did" type="text" form="go-update-form" value="" id="sizevalue" />
+      <ul id="ul">
+        <li th:each="company : ${companies}">
+          <span class="caret dropdown-option" th:text="${company.name}" value="all"></span>
+          <ul class="nested" id="nestedId">
+            <li th:each="department : ${company.departments}" th:data-value="${department.id}" th:value="${department.name}" class="dropdown-option">
+              <a th:text="${department.name}"  href="#"></a>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
     <!-- SCRIPT: VIEW TREE  -->
     <script type="text/javascript" src="/js/view-tree.js"></script>
     <script src="https://code.jquery.com/jquery-2.0.2.js" integrity="sha256-0u0HIBCKddsNUySLqONjMmWAZMQYlxTRbA8RfvtCAW0=" crossorigin="anonymous"></script>
+    <script th:inline="javascript">
+      $(function () {
+        $(".dropdown-option").click(function () {
+          var theValue = $(this).attr("value");
+          var rex = new RegExp(theValue);
+
+          if (rex == "/all/") {
+            clearFilter();
+          } else {
+            $(".content").hide();
+            $(".content").filter(function () {
+                      return rex.test($(this).text());
+                    }).show();
+          }
+        });
+        function clearFilter() {
+          $(".ul").val("");
+          $(".content").show();
+        }
+      });
+    </script>
     <script th:inline="javascript">
       $("#nestedId").on("click", "a", function (e) {
         e.preventDefault();

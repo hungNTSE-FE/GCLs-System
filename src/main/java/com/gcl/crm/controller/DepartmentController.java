@@ -5,12 +5,16 @@ import com.gcl.crm.entity.Department;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.service.CompanyService;
 import com.gcl.crm.service.DepartmentService;
+import com.gcl.crm.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -23,8 +27,17 @@ public class DepartmentController {
     @Autowired
     DepartmentService departmentService;
 
-    @GetMapping({"/home"})
-    public String home(Model model){
+    @RequestMapping(value ="/home", method = RequestMethod.GET)
+    public String home(Model model, Principal principal){
+        // Sau khi user login thanh cong se co principal
+        String userName = principal.getName();
+        System.out.println("User Name: " + userName);
+
+        User loginedUser = (User) ((Authentication) principal).getPrincipal();
+
+        String userInfo = WebUtils.toString(loginedUser);
+        model.addAttribute("userInfo", userInfo);
+
         List<Company> companies = companyService.findAllCompanies();
         model.addAttribute("companies", companies);
         return "department/home-department-page";
@@ -55,8 +68,10 @@ public class DepartmentController {
     public String goEditPage(Model model,@Nullable @RequestParam("did") String id){
         Department department = departmentService.findDepartmentById(id);
         if (department == null){
+            System.out.println(id);
             return "redirect:/department/home";
         }
+
         List<Company> companies = companyService.findAllCompanies();
         model.addAttribute("companies", companies);
         model.addAttribute("department", department);
@@ -64,7 +79,7 @@ public class DepartmentController {
     }
 
     @PostMapping({"/edit"})
-    public String edit(Model model,@Nullable @ModelAttribute("department") Department department){
+    public String edit(Model model, @Nullable @ModelAttribute("department") Department department){
         if (department == null){
             return "redirect:/department/home";
         }
