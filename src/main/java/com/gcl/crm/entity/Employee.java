@@ -1,5 +1,6 @@
 package com.gcl.crm.entity;
 
+import com.gcl.crm.enums.EmployeeStatus;
 import com.gcl.crm.enums.Gender;
 import lombok.Data;
 
@@ -51,8 +52,9 @@ public class Employee {
     @Column(name = "broker_code", unique = true)
     private Long brokerCode;
 
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "status", nullable = false)
-    private String status;
+    private EmployeeStatus status;
 
     @Column(name = "note", length = 1000)
     private String note;
