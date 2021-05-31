@@ -71,4 +71,7 @@ public class Employee {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "employee")
     private AppUser appUser;
+
+//    @OneToOne(mappedBy = "modifier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private Department manageDepartment;
 }

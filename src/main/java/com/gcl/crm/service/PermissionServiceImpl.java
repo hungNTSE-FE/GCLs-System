@@ -1,6 +1,7 @@
 package com.gcl.crm.service;
 
 import com.gcl.crm.entity.Permission;
+import com.gcl.crm.enums.Status;
 import com.gcl.crm.repository.PermissionRepository;
 import com.gcl.crm.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,26 +18,21 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public List<Permission> findAllPermissions() {
-        return permissionRepository.findAllBy();
+        return permissionRepository.findAllByStatus(Status.ACTIVE);
     }
 
     @Override
-    public Permission findById(Long id) {
-        return permissionRepository.findPermissionById(id);
+    public Permission findPermissionById(Long id) {
+        return permissionRepository.findPermissionByIdAndStatus(id, Status.ACTIVE);
     }
 
     @Override
-    public List<Permission> findPermissionsByIdList(List<Long> idList) {
-        List<Permission> permissions = null;
-        if (idList != null) {
-            permissions = new ArrayList<>();
-            for (int i = 0; i < idList.size(); i++) {
-                Permission permission = this.findById(idList.get(i));
-                if (permission != null) {
-                    permissions.add(permission);
-                }
-            }
+    public boolean createPermission(Permission permission, List<Long> actionIds) {
+        if (permission == null || permission.getId() == null){
+            return false;
         }
-        return permissions;
+        permission = permissionRepository.save(permission);
+        return permission != null;
     }
+
 }

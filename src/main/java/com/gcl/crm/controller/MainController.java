@@ -17,7 +17,7 @@ public class MainController {
     public String welcomePage(Model model) {
         model.addAttribute("title", "Welcome");
         model.addAttribute("message", "This is welcome page!");
-        return "/department/home-department-page";
+        return "redirect:/department/home";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
