@@ -40,7 +40,7 @@ public class DepartmentController {
 
         List<Company> companies = companyService.findAllCompanies();
         model.addAttribute("companies", companies);
-        return "department/home-department-page";
+        return "department/home-department-page-v2";
     }
 
     @GetMapping({"/create"})

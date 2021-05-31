@@ -17,7 +17,7 @@ public class MainController {
     public String welcomePage(Model model) {
         model.addAttribute("title", "Welcome");
         model.addAttribute("message", "This is welcome page!");
-        return "/department/home-department-page";
+        return "/department/home-department-page-v2";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -106,4 +106,5 @@ public class MainController {
     public String linkCreatePermissionPage(Model model) {
         return "/permission/create-permission-page";
     }
+
 }
