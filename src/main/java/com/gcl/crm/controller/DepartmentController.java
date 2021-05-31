@@ -53,6 +53,11 @@ public class DepartmentController {
         return "department/create-department-page";
     }
 
+    @RequestMapping(value = "/edit-v2", method = RequestMethod.GET)
+    public String goEditV2Page(Model model) {
+        return "department/edit-department-page-v2";
+    }
+
     @PostMapping({"/create"})
     public String create(Model model, @ModelAttribute("department") Department department){
         Company company = companyService.findCompanyById(department.getCompany().getId());

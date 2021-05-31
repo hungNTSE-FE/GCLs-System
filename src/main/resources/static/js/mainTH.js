@@ -100,3 +100,23 @@ $(".user-info").click(function () {
 $(".card-body").click(function (e) {
     e.stopPropagation();
 });
+
+document.getElementById("update1").onclick = function () {
+    Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Cập nhật thành công",
+        showConfirmButton: false,
+        timer: 1500,
+    });
+};
+
+document.getElementById("delete1").onclick = function () {
+    Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Xoá thành công",
+        showConfirmButton: false,
+        timer: 1500,
+    });
+};
