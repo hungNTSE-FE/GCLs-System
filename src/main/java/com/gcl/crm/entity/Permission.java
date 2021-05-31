@@ -18,6 +18,9 @@ public class Permission {
     @Column(name = "permission_name", nullable = false)
     private String name;
 
+    @Column(name = "description", length = 1000)
+    private String description;
+
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status", nullable = false)
     private Status status;
@@ -27,4 +30,9 @@ public class Permission {
 
     @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY)
     private List<Employee> employee;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "permission_action", joinColumns = @JoinColumn(name = "permission_id"),
+            inverseJoinColumns = @JoinColumn(name = "action_id"))
+    private List<Action> actions;
 }

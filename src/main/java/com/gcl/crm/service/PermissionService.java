@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface PermissionService {
     List<Permission> findAllPermissions();
-    Permission findById(Long id);
-    List<Permission> findPermissionsByIdList(List<Long> idList);
+    Permission findPermissionById(Long id);
+    boolean createPermission(Permission permission, List<Long> actionIds);
 }
