@@ -18,9 +18,6 @@ public class DepartmentServiceImpl implements DepartmentService{
     @Autowired
     DepartmentRepository departmentRepository;
 
-    @Autowired
-    CompanyService companyService;
-
     @Override
     public List<Department> findAllDepartments() {
         return departmentRepository.findAllByStatus(Status.ACTIVE);
@@ -49,9 +46,6 @@ public class DepartmentServiceImpl implements DepartmentService{
         if (department.getId() == null){
             return false;
         }
-        Company company = companyService.findCompanyById(department.getCompany().getId());
-        department.setCompany(company);
-        department.setStatus(Status.ACTIVE);
         Department depart = departmentRepository.save(department);
         return depart != null;
     }
