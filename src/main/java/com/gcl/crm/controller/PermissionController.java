@@ -24,14 +24,14 @@ public class PermissionController {
     public String home(Model model) {
         List<Permission> permissions = permissionService.findAllPermissions();
         model.addAttribute("permissions", permissions);
-        return "permission/home-permission-page";
+        return "permission/home-permission-page-v2";
     }
 
     @GetMapping({"/create"})
     public String goCreatePage(Model model){
         Permission permission = new Permission();
         model.addAttribute("permission", permission);
-        return "permission/create-permission-page";
+        return "permission/create-permission-page-v2";
     }
 
     @PostMapping({"/create"})
@@ -41,9 +41,9 @@ public class PermissionController {
     }
 
     @GetMapping({"/edit"})
-    public String goEditPage(Model model, @Nullable @RequestParam("pid") String id){
+    public String goEditPage(Model model){
 
-        return "permission/edit-permission-page";
+        return "permission/edit-permission-page-v2";
     }
 
     @PostMapping({"/edit"})
@@ -55,7 +55,7 @@ public class PermissionController {
     @GetMapping({"/decentralize"})
     public String goDecentralizePage(Model model){
 
-        return "permission/decentralization-permission-page";
+        return "permission/decentralization-permission-page-v2";
     }
 
     @PostMapping({"/decentralize"})

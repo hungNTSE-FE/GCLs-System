@@ -20503,3 +20503,30 @@ pre[class*=language-] {
 .token.variable {
   color: #ff6666;
 }
+
+/*CUSTOM VIEWTREE*/
+.hummingbird-treeview,
+.hummingbird-treeview *
+{
+  list-style: none;
+}
+
+.hummingbird-treeview label {
+  font-weight: normal;
+}
+
+.hummingbird-treeview ul:not(.hummingbird-base) {
+  display: none;
+}
+
+.hummingbird-treeview .fa {
+  cursor: pointer;
+}
+
+.hummingbird-treeview .fas {
+  cursor: pointer;
+}
+
+.hummingbird-base {
+  white-space:nowrap;
+}
