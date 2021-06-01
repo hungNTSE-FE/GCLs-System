@@ -174,5 +174,26 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script type="text/javascript" th:src="@{/js/datatables/datatables-simple-demo.js}"></script>
+<script th:inline="javascript">
+  document.getElementById("update1").onclick = function () {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Cập nhật thành công",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  };
+
+  document.getElementById("delete1").onclick = function () {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Xoá thành công",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  };
+</script>
 </body>
 </html>
