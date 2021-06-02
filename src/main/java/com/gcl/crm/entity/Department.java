@@ -31,9 +31,7 @@ public class Department {
 //    @Column(name = "last_update", nullable = false)
 //    private Timestamp lastModified;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "department_permission", joinColumns = @JoinColumn(name = "department_id"),
-                inverseJoinColumns = @JoinColumn(name = "permission_id"))
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "departments")
     private List<Permission> permissions;
 
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

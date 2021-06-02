@@ -13,4 +13,5 @@ public interface DepartmentService {
     boolean updateDepartment(Department department);
     boolean deleteDepartment(String id);
     List<Department> findDepartmentsByCompany(Company company);
+    List<Department> findDepartmentsByIdList(List<Long> idList);
 }
