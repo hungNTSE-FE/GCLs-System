@@ -65,4 +65,19 @@ public class DepartmentServiceImpl implements DepartmentService{
     public List<Department> findDepartmentsByCompany(Company company) {
         return departmentRepository.findAllByStatusAndCompany(Status.ACTIVE, company);
     }
+
+    @Override
+    public List<Department> findDepartmentsByIdList(List<Long> idList) {
+        if (idList == null){
+            return null;
+        }
+        List<Department> departments = new ArrayList<>();
+        for (int i = 0; i < idList.size(); i++) {
+            Department department = this.findDepartmentById(idList.get(i).toString());
+            if (department != null){
+                departments.add(department);
+            }
+        }
+        return departments;
+    }
 }

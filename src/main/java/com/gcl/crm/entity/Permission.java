@@ -25,7 +25,9 @@ public class Permission {
     @Column(name = "status", nullable = false)
     private Status status;
 
-    @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "permission_department", joinColumns = @JoinColumn(name = "permission_id"),
+            inverseJoinColumns = @JoinColumn(name = "department_id"))
     private List<Department> departments;
 
     @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY)

@@ -50,11 +50,14 @@
           <div class="card-header">
             Phòng ban (13)
             <div>
-              <a class="btn btn-primary" id="update3">Cập nhật</a>
+              <button form="decentralize-form" type="submit" class="btn btn-primary" id="update3">Cập nhật</button>
               <a class="btn btn-outline-dark" th:href="@{/permission/home}">Trở về</a>
             </div>
 
           </div>
+          <form th:action="@{/permission/decentralize}" method="POST" id="decentralize-form">
+            <input type="hidden" name="pid" th:value="${permission.id}" />
+          </form>
           <div class="card-body">
             <p><strong>Nhóm quyền:</strong> Chăm sóc khách hàng</p>
             <table id="datatablesSimple">
@@ -69,29 +72,13 @@
               </tr>
               </thead>
               <tbody>
-              <tr>
+              <tr th:each="department : ${departments}">
                 <td>
-                  <input class="form-check-input" id="flexCheckSolidDefault" type="checkbox" value="">
+                  <input class="form-check-input" id="flexCheckSolidDefault" type="checkbox"
+                         th:value="${department.id}" name="department-id" form="decentralize-form"
+                         th:checked="${permission.departments.contains(department)}" />
                 </td>
-                <td>Phòng marketing</td>
-              </tr>
-              <tr>
-                <td>
-                  <input class="form-check-input" id="flexCheckSolidDefault" type="checkbox" value="">
-                </td>
-                <td>Phòng sales</td>
-              </tr>
-              <tr>
-                <td>
-                  <input class="form-check-input" id="flexCheckSolidDefault" type="checkbox" value="">
-                </td>
-                <td>Phòng kỹ quỹ</td>
-              </tr>
-              <tr>
-                <td>
-                  <input class="form-check-input" id="flexCheckSolidDefault" type="checkbox" value="">
-                </td>
-                <td>Phòng chăm sóc khách hàng</td>
+                <td th:text="${department.name}"></td>
               </tr>
               </tbody>
             </table>
