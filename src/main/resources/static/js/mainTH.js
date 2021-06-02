@@ -84,6 +84,34 @@ window.addEventListener('DOMContentLoaded', event => {
     });
 });
 
+function selectAllNone() {
+    var tvNodes = document.getElementById("treeview");
+    var chBoxes = tvNodes.getElementsByTagName("input");
+    for (var i = 0; i < chBoxes.length; i++) {
+        var chk = chBoxes[i];
+        if (chk.type == "checkbox") {
+            if (chk.checked == false) {
+                chk.checked = true;
+            }
+        }
+    }
+    return false;
+}
+
+function ClearAll() {
+    var tvNodes = document.getElementById("treeview");
+    var chBoxes = tvNodes.getElementsByTagName("input");
+    for (var i = 0; i < chBoxes.length; i++) {
+        var chk = chBoxes[i];
+        if (chk.type == "checkbox") {
+            if (chk.checked == true) {
+                chk.checked = false;
+            }
+        }
+    }
+    return false;
+}
+
 $(".clickshowinfo").click(function () {
     var id = $(this).data("id");
     $(".user-info")
@@ -110,6 +138,8 @@ document.getElementById("insert1").onclick = function () {
         timer: 1500,
     });
 };
+
+
 
 
 

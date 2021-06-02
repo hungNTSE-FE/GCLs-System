@@ -102,12 +102,12 @@
 
         <div class="mb-4 d-flex flex-row">
           <div class="p-2">
-            <button class="btn btn-primary" id="checkAll">
+            <button class="btn btn-primary" id="checkAll" onClick="selectAllNone()">
               Chọn toàn quyền
             </button>
           </div>
           <div class="p-2">
-            <button class="btn btn-outline-dark" id="uncheckAll">Thu gọn</button>
+            <button class="btn btn-outline-dark" id="uncheckAll" onClick="ClearAll()">Thu gọn</button>
           </div>
         </div>
 
@@ -147,15 +147,6 @@
 <script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
 <script th:inline="javascript">
   $("#treeview").hummingbird();
-  $("#checkAll").click(function () {
-    $("#treeview").hummingbird("checkAll");
-  });
-  $("#uncheckAll").click(function () {
-    $("#treeview").hummingbird("uncheckAll");
-  });
-  $("#collapseAll").click(function () {
-    $("#treeview").hummingbird("collapseAll");
-  });
   document.getElementById("update1").onclick = function () {
     Swal.fire({
       position: "top-end",
