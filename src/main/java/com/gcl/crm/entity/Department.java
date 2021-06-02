@@ -40,4 +40,9 @@ public class Department {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @ManyToMany(mappedBy = "departments", fetch = FetchType.LAZY)
+    private List<Documentary> documentaries;
+
+
 }

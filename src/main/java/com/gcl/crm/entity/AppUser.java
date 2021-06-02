@@ -21,8 +21,8 @@ public class AppUser {
     @Column(name = "Enabled", length = 1, nullable = false)
     private boolean enabled;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name ="employee_id" ,nullable = false)
     private Employee employee;
 
 //    private Date createDate;
@@ -32,6 +32,15 @@ public class AppUser {
 //    private Date updateDate;
 //
 //    private Date updateUser;
+
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 
     public Long getUserId() {
         return userId;
