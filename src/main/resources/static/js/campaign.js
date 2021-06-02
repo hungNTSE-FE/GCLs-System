@@ -105,6 +105,17 @@ function get_main_grid_modal_data(){
     $.each(rows_selected, function (index, rowId) {
         listSelectedId.push(rowId);
     });
+
+    if (listSelectedId.length === 0) {
+        alert("Vui lòng chọn chiến dịch cần chỉnh sửa!");
+        return;
+    }
+
+    if (listSelectedId.length > 1) {
+        alert("Vui lòng chọn 1 chiến địch để chỉnh sửa!");
+        return;
+    }
+
     $.ajax({
         type: "POST",
         contentType: "application/json",
@@ -145,13 +156,19 @@ function delete_campaign_detail(){
     var listSelectedId = [];
     var rows_selected = $(CAMPAIGN_DETAIL_TABLE_ID).DataTable().column(0).checkboxes.selected();
     $.each(rows_selected, function (index, rowId) {
-        listSelectedId.push(rowId);
+        listSelectedId[index] = rowId;
     });
+    if (listSelectedId.length === 0) {
+        window().alert("Vui lòng chọn chiến dịch!")
+        return;
+    }
+
+    if(!confirm("Bạn có chắc chắn xoá các chiến dịch đã chọn không ?")) return;
 
     $.ajax({
         type: "POST",
         contentType: "application/json",
-        data: listSelectedId[0],
+        data: listSelectedId.toString(),
         url: "/campaign/deteleCampaignDetail",
         dataType: 'json',
         cache: false,

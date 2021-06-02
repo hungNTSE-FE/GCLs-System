@@ -3,6 +3,7 @@ package com.gcl.crm.controller;
 import com.gcl.crm.form.CampaignDetailForm;
 import com.gcl.crm.form.CampaignMaketingForm;
 import com.gcl.crm.service.CampaignService;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,15 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CampaignController {
@@ -57,8 +52,13 @@ public class CampaignController {
     }
 
     @PostMapping(value = "/campaign/deteleCampaignDetail")
-    public ResponseEntity deteleCampaignDetail(@RequestBody String selectedId){
-        if (campaignService.deleteCampaignDetailForm(Integer.parseInt(selectedId))) return new ResponseEntity<>(true, HttpStatus.OK);
-        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+    @ResponseBody
+    public ResponseEntity deteleCampaignDetail(@RequestBody  String listSelectedId){
+        List<String> selectedIdList = Arrays.asList(listSelectedId.split(","));
+        for (String selectedId : selectedIdList) {
+            if (!campaignService.deleteCampaignDetailForm(Integer.parseInt(selectedId)))
+                return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("true", HttpStatus.OK);
     }
 }
