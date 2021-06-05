@@ -115,7 +115,7 @@ function ClearAll() {
 $(".clickshowinfo").click(function () {
     var id = $(this).data("id");
     $(".user-info")
-        .animate({ width: "25%" }, 150)
+        .animate({ width: "15%" }, 150)
         .find(".user-info-in")
         .animate({ width: "100%" }, 150);
 });
