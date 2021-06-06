@@ -12,4 +12,9 @@ public class CustomerController {
     public String goHomePage(Model model) {
         return "/customer/home-customer-page-V2";
     }
+
+    @RequestMapping(value = "/addCustomer", method = RequestMethod.GET)
+    public String addCustomerPage(Model model) {
+        return "/addCustomerPage.html";
+    }
 }
