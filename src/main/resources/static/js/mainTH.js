@@ -129,15 +129,8 @@ $(".card-body").click(function (e) {
     e.stopPropagation();
 });
 
-document.getElementById("insert1").onclick = function () {
-    Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Lưu thành công",
-        showConfirmButton: false,
-        timer: 1500,
-    });
-};
+
+
 
 
 
