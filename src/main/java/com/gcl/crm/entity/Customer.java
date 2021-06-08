@@ -1,12 +1,42 @@
 package com.gcl.crm.entity;
 
 import com.gcl.crm.enums.Gender;
+import com.gcl.crm.form.CustomerStatusForm;
+import com.gcl.crm.form.CustomerStatusReportForm;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Entity
+@SqlResultSetMapping(
+        name = "getCustomerStatusListMapping",
+        classes = @ConstructorResult(
+                targetClass = CustomerStatusForm.class
+                , columns = {
+                @ColumnResult(name = "employee_name", type = String.class),
+                @ColumnResult(name = "level_0", type = String.class),
+                @ColumnResult(name = "level_1", type = String.class),
+                @ColumnResult(name = "level_2", type = String.class),
+                @ColumnResult(name = "level_3", type = String.class),
+                @ColumnResult(name = "level_4", type = String.class),
+                @ColumnResult(name = "level_5", type = String.class),
+                @ColumnResult(name = "level_6", type = String.class),
+                @ColumnResult(name = "level_7", type = String.class)
+        }
+        )
+)
+@SqlResultSetMapping(
+        name = "getCustomerStatusReportListMapping",
+        classes = @ConstructorResult(
+                targetClass = CustomerStatusReportForm.class
+                , columns = {
+                @ColumnResult(name = "employee_name", type = String.class),
+                @ColumnResult(name = "level_6", type = Integer.class),
+                @ColumnResult(name = "level_7", type = Integer.class)
+            }
+        )
+)
 @Table(name = "CUSTOMER")
 public class Customer {
 
