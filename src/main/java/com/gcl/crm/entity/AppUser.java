@@ -25,14 +25,6 @@ public class AppUser {
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-//    private Date createDate;
-//
-//    private Date createUser;
-//
-//    private Date updateDate;
-//
-//    private Date updateUser;
-
     public Long getUserId() {
         return userId;
     }
