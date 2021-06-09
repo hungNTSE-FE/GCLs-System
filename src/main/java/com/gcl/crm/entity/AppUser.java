@@ -23,7 +23,7 @@ public class AppUser {
     private boolean enabled;
 
     @OneToOne
-    @JoinColumn(name ="employee_id" ,nullable = false)
+    @JoinColumn(name ="employee_id")
     private Employee employee;
 
     @ManyToMany(mappedBy = "appUsers", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -68,10 +68,6 @@ public class AppUser {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public Employee getEmployee() {
-        return employee;
     }
 
     public List<Notification> getNotifications() {

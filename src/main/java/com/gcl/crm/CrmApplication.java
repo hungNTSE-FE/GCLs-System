@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
-//@EnableJpaRepositories("com.gcl.crm.entity")
 public class CrmApplication extends WebMvcConfigurerAdapter {
 
     public static void main(String[] args) {
@@ -22,12 +21,6 @@ public class CrmApplication extends WebMvcConfigurerAdapter {
 
         System.out.println("Encryted Password: " + encryptedPassword);
         SpringApplication.run(CrmApplication.class, args);
-//        AppUser appUser = new AppUser();
-//        List<Department> departmentList = new ArrayList();
-//        //deparmentid  list
-//        Documentary documentary = new Documentary();
-//        documentary.setDepartments(departmentList);
-
 
     }
 
