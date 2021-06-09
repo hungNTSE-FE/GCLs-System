@@ -61,7 +61,7 @@ public class Customer {
     private String address;
 
     @Column(name = "PHONE_NUMBER")
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     @Column(name = "EMAIL")
     private String email;
@@ -136,11 +136,11 @@ public class Customer {
         this.address = address;
     }
 
-    public Integer getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
