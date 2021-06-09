@@ -1,12 +1,15 @@
 package com.gcl.crm.service;
 
+import com.gcl.crm.entity.AppUser;
 import com.gcl.crm.entity.Employee;
 import com.gcl.crm.enums.EmployeeStatus;
 import com.gcl.crm.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
@@ -24,6 +27,4 @@ public class EmployeeServiceImpl implements EmployeeService{
         List<Employee> employees = employeeRepository.findAllByStatusNot(EmployeeStatus.OFF_WORKING);
         return employees;
     }
-
-
 }

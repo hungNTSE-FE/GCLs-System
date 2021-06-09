@@ -2,6 +2,7 @@ package com.gcl.crm.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "App_User", uniqueConstraints = {@UniqueConstraint(name = "APP_USER_UK", columnNames = "User_Name")})
@@ -25,13 +26,8 @@ public class AppUser {
     @JoinColumn(name ="employee_id" ,nullable = false)
     private Employee employee;
 
-//    private Date createDate;
-//
-//    private Date createUser;
-//
-//    private Date updateDate;
-//
-//    private Date updateUser;
+    @ManyToMany(mappedBy = "appUsers", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Notification> notifications;
 
 
     public Employee getEmployee() {
@@ -72,5 +68,13 @@ public class AppUser {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
     }
 }
