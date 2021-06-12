@@ -37,7 +37,6 @@ public class MarketingServices {
         Customer customer = new Customer();
         customer.setCustomerName(customerForm.getCustomerName());
         customer.setAddress(customerForm.getAddress());
-        customer.setAge(customerForm.getCustomerAge());
         customer.setEmail(customerForm.getEmail());
         customer.setPhoneNumber(customerForm.getPhoneNumber());
 

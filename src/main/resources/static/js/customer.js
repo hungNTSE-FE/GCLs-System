@@ -1,5 +1,13 @@
+var CUSTOMER_FORM_ID = '#customerForm';
+var URL_SAVE_CUSTOMER = '/customer/saveCustomer';
+var URL_REGISTER_CUSTOEMR = '/customer/registerCustomer';
+var BTN_REGISTER_CUSTOMER_ID = '#registerCustomer';
+
 $(document).ready(function () {
     initCombobox();
+    $(BTN_REGISTER_CUSTOMER_ID).on('click', function (){
+        registerCustomer();
+    });
 });
 
 function initCombobox() {
@@ -34,4 +42,9 @@ function renderCombobox(data) {
     $.each(brokerCmb, function (index, data) {
         $('#brokerCmb').append($("<option />").val(data['key']).text(data['value']));
     });
+}
+
+function registerCustomer(){
+    $(CUSTOMER_FORM_ID).attr('action', URL_REGISTER_CUSTOEMR);
+    $(CUSTOMER_FORM_ID).submit();
 }

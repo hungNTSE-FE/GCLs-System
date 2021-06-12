@@ -1,40 +1,83 @@
 package com.gcl.crm.form;
 
 import java.util.Date;
-
+import javax.validation.constraints.*;
 public class CustomerForm {
-    private Long customerCode;
+    private Long hdnCustomerCode;
+
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String customerName;
-    private Integer customerAge;
+
+    @NotNull
     private String gender;
+
+    @NotBlank
     private String address;
+
+    @Size(max = 10)
     private String phoneNumber;
+
+    @NotBlank
+    @Email
     private String email;
+
+    @NotBlank
     private String status;
-    private Date dateOfBirth;
+
+    @NotBlank
     private String bankName;
+
+    @NotBlank
     private String bankNumber;
+
+    @NotBlank
+    private String ownerBankingName;
+
+    private Date dateOfBirth;
+
+    @NotBlank
+    @Size(max = 10)
     private String identifiNumber;
+
+    @NotBlank
     private String dateOfIssue;
+
+    @NotBlank
     private String placeOfIssue;
+
+    @NotBlank
     private String accountCode;
+
+    @NotBlank
     private String accountName;
+
+    @NotBlank
     private String brokerCode;
-    private String note;
+
+    @NotBlank
+    private String brokerName;
+
     private Date accountCreateDate;
+
     private Date registeredDate;
+
+    @NotBlank
+    private String contractStatus;
+
+    @NotBlank
+    private String hdnSourceId;
+
     private Date updDate;
     private String updUser;
+    private ComboboxForm comboboxForm;
 
-    public CustomerForm() {
+    public Long getHdnCustomerCode() {
+        return hdnCustomerCode;
     }
 
-    public Long getCustomerCode() {
-        return customerCode;
-    }
-
-    public void setCustomerCode(Long customerCode) {
-        this.customerCode = customerCode;
+    public void setHdnCustomerCode(Long hdnCustomerCode) {
+        this.hdnCustomerCode = hdnCustomerCode;
     }
 
     public String getCustomerName() {
@@ -43,14 +86,6 @@ public class CustomerForm {
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
-    }
-
-    public Integer getCustomerAge() {
-        return customerAge;
-    }
-
-    public void setCustomerAge(Integer customerAge) {
-        this.customerAge = customerAge;
     }
 
     public String getGender() {
@@ -133,14 +168,6 @@ public class CustomerForm {
         this.brokerCode = brokerCode;
     }
 
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
     public Date getAccountCreateDate() {
         return accountCreateDate;
     }
@@ -203,5 +230,45 @@ public class CustomerForm {
 
     public void setPlaceOfIssue(String placeOfIssue) {
         this.placeOfIssue = placeOfIssue;
+    }
+
+    public ComboboxForm getComboboxForm() {
+        return comboboxForm;
+    }
+
+    public void setComboboxForm(ComboboxForm comboboxForm) {
+        this.comboboxForm = comboboxForm;
+    }
+
+    public String getBrokerName() {
+        return brokerName;
+    }
+
+    public void setBrokerName(String brokerName) {
+        this.brokerName = brokerName;
+    }
+
+    public String getOwnerBankingName() {
+        return ownerBankingName;
+    }
+
+    public void setOwnerBankingName(String ownerBankingName) {
+        this.ownerBankingName = ownerBankingName;
+    }
+
+    public String getContractStatus() {
+        return contractStatus;
+    }
+
+    public void setContractStatus(String contractStatus) {
+        this.contractStatus = contractStatus;
+    }
+
+    public String getHdnSourceId() {
+        return hdnSourceId;
+    }
+
+    public void setHdnSourceId(String hdnSourceId) {
+        this.hdnSourceId = hdnSourceId;
     }
 }
