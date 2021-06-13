@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>Chat - Gia Cát Lợi</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
+    <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
+</head>
+<body class="nav-fixed">
+<th:block th:include="/common/nav-fixed.html"></th:block>
+<div id="layoutSidenav">
+    <th:block th:include="/common/layoutSidenav.html"></th:block>
+    <div id="layoutSidenav_content">
+        <main>
+            <header class="page-header page-header-compact page-header-light pb-10">
+                <div class="container-fluid px-4">
+                    <div class="page-header-content">
+                        <div class="row align-items-center justify-content-between pt-3">
+                            <div class="col-auto mb-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Main page content-->
+            <div class="container-fluid px-4">
+                <div class="row no-gutters mt-n10" style="--bs-gutter-x: 0; height: 100%; position: relative">
+                    <div class="col-xl-3">
+                        <div class="card card-header-actions card-scrollable mb-4"
+                                style="
+                    padding: 0 !important;
+                    border-radius: 0;
+                    position: relative;
+                    height: 100%;
+                  "
+                        >
+                            <div class="card-header">
+                                <div class="avatar avatar-online avatar-xl me-1">
+                                    <img class="avatar-img img-fluid" src="/assets/img/illustrations/profiles/profile-1.png"/>
+                                </div>
+                                <form>
+                                    <!-- Joined input group prepend example-->
+                                    <div class="input-group input-group-joined">
+                                         <span class="input-group-text">
+                                            <i data-feather="search"></i>
+                                         </span>
+                                        <input class="form-control ps-0" type="text" placeholder="Tìm kiếm..." aria-label="Search"/>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-body" style="padding: 1.35rem 0">
+                                <h4 style="padding-left: 1.35rem; color: #7367f0">Chats</h4>
+                                <div class="click-focus" tabindex="1" id="change">
+                                    <div class="friend-drawer friend-drawer--onhover mb-2" style="padding: 1rem 1.35rem 0 1.35rem">
+                                        <img class="profile-image" src="/assets/img/illustrations/profiles/profile-2.png"/>
+                                        <div class="text">
+                                            <h6>Nguyen Van A</h6>
+                                            <p class="text-muted">
+                                                Xin chao, ban đang làm gì vậy?
+                                            </p>
+                                        </div>
+                                        <span class="time text-muted small">Jun 12</span>
+                                    </div>
+                                </div>
+                                <div class="click-focus" tabindex="2">
+                                    <div class="friend-drawer friend-drawer--onhover mb-2" style="padding: 1rem 1.35rem 0 1.35rem">
+                                        <img class="profile-image" src="/assets/img/illustrations/profiles/profile-3.png"/>
+                                        <div class="text">
+                                            <h6>Nguyen Van A</h6>
+                                            <p class="text-muted">
+                                                Xin chao, ban đang làm gì vậy?
+                                            </p>
+                                        </div>
+                                        <span class="time text-muted small">Jun 12</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Sticky Navigation-->
+                    <div class="col-xl-9">
+                        <div class="card card-header-actions card-waves mb-4" style="border-radius: 0; position: relative; height: 100%">
+                            <div class="card-header">
+                                <div class="d-flex">
+                                    <div class="avatar avatar-xl me-1">
+                                        <img class="avatar-img img-fluid" src="/assets/img/illustrations/profiles/profile-2.png"/>
+                                    </div>
+                                    <h6 style="margin-left: 10px; padding-top: 13px">
+                                        Nguyen Van A
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chat-panel">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-3 d-flex">
+                                            <img class="profile-image" src="/assets/img/illustrations/profiles/profile-2.png"/>
+                                            <div class="chat-bubble chat-bubble--left">
+                                                Hello dude!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row no-gutters">
+                                        <div class="col-md-3 offset-md-9">
+                                            <div class="chat-bubble chat-bubble--right d">
+                                                Hello dude!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row no-gutters">
+                                        <div class="col-md-3 offset-md-9">
+                                            <div class="chat-bubble chat-bubble--right">
+                                                Hello dude!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row no-gutters">
+                                        <div class="col-md-3 d-flex">
+                                            <img class="profile-image" src="/assets/img/illustrations/profiles/profile-2.png"/>
+                                            <div class="chat-bubble chat-bubble--left">
+                                                Hello dude!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row no-gutters">
+                                        <div class="col-md-3 d-flex">
+                                            <img class="profile-image" src="/assets/img/illustrations/profiles/profile-2.png"/>
+                                            <div class="chat-bubble chat-bubble--left">
+                                                Hello dude!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row no-gutters">
+                                        <div class="col-md-3 d-flex">
+                                            <img class="profile-image" src="/assets/img/illustrations/profiles/profile-2.png"/>
+                                            <div class="chat-bubble chat-bubble--left">
+                                                Hello dude!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row no-gutters">
+                                        <div class="col-md-3 offset-md-9">
+                                            <div class="chat-bubble chat-bubble--right">
+                                                Hello dude!
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <div class="row fix-flex-custom">
+                                    <div class="col-md-11">
+                                        <input class="form-control" type="text" placeholder="Nhập tin nhắn..."/>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button class="btn btn-indigo" type="button"    style="
+                            padding: 0.875rem 2.6rem;
+                            background: linear-gradient(
+                              80deg,
+                              #7367f0,
+                              #9e95f5
+                            );
+                          "
+                                        >
+                                            Gửi
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <th:block th:include="/common/footer.html"></th:block>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
+</body>
+</html>

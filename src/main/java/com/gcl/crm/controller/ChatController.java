@@ -22,6 +22,11 @@ public class ChatController {
     @Autowired
     UserRepository2 userRepository2;
 
+    @GetMapping("/chat-socket-v2")
+    public String goChatV2(Model model) {
+        return "/message/chat-socket-page-V2";
+    }
+
     @GetMapping("/messagechat")
     public String goChat(Model model, Principal principal) {
         User loginedUser = (User) ((Authentication) principal).getPrincipal();
