@@ -48,12 +48,6 @@ public class Customer {
     @Column(name = "CUSTOMER_NAME")
     private String customerName;
 
-    @Column(name = "AGE")
-    private Integer age;
-
-    @Column(name = "DATE_OF_BIRTH")
-    private Date dateOfBirth;
-
     @Column(name = "GENDER")
     private Gender gender;
 
@@ -69,8 +63,20 @@ public class Customer {
     @Column(name = "STATUS")
     private String status;
 
-    @Column(name = "REGISTER_DATE")
-    private Date registerDate;
+    @Column(name = "ACCOUNT_REGISTER_DATE")
+    private Date accountRegisterDate;
+
+    @Column(name = "CREATE_DATE")
+    private Date createDate;
+
+    @Column(name = "ADD_USER")
+    private String addUser;
+
+    @Column(name = "UPD_DATE")
+    private Date updDate;
+
+    @Column(name = "UPD_USER")
+    private Date updUser;
 
     @ManyToOne
     @JoinColumn(name = "LEVEL_ID")
@@ -102,22 +108,6 @@ public class Customer {
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
     }
 
     public Gender getGender() {
@@ -160,12 +150,12 @@ public class Customer {
         this.status = status;
     }
 
-    public Date getRegisterDate() {
-        return registerDate;
+    public Date getAccountRegisterDate() {
+        return accountRegisterDate;
     }
 
-    public void setRegisterDate(Date registerDate) {
-        this.registerDate = registerDate;
+    public void setAccountRegisterDate(Date registerDate) {
+        this.accountRegisterDate = registerDate;
     }
 
     public Level getLevel() {
@@ -198,5 +188,37 @@ public class Customer {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public String getAddUser() {
+        return addUser;
+    }
+
+    public void setAddUser(String addUser) {
+        this.addUser = addUser;
+    }
+
+    public Date getUpdDate() {
+        return updDate;
+    }
+
+    public void setUpdDate(Date updDate) {
+        this.updDate = updDate;
+    }
+
+    public Date getUpdUser() {
+        return updUser;
+    }
+
+    public void setUpdUser(Date updUser) {
+        this.updUser = updUser;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 }

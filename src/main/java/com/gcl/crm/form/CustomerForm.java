@@ -5,71 +5,75 @@ import javax.validation.constraints.*;
 public class CustomerForm {
     private Long hdnCustomerCode;
 
-    @NotBlank
-    @Size(min = 3, max = 50)
+    @NotBlank(message = "Tên khách hàng không thẻ bỏ trống")
+    @Size(min = 3, max = 50, message = "Độ dài tên khách hàng phải ở khoảng 3 đến 50 ký tự")
     private String customerName;
 
-    @NotNull
+    @NotNull(message = "Giới tính không thể bỏ trống")
     private String gender;
 
-    @NotBlank
+    @NotBlank(message = "Địa chỉ không thể bỏ trống")
     private String address;
 
-    @Size(max = 10)
+    @NotBlank(message = "Số điện thoại không thể bỏ trống")
+    @Size(max = 10, message = "Độ dài số điện thoại không được vượt quá 10 kí tự")
     private String phoneNumber;
 
-    @NotBlank
-    @Email
+    @NotBlank(message = "Email không thể bỏ trống")
+    @Email(message = "Vui lòng nhập đúng định dạng email")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Trạng thái không thể bỏ trống")
     private String status;
 
-    @NotBlank
+    @NotBlank(message = "Tên ngân hàng không thể bỏ trống")
     private String bankName;
 
-    @NotBlank
+    @NotBlank(message = "Số tài khoản không thể bỏ trống")
     private String bankNumber;
 
-    @NotBlank
+    @NotBlank(message = "Tên chủ khoản không thể bỏ trống")
     private String ownerBankingName;
 
-    private Date dateOfBirth;
-
-    @NotBlank
+    @NotBlank(message = "Căn cước công dân không thể bỏ trống")
     @Size(max = 10)
-    private String identifiNumber;
+    private String identifyNumber;
 
-    @NotBlank
+    @NotBlank(message = "Ngày cấp không thể bỏ trống")
     private String dateOfIssue;
 
-    @NotBlank
+    @NotBlank(message = "Nơi cấp không thể bỏ trống")
     private String placeOfIssue;
 
-    @NotBlank
+    @NotBlank(message = "Ngày sinh không thể bỏ trống")
+    private String dateOfBirth;
+
+    @NotBlank(message = "Tài khoản giao dịch không thể bỏ trống")
     private String accountCode;
 
-    @NotBlank
+    @NotBlank(message = "Tên tài khoản giao dịch không thể bỏ trống")
     private String accountName;
 
-    @NotBlank
+    @NotBlank(message = "Mã môi giới không thể bỏ trống")
     private String brokerCode;
 
-    @NotBlank
     private String brokerName;
 
-    private Date accountCreateDate;
+    private String accountCreateDate;
 
     private Date registeredDate;
 
-    @NotBlank
+    @NotBlank(message = "Trạng thái hợp đồng không thể bỏ trống")
     private String contractStatus;
 
-    @NotBlank
-    private String hdnSourceId;
+    private Long hdnSourceId;
+
+    private Long hdnEmployeeId;
 
     private Date updDate;
+
     private String updUser;
+
     private ComboboxForm comboboxForm;
 
     public Long getHdnCustomerCode() {
@@ -128,14 +132,6 @@ public class CustomerForm {
         this.status = status;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
     public Date getRegisteredDate() {
         return registeredDate;
     }
@@ -168,11 +164,11 @@ public class CustomerForm {
         this.brokerCode = brokerCode;
     }
 
-    public Date getAccountCreateDate() {
+    public String getAccountCreateDate() {
         return accountCreateDate;
     }
 
-    public void setAccountCreateDate(Date accountCreateDate) {
+    public void setAccountCreateDate(String accountCreateDate) {
         this.accountCreateDate = accountCreateDate;
     }
 
@@ -208,12 +204,12 @@ public class CustomerForm {
         this.bankNumber = bankNumber;
     }
 
-    public String getIdentifiNumber() {
-        return identifiNumber;
+    public String getIdentifyNumber() {
+        return identifyNumber;
     }
 
-    public void setIdentifiNumber(String identifiNumber) {
-        this.identifiNumber = identifiNumber;
+    public void setIdentifyNumber(String identifyNumber) {
+        this.identifyNumber = identifyNumber;
     }
 
     public String getDateOfIssue() {
@@ -264,11 +260,27 @@ public class CustomerForm {
         this.contractStatus = contractStatus;
     }
 
-    public String getHdnSourceId() {
+    public Long getHdnSourceId() {
         return hdnSourceId;
     }
 
-    public void setHdnSourceId(String hdnSourceId) {
+    public void setHdnSourceId(Long hdnSourceId) {
         this.hdnSourceId = hdnSourceId;
+    }
+
+    public Long getHdnEmployeeId() {
+        return hdnEmployeeId;
+    }
+
+    public void setHdnEmployeeId(Long hdnEmployeeId) {
+        this.hdnEmployeeId = hdnEmployeeId;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 }

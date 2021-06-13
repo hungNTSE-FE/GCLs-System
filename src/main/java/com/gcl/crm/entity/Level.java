@@ -20,6 +20,13 @@ public class Level {
     @Column(name = "NOTE")
     private String note;
 
+    public Level() {
+    }
+
+    public Level(Integer levelId) {
+        this.levelId = levelId;
+    }
+
     public Integer getLevelId() {
         return levelId;
     }

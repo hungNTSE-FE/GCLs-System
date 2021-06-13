@@ -12,7 +12,7 @@ public class CustomerRepository {
     @Autowired
     EntityManager entityManager;
 
-    public void save(Customer customer) {
+    public void register(Customer customer) {
         entityManager.persist(customer);
     }
 

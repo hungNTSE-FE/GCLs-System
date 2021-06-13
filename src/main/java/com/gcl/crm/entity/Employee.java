@@ -81,7 +81,14 @@ public class Employee {
     @JoinColumn(name = "position_id")
     private Position position;
 
-//    @OneToOne(mappedBy = "modifier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public Employee() {
+    }
+
+    public Employee(Long id) {
+        this.id = id;
+    }
+
+    //    @OneToOne(mappedBy = "modifier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    private Department manageDepartment;
 
 }

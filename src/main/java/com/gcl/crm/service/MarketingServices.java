@@ -27,12 +27,6 @@ public class MarketingServices {
                 = marketingRepository.getCustomerStatusReportList("2021/01/01", "2021/06/25");
     }
 
-    @Transactional
-    public void registerCustomer(CustomerForm customerForm) {
-        Customer customer = convertToCustomerEntity(customerForm);
-        customerRepository.save(customer);
-    }
-
     private Customer convertToCustomerEntity(CustomerForm customerForm) {
         Customer customer = new Customer();
         customer.setCustomerName(customerForm.getCustomerName());
