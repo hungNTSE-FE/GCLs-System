@@ -74,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/logoutSuccessful").permitAll();
+                .logoutSuccessUrl("/").permitAll();
 
         // Cấu hình Remember Me.
         http.authorizeRequests().and() //

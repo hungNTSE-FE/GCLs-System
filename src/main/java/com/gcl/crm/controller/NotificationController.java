@@ -10,8 +10,10 @@ import com.gcl.crm.service.EmployeeService;
 import com.gcl.crm.service.NotificationService;
 import com.gcl.crm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,6 +24,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.Authentication;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.File;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
@@ -76,14 +81,22 @@ public class NotificationController {
                             @RequestParam("describe") String describe,
                             @RequestParam("select2") List<Long> selectUser,
                              Principal principal,
-                             RedirectAttributes redirectAttributes) {
-        SimpleMailMessage message = new SimpleMailMessage();
+                             RedirectAttributes redirectAttributes) throws MessagingException {
+        MimeMessage messageMime = emailSender.createMimeMessage();
+        boolean multipart = true;
+        MimeMessageHelper helper = new MimeMessageHelper(messageMime, multipart);
+//        SimpleMailMessage message = new SimpleMailMessage();
         List<AppUser> appUsers = userService.getAppUsersByIdList(selectUser);
         for (int i = 0; i < appUsers.size(); i++) {
-            message.setTo(appUsers.get(i).getEmployee().getCompanyEmail());
-            message.setSubject(topic);
-            message.setText(describe);
-            this.emailSender.send(message);
+            helper.setTo(appUsers.get(i).getEmployee().getCompanyEmail());
+            helper.setSubject(topic);
+            helper.setText(describe);
+
+            String path = "/Users/mappe/Downloads/picture1.png";
+            // Attachment 1
+            FileSystemResource file1 = new FileSystemResource(new File(path));
+            helper.addAttachment("picture1.png", file1);
+            this.emailSender.send(messageMime);
         }
         return "redirect:/notification/create";
     }

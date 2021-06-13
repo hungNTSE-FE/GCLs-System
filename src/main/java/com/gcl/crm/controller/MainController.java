@@ -35,17 +35,6 @@ public class MainController {
         return "adminPage";
     }
 
-//    @RequestMapping(value = "/login", method = RequestMethod.GET)
-//    public String loginPage(Model model) {
-//        return "loginPage";
-//    }
-
-    @RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
-    public String logoutSuccessfulPage(Model model) {
-        model.addAttribute("title", "Logout");
-        return "loginPage";
-    }
-
     @RequestMapping(value = "/userInfo", method = RequestMethod.GET)
     public String userInfo(Model model, Principal principal) {
 
@@ -77,34 +66,5 @@ public class MainController {
         return "403Page";
     }
 
-    @RequestMapping(value = "/createDepartmentPage", method = RequestMethod.GET)
-    public String linkCreateDepartmentPage(Model model) {
-        return "/department/create-department-page";
-    }
-
-    @RequestMapping(value = "/homeDepartmentPage", method = RequestMethod.GET)
-    public String linkHomeDepartmentPage(Model model) {
-        return "/department/home-department-page";
-    }
-
-    @RequestMapping(value = "/editDepartmentPage", method = RequestMethod.GET)
-    public String linkEditDepartmentPage(Model model) {
-        return "/department/edit-department-page";
-    }
-
-    @RequestMapping(value = "/homePermissionPage", method = RequestMethod.GET)
-    public String linkHomePermissionPage(Model model) {
-        return "/permission/home-permission-page";
-    }
-
-    @RequestMapping(value = "/decentralizationPermissionPage", method= RequestMethod.GET)
-    public String linkDecentralizationPermissionPage(Model model) {
-        return "/permission/decentralization-permission-page";
-    }
-
-    @RequestMapping(value = "/createPermissionPage", method = RequestMethod.GET)
-    public String linkCreatePermissionPage(Model model) {
-        return "/permission/create-permission-page";
-    }
 
 }
