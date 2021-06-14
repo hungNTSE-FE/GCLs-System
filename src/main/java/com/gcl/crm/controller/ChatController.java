@@ -23,7 +23,12 @@ public class ChatController {
     UserRepository2 userRepository2;
 
     @GetMapping("/chat-socket-v2")
-    public String goChatV2(Model model) {
+    public String goChatV2(Model model, Principal principal) {
+        User loginedUser = (User) ((Authentication) principal).getPrincipal();
+        AppUser appUser = userRepository2.findAppUserByUserName(loginedUser.getUsername());
+        String appUserName = appUser.getEmployee().getName();
+        System.out.println("name: " + appUserName);
+        model.addAttribute("username", appUserName);
         return "/message/chat-socket-page-V2";
     }
 

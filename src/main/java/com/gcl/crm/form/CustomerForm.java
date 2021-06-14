@@ -1,7 +1,8 @@
 package com.gcl.crm.form;
 
-import java.util.Date;
 import javax.validation.constraints.*;
+import java.util.Date;
+
 public class CustomerForm {
     private Long hdnCustomerCode;
 
