@@ -10,11 +10,15 @@ public class CustomerStatusForm {
     private String level_5;
     private String level_6;
     private String level_7;
+    private String numOfRegisteredAccount;
+    private String numOfTopUp;
 
     public CustomerStatusForm() {
     }
 
-    public CustomerStatusForm(String emp_name, String level_0, String level_1, String level_2, String level_3, String level_4, String level_5, String level_6, String level_7) {
+    public CustomerStatusForm(String emp_name, String level_0, String level_1, String level_2,
+                              String level_3, String level_4, String level_5, String level_6,
+                              String level_7, String numOfRegisteredAccount, String numOfTopUp) {
         this.emp_name = emp_name;
         this.level_0 = level_0;
         this.level_1 = level_1;
@@ -24,6 +28,8 @@ public class CustomerStatusForm {
         this.level_5 = level_5;
         this.level_6 = level_6;
         this.level_7 = level_7;
+        this.numOfRegisteredAccount = numOfRegisteredAccount;
+        this.numOfTopUp = numOfTopUp;
     }
 
     public String getEmp_name() {
@@ -96,5 +102,21 @@ public class CustomerStatusForm {
 
     public void setLevel_0(String level_0) {
         this.level_0 = level_0;
+    }
+
+    public String getNumOfRegisteredAccount() {
+        return numOfRegisteredAccount;
+    }
+
+    public void setNumOfRegisteredAccount(String numOfRegisteredAccount) {
+        this.numOfRegisteredAccount = numOfRegisteredAccount;
+    }
+
+    public String getNumOfTopUp() {
+        return numOfTopUp;
+    }
+
+    public void setNumOfTopUp(String numOfTopUp) {
+        this.numOfTopUp = numOfTopUp;
     }
 }

@@ -22,7 +22,9 @@ import java.util.List;
                 @ColumnResult(name = "level_4", type = String.class),
                 @ColumnResult(name = "level_5", type = String.class),
                 @ColumnResult(name = "level_6", type = String.class),
-                @ColumnResult(name = "level_7", type = String.class)
+                @ColumnResult(name = "level_7", type = String.class),
+                @ColumnResult(name = "numOfRegisteredAccount", type = String.class),
+                @ColumnResult(name = "numOfTopUp", type = String.class)
         }
         )
 )
