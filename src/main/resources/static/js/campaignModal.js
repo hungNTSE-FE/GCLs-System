@@ -23,10 +23,12 @@ $("#modalForm").submit(function(event){
     $.ajax({
         url : post_url,
         type: request_method,
-        data : form_data
-    }).success(function(response){
-        window.location.href = "http://localhost:8081/campaign";
-    }).error(function (res){
-        console.log("ERROR...");
+        data : form_data,
+        success: function(response){
+            window.location.href = "http://localhost:8081/campaign";
+        },
+        error: function (){
+            console.log("ERROR...");
+        }
     });
 });

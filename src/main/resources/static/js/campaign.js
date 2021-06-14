@@ -4,22 +4,46 @@ var HDN_MODAL_BUTTON_EDIT_ID = '#hdn_modal_button_edit';
 var MODAL_BUTON_EDIT_ID = '#modal_button_edit';
 var CAMPAIGN_MODAL_ID = '#campaignModal';
 var BTN_DELETE_CAMPAIGN_DETAIL = '#btn-delete-campaign-detail';
+var CHK_BOX_BUTTON = '.campaignCheckbox';
+var CHK_BOX_ALL_BUTTON = '#chk_all_campaign';
+
 $(document).ready(function (){
     $(HDN_MODAL_BUTTON_EDIT_ID).attr('hidden', true);
+    $(CAMPAIGN_MODAL_ID).on('hidden.bs.modal', function () {
+        clear_data_modal_table();
+    })
+
+    $(BTN_DELETE_CAMPAIGN_DETAIL).on('click', function (){
+        delete_campaign_detail();
+    })
+
+    $(CHK_BOX_ALL_BUTTON).on('click', function(){
+        var flag_chk_all = this.checked;
+        $.each($(CHK_BOX_BUTTON), function(index, chk) {
+            chk.checked = flag_chk_all;
+        });
+    })
     get_main_grid_data();
 });
 
 $(document).on('click', MODAL_BUTON_EDIT_ID, function () {
     get_main_grid_modal_data();
 });
-
-$(CAMPAIGN_MODAL_ID).on('hidden.bs.modal', function () {
-    clear_data_modal_table();
-})
-
-$(BTN_DELETE_CAMPAIGN_DETAIL).on('click', function (){
-    delete_campaign_detail();
-})
+function getSelectedId() {
+    var listSelectedId = [];
+    var rows_selected = $('.campaignCheckbox:checkbox:checked');
+    $.each(rows_selected, function (index, el) {
+        listSelectedId.push(el.value);
+    });
+    return listSelectedId;
+}
+function campaignClick(){
+    if ($(CHK_BOX_BUTTON).length === $('.campaignCheckbox:checkbox:checked').length) {
+        $(CHK_BOX_ALL_BUTTON).prop("checked", true);
+    } else {
+        $(CHK_BOX_ALL_BUTTON).prop("checked", false);
+    }
+}
 function get_main_grid_data(){
     $("#overlay").fadeIn();
     $.ajax({
@@ -52,21 +76,23 @@ function get_grid_campaign_detail(data) {
         bInfo: false,
         columnDefs: [
             {
-                "targets": 0,
-                "width": "10%",
-                "orderable": false,
-                'checkboxes': {
-                    'selectRow': true
-                }
+                'targets': 0,
+                'searchable':false,
+                'orderable':false,
             },
         ],
-        "select": {
-            "style": 'multi',
-            "selector": 'td:first-child'
-        },
         "data": data,
         "columns": [
-            { "data": "hdnCampaignCode"},
+            { "data": "hdnCampaignCode"
+                , 'render': function (data, type, full, meta){
+                                return '<input type="checkbox" ' +
+                                    'class="campaignCheckbox"' +
+                                    'value="' + data +'" ' +
+                                    'onclick="campaignClick()"' +
+                                    'id="chk_' + data +'">'
+                                    ;
+                            }
+            },
             { "data": "sourceName" },
             { "data": "startDate" },
             { "data": "endDate" },
@@ -74,10 +100,17 @@ function get_grid_campaign_detail(data) {
             { "data": "status" },
             { "data": "assumptionResult"},
             { "data": "result" },
-            { "data": "budget" },
-            { "data": "actualExpense" },
-            { "data": "averageExpense" },
-        ]
+            { "data": "budget",
+                render: $.fn.dataTable.render.number( ',', null, 0, null )
+            },
+            { "data": "actualExpense",
+                render: $.fn.dataTable.render.number( ',', null, 0, null )
+            },
+            { "data": "averageExpense",
+                render: $.fn.dataTable.render.number( ',', '.', 2, null )
+            },
+        ],
+        order: [[1, "asc"]]
     } );
 
 }
@@ -100,11 +133,7 @@ function get_grid_campaign(data) {
     } );
 }
 function get_main_grid_modal_data(){
-    var listSelectedId = [];
-    var rows_selected = $(CAMPAIGN_DETAIL_TABLE_ID).DataTable().column(0).checkboxes.selected();
-    $.each(rows_selected, function (index, rowId) {
-        listSelectedId.push(rowId);
-    });
+    var listSelectedId = getSelectedId();
 
     if (listSelectedId.length === 0) {
         alert("Vui lòng chọn chiến dịch cần chỉnh sửa!");
@@ -153,13 +182,10 @@ function clear_data_modal_table(){
     });
 }
 function delete_campaign_detail(){
-    var listSelectedId = [];
-    var rows_selected = $(CAMPAIGN_DETAIL_TABLE_ID).DataTable().column(0).checkboxes.selected();
-    $.each(rows_selected, function (index, rowId) {
-        listSelectedId[index] = rowId;
-    });
+    var listSelectedId = getSelectedId();
+
     if (listSelectedId.length === 0) {
-        window().alert("Vui lòng chọn chiến dịch!")
+        alert("Vui lòng chọn chiến dịch!");
         return;
     }
 
