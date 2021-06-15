@@ -63,7 +63,22 @@ public class MainController {
             String message = "Hi" + principal.getName() + "<br> You do not have permission to access this page!";
             model.addAttribute("message", message);
         }
-        return "403Page";
+        return "/error/error-403";
+    }
+
+    @RequestMapping(value = "/400", method = RequestMethod.GET)
+    public String error400(Model model, Principal principal) {
+        if (principal != null) {
+            User loginedUser = (User) ((Authentication) principal).getPrincipal();
+
+            String userInfo = WebUtils.toString(loginedUser);
+        }
+        return "/error/error-400";
+    }
+
+    @RequestMapping(value = "/401", method = RequestMethod.GET)
+    public String error401(Model model, Principal principal) {
+        return "/error/error-401";
     }
 
 
