@@ -19,7 +19,7 @@ import javax.validation.Valid;
 @RequestMapping("/customer")
 public class CustomerController {
 
-    private static final String ADD_CUSTOMER_PAGE = "customer/addCustomerPage.html";
+    private static final String ADD_CUSTOMER_PAGE = "customer/create-customer-page-V2";
     private static final String CUSTOMER_FORM = "CustomerForm";
 
     @Autowired
