@@ -19,7 +19,7 @@ import javax.validation.Valid;
 @RequestMapping("/customer")
 public class CustomerController {
 
-    private static final String ADD_CUSTOMER_PAGE = "/addCustomerPage.html";
+    private static final String ADD_CUSTOMER_PAGE = "customer/addCustomerPage.html";
     private static final String CUSTOMER_FORM = "CustomerForm";
 
     @Autowired
@@ -41,9 +41,6 @@ public class CustomerController {
     @PostMapping(value = "/registerCustomer")
     public String saveCustomer(Model model, @Valid @ModelAttribute(CUSTOMER_FORM) CustomerForm customerForm
             , BindingResult result, Errors errors) {
-//        if(result.hasErrors()){
-//            return "/customer/home-customer-page-V2";
-//        }
         customerService.registerCustomer(customerForm);
         ComboboxForm comboboxForm = customerService.initComboboxData();
         customerForm.setComboboxForm(comboboxForm);

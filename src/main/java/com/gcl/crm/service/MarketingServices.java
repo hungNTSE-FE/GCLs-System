@@ -22,19 +22,9 @@ public class MarketingServices {
     CustomerRepository customerRepository;
 
     public void initScreen() {
-        List<CustomerStatusForm> customerStatusFormList = marketingRepository.getCustomerStatusList();
-        List<CustomerStatusReportForm> customerStatusReportFormList
-                = marketingRepository.getCustomerStatusReportList("2021/01/01", "2021/06/25");
     }
 
-    private Customer convertToCustomerEntity(CustomerForm customerForm) {
-        Customer customer = new Customer();
-        customer.setCustomerName(customerForm.getCustomerName());
-        customer.setAddress(customerForm.getAddress());
-        customer.setEmail(customerForm.getEmail());
-        customer.setPhoneNumber(customerForm.getPhoneNumber());
-
-        return customer;
+    public List<CustomerStatusForm> getListCustomerStatusReport(String fromDate, String toDate) {
+        return marketingRepository.getCustomerStatusList(fromDate, toDate);
     }
-
 }

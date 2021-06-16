@@ -47,18 +47,18 @@
             </header>
             <!-- Main page content-->
             <div class="container-xl px-4 mt-n10">
-                <div class="card mb-4 card-header-actions">
+                <form class="row g-3"
+                      id="customerForm"
+                      action="#"
+                      th:object="${CustomerForm}"
+                      th:method="POST"
+                >
+                    <!-- Customer information -->
+                    <div class="card mb-4 card-header-actions">
                     <div class="card-header">
-                        Thêm mới khách hàng
-                        <a class="btn btn-primary" th:href="@{/customer/home}">Trở về</a>
+                        Thông tin cá nhân khách hàng
                     </div>
                     <div class="card-body">
-                        <form class="row g-3"
-                              id="customerForm"
-                              action="#"
-                              th:object="${CustomerForm}"
-                              th:method="POST"
-                        >
                             <div class="error-place">
                                 <div th:if="${#fields.hasAnyErrors()}">
                                     <ul style="color: red">
@@ -66,6 +66,88 @@
                                     </ul>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="form-group col-md-8">
+                                    <label for="customerName">Tên khách hàng</label>
+                                    <input type="text" class="form-control"
+                                           id="customerName"
+                                           placeholder="Tên khách hàng"
+                                           th:field="${CustomerForm.customerName}"
+                                           required
+                                    />
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="genderCmb">Giới tính</label>
+                                    <select id="genderCmb" class="form-control" required>
+                                        <option value="0">Nam</option>
+                                        <option value="1">Nữ</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label for="address">Địa chỉ</label>
+                                    <input type="text" class="form-control"
+                                           id="address"
+                                           th:field="${CustomerForm.address}"
+                                           required
+                                    />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="phoneNumber">Số điện thoại</label>
+                                    <input type="text" class="form-control"
+                                           id="phoneNumber"
+                                           min="0" maxlength="10" pattern="\d*"
+                                           th:field="${CustomerForm.phoneNumber}"
+                                           required
+                                    />
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control"
+                                           id="email"
+                                           th:field="${CustomerForm.email}"
+                                           required
+                                    />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="contractStatus">Tình trạng hợp đồng</label>
+                                    <input type="text" class="form-control"
+                                           id="contractStatus"
+                                           th:field="${CustomerForm.contractStatus}"
+                                           required
+                                    >
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="sourceCmb">Nguồn</label>
+                                    <select id="sourceCmb" class="form-control" required>
+                                        <option></option>
+                                        <option th:each="source : ${CustomerForm.comboboxForm.listSource}"
+                                                th:value="${source.key}"
+                                                th:utext="${source.value}"/>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-2"></div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary" id="registerCustomer">Đăng kí</button>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                    <!-- Trading account information-->
+                    <div class="card mb-4 card-header-actions">
+                        <div class="card-header">
+                            Thông tin tài khoản giao dịch khách hàng
+                        </div>
+                        <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="tradingCode">Mã tài khoản giao dịch</label>
@@ -85,34 +167,6 @@
                                            required
                                     />
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-8">
-                                    <label for="customerName">Tên khách hàng</label>
-                                    <input type="text" class="form-control"
-                                           id="customerName"
-                                           placeholder="Tên khách hàng"
-                                           th:field="${CustomerForm.customerName}"
-                                           required
-                                    />
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label for="dateOfBirth">Ngày sinh</label>
-                                    <input type="date"
-                                           class="form-control"
-                                           id="dateOfBirth"
-                                           th:field="${CustomerForm.dateOfBirth}"
-                                           required
-                                    />
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label for="genderCmb">Giới tính</label>
-                                    <select id="genderCmb" class="form-control" required>
-                                        <option value="0">Nam</option>
-                                        <option value="1">Nữ</option>
-                                    </select>
-                                </div>
-
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-8">
@@ -161,62 +215,60 @@
                                     />
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label for="identifyNumber">Căn cước công dân</label>
-                                    <input type="text" pattern="\d*" class="form-control"
-                                           id="identifyNumber" placeholder="Số CMND"
-                                           min="0" maxlength="12"
-                                           th:field="${CustomerForm.identifyNumber}"
-                                           required
-                                    />
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="dateOfIssuePicker">Ngày cấp</label>
-                                    <input type="date" class="form-control"
-                                           id="dateOfIssuePicker"
-                                           th:field="${CustomerForm.dateOfIssue}"
-                                           required
-                                    />
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="placeOfIssue">Nơi cấp</label>
-                                    <input type="text" class="form-control"
-                                           id="placeOfIssue"
-                                           th:field="${CustomerForm.placeOfIssue}"
-                                           required
-                                    />
-                                </div>
+                        </div>
+                    </div>
+                    <!-- Indentification -->
+                    <div class="card mb-4 card-header-actions">
+                    <div class="card-header">
+                        Thông tin căn cước công dân
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="identifyNumber">Căn cước công dân</label>
+                                <input type="text" pattern="\d*" class="form-control"
+                                       id="identifyNumber" placeholder="Số CMND"
+                                       min="0" maxlength="12"
+                                       th:field="${CustomerForm.identifyNumber}"
+                                       required
+                                />
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label for="address">Địa chỉ</label>
-                                    <input type="text" class="form-control"
-                                           id="address"
-                                           th:field="${CustomerForm.address}"
-                                           required
-                                    />
-                                </div>
+                            <div class="form-group col-md-4">
+                                <label for="dateOfIssuePicker">Ngày cấp</label>
+                                <input type="date" class="form-control"
+                                       id="dateOfIssuePicker"
+                                       th:field="${CustomerForm.dateOfIssue}"
+                                       required
+                                />
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label for="phoneNumber">Số điện thoại</label>
-                                    <input type="text" class="form-control"
-                                           id="phoneNumber"
-                                           min="0" maxlength="10" pattern="\d*"
-                                           th:field="${CustomerForm.phoneNumber}"
-                                           required
-                                    />
-                                </div>
-                                <div class="form-group col-md-8">
-                                    <label for="email">Email</label>
-                                    <input type="email" class="form-control"
-                                           id="email"
-                                           th:field="${CustomerForm.email}"
-                                           required
-                                    />
-                                </div>
+                            <div class="form-group col-md-4">
+                                <label for="placeOfIssue">Nơi cấp</label>
+                                <input type="text" class="form-control"
+                                       id="placeOfIssue"
+                                       th:field="${CustomerForm.placeOfIssue}"
+                                       required
+                                />
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-2">
+                                <label for="dateOfBirth">Ngày sinh</label>
+                                <input type="date"
+                                       class="form-control"
+                                       id="dateOfBirth"
+                                       th:field="${CustomerForm.dateOfBirth}"
+                                       required
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <!-- Banking information -->
+                    <div class="card mb-4 card-header-actions">
+                        <div class="card-header">
+                            Thông tin tài khoản ngân hàng
+                        </div>
+                        <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="bank">Ngân hàng</label>
@@ -244,48 +296,22 @@
                                     />
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label for="contractStatus">Tình trạng hợp đồng</label>
-                                    <input type="text" class="form-control"
-                                           id="contractStatus"
-                                           th:field="${CustomerForm.contractStatus}"
-                                           required
-                                    >
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <label for="sourceCmb">Nguồn</label>
-                                    <select id="sourceCmb" class="form-control" required>
-                                        <option></option>
-                                        <option th:each="source : ${CustomerForm.comboboxForm.listSource}"
-                                                th:value="${source.key}"
-                                                th:utext="${source.value}"/>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mb-2"></div>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <button type="button" class="btn btn-primary" id="registerCustomer">Đăng kí</button>
-                                </div>
-                            </div>
-
-                            <!-- Hidden field -->
-                            <input type="hidden"
-                                   id="gender"
-                                   th:field="${CustomerForm.gender}"
-                            />
-                            <input type="hidden"
-                                   id="hdnEmployeeId"
-                                   th:field="${CustomerForm.hdnEmployeeId}"
-                            />
-                            <input type="hidden"
-                                   id="hdnSourceId"
-                                   th:field="${CustomerForm.hdnSourceId}"
-                            />
-                        </form>
+                        </div>
                     </div>
-                </div>
+                    <!-- Hidden field -->
+                    <input type="hidden"
+                           id="gender"
+                           th:field="${CustomerForm.gender}"
+                    />
+                    <input type="hidden"
+                           id="hdnEmployeeId"
+                           th:field="${CustomerForm.hdnEmployeeId}"
+                    />
+                    <input type="hidden"
+                           id="hdnSourceId"
+                           th:field="${CustomerForm.hdnSourceId}"
+                    />
+                </form>
             </div>
         </main>
         <div id="overlay">
