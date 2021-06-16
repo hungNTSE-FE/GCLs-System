@@ -51,11 +51,11 @@
                     <div class="card mb-4 card-header-actions">
                     <div class="card-header">
                         <div class="form-group row">
-                            <label for="fromDate" class="col-sm-1">Từ ngày</label>
+                            <label for="fromDate" class="col-sm-2">Từ ngày</label>
                             <div class="col-sm-3">
                                 <input type="date" id="fromDate" class="form-control"/>
                             </div>
-                            <label for="toDate" class="col-sm-1">Đến ngày</label>
+                            <label for="toDate" class="col-sm-2">Đến ngày</label>
                             <div class="col-sm-3">
                                 <input type="date" id="toDate" class="form-control"/>
                             </div>
@@ -65,6 +65,28 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        <div class="customerStatusReportArea" id="customerStatusReportArea" hidden>
+                            <table id="customerStatusReportTable"
+                                   class="table row-border cell-border hover order-column">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Phụ trách</th>
+                                        <th>Level 1</th>
+                                        <th>Level 2</th>
+                                        <th>Level 3</th>
+                                        <th>Level 4</th>
+                                        <th>Level 5</th>
+                                        <th>Level 6</th>
+                                        <th>Level 7</th>
+                                        <th>Số lượng mở tài khoản</th>
+                                        <th>Số lượng mở nạp tiền</th>
+                                        <th>Số lượng lot</th>
+                                        <th>Tổng</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 </form>
@@ -84,6 +106,6 @@
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script type="text/javascript" th:src="@{/js/datatables/datatables-simple-demo.js}"></script>
-<script type="text/javascript" th:src="@{/js/customer.js}"></script>
+<script type="text/javascript" th:src="@{/js/customerStatusReport.js}"></script>
 </body>
 </html>
