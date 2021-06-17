@@ -30,6 +30,26 @@ public class CustomerController {
         return "/customer/home-customer-page-V2";
     }
 
+    @RequestMapping(value = "/id1", method = RequestMethod.GET)
+    public String goDetailCustomer(Model model) {
+        return "/customer/details/detail-customer-overview-page-V2";
+    }
+
+    @RequestMapping(value = "/information/id1", method = RequestMethod.GET)
+    public String goDetailInformationCustomer(Model model) {
+        return "/customer/details/detail-customer-information-page-V2";
+    }
+
+    @RequestMapping(value = "/email/id1", method = RequestMethod.GET)
+    public String goDetailEmailCustomer(Model model) {
+        return "/customer/details/detail-customer-email-page-V2";
+    }
+
+    @RequestMapping(value = "/action/id1", method = RequestMethod.GET)
+    public String goDetailActionCustomer(Model model) {
+        return "/customer/details/detail-customer-action-page-V2";
+    }
+
     @RequestMapping(value = "/addCustomer", method = RequestMethod.GET)
     public String addCustomerPage(Model model, @ModelAttribute("CustomerForm") CustomerForm customerForm) {
         ComboboxForm comboboxForm = customerService.initComboboxData();

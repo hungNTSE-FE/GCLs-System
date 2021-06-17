@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+  <title>Hoạt động - Gia Cat Loi</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+  <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
+  <link
+          rel="stylesheet"
+          type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+  />
+  <script
+          data-search-pseudo-elements
+          defer
+          src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
+          crossorigin="anonymous"
+  ></script>
+  <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
+          crossorigin="anonymous"
+  ></script>
+</head>
+<body class="nav-fixed">
+<th:block th:include="/common/nav-fixed.html"></th:block>
+<div id="layoutSidenav">
+  <th:block th:include="/common/layoutSidenav.html"></th:block>
+  <div id="layoutSidenav_content">
+    <main>
+      <header
+              class="
+              page-header page-header-compact page-header-light
+              border-bottom
+              bg-white
+              mb-4
+            "
+      >
+        <div class="container-fluid px-4">
+          <div class="page-header-content">
+            <div
+                    class="row align-items-center justify-content-between pt-3"
+            >
+              <div class="col-auto mb-3">
+                <nav class="rounded" aria-label="breadcrumb">
+                  <ol class="breadcrumb px-3 py-2 rounded mb-0">
+                    <li class="breadcrumb-item">
+                      <a th:href="@{/customer/home}">Khách hàng</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a th:href="@{/customer/home}">Tất cả</a>
+                    </li>
+                    <li class="breadcrumb-item active" th:href="@{/customer/id1}">Chị Nguyễn Văn A</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="container-fluid px-4">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div
+                      style="
+                      display: flex;
+                      vertical-align: baseline;
+                      transition: 0.3s ease;
+                    "
+              >
+                <img
+                        src="/assets/img/illustrations/profiles/profile-3.png"
+                        style="width: 100px; height: 100px; margin-right: 10px"
+                />
+                <div class="text">
+                  <h3>Chị Nguyễn Văn A</h3>
+                  <p class="text-muted">012345789</p>
+                </div>
+              </div>
+              <div class="d-flex flex-row-reverse">
+                <div class="p-2">
+                  <button class="btn btn-outline-dark" type="button">
+                    Gửi Email
+                  </button>
+                </div>
+                <div class="p-2">
+                  <button class="btn btn-primary" type="button">Sửa</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account page navigation-->
+        <nav class="nav nav-borders">
+          <a class="nav-link" th:href="@{/customer/id1}">Tổng quan</a>
+          <a class="nav-link" th:href="@{/customer/information/id1}">Chi tiết</a>
+          <a class="nav-link" href="#">Nhật ký</a>
+          <a class="nav-link" href="#">
+            <i class="fas fa-hand-holding-usd"></i>
+            Cơ hội
+            <span class="badge bg-hung-custom text-white-75 ms-auto"
+            >1</span
+            >
+          </a>
+          <a class="nav-link active ms-0" th:href="@{/customer/action/id1}"
+          ><i class="fas fa-calendar-alt"></i> Hoạt động
+            <span class="badge bg-hung-custom text-white-75 ms-auto"
+            >1</span
+            ></a
+          >
+          <a class="nav-link" th:href="@{/customer/email/id1}">Email</a>
+        </nav>
+        <hr class="mt-0 mb-4" />
+        <div class="card mb-4 mb-xl-0">
+          <div class="card-header">Thông tin hoạt động</div>
+          <div class="card-body">
+            <div class="d-flex mb-2">
+              <button
+                      class="btn btn-outline-dark"
+                      type="button"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModalLg"
+              >
+                <i data-feather="plus"></i> Thêm hoạt động
+              </button>
+            </div>
+            <table id="datatablesSimple">
+              <thead>
+              <tr>
+                <th>Tiêu đề</th>
+                <th>Giao cho</th>
+                <th>Ngày giờ bắt đầu</th>
+                <th>Ngày giờ kết thúc</th>
+                <th>Loại</th>
+                <th>Mô tả</th>
+              </tr>
+              </thead>
+              <tbody>
+              <!-- <tr class="content">
+                  <td><input type="checkbox" /></td>
+                  <td>FB000001</td>
+                  <td>Nguyễn Lê Hải Anh</td>
+                  <td>a@gmail.com</td>
+                  <td>0123456789</td>
+                  <td>Facebook</td>
+                  <td></td>
+                </tr> -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+    <th:block th:include="/common/footer.html"></th:block>
+
+    <div
+            class="modal fade"
+            id="exampleModalLg"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="myLargeModalLabel"
+            aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Tạo nhanh hoạt động</h5>
+            <button
+                    class="btn-close"
+                    type="button"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Nhập hoạt động..."
+                />
+              </div>
+              <div class="row gx-3 mb-3">
+                <div class="col-md-5">
+                  <!-- Joined input group append example-->
+                  <div class="input-group input-group-joined">
+                    <input class="form-control ps-0" id="date" />
+                    <span class="input-group-text">
+                          <i data-feather="calendar"></i>
+                        </span>
+                  </div>
+                </div>
+                <div class="col-md-2 text-center">
+                  <p class="small p-3">Tới</p>
+                </div>
+
+                <div class="col-md-5">
+                  <!-- Joined input group append example-->
+                  <div class="input-group input-group-joined">
+                    <input class="form-control ps-0" id="date2" />
+                    <span class="input-group-text">
+                          <i data-feather="calendar"></i>
+                        </span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label for="" class="small col-sm-3">
+                  Giao cho
+                  <span style="color: red">*</span>
+                </label>
+                <div class="col-sm-9">
+                  <select
+                          class="form-select"
+                          id="exampleFormControlSelect1"
+                  >
+                    <option>MKT (b@giacatloi.com)</option>
+                    <option>MKT (c@giacatloi.com)</option>
+                    <option>Sale (d@giacatloi.com)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label for="" class="small col-sm-3">
+                  Tình trạng hoạt động
+                  <span style="color: red">*</span>
+                </label>
+                <div class="col-sm-9">
+                  <select
+                          class="form-select"
+                          id="exampleFormControlSelect1"
+                  >
+                    <option>Lên kế hoạch</option>
+                    <option>Đã kết thúc</option>
+                    <option>Huỷ</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label for="" class="small col-sm-3">
+                  Loại hoạt động
+                  <span style="color: red">*</span>
+                </label>
+                <div class="col-sm-9">
+                  <select
+                          class="form-select"
+                          id="exampleFormControlSelect1"
+                  >
+                    <option>Cuộc gọi</option>
+                    <option>Cuộc hẹn</option>
+                    <option>Công việc</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label for="" class="small col-sm-3"> Địa điểm </label>
+                <div class="col-sm-9">
+                  <input
+                          class="form-control"
+                          type="text"
+                          placeholder="Nhập địa chỉ"
+                  />
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label for="" class="small col-sm-3"> Chia sẻ </label>
+                <div class="col-sm-9">
+                  <div class="ui blue multiple selection dropdown">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Nhân viên</div>
+                    <select multiple="" id="multi-select">
+                      <option value="">Categories</option>
+                      <option value="a@giacatloi.com">
+                        Duy Anh (a@giacatloi.com)
+                      </option>
+                      <option value="b@giacatloi.com">
+                        Huu Tinh (b@giacatloi.com)
+                      </option>
+                      <option value="c@giacatloi.com">
+                        Duc Duy (c@giacatloi.com)
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label for="" class="small col-sm-3"> Địa điểm </label>
+                <div class="col-sm-9">
+                      <textarea
+                              class="form-control"
+                              id="exampleFormControlTextarea1"
+                              rows="3"
+                              placeholder="Nhập mô tả"
+                      ></textarea>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+                    class="btn btn-primary"
+                    type="button"
+                    data-bs-dismiss="modal"
+            >
+              Lưu
+            </button>
+            <button
+                    class="btn btn-outline-dark"
+                    type="button"
+                    data-bs-dismiss="modal"
+            >
+              Huỷ
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"
+></script>
+<script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script type="text/javascript" th:src="@{/js/datatables/datatables-simple-demo.js}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"
+        crossorigin="anonymous"
+></script>
+<script th:inline="javascript">
+  const picker = new Litepicker({
+    element: document.getElementById("date"),
+    autoRefresh: true,
+  });
+  const picker2 = new Litepicker({
+    element: document.getElementById("date2"),
+    autoRefresh: true,
+  });
+  const dataTable = new simpleDatatables.DataTable("#datatablesSimple", {
+    searchable: false,
+    fixedHeight: true,
+    perPageSelect: false,
+    labels: {
+      noRows: "Không có hoạt động nào đang chờ",
+      info: "",
+    },
+  });
+</script>
+</body>
+</html>

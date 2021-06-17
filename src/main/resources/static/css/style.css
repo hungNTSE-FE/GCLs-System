@@ -20605,3 +20605,7 @@ pre[class*=language-] {
 .token.variable {
   color: #ff6666;
 }
+
+.bg-hung-custom {
+  background: linear-gradient(80deg,#7367f0,#9e95f5);
+}
