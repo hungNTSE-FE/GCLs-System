@@ -219,6 +219,7 @@
     >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
+          <form th:action="@{/customer/import}" method="POST" enctype="multipart/form-data">
           <div class="modal-header">
             <h5 class="modal-title">Nhập dữ liệu từ file Excel</h5>
             <button
@@ -234,7 +235,7 @@
                 <label class="small">Chọn file Excel</label>
               </div>
               <div class="col-md-8">
-                <input
+                <input accept=".xlsx, .xls" required
                         class="form-control form-control-sm"
                         type="file"
                         name="upload"
@@ -268,7 +269,7 @@
                             class="form-check-input"
                             id="flexRadioSolid1"
                             type="radio"
-                            name="flexRadioSolid"
+                            name="option" value="skip"
                     />
                     <label
                             class="form-check-label small"
@@ -281,7 +282,7 @@
                             class="form-check-input"
                             id="flexRadioSolid2"
                             type="radio"
-                            name="flexRadioSolid"
+                            name="option" value="override"
                             checked
                     />
                     <label
@@ -297,12 +298,11 @@
           <div class="modal-footer">
             <button
                     class="btn btn-primary"
-                    type="button"
-                    data-bs-dismiss="modal"
-            >
+                    type="submit">
               Tiếp tục
             </button>
           </div>
+          </form>
         </div>
       </div>
     </div>
