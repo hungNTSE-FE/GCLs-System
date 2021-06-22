@@ -45,7 +45,7 @@ public class ExcelReader {
         return workbook;
     }
 
-    public List<Potential> getPotentialData(InputStream stream, String filename) throws IOException {
+    public List<Potential> getPotentialData(InputStream stream, String filename) throws IOException, IllegalStateException {
         List<Potential> potentialData = new ArrayList<>();
         Workbook workbook = this.getWorkbook(stream, filename);
         Sheet sheet = workbook.getSheetAt(0);
@@ -53,6 +53,9 @@ public class ExcelReader {
         while (rowIterator.hasNext()) {
             Row row = rowIterator.next();
             if (row.getRowNum() < 3) {
+                continue;
+            }
+            if (row.getLastCellNum() != 24){
                 continue;
             }
             Iterator<Cell> cellIterator = row.cellIterator();
