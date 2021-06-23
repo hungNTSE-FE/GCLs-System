@@ -20,7 +20,7 @@ public class MainController {
         return "redirect:/department/home";
     }
 
-    @RequestMapping(value = "/loginpage", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String DefaultPage(Model model) {
         return "loginPage";
     }
