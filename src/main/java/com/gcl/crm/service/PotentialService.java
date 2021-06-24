@@ -27,4 +27,9 @@ public class PotentialService {
         }
         return true;
     }
+
+    public boolean createPotential(Potential potential) {
+        Potential poten = potentialRepository.save(potential);
+        return poten != null;
+    }
 }
