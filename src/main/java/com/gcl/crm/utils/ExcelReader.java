@@ -48,6 +48,7 @@ public class ExcelReader {
     public List<Potential> getPotentialData(InputStream stream, String filename) throws IOException, IllegalStateException {
         List<Potential> potentialData = new ArrayList<>();
         Workbook workbook = this.getWorkbook(stream, filename);
+        if (workbook == null) throw new IllegalStateException("Tập tin đã chọn không đúng định dạng");
         Sheet sheet = workbook.getSheetAt(0);
         Iterator<Row> rowIterator = sheet.rowIterator();
         while (rowIterator.hasNext()) {

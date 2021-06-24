@@ -120,29 +120,29 @@
                   </div>
                 </div>
                 <div class="card-body">
-                  <form>
+                  <form th:action="@{/potential/search}" th:object="${searchForm}">
                     <div class="mb-3">
                       <label
-                              for="exampleFormControlInput1 small"
+                              for="potential-name"
                               class="text-sm"
                       >Tên khách hàng</label
                       >
-                      <input
+                      <input th:field="*{name}"
                               class="form-control"
-                              id="filterTextLevel"
+                              id="potential-name"
                               type="text"
                               placeholder="Nhập tên khách hàng"
                       />
                     </div>
                     <div class="mb-3">
                       <label
-                              for="exampleFormControlInput1 small"
+                              for="phone-number"
                               class="text-sm"
                       >Số điện thoại</label
                       >
                       <!-- Joined input group append example-->
                       <div class="input-group input-group-joined">
-                        <input
+                        <input id="phone-number" th:field="*{phone}"
                                 class="form-control pe-0"
                                 type="text"
                                 placeholder="Nhập số điện thoại"
@@ -155,13 +155,13 @@
                     </div>
                     <div class="mb-3">
                       <label
-                              for="exampleFormControlInput1 small"
+                              for="email"
                               class="text-sm"
                       >Email</label
                       >
                       <!-- Joined input group append example-->
                       <div class="input-group input-group-joined">
-                        <input
+                        <input id="email" th:field="*{email}"
                                 class="form-control pe-0"
                                 type="text"
                                 placeholder="Nhập mail"
@@ -174,67 +174,51 @@
                     </div>
                     <div class="mb-3">
                       <label
-                              for="exampleFormControlInput1 small"
+                              for="source"
                               class="text-sm"
                       >Nguồn gốc</label
                       >
-                      <select class="form-select" id="filterDropdown">
-                        <option>Facebook</option>
-                        <option>Zalo</option>
-                        <option>Website Gia Cat Loi</option>
+                      <select class="form-select" id="source" th:field="*{source}">
+                        <option selected value="" >Tất cả</option>
+                        <option th:each="source : ${sources}" th:text="${source.sourceName}" th:value="${source.sourceName}"></option>
                       </select>
                     </div>
                     <div class="mb-3">
                       <label
-                              for="exampleFormControlInput1 small"
+                              for="filterDropdown"
                               class="text-sm"
-                      >Tình trạng</label
-                      >
-                      <select class="form-select" id="filterDropdown">
-                        <option>Level 1</option>
-                        <option>Level 2</option>
-                        <option>Level 3</option>
+                      >Tình trạng</label>
+                      <select class="form-select" id="filterDropdown" th:field="*{level}">
+                        <option selected value="" >Tất cả</option>
+                        <option th:each="level : ${levels}" th:text="${level.levelName}" th:value="${level.levelId}"></option>
                       </select>
                     </div>
                     <div class="mb-3">
                       <label
-                              for="exampleFormControlInput1 small"
-                              class="text-sm"
-                      >Chiến dịch</label
-                      >
-                      <select class="form-select" id="filterDropdown">
-                        <option>Level 1</option>
-                        <option>Level 2</option>
-                        <option>Level 3</option>
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                      <label
-                              for="exampleFormControlInput1 small"
-                              class="text-sm"
-                      >Thời gian</label
-                      >
+                              for="litepickerRangePlugin"
+                              class="text-sm">
+                        Thời gian
+                      </label>
                       <!-- Date Range Picker Example-->
                       <div class="input-group input-group-joined">
-                        <input
+                        <input th:field="*{time}"
                                 class="form-control pointer"
                                 id="litepickerRangePlugin"
                                 placeholder="Lựa chọn"
                         />
-                        <span class="input-group-text"
-                        ><i data-feather="calendar"></i
-                        ></span>
+                        <span class="input-group-text">
+                          <i data-feather="calendar"></i>
+                        </span>
                       </div>
                     </div>
 
                     <div class="d-flex align-center">
-                      <button
+                      <button type="submit"
                               class="btn btn-primary"
-                              style="margin-right: 10px"
-                      >
+                              style="margin-right: 10px">
                         Tìm kiếm
                       </button>
-                      <button class="btn btn-outline-dark">Mặc định</button>
+                      <button type="reset" class="btn btn-outline-dark">Mặc định</button>
                     </div>
                   </form>
                 </div>
@@ -257,7 +241,22 @@
                       <th>NGÀY SỬA</th>
                     </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                    <tr th:each="potential : ${potentials}">
+                      <td>
+                        <input type="checkbox" th:value="${potential.id}" name="potential-id" />
+                      </td>
+                      <td th:text="${potential.name}"></td>
+                      <td th:text="${potential.phoneNumber}"></td>
+                      <td th:text="${potential.email}"></td>
+                      <td th:text="${potential.source}"></td>
+                      <td>
+                        <span th:if="${potential.level != null}" th:text="${potential.level.levelName}"></span>
+                      </td>
+                      <td th:text="${potential.sale}"></td>
+                      <td th:text="${potential.date}"></td>
+                    </tr>
+                    </tbody>
                   </table>
                 </div>
               </div>
@@ -280,90 +279,40 @@
     >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Nhập dữ liệu từ file Excel</h5>
-            <button
-                    class="btn-close"
-                    type="button"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="row gx-3 mb-2">
-              <div class="col-md-4">
-                <label class="small">Chọn file Excel</label>
-              </div>
-              <div class="col-md-8">
-                <input
-                        class="form-control form-control-sm"
-                        type="file"
-                        name="upload"
-                        placeholder=""
-                        style="border: 1px solid #aaa"
-                />
-              </div>
+          <form th:action="@{/potential/import}" method="POST" enctype="multipart/form-data">
+            <div class="modal-header">
+              <h5 class="modal-title">Nhập dữ liệu từ file Excel</h5>
+              <button
+                      class="btn-close"
+                      type="button"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+              ></button>
             </div>
-            <div class="row gx-3 mb-2">
-              <div class="col-md-4">
-                <label class="small">Kiểu ký tự</label>
-              </div>
-              <div class="col-md-4">
-                <select
-                        class="form-select form-select-sm"
-                        id="exampleFormControlSelect1"
-                >
-                  <option>UTF-8</option>
-                  <option>ISO-8859-1</option>
-                </select>
-              </div>
-            </div>
-            <div class="row gx-3 mb-2">
-              <div class="col-md-4">
-                <label class="small">Bản ghi trùng</label>
-              </div>
-              <div class="col-md-8">
-                <div class="d-flex">
-                  <div class="form-check form-check-solid mx-2">
-                    <input
-                            class="form-check-input"
-                            id="flexRadioSolid1"
-                            type="radio"
-                            name="flexRadioSolid"
-                    />
-                    <label
-                            class="form-check-label small"
-                            for="flexRadioSolid1"
-                    >Bỏ qua</label
-                    >
-                  </div>
-                  <div class="form-check form-check-solid">
-                    <input
-                            class="form-check-input"
-                            id="flexRadioSolid2"
-                            type="radio"
-                            name="flexRadioSolid"
-                            checked
-                    />
-                    <label
-                            class="form-check-label small"
-                            for="flexRadioSolid2"
-                    >Ghi đè (theo mã KH)</label
-                    >
-                  </div>
+            <div class="modal-body">
+              <div class="row gx-3 mb-2">
+                <div class="col-md-4">
+                  <label class="small">Chọn file Excel</label>
+                </div>
+                <div class="col-md-8">
+                  <input accept=".xlsx, .xls" required
+                         class="form-control form-control-sm"
+                         type="file"
+                         name="upload"
+                         placeholder=""
+                         style="border: 1px solid #aaa"
+                  />
                 </div>
               </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button
-                    class="btn btn-primary"
-                    type="button"
-                    data-bs-dismiss="modal"
-            >
-              Tiếp tục
-            </button>
-          </div>
+            <div class="modal-footer">
+              <button
+                      class="btn btn-primary"
+                      type="submit">
+                Tiếp tục
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

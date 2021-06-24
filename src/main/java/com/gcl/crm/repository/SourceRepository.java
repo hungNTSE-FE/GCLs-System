@@ -15,28 +15,28 @@ public class SourceRepository {
     @PersistenceContext
     EntityManager entityManager;
 
-    public Source findObjectByPrimaryKey(Long id ){
-        return entityManager.find( Source.class, id );
+    public Source findObjectByPrimaryKey(Long id) {
+        return entityManager.find(Source.class, id);
     }
 
-    public List< Source > getAll(){
-        return entityManager.createQuery( "from " + Source.class.getName() )
+    public List<Source> getAll() {
+        return entityManager.createQuery("from " + Source.class.getName())
                 .getResultList();
     }
 
-    public void save( Source entity ){
-        entityManager.persist( entity );
+    public void save(Source entity) {
+        entityManager.persist(entity);
     }
 
-    public void update( Source entity ){
+    public void update(Source entity) {
         try {
-            entityManager.merge( entity );
+            entityManager.merge(entity);
         } catch (PersistenceException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void delete( Source entity ){
-        entityManager.remove( entity );
+    public void delete(Source entity) {
+        entityManager.remove(entity);
     }
 }

@@ -97,10 +97,10 @@
                         </span>
                   </div>
                 <!--Tạo error ở đây-->
+                  <span th:if="${duplicatePhone}" th:text="${duplicatePhone}"></span>
                 </div>
                 <div class="col-lg-6">
-                  <label class="text-sm">Email</label
-                  >
+                  <label class="text-sm">Email</label>
                   <!-- Joined input group append example-->
                   <div class="input-group input-group-joined">
                     <input
@@ -116,6 +116,7 @@
                         </span>
                   </div>
                   <!--Tạo error ở đây-->
+                  <span th:if="${duplicateEmail}" th:text="${duplicateEmail}"></span>
                 </div>
               </div>
               <div class="mb-3">

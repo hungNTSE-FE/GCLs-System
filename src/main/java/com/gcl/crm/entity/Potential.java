@@ -48,6 +48,12 @@ public class Potential {
 
     private String note;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "level")
+    private Level level;
+
+    private boolean available;
+
     @Override
     public boolean equals(Object o) {
         if (o == this) {
