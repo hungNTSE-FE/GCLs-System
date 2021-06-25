@@ -47,6 +47,26 @@ public class PotentialController {
         return "/potential/home-potential-hungNT-V2";
     }
 
+    @RequestMapping(value = "/id1", method = RequestMethod.GET)
+    public String goDetailCustomer(Model model) {
+        return "/customer/details/detail-customer-overview-page-V2";
+    }
+
+    @RequestMapping(value = "/information/id1", method = RequestMethod.GET)
+    public String goDetailInformationCustomer(Model model) {
+        return "/customer/details/detail-customer-information-page-V2";
+    }
+
+    @RequestMapping(value = "/email/id1", method = RequestMethod.GET)
+    public String goDetailEmailCustomer(Model model) {
+        return "/customer/details/detail-customer-email-page-V2";
+    }
+
+    @RequestMapping(value = "/action/id1", method = RequestMethod.GET)
+    public String goDetailActionCustomer(Model model) {
+        return "/customer/details/detail-customer-action-page-V2";
+    }
+
     @GetMapping({"/search"})
     public String search(Model model, @Nullable @ModelAttribute("searchForm") PotentialSearchForm searchForm){
         if (searchForm == null){
@@ -107,6 +127,23 @@ public class PotentialController {
         boolean done = potentialService.createPotential(potential);
         redirectAttributes.addFlashAttribute("flag","showAlert");
         return "redirect:/potential/create";
+    }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public String goEditPage(Model model) {
+        return "/potential/edit-potential-hungNT-V2";
+    }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String edit(Model model, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("flag","showAlert");
+        return "redirect:/potential/edit";
+    }
+
+    @RequestMapping(value = "/remove",  method = RequestMethod.POST)
+    public String remove(Model model, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("flag","showAlert");
+        return "redirect:/potential/home";
     }
 
     private String getCurrentDate() {
