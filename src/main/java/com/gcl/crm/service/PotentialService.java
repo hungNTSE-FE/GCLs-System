@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PotentialService {
@@ -41,6 +42,40 @@ public class PotentialService {
     public boolean createPotential(Potential potential) {
         Potential poten = potentialRepository.save(potential);
         return poten != null;
+    }
+
+    public boolean resetPotential(Long id) {
+        Potential potential = potentialRepository.findPotentialById(id);
+        if (potential == null) {
+            return false;
+        }
+        potential.setAvailable(true);
+        Potential potential1 = potentialRepository.save(potential);
+        return potential1 != null;
+    }
+
+    public List<Potential> getPotentialsByIdList(List<Long> aidList) {
+        if (aidList == null) {
+            return null;
+        }
+        List<Potential> potentials = new ArrayList<>();
+        for (int i=0; i < aidList.size(); i++) {
+            Optional<Potential> potential = potentialRepository.findById(aidList.get(i));
+            if (potential.isPresent()) {
+                potentials.add(potential.get());
+            }
+        }
+        return potentials;
+    }
+
+    public boolean resetAllPotential(Potential potential, List<Long> checkedPotential) {
+
+        for (int i = 0; i < checkedPotential.size(); i++) {
+            potential = potentialRepository.findPotentialById(checkedPotential.get(i));
+            potential.setAvailable(true);
+            potential = potentialRepository.save(potential);
+        }
+        return potential != null;
     }
 
     public List<Potential> getAllPotentials(){

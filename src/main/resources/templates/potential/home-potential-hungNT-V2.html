@@ -225,7 +225,6 @@
                       <th>NGUỒN</th>
                       <th>TÌNH TRẠNG</th>
                       <th>GIAO CHO</th>
-                      <th>NGÀY SỬA</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -247,7 +246,7 @@
                           </a>
                         </div>
                       </td>
-                      <td th:text="${potential.name}"><a th:href="@{/potential/id1}"></a></td>
+                      <td th:text="${potential.name}"></td>
                       <td th:text="${potential.phoneNumber}"></td>
                       <td th:text="${potential.email}"></td>
                       <td th:text="${potential.source}"></td>
@@ -255,7 +254,6 @@
                         <span th:if="${potential.level != null}" th:text="${potential.level.levelName}"></span>
                       </td>
                       <td th:text="${potential.sale}"></td>
-                      <td th:text="${potential.date}"></td>
                     </tr>
                     </tbody>
                   </table>
@@ -500,6 +498,7 @@
 <script th:inline="javascript">
   const dataTable = new simpleDatatables.DataTable("#datatablesSimple", {
     fixedHeight: true,
+    fixedColumns: true,
     labels: {
       placeholder: "Tìm kiếm đầu mối...",
       perPage: "Show {select} leads per page",

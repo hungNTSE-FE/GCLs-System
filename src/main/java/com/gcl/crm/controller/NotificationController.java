@@ -85,7 +85,6 @@ public class NotificationController {
         MimeMessage messageMime = emailSender.createMimeMessage();
         boolean multipart = true;
         MimeMessageHelper helper = new MimeMessageHelper(messageMime, multipart);
-//        SimpleMailMessage message = new SimpleMailMessage();
         List<AppUser> appUsers = userService.getAppUsersByIdList(selectUser);
         for (int i = 0; i < appUsers.size(); i++) {
             helper.setTo(appUsers.get(i).getEmployee().getCompanyEmail());
