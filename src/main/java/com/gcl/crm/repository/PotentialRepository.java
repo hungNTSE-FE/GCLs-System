@@ -13,9 +13,9 @@ import java.util.Optional;
 public interface PotentialRepository extends JpaRepository<Potential, Long> {
     Potential findPotentialByPhoneNumber(String phone);
     Potential findPotentialByEmail(String email);
-    Potential findPotentialById(Long id);
+    Potential findPotentialByIdAndAvailable(Long id, boolean available);
     Optional<Potential> findById(Long id);
     List<Potential> findAllByAvailable(boolean available);
-    List<Potential> findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndSourceAndLevel
-            (String name, String phone, String email, Source source, Level level);
+    List<Potential> findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndSourceAndLevelAndAvailable
+            (String name, String phone, String email, Source source, Level level, boolean available);
 }

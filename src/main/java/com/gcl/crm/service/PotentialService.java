@@ -46,6 +46,14 @@ public class PotentialService {
         return true;
     }
 
+    public void removePotentials(List<Long> idList){
+        for (Long id : idList){
+            Potential potential = potentialRepository.findPotentialByIdAndAvailable(id, true);
+            potential.setAvailable(false);
+            potentialRepository.save(potential);
+        }
+    }
+
     public boolean createPotential(Potential potential) {
         String sourceName = potential.getSourceName();
         Source source = sourceService.getSourceByName(sourceName);
@@ -55,7 +63,7 @@ public class PotentialService {
     }
 
     public boolean resetPotential(Long id) {
-        Potential potential = potentialRepository.findPotentialById(id);
+        Potential potential = potentialRepository.findPotentialByIdAndAvailable(id, false);
         if (potential == null) {
             return false;
         }
@@ -81,7 +89,7 @@ public class PotentialService {
     public boolean resetAllPotential(Potential potential, List<Long> checkedPotential) {
 
         for (int i = 0; i < checkedPotential.size(); i++) {
-            potential = potentialRepository.findPotentialById(checkedPotential.get(i));
+            potential = potentialRepository.findPotentialByIdAndAvailable(checkedPotential.get(i), false);
             potential.setAvailable(true);
             potential = potentialRepository.save(potential);
         }
@@ -102,8 +110,8 @@ public class PotentialService {
         }
         Source source = sourceService.getSourceByName(searchForm.getSource());
         List<Potential> potentials = potentialRepository
-                .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndSourceAndLevel
-                        (searchForm.getName(), searchForm.getPhone(), searchForm.getEmail(), source, level);
+                .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndSourceAndLevelAndAvailable
+                        (searchForm.getName(), searchForm.getPhone(), searchForm.getEmail(), source, level, true);
         String[] dateRange = searchForm.getTime().split("-");
         Date date1 = new Date(Date.parse(dateRange[0].trim()));
         Date date2 = new Date(Date.parse(dateRange[1].trim()));

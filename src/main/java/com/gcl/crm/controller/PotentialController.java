@@ -47,24 +47,24 @@ public class PotentialController {
         return "/potential/home-potential-hungNT-V2";
     }
 
-    @RequestMapping(value = "/id1", method = RequestMethod.GET)
-    public String goDetailCustomer(Model model) {
-        return "/customer/details/detail-customer-overview-page-V2";
+    @RequestMapping(value = "/{id}/detail", method = RequestMethod.GET)
+    public String goPotentialDetail(Model model, @PathVariable("id") Long id) {
+        return "/potential/details/detail-customer-overview-page-V2";
     }
 
-    @RequestMapping(value = "/information/id1", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/information", method = RequestMethod.GET)
     public String goDetailInformationCustomer(Model model) {
-        return "/customer/details/detail-customer-information-page-V2";
+        return "/potential/details/detail-customer-information-page-V2";
     }
 
     @RequestMapping(value = "/email/id1", method = RequestMethod.GET)
     public String goDetailEmailCustomer(Model model) {
-        return "/customer/details/detail-customer-email-page-V2";
+        return "/potential/details/detail-customer-email-page-V2";
     }
 
     @RequestMapping(value = "/action/id1", method = RequestMethod.GET)
     public String goDetailActionCustomer(Model model) {
-        return "/customer/details/detail-customer-action-page-V2";
+        return "/potential/details/detail-customer-action-page-V2";
     }
 
     @GetMapping({"/search"})
@@ -110,17 +110,15 @@ public class PotentialController {
         boolean error = false;
         if (potentialService.isPhoneExisted(potential.getPhoneNumber())){
             model.addAttribute("duplicatePhone", "Số điện thoại này đã tồn tại");
-            List<Source> sources = sourceRepository.getAll();
-            model.addAttribute("sources", sources);
             error = true;
         }
         if (potentialService.isEmailExisted(potential.getEmail())){
             model.addAttribute("duplicateEmail", "Email này đã tồn tại");
-            List<Source> sources = sourceRepository.getAll();
-            model.addAttribute("sources", sources);
             error = true;
         }
         if (error){
+            List<Source> sources = sourceRepository.getAll();
+            model.addAttribute("sources", sources);
             return "/potential/create-potential-hungNT-V2";
         }
         potential.setDate(getCurrentDate());
@@ -141,7 +139,11 @@ public class PotentialController {
     }
 
     @RequestMapping(value = "/remove",  method = RequestMethod.POST)
-    public String remove(Model model, RedirectAttributes redirectAttributes) {
+    public String remove(Model model, RedirectAttributes redirectAttributes, @Nullable @RequestParam("pid") List<Long> idList) {
+        if (idList == null){
+            return "redirect:/potential/home";
+        }
+        potentialService.removePotentials(idList);
         redirectAttributes.addFlashAttribute("flag","showAlert");
         return "redirect:/potential/home";
     }

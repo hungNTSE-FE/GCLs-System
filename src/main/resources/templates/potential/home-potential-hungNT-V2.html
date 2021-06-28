@@ -231,18 +231,15 @@
                     <tr th:each="potential : ${potentials}">
                       <td>
                         <div class="d-flex">
-                          <input class="m-1" type="checkbox" th:value="${potential.id}" name="potential-id" />
+                          <input class="m-1" type="checkbox" th:value="${potential.id}" name="pid" form="remove-form" />
                           <a href="#" class="clickshowinfo text-dark mx-1">
                             <i class="far fa-eye"></i>
                           </a>
-                          <a th:href="@{/potential/id1}" class="text-dark mx-1">
+                          <a th:href="@{/potential/{id}/detail(id=${potential.id})}" class="text-dark mx-1">
                             <i class="fas fa-info-circle"></i>
                           </a>
-                          <a th:href="@{/potential/edit}" class="text-dark mx-1">
+                          <a th:href="@{/potential/{id}/edit(id=${potential.id})}" class="text-dark mx-1">
                             <i class="fas fa-edit"></i>
-                          </a>
-                          <a th:href="@{/potential/remove}" class="text-dark mx-1" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                            <i class="fas fa-trash-alt"></i>
                           </a>
                         </div>
                       </td>
@@ -330,7 +327,6 @@
               <button class="btn btn-primary" type="submit">
                 Xoá
               </button>
-
             <button class="btn btn-secondary" type="button">No</button>
           </div>
         </div>
@@ -346,12 +342,11 @@
             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-footer">
-            <form th:action="@{/potential/remove}" method="POST">
+            <form th:action="@{/potential/remove}" method="POST" id="remove-form">
               <button class="btn btn-primary" type="submit">
                 Xoá
               </button>
             </form>
-
             <button class="btn btn-secondary" type="button">No</button>
           </div>
         </div>
