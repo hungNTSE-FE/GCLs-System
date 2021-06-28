@@ -197,6 +197,35 @@
             <a class="nav-link" th:href="@{/messagechat}">Trò chuyện</a>
           </nav>
         </div>
+        <a
+                class="nav-link collapsed"
+                href="javascript:void(0);"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapsePagesSetting"
+                aria-expanded="false"
+                aria-controls="collapsePages"
+        >
+          <div class="nav-link-icon"><i class="fas fa-hammer"></i></div>
+          Công cụ
+          <div class="sidenav-collapse-arrow">
+            <i class="fas fa-angle-down"></i>
+          </div>
+        </a>
+        <div
+                class="collapse"
+                id="collapsePagesSetting"
+                data-bs-parent="#accordionSidenav"
+        >
+          <nav
+                  class="sidenav-menu-nested nav accordion"
+                  id="accordionSidenavPagesSetting"
+          >
+            <a class="nav-link" th:href="@{/junk/home}">
+              <div class="nav-link-icon"> <i class="fas fa-trash"></i></div>
+              Thùng rác
+            </a>
+          </nav>
+        </div>
       </div>
     </div>
     <!-- Sidenav Footer-->
