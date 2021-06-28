@@ -249,9 +249,11 @@
                       <td th:text="${potential.name}"></td>
                       <td th:text="${potential.phoneNumber}"></td>
                       <td th:text="${potential.email}"></td>
-                      <td th:text="${potential.source}"></td>
                       <td>
-                        <span th:if="${potential.level != null}" th:text="${potential.level.levelName}"></span>
+                        <span th:if="${potential.source}" th:text="${potential.source.sourceName}"></span>
+                      </td>
+                      <td>
+                        <span th:if="${potential.level}" th:text="${potential.level.levelName}"></span>
                       </td>
                       <td th:text="${potential.sale}"></td>
                     </tr>

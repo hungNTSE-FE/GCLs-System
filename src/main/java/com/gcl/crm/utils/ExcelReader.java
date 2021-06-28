@@ -107,7 +107,7 @@ public class ExcelReader {
                         break;
                     case COLUMN_INDEX_SOURCE:
                         String source = cellValue.toString();
-                        item.setSource(source);
+                        item.setSourceName(source);
                         break;
                     case COLUMN_INDEX_ADDRESS:
                         String address = cellValue.toString();

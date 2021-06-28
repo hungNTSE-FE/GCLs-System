@@ -2,6 +2,7 @@ package com.gcl.crm.service;
 
 import com.gcl.crm.entity.Level;
 import com.gcl.crm.entity.Potential;
+import com.gcl.crm.entity.Source;
 import com.gcl.crm.form.PotentialSearchForm;
 import com.gcl.crm.repository.PotentialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class PotentialService {
     @Autowired
     LevelService levelService;
 
+    @Autowired
+    SourceService sourceService;
+
     public boolean importPotential(List<Potential> potentials){
         if (potentials.size() == 0){
             return false;
@@ -33,6 +37,9 @@ public class PotentialService {
             if (savedData1 != null || savedData2 != null){
                 continue;
             }
+            String sourceName = potential.getSourceName();
+            Source source = sourceService.getSourceByName(sourceName);
+            potential.setSource(source);
             potential.setAvailable(true);
             potentialRepository.save(potential);
         }
@@ -40,6 +47,9 @@ public class PotentialService {
     }
 
     public boolean createPotential(Potential potential) {
+        String sourceName = potential.getSourceName();
+        Source source = sourceService.getSourceByName(sourceName);
+        potential.setSource(source);
         Potential poten = potentialRepository.save(potential);
         return poten != null;
     }
@@ -90,9 +100,10 @@ public class PotentialService {
         if (searchForm.getLevel() != null){
             level = levelService.getLevelById(searchForm.getLevel());
         }
+        Source source = sourceService.getSourceByName(searchForm.getSource());
         List<Potential> potentials = potentialRepository
-                .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndSourceContainingAndLevel
-                        (searchForm.getName(), searchForm.getPhone(), searchForm.getEmail(), searchForm.getSource(), level);
+                .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndSourceAndLevel
+                        (searchForm.getName(), searchForm.getPhone(), searchForm.getEmail(), source, level);
         String[] dateRange = searchForm.getTime().split("-");
         Date date1 = new Date(Date.parse(dateRange[0].trim()));
         Date date2 = new Date(Date.parse(dateRange[1].trim()));
