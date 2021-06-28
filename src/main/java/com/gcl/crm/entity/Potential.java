@@ -22,7 +22,12 @@ public class Potential {
     @Column(unique = true)
     private String email;
 
-    private String source;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "source_id")
+    private Source source;
+
+    @Transient
+    private String sourceName;
 
     private String address;
 
