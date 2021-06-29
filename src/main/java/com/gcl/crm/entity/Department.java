@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -28,9 +29,6 @@ public class Department {
     @Column(name = "note", length = 1000)
     private String note;
 
-//    @Column(name = "last_update", nullable = false)
-//    private Timestamp lastModified;
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "departments")
     private List<Permission> permissions;
 
@@ -44,5 +42,14 @@ public class Department {
     @ManyToMany(mappedBy = "departments", fetch = FetchType.LAZY)
     private List<Documentary> documentaries;
 
+    private Date createDate;
+
+    // Id of last employee create department
+    private Long maker;
+
+    private Date lastModified;
+
+    // Id of last employee made changes to department
+    private Long lastModifier;
 
 }
