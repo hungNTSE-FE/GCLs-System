@@ -3,6 +3,7 @@ package com.gcl.crm.repository;
 import com.gcl.crm.entity.Level;
 import com.gcl.crm.entity.Potential;
 import com.gcl.crm.entity.Source;
+import com.gcl.crm.enums.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,9 +14,9 @@ import java.util.Optional;
 public interface PotentialRepository extends JpaRepository<Potential, Long> {
     Potential findPotentialByPhoneNumber(String phone);
     Potential findPotentialByEmail(String email);
-    Potential findPotentialByIdAndAvailable(Long id, boolean available);
+    Potential findPotentialByIdAndStatus(Long id, Status status);
     Optional<Potential> findById(Long id);
-    List<Potential> findAllByAvailable(boolean available);
-    List<Potential> findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndSourceAndLevelAndAvailable
-            (String name, String phone, String email, Source source, Level level, boolean available);
+    List<Potential> findAllByStatus(Status status);
+    List<Potential> findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndSourceAndLevelAndStatus
+            (String name, String phone, String email, Source source, Level level, Status status);
 }

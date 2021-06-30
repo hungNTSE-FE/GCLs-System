@@ -3,6 +3,7 @@ package com.gcl.crm.service;
 import com.gcl.crm.entity.Level;
 import com.gcl.crm.entity.Potential;
 import com.gcl.crm.entity.Source;
+import com.gcl.crm.enums.Status;
 import com.gcl.crm.form.PotentialSearchForm;
 import com.gcl.crm.repository.PotentialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,16 +41,34 @@ public class PotentialService {
             String sourceName = potential.getSourceName();
             Source source = sourceService.getSourceByName(sourceName);
             potential.setSource(source);
-            potential.setAvailable(true);
+            potential.setStatus(Status.ACTIVE);
             potentialRepository.save(potential);
         }
         return true;
     }
 
+    public boolean editPotential(Potential newPotential){
+        Potential potential = potentialRepository.findPotentialByIdAndStatus(newPotential.getId(), Status.ACTIVE);
+        if (potential == null){
+            return false;
+        }
+        potential.setName(newPotential.getName());
+        potential.setAddress(newPotential.getAddress());
+        potential.setEmail(newPotential.getEmail());
+        potential.setPhoneNumber(newPotential.getPhoneNumber());
+        potential.setSource(sourceService.getSourceById(newPotential.getId()));
+        potentialRepository.save(potential);
+        return true;
+    }
+
+    public Potential getPotentialById(Long id){
+        return potentialRepository.findPotentialByIdAndStatus(id, Status.ACTIVE);
+    }
+
     public void removePotentials(List<Long> idList){
         for (Long id : idList){
-            Potential potential = potentialRepository.findPotentialByIdAndAvailable(id, true);
-            potential.setAvailable(false);
+            Potential potential = potentialRepository.findPotentialByIdAndStatus(id, Status.ACTIVE);
+            potential.setStatus(Status.INACTIVE);
             potentialRepository.save(potential);
         }
     }
@@ -63,11 +82,11 @@ public class PotentialService {
     }
 
     public boolean resetPotential(Long id) {
-        Potential potential = potentialRepository.findPotentialByIdAndAvailable(id, false);
+        Potential potential = potentialRepository.findPotentialByIdAndStatus(id, Status.INACTIVE);
         if (potential == null) {
             return false;
         }
-        potential.setAvailable(true);
+        potential.setStatus(Status.ACTIVE);
         Potential potential1 = potentialRepository.save(potential);
         return potential1 != null;
     }
@@ -89,18 +108,18 @@ public class PotentialService {
     public boolean resetAllPotential(Potential potential, List<Long> checkedPotential) {
 
         for (int i = 0; i < checkedPotential.size(); i++) {
-            potential = potentialRepository.findPotentialByIdAndAvailable(checkedPotential.get(i), false);
-            potential.setAvailable(true);
+            potential = potentialRepository.findPotentialByIdAndStatus(checkedPotential.get(i), Status.INACTIVE);
+            potential.setStatus(Status.ACTIVE);
             potential = potentialRepository.save(potential);
         }
         return potential != null;
     }
 
     public List<Potential> getAllPotentials(){
-        return potentialRepository.findAllByAvailable(true);
+        return potentialRepository.findAllByStatus(Status.ACTIVE);
     }
     public List<Potential> getAllDeletedPotentials(){
-        return potentialRepository.findAllByAvailable(false);
+        return potentialRepository.findAllByStatus(Status.INACTIVE);
     }
 
     public List<Potential> search(PotentialSearchForm searchForm){
@@ -110,8 +129,8 @@ public class PotentialService {
         }
         Source source = sourceService.getSourceByName(searchForm.getSource());
         List<Potential> potentials = potentialRepository
-                .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndSourceAndLevelAndAvailable
-                        (searchForm.getName(), searchForm.getPhone(), searchForm.getEmail(), source, level, true);
+                .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndSourceAndLevelAndStatus
+                        (searchForm.getName(), searchForm.getPhone(), searchForm.getEmail(), source, level, Status.ACTIVE);
         String[] dateRange = searchForm.getTime().split("-");
         Date date1 = new Date(Date.parse(dateRange[0].trim()));
         Date date2 = new Date(Date.parse(dateRange[1].trim()));

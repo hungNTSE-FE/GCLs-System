@@ -43,7 +43,7 @@
                     <li class="breadcrumb-item">
                       <a href="#">Đang sửa</a>
                     </li>
-                    <li class="breadcrumb-item active">Nguyễn Văn A</li>
+                    <li class="breadcrumb-item active" th:text="${potential.name}"></li>
                   </ol>
                 </nav>
               </div>
@@ -55,15 +55,16 @@
       <div class="container-fluid px-4">
         <!-- Report summary card example-->
         <div class="card mb-4">
-          <div class="card-header">THÔNG TIN NGUYỄN VĂN A</div>
+          <div class="card-header" th:text="${'Thông tin ' + potential.name}"></div>
           <div class="card-body">
-            <form>
+            <form th:action="@{/potential/edit}" method="POST" th:object="${potential}">
+              <input type="hidden" th:field="*{id}" />
               <div class="row mb-3">
                 <div class="col-lg-6">
                   <label class="text-sm">
                     Họ và tên <span style="color: red">*</span>
                   </label>
-                  <input
+                  <input th:field="*{name}"
                           class="form-control"
                           id="filterTextLevel"
                           type="text"
@@ -75,11 +76,9 @@
                   <label class="text-sm">
                     Nguồn <span style="color: red">*</span>
                   </label>
-                  <select class="form-select" id="filterDropdown">
-                    <option disabled selected>Chọn nguồn</option>
-                    <option>Facebook</option>
-                    <option>Zalo</option>
-                    <option>Website Gia Cat Loi</option>
+                  <select class="form-select" id="filterDropdown" name="source-id">
+                    <option th:each="source : ${sources}" th:text="${source.sourceName}" th:value="${source.sourceId}"
+                            th:selected="${source.equals(potential.source)}"></option>
                   </select>
                 </div>
               </div>
@@ -90,9 +89,9 @@
                   </label>
                   <!-- Joined input group append example-->
                   <div class="input-group input-group-joined">
-                    <input
+                    <input th:field="*{phoneNumber}"
                             class="form-control pe-0"
-                            type="text"
+                            type="tel"
                             placeholder="Nhập số điện thoại"
                             aria-label="Search"
                             required
@@ -108,9 +107,9 @@
                   </label>
                   <!-- Joined input group append example-->
                   <div class="input-group input-group-joined">
-                    <input
+                    <input th:field="*{email}"
                             class="form-control pe-0"
-                            type="text"
+                            type="email"
                             placeholder="Nhập mail"
                             aria-label="Search"
                     />
@@ -125,7 +124,7 @@
                   Vị trí
                 </label>
                 <!-- Joined input group append example-->
-                <textarea
+                <textarea th:field="*{address}"
                         class="form-control"
                         id="exampleFormControlTextarea1"
                         rows="3"

@@ -127,15 +127,34 @@ public class PotentialController {
         return "redirect:/potential/create";
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String goEditPage(Model model) {
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+    public String goEditPage(Model model, @Nullable @PathVariable("id") Long id) {
+        if (id == null){
+            return "redirect:/potential/home";
+        }
+        Potential potential = potentialService.getPotentialById(id);
+        if (potential == null){
+            return "redirect:/potential/home";
+        }
+        List<Source> sources = sourceRepository.getAll();
+        model.addAttribute("potential", potential);
+        model.addAttribute("sources", sources);
         return "/potential/edit-potential-hungNT-V2";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String edit(Model model, RedirectAttributes redirectAttributes) {
+    public String edit(RedirectAttributes redirectAttributes,
+                       @Nullable @ModelAttribute("potential") Potential potential) {
+        if (potential == null){
+            return "redirect:/potential/home";
+        }
+        boolean done = potentialService.editPotential(potential);
+        if (!done){
+            redirectAttributes.addFlashAttribute("message", "Không tìm thấy đầu mối");
+            return "redirect:/potential/home";
+        }
         redirectAttributes.addFlashAttribute("flag","showAlert");
-        return "redirect:/potential/edit";
+        return "redirect:/potential/" + potential.getId() + "/edit";
     }
 
     @RequestMapping(value = "/remove",  method = RequestMethod.POST)

@@ -1,8 +1,10 @@
 package com.gcl.crm.entity;
 
+import com.gcl.crm.enums.Status;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -54,10 +56,17 @@ public class Potential {
     private String note;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "level")
+    @JoinColumn(name = "level_id")
     private Level level;
 
-    private boolean available;
+    private Status status;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "potential")
+    private List<Comment> comments;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "potential")
+    private List<Activity> activities;
+
 
     @Override
     public boolean equals(Object o) {
