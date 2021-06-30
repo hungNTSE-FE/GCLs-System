@@ -43,42 +43,26 @@
               </div>
               <div class="col-12 col-xl-auto mb-3">
                 <!-- Extra large modal -->
-                <button
-                        class="btn btn-outline-dark"
-                        type="button"
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModalXl"
-                >
-                  <i
-                          class="fas fa-file-import"
-                          style="padding-right: 2px"
-                  ></i>
-                  Nhập dữ liệu
-                </button>
-                <a class="btn btn-outline-dark" th:href="@{/potential/create}">
-                  <i class="fas fa-plus" style="padding-right: 2px"></i>
-                  Thêm đầu mối
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-      <!-- Main page content-->
-      <div class="container-fluid px-4">
-        <div style="height: 100%; position: relative">
-          <div class="row">
-            <div class="col-lg-3 mb-4">
-              <!-- Report summary card example-->
-              <div class="card card-header-actions mb-4">
-                <div class="card-header">
-                  TRA CỨU
+                <div class="d-flex">
+                  <button
+                          class="btn btn-outline-dark mx-1"
+                          type="button"
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModalXl"
+                  >
+                    <i
+                            class="fas fa-file-import"
+                            style="padding-right: 2px"
+                    ></i>
+                    Nhập dữ liệu
+                  </button>
+                  <a class="btn btn-outline-dark mx-1" th:href="@{/potential/create}">
+                    <i class="fas fa-plus" style="padding-right: 2px"></i>
+                    Thêm đầu mối
+                  </a>
                   <div class="dropdown no-caret">
                     <button
-                            class="
-                            btn btn-transparent-dark btn-icon
-                            dropdown-toggle
-                          "
+                            class="btn btn-outline-dark dropdown-toggle"
                             id="dropdownMenuButton"
                             type="button"
                             data-bs-toggle="dropdown"
@@ -94,12 +78,31 @@
                           "
                             aria-labelledby="dropdownMenuButton"
                     >
-                      <a class="dropdown-item" href="#!">Hot Leads</a>
-                      <a class="dropdown-item" href="#!"
-                      >Leads chưa có nhân viên</a
+                      <a
+                              class="dropdown-item"
+                              href="#"
+                              data-bs-toggle="modal"
+                              data-bs-target="#exampleModalShareLead"
+                      >Chia sẻ đầu mối</a
                       >
                     </div>
                   </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <!-- Main page content-->
+      <div class="container-fluid px-4">
+        <div style="height: 100%; position: relative">
+          <div class="row">
+            <div class="col-lg-3 mb-4">
+              <!-- Report summary card example-->
+              <div class="card card-header-actions mb-4">
+                <div class="card-header">
+                  TRA CỨU
                 </div>
                 <div class="card-body">
                   <form th:action="@{/potential/search}" th:object="${searchForm}">
@@ -210,52 +213,66 @@
               <!-- Area chart example-->
               <div class="card mb-4">
                 <div class="card-body">
-                  <div class="d-flex mb-2">
-                    <button class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#removeModal">
-                      <i class="fas fa-trash-alt"></i>
-                    </button>
-                  </div>
-                  <table id="datatablesSimple">
-                    <thead>
-                    <tr>
-                      <th></th>
-                      <th>TÊN</th>
-                      <th>DI ĐỘNG</th>
-                      <th>EMAIL</th>
-                      <th>NGUỒN</th>
-                      <th>TÌNH TRẠNG</th>
-                      <th>GIAO CHO</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="potential : ${potentials}">
-                      <td>
-                        <div class="d-flex">
-                          <input class="m-1" type="checkbox" th:value="${potential.id}" name="pid" form="remove-form" />
-                          <a href="#" class="clickshowinfo text-dark mx-1">
-                            <i class="far fa-eye"></i>
+                  <form id="devel-generate-content-form">
+                    <div class="d-flex justify-content-between mb-2">
+                      <button class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#removeModal">
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                      <div class="info text-center">
+                        <span>Đang xem tất cả các Potential</span>
+                        <div class="flex-row">
+                          <a href="#" class="text-sm" id="general">Đã chọn <span id="count-checked-checkboxes">0</span> của Potential.
+                            <!-- Đã chọn  của trang 1. -->
                           </a>
-                          <a th:href="@{/potential/{id}/detail(id=${potential.id})}" class="text-dark mx-1">
-                            <i class="fas fa-info-circle"></i>
-                          </a>
-                          <a th:href="@{/potential/{id}/edit(id=${potential.id})}" class="text-dark mx-1">
-                            <i class="fas fa-edit"></i>
+                          <a href="#" class="text-sm" id="selectAll">
+                            Click vào đây để chọn tất cả (<span id="count-all-table"></span>)
                           </a>
                         </div>
-                      </td>
-                      <td th:text="${potential.name}"></td>
-                      <td th:text="${potential.phoneNumber}"></td>
-                      <td th:text="${potential.email}"></td>
-                      <td>
-                        <span th:if="${potential.source}" th:text="${potential.source.sourceName}"></span>
-                      </td>
-                      <td>
-                        <span th:if="${potential.level}" th:text="${potential.level.levelName}"></span>
-                      </td>
-                      <td th:text="${potential.sale}"></td>
-                    </tr>
-                    </tbody>
-                  </table>
+                      </div>
+                      <i class="fas fa-redo-alt" style="color: white"></i>
+                    </div>
+                    <table id="datatablesSimple">
+                      <thead>
+                      <tr>
+                        <th></th>
+                        <th>TÊN</th>
+                        <th>DI ĐỘNG</th>
+                        <th>EMAIL</th>
+                        <th>NGUỒN</th>
+                        <th>TÌNH TRẠNG</th>
+                        <th>GIAO CHO</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr th:each="potential : ${potentials}">
+                        <td>
+                          <div class="d-flex">
+                            <input class="m-1" type="checkbox" th:value="${potential.id}" name="pid" form="remove-form" />
+                            <a href="#" class="clickshowinfo text-dark mx-1">
+                              <i class="far fa-eye"></i>
+                            </a>
+                            <a th:href="@{/potential/{id}/detail(id=${potential.id})}" class="text-dark mx-1">
+                              <i class="fas fa-info-circle"></i>
+                            </a>
+                            <a th:href="@{/potential/{id}/edit(id=${potential.id})}" class="text-dark mx-1">
+                              <i class="fas fa-edit"></i>
+                            </a>
+                          </div>
+                        </td>
+                        <td th:text="${potential.name}"></td>
+                        <td th:text="${potential.phoneNumber}"></td>
+                        <td th:text="${potential.email}"></td>
+                        <td>
+                          <span th:if="${potential.source}" th:text="${potential.source.sourceName}"></span>
+                        </td>
+                        <td>
+                          <span th:if="${potential.level}" th:text="${potential.level.levelName}"></span>
+                        </td>
+                        <td th:text="${potential.sale}"></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </form>
                 </div>
               </div>
             </div>
@@ -311,6 +328,120 @@
               </button>
             </div>
           </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Share leads -->
+    <div
+            class="modal fade"
+            id="exampleModalShareLead"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="myExtraLargeModalLabel"
+            style="display: none"
+            aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Chia sẻ đầu mối (1)</h5>
+            <button
+                    class="btn-close"
+                    type="button"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <table id="datatablesShareLeads">
+              <thead>
+              <tr>
+                <th>TÊN ĐẦU MỐI</th>
+                <th>DI ĐỘNG</th>
+                <th>EMAIL</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>Nguyen Van A</td>
+                <td>0123456789</td>
+                <td>a@gmail.com</td>
+              </tr>
+              </tbody>
+            </table>
+
+            <hr class="mt-0 mb-4" />
+
+            <div class="row">
+              <div class="col-xs-3" style="width: 25%">
+                <select
+                        id="lstBox1"
+                        multiple="multiple"
+                        class="form-control"
+                        size="10"
+                >
+                  <option value="1">Test 1</option>
+                  <option value="2">Test 2</option>
+                  <option value="3">Test 3</option>
+                </select>
+              </div>
+
+              <div class="d-flex flex-column py-3" style="width: 10%">
+                <a
+                        id="btnRight"
+                        class="btn btn-block btn-sm btn-primary mb-1"
+                >Add</a
+                >
+                <a
+                        id="btnLeft"
+                        class="btn btn-block btn-sm btn-primary mb-1"
+                >Remove</a
+                >
+                <a
+                        id="btnRightall"
+                        class="btn btn-block btn-sm btn-primary mb-1"
+                >Add all</a
+                >
+                <a id="btnLeftall" class="btn btn-block btn-sm btn-primary"
+                >Remove all</a
+                >
+              </div>
+              <div class="col-xs-3" style="width: 25%">
+                <select
+                        id="lstBox2"
+                        multiple="multiple"
+                        class="form-control"
+                        size="10"
+                ></select>
+              </div>
+              <div class="col-xs-3" style="width: 40%">
+                <div class="form-check">
+                  <input
+                          class="form-check-input"
+                          id="flexCheckDefault"
+                          type="checkbox"
+                          value=""
+                  />
+                  <label class="form-check-label" for="flexCheckDefault"
+                  >Chia sẻ ngẫu nhiên toàn bộ đầu mối</label
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- <input
+              id="values"
+              class="form-control"
+              placeholder="Output IDs separated by commas here"
+            /> -->
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" type="button">Lưu</button>
+            <button class="btn btn-outline-dark" type="button">
+              Bỏ qua
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -485,13 +616,74 @@
 <!-- Latest compiled and minified JavaScript -->
 <script type="text/javascript" th:src="@{/js/datatables/datatables-simple-demo.js}"></script>
 <script type="text/javascript" th:src="@{/js/litepicker.js}"></script>
-
+<!--<script type="text/javascript" th:src="@{/js/dual-listbox.js}"></script>-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/bundle.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" crossorigin="anonymous"></script>
+<script th:inline="javascript">
+  $(document).ready(function () {
+    $("#btnRight").click(function (e) {
+      var selectedOpts = $("#lstBox1 option:selected");
+      if (selectedOpts.length == 0) {
+        alert("Nothing to move.");
+        e.preventDefault();
+      }
+
+      $("#lstBox2").append($(selectedOpts).clone());
+      $(selectedOpts).remove();
+      e.preventDefault();
+      updateIDs();
+    });
+
+    $("#btnLeft").click(function (e) {
+      var selectedOpts = $("#lstBox2 option:selected");
+      if (selectedOpts.length == 0) {
+        alert("Nothing to move.");
+        e.preventDefault();
+      }
+
+      $("#lstBox1").append($(selectedOpts).clone());
+      $(selectedOpts).remove();
+      e.preventDefault();
+      updateIDs();
+    });
+    $("#btnRightall").click(function (e) {
+      var selectedOpts = $("#lstBox1 option:not([disabled])");
+      if (selectedOpts.length == 0) {
+        alert("Nothing to move.");
+        e.preventDefault();
+      }
+      $("#lstBox2").append($(selectedOpts).clone());
+      $(selectedOpts).remove();
+      e.preventDefault();
+      updateIDs();
+    });
+
+    $("#btnLeftall").click(function (e) {
+      var selectedOpts = $("#lstBox2 option:not([disabled])");
+      if (selectedOpts.length == 0) {
+        alert("Nothing to move.");
+        e.preventDefault();
+      }
+      $("#lstBox1").append($(selectedOpts).clone());
+      $(selectedOpts).remove();
+      e.preventDefault();
+      updateIDs();
+    });
+  });
+
+  function updateIDs() {
+    $("#values").val("");
+    $("#lstBox2 option").each(function (index) {
+      console.log($(this).val());
+      $("#values").val($("#values").val() + $(this).val() + ",");
+    });
+  }
+
+</script>
 <script th:inline="javascript">
   const dataTable = new simpleDatatables.DataTable("#datatablesSimple", {
     fixedHeight: true,
@@ -502,8 +694,36 @@
       noRows: "Không có đầu mối",
     },
   });
-</script>
 
+  const dataTableShareLeads = new simpleDatatables.DataTable("#datatablesShareLeads", {
+    perPage: 5,
+    searchable: false,
+    perPageSelect: false,
+    labels: {
+      noRows: "Không có đầu mối",
+      info: "",
+    },
+  });
+
+  //Count Checkbox
+  $(document).ready(function() {
+    var $checkboxes = $('#devel-generate-content-form td .d-flex input[type="checkbox"]');
+    var rowCount = $('#datatablesSimple tr').length - 1;
+    $('#count-all-table').text(rowCount);
+
+    $checkboxes.change(function() {
+      var countCheckedCheckboxes = $checkboxes.filter(':checked').length;
+      $('#count-checked-checkboxes').text(countCheckedCheckboxes);
+    })
+  });
+
+  //Select all checkbox with button
+  var clicked = false;
+  $("#selectAll").on("click", function () {
+    $('#datatablesSimple tr td input[type="checkbox"]').prop("checked", !clicked);
+    clicked = !clicked;
+  });
+</script>
 <script th:inline="javascript">
   $(".clickshowinfo").click(function () {
     var id = $(this).data("id");
@@ -522,7 +742,6 @@
     e.stopPropagation();
   });
 </script>
-
 <script th:inline="javascript">
   /*<![CDATA[*/
   $(document).ready(function() {
