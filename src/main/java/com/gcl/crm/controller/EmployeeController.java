@@ -42,6 +42,11 @@ public class EmployeeController {
         return "employee/home-employee-page-V2";
     }
 
+    @RequestMapping(value = "/homeGroup", method = RequestMethod.GET)
+    public String getHomeGroupPage(Model model) {
+        return "employee/group-employee-page-V2";
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String getInsertPage(Model model) {
         Employee employee = new Employee();
@@ -88,6 +93,11 @@ public class EmployeeController {
         model.addAttribute("positions", positions);
         model.addAttribute("employee", employee);
         return "employee/edit-employee-page-V2";
+    }
+
+    @RequestMapping(value = "/editGroup", method = RequestMethod.GET)
+    public String goEditGroupPage(Model model) {
+        return "employee/edit-group-employee-page-V2";
     }
 
     @PostMapping({"/edit"})
