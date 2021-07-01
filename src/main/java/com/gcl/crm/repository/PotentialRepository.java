@@ -12,11 +12,13 @@ import java.util.Optional;
 
 @Repository
 public interface PotentialRepository extends JpaRepository<Potential, Long> {
+    Potential findPotentialByPhoneNumberAndIdNot(String phone, Long id);
+    Potential findPotentialByEmailAndIdNot(String email, Long id);
     Potential findPotentialByPhoneNumber(String phone);
     Potential findPotentialByEmail(String email);
     Potential findPotentialByIdAndStatus(Long id, Status status);
     Optional<Potential> findById(Long id);
     List<Potential> findAllByStatus(Status status);
-    List<Potential> findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndSourceAndLevelAndStatus
-            (String name, String phone, String email, Source source, Level level, Status status);
+    List<Potential> findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndStatus
+            (String name, String phone, String email, Status status);
 }

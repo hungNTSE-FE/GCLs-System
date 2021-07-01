@@ -59,6 +59,7 @@ public class Potential {
     @JoinColumn(name = "level_id")
     private Level level;
 
+    @Enumerated(EnumType.ORDINAL)
     private Status status;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "potential")

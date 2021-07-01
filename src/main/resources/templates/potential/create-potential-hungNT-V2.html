@@ -69,7 +69,7 @@
                 </div>
                 <div class="col-lg-6">
                   <label class="text-sm">Nguồn <span style="color: red">*</span></label>
-                  <select class="form-select" id="filterDropdown" th:field="*{source}">
+                  <select class="form-select" id="filterDropdown" th:field="*{sourceName}">
                     <option th:each="source : ${sources}"
                             th:value="${source.sourceName}"
                             th:text="${source.sourceName}"
