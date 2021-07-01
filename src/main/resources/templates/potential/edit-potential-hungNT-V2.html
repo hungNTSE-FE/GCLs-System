@@ -76,7 +76,7 @@
                   <label class="text-sm">
                     Nguồn <span style="color: red">*</span>
                   </label>
-                  <select class="form-select" id="filterDropdown" name="source-id">
+                  <select class="form-select" id="filterDropdown" th:field="*{source.sourceId}">
                     <option th:each="source : ${sources}" th:text="${source.sourceName}" th:value="${source.sourceId}"
                             th:selected="${source.equals(potential.source)}"></option>
                   </select>
@@ -100,6 +100,7 @@
                           <i data-feather="phone"></i>
                         </span>
                   </div>
+                  <span th:if="${duplicatePhone}" th:text="${duplicatePhone}"></span>
                 </div>
                 <div class="col-lg-6">
                   <label class="text-sm">
@@ -117,6 +118,7 @@
                           <i data-feather="mail"></i>
                         </span>
                   </div>
+                  <span th:if="${duplicateEmail}" th:text="${duplicateEmail}"></span>
                 </div>
               </div>
               <div class="mb-3">

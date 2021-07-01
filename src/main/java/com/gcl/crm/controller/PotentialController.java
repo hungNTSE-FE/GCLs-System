@@ -108,11 +108,11 @@ public class PotentialController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(Model model, @ModelAttribute("potentialForm") Potential potential, RedirectAttributes redirectAttributes) {
         boolean error = false;
-        if (potentialService.isPhoneExisted(potential.getPhoneNumber())){
+        if (potentialService.isPhoneExisted(potential.getPhoneNumber(), potential.getId())){
             model.addAttribute("duplicatePhone", "Số điện thoại này đã tồn tại");
             error = true;
         }
-        if (potentialService.isEmailExisted(potential.getEmail())){
+        if (potentialService.isEmailExisted(potential.getEmail(), potential.getId())){
             model.addAttribute("duplicateEmail", "Email này đã tồn tại");
             error = true;
         }
@@ -136,6 +136,9 @@ public class PotentialController {
         if (potential == null){
             return "redirect:/potential/home";
         }
+        if (potential.getSource() == null){
+            potential.setSource(new Source());
+        }
         List<Source> sources = sourceRepository.getAll();
         model.addAttribute("potential", potential);
         model.addAttribute("sources", sources);
@@ -143,10 +146,24 @@ public class PotentialController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String edit(RedirectAttributes redirectAttributes,
+    public String edit(Model model, RedirectAttributes redirectAttributes,
                        @Nullable @ModelAttribute("potential") Potential potential) {
         if (potential == null){
             return "redirect:/potential/home";
+        }
+        boolean error = false;
+        if (potentialService.isPhoneExisted(potential.getPhoneNumber(), potential.getId())){
+            model.addAttribute("duplicatePhone", "Số điện thoại này đã tồn tại");
+            error = true;
+        }
+        if (potentialService.isEmailExisted(potential.getEmail(), potential.getId())){
+            model.addAttribute("duplicateEmail", "Email này đã tồn tại");
+            error = true;
+        }
+        if (error){
+            List<Source> sources = sourceRepository.getAll();
+            model.addAttribute("sources", sources);
+            return "/potential/edit-potential-hungNT-V2";
         }
         boolean done = potentialService.editPotential(potential);
         if (!done){

@@ -33,8 +33,8 @@ public class PotentialService {
             return false;
         }
         for (Potential potential : potentials){
-            Potential savedData1 = potentialRepository.findPotentialByPhoneNumber(potential.getPhoneNumber());
-            Potential savedData2 = potentialRepository.findPotentialByEmail(potential.getEmail());
+            Potential savedData1 = potentialRepository.findPotentialByPhoneNumberAndIdNot(potential.getPhoneNumber(), null);
+            Potential savedData2 = potentialRepository.findPotentialByEmailAndIdNot(potential.getEmail(), null);
             if (savedData1 != null || savedData2 != null){
                 continue;
             }
@@ -56,7 +56,7 @@ public class PotentialService {
         potential.setAddress(newPotential.getAddress());
         potential.setEmail(newPotential.getEmail());
         potential.setPhoneNumber(newPotential.getPhoneNumber());
-        potential.setSource(sourceService.getSourceById(newPotential.getId()));
+        potential.setSource(sourceService.getSourceById(newPotential.getSource().getSourceId()));
         potentialRepository.save(potential);
         return true;
     }
@@ -77,6 +77,7 @@ public class PotentialService {
         String sourceName = potential.getSourceName();
         Source source = sourceService.getSourceByName(sourceName);
         potential.setSource(source);
+        potential.setStatus(Status.ACTIVE);
         Potential poten = potentialRepository.save(potential);
         return poten != null;
     }
@@ -129,8 +130,8 @@ public class PotentialService {
         }
         Source source = sourceService.getSourceByName(searchForm.getSource());
         List<Potential> potentials = potentialRepository
-                .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndSourceAndLevelAndStatus
-                        (searchForm.getName(), searchForm.getPhone(), searchForm.getEmail(), source, level, Status.ACTIVE);
+                .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndStatus
+                        (searchForm.getName(), searchForm.getPhone(), searchForm.getEmail(), Status.ACTIVE);
         String[] dateRange = searchForm.getTime().split("-");
         Date date1 = new Date(Date.parse(dateRange[0].trim()));
         Date date2 = new Date(Date.parse(dateRange[1].trim()));
@@ -138,26 +139,42 @@ public class PotentialService {
         List<Potential> result = new ArrayList<>();
         for (int i = 0; i < potentials.size(); i++) {
             Potential potential = potentials.get(i);
+            boolean flag = true;
             Date date = null;
             try {
                 date = simpleDateFormat.parse(potential.getDate());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            if (!(date.before(date1) || date.after(date2))){
+            if ((date.before(date1) || date.after(date2))){
+                flag = false;
+            }
+            if (level != null){
+                if (!level.equals(potential.getLevel())){
+                    flag = false;
+                }
+            }
+            if (source != null){
+                if (!source.equals(potential.getSource())){
+                    flag = false;
+                }
+            }
+            if (flag){
                 result.add(potential);
             }
         }
         return result;
     }
 
-    public boolean isPhoneExisted(String phone){
-        Potential potential = potentialRepository.findPotentialByPhoneNumber(phone);
+    public boolean isPhoneExisted(String phone, Long id){
+        Potential potential = (id != null) ? potentialRepository.findPotentialByPhoneNumberAndIdNot(phone, id)
+                : potentialRepository.findPotentialByPhoneNumber(phone);
         return potential != null;
     }
 
-    public boolean isEmailExisted(String email){
-        Potential potential = potentialRepository.findPotentialByEmail(email);
+    public boolean isEmailExisted(String email, Long id){
+        Potential potential = (id != null) ? potentialRepository.findPotentialByEmailAndIdNot(email, id)
+                : potentialRepository.findPotentialByEmail(email);
         return potential != null;
     }
 }
