@@ -2,6 +2,7 @@ package com.gcl.crm.service;
 
 import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.EmployeeStatus;
+import com.gcl.crm.enums.Status;
 import com.gcl.crm.repository.EmployeeRepository;
 import com.gcl.crm.repository.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,6 +130,29 @@ public class EmployeeServiceImpl implements EmployeeService{
         userService.disableUserByEmployeeId(eid);
         employeeRepository.save(employee);
         return true;
+    }
+
+    @Override
+    public List<Employee> getAllNotGroupedEmployees() {
+        List<Employee> employees = this.getAllWorkingEmployees();
+        List<Employee> result = new ArrayList<>();
+        for (Employee employee : employees){
+            if (employee.getMarketingGroups() == null || employee.getMarketingGroups().size() == 0){
+                result.add(employee);
+                continue;
+            }
+            boolean flag = true;
+            for (MarketingGroup group : employee.getMarketingGroups()){
+                if (group.getStatus().equals(Status.ACTIVE)){
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag){
+                result.add(employee);
+            }
+        }
+        return result;
     }
 
 }

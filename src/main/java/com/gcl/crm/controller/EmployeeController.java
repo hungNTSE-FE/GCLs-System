@@ -55,7 +55,7 @@ public class EmployeeController {
 //        if (principal == null) {
 //            return ERROR_404;
 //        }
-        List<Employee> employees = employeeService.getAllWorkingEmployees();
+        List<Employee> employees = employeeService.getAllNotGroupedEmployees();
         MarketingGroup marketingGroup = new MarketingGroup();
         List<MarketingGroup> marketingGroups = marketingGroupService.getAllMktByStatus();
         model.addAttribute("marketingGroups", marketingGroups);
