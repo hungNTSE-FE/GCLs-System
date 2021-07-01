@@ -1,9 +1,6 @@
 package com.gcl.crm.service;
 
-import com.gcl.crm.entity.AppUser;
-import com.gcl.crm.entity.Department;
-import com.gcl.crm.entity.Employee;
-import com.gcl.crm.entity.Position;
+import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.EmployeeStatus;
 import com.gcl.crm.repository.EmployeeRepository;
 import com.gcl.crm.repository.UserJpaRepository;
@@ -11,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +37,23 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public List<Employee> getAllWorkingEmployees() {
+
         return employeeRepository.findAllByStatusNot(EmployeeStatus.OFF_WORKING);
+    }
+
+    @Override
+    public List<Employee> getEmployeesByIdList(List<Long> aidList) {
+        if (aidList == null) {
+            return null;
+        }
+        List<Employee> employees = new ArrayList<>();
+        for (int i = 0; i < aidList.size(); i++) {
+            Optional<Employee> employee = employeeRepository.findByIdAndStatusNot(aidList.get(i), EmployeeStatus.OFF_WORKING);
+            if (employee.isPresent()) {
+                employees.add(employee.get());
+            }
+        }
+        return employees;
     }
 
     @Override

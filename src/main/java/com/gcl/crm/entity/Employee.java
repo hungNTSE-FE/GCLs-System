@@ -81,6 +81,9 @@ public class Employee {
     @JoinColumn(name = "position_id")
     private Position position;
 
+    @ManyToMany(mappedBy = "employees", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MarketingGroup> marketingGroups;
+
     public Employee() {
     }
 
@@ -88,7 +91,5 @@ public class Employee {
         this.id = id;
     }
 
-    //    @OneToOne(mappedBy = "modifier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private Department manageDepartment;
 
 }

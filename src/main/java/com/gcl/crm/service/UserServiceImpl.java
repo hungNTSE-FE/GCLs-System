@@ -41,6 +41,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public AppUser getAppUserByUsername(String userName) {
+        return userRepository2.findAppUserByUserName(userName);
+    }
+
+    @Override
     public AppUser getUserByEmployeeId(Long employeeId) {
         Employee employee = employeeService.getEmployeeById(employeeId);
         AppUser appUser = userJpaRepository.findAppUserByEmployee(employee);

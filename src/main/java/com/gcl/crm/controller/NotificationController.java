@@ -84,6 +84,7 @@ public class NotificationController {
                              RedirectAttributes redirectAttributes) throws MessagingException {
         MimeMessage messageMime = emailSender.createMimeMessage();
         boolean multipart = true;
+        System.out.println(selectUser);
         MimeMessageHelper helper = new MimeMessageHelper(messageMime, multipart);
         List<AppUser> appUsers = userService.getAppUsersByIdList(selectUser);
         for (int i = 0; i < appUsers.size(); i++) {

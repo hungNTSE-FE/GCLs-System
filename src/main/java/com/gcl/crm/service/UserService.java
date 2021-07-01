@@ -9,4 +9,5 @@ public interface UserService {
     AppUser getUserByEmployeeId(Long employeeId);
     void disableUserByEmployeeId(Long employeeId);
     boolean checkUsername(String userName);
+    AppUser getAppUserByUsername(String userName);
 }

@@ -2,22 +2,25 @@ package com.gcl.crm.controller;
 
 import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.EmployeeStatus;
-import com.gcl.crm.service.DepartmentService;
-import com.gcl.crm.service.EmployeeService;
-import com.gcl.crm.service.PositionService;
-import com.gcl.crm.service.UserService;
+import com.gcl.crm.service.*;
+import com.gcl.crm.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
 @RequestMapping("/employee")
 public class EmployeeController {
+    private static final String HOME_GROUP_PAGE = "employee/group-employee-page-V2";
+    private static final String ERROR_404 = "error/error-400";
 
     @Autowired
     EmployeeService employeeService;
@@ -31,6 +34,11 @@ public class EmployeeController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    MarketingGroupService marketingGroupService;
+
+
+
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String getHomePage(Model model) {
         List<Employee> employees = employeeService.getAllWorkingEmployees();
@@ -42,21 +50,51 @@ public class EmployeeController {
         return "employee/home-employee-page-V2";
     }
 
-    @RequestMapping(value = "/homeGroup", method = RequestMethod.GET)
+    @RequestMapping(value = "/marketing-group", method = RequestMethod.GET)
     public String getHomeGroupPage(Model model) {
-        return "employee/group-employee-page-V2";
+//        if (principal == null) {
+//            return ERROR_404;
+//        }
+        List<Employee> employees = employeeService.getAllWorkingEmployees();
+        MarketingGroup marketingGroup = new MarketingGroup();
+        List<MarketingGroup> marketingGroups = marketingGroupService.getAllMktByStatus();
+        model.addAttribute("marketingGroups", marketingGroups);
+        model.addAttribute("marketingGroup", marketingGroup);
+        model.addAttribute("employees", employees);
+        return HOME_GROUP_PAGE;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String getInsertPage(Model model) {
+    public String getInsertPage(Model model, Principal principal) {
+        if (principal == null) {
+            return ERROR_404;
+        }
         Employee employee = new Employee();
         employee.setAppUser(new AppUser());
+
         List<Department> departments = departmentService.findAllDepartments();
         List<Position> positions = positionService.findAllPositions();
         model.addAttribute("employee", employee);
         model.addAttribute("departments", departments);
         model.addAttribute("positions", positions);
         return "employee/insert-employee-page-V2";
+    }
+
+    @RequestMapping(value = "/marketing-group/create", method = RequestMethod.POST)
+    public String createGroupMKT(Model model,
+                                 @Nullable @ModelAttribute("marketingGroup") MarketingGroup marketingGroup,
+                                 @RequestParam("listSelected") List<Long> aidList,
+                                 Principal principal,
+                                 RedirectAttributes redirectAttributes) {
+        User loginedUser = (User) ((Authentication) principal).getPrincipal();
+        AppUser appUser = userService.getAppUserByUsername(loginedUser.getUsername());
+        System.out.println(aidList);
+        marketingGroup.setMaker(appUser.getUserId());
+
+        boolean done = marketingGroupService.createMarketingGroup(marketingGroup, aidList);
+
+        redirectAttributes.addFlashAttribute("flag","showAlert");
+        return "redirect:/employee/marketing-group";
     }
 
     @PostMapping({"/create"})
