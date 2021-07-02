@@ -80,12 +80,12 @@
                   <div class="ui multiple selection dropdown">
                     <i class="dropdown icon"></i>
                     <div class="default text">Chọn nhân viên</div>
-                    <select multiple="" id="multi-select" name="members">
+                    <select multiple id="multi-select" name="members">
                       <option value="">Categories</option>
-                      <option th:each="employee : ${marketingGroup.employees}"
+                      <option th:each="employee : ${employees}"
                               th:value="${employee.id}"
-                              th:text="${employee.name} + '(' + ${employee.companyEmail} + ')'"
-                              th:selected="${employee.name} + '(' + ${employee.companyEmail} + ')'"
+                              th:text="${employee.name} + ' (' + ${employee.companyEmail} + ')'"
+                              th:selected="${marketingGroup.employees.contains(employee)}"
                       ></option>
                     </select>
                   </div>

@@ -86,6 +86,8 @@ public class EmployeeController {
         if (marketingGroup == null) {
             return "redirect:/employee/marketing-group";
         }
+        List<Employee> employees = employeeService.getAllWorkingEmployees();
+        model.addAttribute("employees", employees);
         model.addAttribute("marketingGroup", marketingGroup);
         return UPDATE_GROUP_PAGE;
     }
