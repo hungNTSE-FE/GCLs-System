@@ -155,4 +155,8 @@ public class EmployeeServiceImpl implements EmployeeService{
         return result;
     }
 
+    @Override
+    public List<Employee> getAllGroupedEmployees() {
+        return null;
+    }
 }

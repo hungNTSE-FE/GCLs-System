@@ -13,6 +13,5 @@ import java.util.Optional;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findAllByStatusNot(EmployeeStatus status);
-    List<Employee> findAllByMarketingGroups(Long id);
     Optional<Employee> findByIdAndStatusNot(Long id, EmployeeStatus status);
 }

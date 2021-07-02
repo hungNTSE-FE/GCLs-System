@@ -69,26 +69,38 @@
                             <div class="card card-header-actions mb-4">
                                 <div class="card-header">TRA CỨU</div>
                                 <div class="card-body">
-                                    <form>
+                                    <form th:action="@{/employee/marketing-group/search}" method="POST" th:object="${marketingGroup}">
                                         <div class="mb-3">
-                                            <label class="text-sm"
-                                            >Tên nhóm</label
-                                            >
+                                            <label class="text-sm">
+                                                Mã ID
+                                            </label>
                                             <input
                                                     class="form-control"
-                                                    id="filterTextLevel"
+                                                    type="text"
+                                                    placeholder="Nhập mã"
+                                                    th:field="*{code}"
+                                            />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="text-sm">
+                                                Tên nhóm
+                                            </label>
+                                            <input
+                                                    class="form-control"
                                                     type="text"
                                                     placeholder="Nhập tên nhóm"
+                                                    th:field="*{name}"
                                             />
                                         </div>
                                         <div class="d-flex align-center">
                                             <button
                                                     class="btn btn-primary"
+                                                    type="submit"
                                                     style="margin-right: 10px"
                                             >
                                                 Tìm kiếm
                                             </button>
-                                            <button class="btn btn-outline-dark">Mặc định</button>
+                                            <button class="btn btn-outline-dark" type="reset">Mặc định</button>
                                         </div>
                                     </form>
                                 </div>
@@ -112,7 +124,7 @@
                                         <tr th:each="marketingGroupp : ${marketingGroups}">
                                             <td>
                                                 <div class="d-flex">
-                                                    <a href="#" class="text-dark mx-1">
+                                                    <a th:href="@{/employee/marketing-group/update/{id}(id=${marketingGroupp.id})}" class="text-dark mx-1">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                     <a href="#" class="text-dark clickshowinfo">
@@ -304,7 +316,7 @@
         </div>
     </div>
 </div>
-
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
 <!-- Latest compiled and minified JavaScript -->
@@ -395,6 +407,33 @@
         popup: $(".description.popup"),
         on: "click",
     });
+</script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function() {
+        var showtext = /*[[${flag}]]*/ "";
+        console.log(showtext);
+        if (showtext === 'showAlert') {
+            swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Thêm nhóm thành công",
+                showConfirmButton: false,
+                timer: 5000,
+            });
+        }
+        else if (showtext === 'showAlertError') {
+            swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Thêm nhóm thất bại",
+                text: 'Mã ID này đã tồn tại!',
+                showConfirmButton: false,
+                timer: 5000,
+            });
+        }
+    });
+    /*]]>*/
 </script>
 </body>
 </html>

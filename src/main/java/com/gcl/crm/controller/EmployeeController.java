@@ -3,7 +3,6 @@ package com.gcl.crm.controller;
 import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.EmployeeStatus;
 import com.gcl.crm.service.*;
-import com.gcl.crm.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
@@ -20,6 +19,7 @@ import java.util.List;
 @RequestMapping("/employee")
 public class EmployeeController {
     private static final String HOME_GROUP_PAGE = "employee/group-employee-page-V2";
+    private static final String UPDATE_GROUP_PAGE = "employee/edit-group-employee-page-V2";
     private static final String ERROR_404 = "error/error-400";
 
     @Autowired
@@ -41,7 +41,7 @@ public class EmployeeController {
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String getHomePage(Model model) {
-        List<Employee> employees = employeeService.getAllWorkingEmployees();
+        List<Employee> employees = employeeService.getAllNotGroupedEmployees();
         List<Department> departments = departmentService.findAllDepartments();
         List<Position> positions = positionService.findAllPositions();
         model.addAttribute("employees", employees);
@@ -80,6 +80,16 @@ public class EmployeeController {
         return "employee/insert-employee-page-V2";
     }
 
+    @RequestMapping(value = "/marketing-group/update/{id}", method = RequestMethod.GET)
+    public String getUpdateGroupPage(Model model, @Nullable @PathVariable("id") String id) {
+        MarketingGroup marketingGroup = marketingGroupService.findMarketGroupById(id);
+        if (marketingGroup == null) {
+            return "redirect:/employee/marketing-group";
+        }
+        model.addAttribute("marketingGroup", marketingGroup);
+        return UPDATE_GROUP_PAGE;
+    }
+
     @RequestMapping(value = "/marketing-group/create", method = RequestMethod.POST)
     public String createGroupMKT(Model model,
                                  @Nullable @ModelAttribute("marketingGroup") MarketingGroup marketingGroup,
@@ -88,11 +98,13 @@ public class EmployeeController {
                                  RedirectAttributes redirectAttributes) {
         User loginedUser = (User) ((Authentication) principal).getPrincipal();
         AppUser appUser = userService.getAppUserByUsername(loginedUser.getUsername());
-        System.out.println(aidList);
+        boolean  error = false;
+        if (!error && marketingGroupService.isCodeExisted(marketingGroup.getCode(), marketingGroup.getId())) {
+            redirectAttributes.addFlashAttribute("flag","showAlertError");
+            return "redirect:/employee/marketing-group";
+        }
         marketingGroup.setMaker(appUser.getUserId());
-
         boolean done = marketingGroupService.createMarketingGroup(marketingGroup, aidList);
-
         redirectAttributes.addFlashAttribute("flag","showAlert");
         return "redirect:/employee/marketing-group";
     }
@@ -170,5 +182,14 @@ public class EmployeeController {
             model.addAttribute("error", "Đã có lỗi xảy ra! Xóa thất bại");
         }
         return "redirect:/employee/home";
+    }
+
+    @RequestMapping(value = "/marketing-group/search", method = RequestMethod.POST)
+    public String search(Model model, @Nullable @ModelAttribute("marketingGroup") MarketingGroup searchForm) {
+        List<Employee> employees = employeeService.getAllNotGroupedEmployees();
+        List<MarketingGroup> marketingGroups = marketingGroupService.searchAllGroupMktByCode(searchForm);
+        model.addAttribute("employees", employees);
+        model.addAttribute("marketingGroups", marketingGroups);
+        return HOME_GROUP_PAGE;
     }
 }

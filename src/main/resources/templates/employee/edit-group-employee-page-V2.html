@@ -37,7 +37,7 @@
                       <a href="#">Nhóm nhân viên</a>
                     </li>
                     <li class="breadcrumb-item">
-                      <a th:href="@{/employee/homeGroup}">Tất cả</a>
+                      <a th:href="@{/employee/marketing-group}">Tất cả</a>
                     </li>
                     <li class="breadcrumb-item active">Nhóm A</li>
                   </ol>
@@ -59,7 +59,7 @@
                   <label>Mã ID <span style="color: red">*</span></label>
                 </div>
                 <div class="col-sm-7 field description">
-                  <input placeholder="Nhập mã ID" name="id" type="text" />
+                  <input placeholder="Nhập mã ID" name="id" type="text" th:value="${marketingGroup.code}"/>
                 </div>
               </div>
               <div class="row mb-2">
@@ -67,11 +67,7 @@
                   <label>Tên nhóm <span style="color: red">*</span></label>
                 </div>
                 <div class="col-sm-7 field description">
-                  <input
-                          placeholder="Nhập tên nhóm..."
-                          name="name"
-                          type="text"
-                  />
+                  <input placeholder="Nhập tên nhóm..." name="name" type="text" th:value="${marketingGroup.name}"/>
                 </div>
               </div>
               <div class="row mb-2">
@@ -86,15 +82,11 @@
                     <div class="default text">Chọn nhân viên</div>
                     <select multiple="" id="multi-select" name="members">
                       <option value="">Categories</option>
-                      <option value="a@giacatloi.com">
-                        Duy Anh (a@giacatloi.com)
-                      </option>
-                      <option value="b@giacatloi.com">
-                        Huu Tinh (b@giacatloi.com)
-                      </option>
-                      <option value="c@giacatloi.com">
-                        Duc Duy (c@giacatloi.com)
-                      </option>
+                      <option th:each="employee : ${marketingGroup.employees}"
+                              th:value="${employee.id}"
+                              th:text="${employee.name} + '(' + ${employee.companyEmail} + ')'"
+                              th:selected="${employee.name} + '(' + ${employee.companyEmail} + ')'"
+                      ></option>
                     </select>
                   </div>
                 </div>

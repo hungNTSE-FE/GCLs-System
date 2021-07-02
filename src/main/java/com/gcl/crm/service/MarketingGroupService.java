@@ -5,6 +5,10 @@ import com.gcl.crm.entity.MarketingGroup;
 import java.util.List;
 
 public interface MarketingGroupService {
-    boolean createMarketingGroup(MarketingGroup marketingGroup, List<Long> actionIds);
+    MarketingGroup findMarketGroupById(String id);
     List<MarketingGroup> getAllMktByStatus();
+    List<MarketingGroup> searchAllGroupMktByCode(MarketingGroup searchForm);
+    boolean isCodeExisted(String code, Long id);
+    boolean createMarketingGroup(MarketingGroup marketingGroup, List<Long> actionIds);
+    boolean updateMarketingGroup(MarketingGroup marketingGroup);
 }

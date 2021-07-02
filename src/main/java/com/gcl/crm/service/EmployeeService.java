@@ -14,4 +14,5 @@ public interface EmployeeService {
     boolean updateEmployee(Employee employee, Long pid, Long did, String userName, String password);
     boolean deleteEmployee(Long eid);
     List<Employee> getAllNotGroupedEmployees();
+    List<Employee> getAllGroupedEmployees();
 }

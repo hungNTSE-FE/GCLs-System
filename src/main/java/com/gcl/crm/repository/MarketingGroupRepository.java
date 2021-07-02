@@ -10,4 +10,8 @@ import java.util.List;
 @Repository
 public interface MarketingGroupRepository extends JpaRepository<MarketingGroup, Long> {
     List<MarketingGroup> findAllByStatus(Status status);
+    List<MarketingGroup> findAllByStatusAndCodeContainingAndNameContaining(Status status, String code, String name);
+    MarketingGroup findMarketingGroupByCodeAndIdNot(String code, Long id);
+    MarketingGroup findMarketingGroupByCode(String code);
+    MarketingGroup findByIdAndStatus(Long id, Status status);
 }
