@@ -121,7 +121,7 @@
               </div>
               <div class="d-flex align-center">
                 <input type="hidden" name="id" th:value="*{marketingGroup.id}"/>
-                <input type="hidden" name="listSelected" value=""/>
+                <input type="hidden" name="listSelected" th:value="*{membersGroup}"/>
                 <button
                         class="ui blue submit button"
                         style="margin-right: 10px"
@@ -195,12 +195,15 @@
 <script th:inline="javascript">
   $("#multi-select").dropdown("get value");
 
-  $("#multi-select").change(function () {
-    var meals = $(this).val();
-    var selectedmeals = meals.join(", ");
-    console.log(selectedmeals);
-    $("input[name=listSelected]").val(selectedmeals);
-  });
+  $(document).ready(function() {
+    $("#multi-select").change(function () {
+      var meals = $(this).val();
+      var selectedmeals = meals.join(", ");
+      console.log(selectedmeals);
+      $("input[name=listSelected]").val(selectedmeals);
+    });
+  })
+
 
   $(".ui.form").form({
     fields: {

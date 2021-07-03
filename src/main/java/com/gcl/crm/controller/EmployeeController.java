@@ -8,6 +8,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,7 +25,7 @@ import java.util.stream.Stream;
 public class EmployeeController {
     private static final String HOME_GROUP_PAGE = "employee/group-employee-page-V2";
     private static final String UPDATE_GROUP_PAGE = "employee/edit-group-employee-page-V2";
-    private static final String ERROR_404 = "error/error-400";
+    private static final String ERROR_400 = "error/error-400";
 
     @Autowired
     EmployeeService employeeService;
@@ -44,7 +45,10 @@ public class EmployeeController {
 
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public String getHomePage(Model model) {
+    public String getHomePage(Model model, Principal principal) {
+        if (principal == null) {
+            return ERROR_400;
+        }
         List<Employee> employees = employeeService.getAllNotGroupedEmployees();
         List<Department> departments = departmentService.findAllDepartments();
         List<Position> positions = positionService.findAllPositions();
@@ -57,7 +61,7 @@ public class EmployeeController {
     @RequestMapping(value = "/marketing-group", method = RequestMethod.GET)
     public String getHomeGroupPage(Model model, Principal principal) {
         if (principal == null) {
-            return ERROR_404;
+            return ERROR_400;
         }
         List<Employee> employees = employeeService.getAllNotGroupedEmployees();
         MarketingGroup marketingGroup = new MarketingGroup();
@@ -71,7 +75,7 @@ public class EmployeeController {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String getInsertPage(Model model, Principal principal) {
         if (principal == null) {
-            return ERROR_404;
+            return ERROR_400;
         }
         Employee employee = new Employee();
         employee.setAppUser(new AppUser());
@@ -86,8 +90,9 @@ public class EmployeeController {
 
     @RequestMapping(value = "/marketing-group/update/{id}", method = RequestMethod.GET)
     public String getUpdateGroupPage(Model model, @Nullable @PathVariable("id") String id, Principal principal) {
+        List<Long> arr = new ArrayList<Long>();
         if (principal == null) {
-            return ERROR_404;
+            return ERROR_400;
         }
         MarketingGroup marketingGroupById = marketingGroupService.findMarketGroupById(id);
         if (marketingGroupById == null) {
@@ -98,6 +103,16 @@ public class EmployeeController {
         List<Employee> employeesInGroup = marketingGroupById.getEmployees();
         List<Employee> union = Stream.concat( empTest.stream(), employeesInGroup.stream())
                 .collect( Collectors.toList());
+
+        for (int i = 0; i < employeesInGroup.size(); i++) {
+            arr.add(employeesInGroup.get(i).getId());
+        }
+        String stringArr = arr.stream()
+                .map(n -> String.valueOf(n))
+                .collect(Collectors.joining(", "));
+
+        model.addAttribute("membersGroup", stringArr);
+        model.addAttribute("employeeInsiteGroup", employeesInGroup);
         model.addAttribute("employees", union);
         model.addAttribute("marketingGroup", marketingGroupById);
         return UPDATE_GROUP_PAGE;
