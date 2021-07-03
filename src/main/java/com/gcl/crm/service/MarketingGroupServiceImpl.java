@@ -39,12 +39,25 @@ public class MarketingGroupServiceImpl implements MarketingGroupService{
     }
 
     @Override
-    public boolean updateMarketingGroup(MarketingGroup marketingGroup) {
+    public boolean updateMarketingGroup(MarketingGroup marketingGroup, List<Long> actionIds) {
         if (marketingGroup.getId() == null) {
             return false;
         }
+        marketingGroup.setEmployees(employeeService.getEmployeesByIdList(actionIds));
+        marketingGroup.setLastModified(getCurrentDate());
         MarketingGroup mktGroup = marketingGroupRepository.save(marketingGroup);
         return mktGroup != null;
+    }
+
+    @Override
+    public boolean deleteMarketingGroup(MarketingGroup marketingGroup) {
+        if (marketingGroup == null) {
+            return false;
+        }
+        marketingGroup.setLastModified(getCurrentDate());
+        marketingGroup.setStatus(Status.INACTIVE);
+        MarketingGroup market = marketingGroupRepository.save(marketingGroup);
+        return market != null;
     }
 
     @Override

@@ -36,9 +36,6 @@ import java.util.List;
 public class NotificationController {
 
     @Autowired
-    UserRepository2 userRepository2;
-
-    @Autowired
     NotificationService notificationService;
 
     @Autowired
@@ -49,7 +46,7 @@ public class NotificationController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String goCreatePage(Model model) {
-        List<AppUser> appUsers = userRepository2.findAllByEnabled(true);
+        List<AppUser> appUsers = userService.getAppUserByEnabled();
         model.addAttribute("appUsers", appUsers);
         return "/notification/insert_notification_page_V2";
     }
@@ -65,7 +62,7 @@ public class NotificationController {
                          RedirectAttributes redirectAttributes
     ) {
         User loginedUser = (User) ((Authentication) principal).getPrincipal();
-        AppUser appUser = userRepository2.findAppUserByUserName(loginedUser.getUsername());
+        AppUser appUser = userService.getAppUserByUsername(loginedUser.getUsername());
         appUser.getUserId();
         notification.setAppUser(appUser);
         notification.setCreated_at(getCurrentDate());

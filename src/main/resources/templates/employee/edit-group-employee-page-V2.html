@@ -39,9 +39,22 @@
                     <li class="breadcrumb-item">
                       <a th:href="@{/employee/marketing-group}">Tất cả</a>
                     </li>
-                    <li class="breadcrumb-item active">Nhóm A</li>
+                    <li class="breadcrumb-item active" th:text="${marketingGroup.name}"></li>
                   </ol>
                 </nav>
+              </div>
+              <div class="col-12 col-xl-auto mb-3">
+                <!-- Extra large modal -->
+                <div class="d-flex">
+                  <button
+                          class="btn btn-outline-dark mx-1"
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModalCenter"
+                  >
+                    <div class="nav-link-icon"><i class="far fa-trash-alt" style="padding-right: 2px;"></i></div>
+                    Xoá
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -53,13 +66,15 @@
         <div class="card card-header-actions mb-4">
           <div class="card-header">CẬP NHẬT THÔNG TIN</div>
           <div class="card-body">
-            <form class="ui form">
+            <form class="ui form"
+                  th:action="@{/employee/marketing-group/update}"
+                  method="POST">
               <div class="row mb-2">
                 <div class="col-sm-4">
                   <label>Mã ID <span style="color: red">*</span></label>
                 </div>
                 <div class="col-sm-7 field description">
-                  <input placeholder="Nhập mã ID" name="id" type="text" th:value="${marketingGroup.code}"/>
+                  <input placeholder="Nhập mã ID" name="code" type="text" th:value="${marketingGroup.code}"/>
                 </div>
               </div>
               <div class="row mb-2">
@@ -105,11 +120,14 @@
                 </div>
               </div>
               <div class="d-flex align-center">
+                <input type="hidden" name="id" th:value="*{marketingGroup.id}"/>
+                <input type="hidden" name="listSelected" value=""/>
                 <button
                         class="ui blue submit button"
                         style="margin-right: 10px"
+                        type="submit"
                 >
-                  Thêm mới
+                  Cập nhật
                 </button>
                 <div class="ui clear button">Clear</div>
               </div>
@@ -120,9 +138,51 @@
       </div>
     </main>
     <th:block th:include="/common/footer.html"></th:block>
+
+    <!-- Modal Delete Group-->
+    <div
+            class="modal fade"
+            id="exampleModalCenter"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <form class="ui form segment" th:action="@{/employee/marketing-group/delete}" method="POST">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">
+                Bạn có muốn xoá nhóm này không?
+              </h5>
+              <button
+                      class="btn-close"
+                      type="button"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-footer">
+              <input type="hidden" name="idDl" th:value="*{marketingGroup.id}"/>
+              <button class="btn btn-primary" type="submit">
+                Xoá
+              </button>
+              <button
+                      class="btn btn-outline-dark"
+                      type="button"
+                      data-bs-dismiss="modal"
+              >
+                Huỷ bỏ
+              </button>
+            </div>
+            <div class="ui error message"></div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -135,14 +195,21 @@
 <script th:inline="javascript">
   $("#multi-select").dropdown("get value");
 
+  $("#multi-select").change(function () {
+    var meals = $(this).val();
+    var selectedmeals = meals.join(", ");
+    console.log(selectedmeals);
+    $("input[name=listSelected]").val(selectedmeals);
+  });
+
   $(".ui.form").form({
     fields: {
-      id: {
-        identifier: "id",
+      code: {
+        identifier: "code",
         rules: [
           {
             type: "empty",
-            prompt: "Không bỏ trống Id.",
+            prompt: "Không bỏ trống mã ID.",
           },
         ],
       },
@@ -175,6 +242,33 @@
     popup: $(".description.popup"),
     on: "click",
   });
+</script>
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  $(document).ready(function() {
+    var showtext = /*[[${flag}]]*/ "";
+    console.log(showtext);
+    if (showtext === 'showAlert') {
+      swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Sửa thông tin thành công",
+        showConfirmButton: false,
+        timer: 5000,
+      });
+    }
+    else if (showtext === 'showAlertError') {
+      swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Sửa thông tin nhóm thất bại",
+        // text: 'Mã ID này đã tồn tại!',
+        showConfirmButton: false,
+        timer: 5000,
+      });
+    }
+  });
+  /*]]>*/
 </script>
 </body>
 </html>

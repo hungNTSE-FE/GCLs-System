@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.constraints.Null;
 import java.security.Principal;
 import java.util.List;
 
@@ -51,10 +52,10 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/marketing-group", method = RequestMethod.GET)
-    public String getHomeGroupPage(Model model) {
-//        if (principal == null) {
-//            return ERROR_404;
-//        }
+    public String getHomeGroupPage(Model model, Principal principal) {
+        if (principal == null) {
+            return ERROR_404;
+        }
         List<Employee> employees = employeeService.getAllNotGroupedEmployees();
         MarketingGroup marketingGroup = new MarketingGroup();
         List<MarketingGroup> marketingGroups = marketingGroupService.getAllMktByStatus();
@@ -81,14 +82,17 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/marketing-group/update/{id}", method = RequestMethod.GET)
-    public String getUpdateGroupPage(Model model, @Nullable @PathVariable("id") String id) {
-        MarketingGroup marketingGroup = marketingGroupService.findMarketGroupById(id);
-        if (marketingGroup == null) {
+    public String getUpdateGroupPage(Model model, @Nullable @PathVariable("id") String id, Principal principal) {
+        if (principal == null) {
+            return ERROR_404;
+        }
+        MarketingGroup marketingGroupById = marketingGroupService.findMarketGroupById(id);
+        if (marketingGroupById == null) {
             return "redirect:/employee/marketing-group";
         }
         List<Employee> employees = employeeService.getAllWorkingEmployees();
         model.addAttribute("employees", employees);
-        model.addAttribute("marketingGroup", marketingGroup);
+        model.addAttribute("marketingGroup", marketingGroupById);
         return UPDATE_GROUP_PAGE;
     }
 
@@ -108,6 +112,60 @@ public class EmployeeController {
         marketingGroup.setMaker(appUser.getUserId());
         boolean done = marketingGroupService.createMarketingGroup(marketingGroup, aidList);
         redirectAttributes.addFlashAttribute("flag","showAlert");
+        return "redirect:/employee/marketing-group";
+    }
+
+    @RequestMapping(value = "/marketing-group/update", method = RequestMethod.POST)
+    public String editGroupMKT(Model model,
+                               @Nullable @RequestParam("id") String id,
+                               @Nullable @RequestParam("code") String code,
+                               @Nullable @RequestParam("name") String name,
+                               @Nullable @RequestParam("listSelected") List<Long> aidList,
+                               @Nullable @RequestParam("description") String description,
+                               Principal principal,
+                               RedirectAttributes redirectAttributes
+                               ) {
+        User loginedUser = (User) ((Authentication) principal).getPrincipal();
+        AppUser appUser = userService.getAppUserByUsername(loginedUser.getUsername());
+
+        MarketingGroup marketingGroup1 = marketingGroupService.findMarketGroupById(id);
+        boolean error = false;
+        if (!error && marketingGroupService.isCodeExisted(code, Long.parseLong(id))) {
+            redirectAttributes.addFlashAttribute("flag","showAlertError");
+            return "redirect:/employee/marketing-group/update/" + Long.parseLong(id);
+        }
+        if (!error && marketingGroup1 == null) {
+            redirectAttributes.addFlashAttribute("flag","showAlertError");
+            return "redirect:/employee/marketing-group";
+        }
+        marketingGroup1.setLastModifier(appUser.getUserId());
+        marketingGroup1.setId(Long.parseLong(id));
+        marketingGroup1.setCode(code);
+        marketingGroup1.setName(name);
+        marketingGroup1.setMaker(appUser.getUserId());
+        marketingGroup1.setNote(description);
+        boolean done = marketingGroupService.updateMarketingGroup(marketingGroup1, aidList);
+        redirectAttributes.addFlashAttribute("flag","showAlert");
+        return "redirect:/employee/marketing-group/update/" + Long.parseLong(id);
+    }
+
+    @RequestMapping(value = "/marketing-group/delete", method = RequestMethod.POST)
+    public String deleteGroupMKT(Model model,
+                                 @Nullable @RequestParam("idDl") String id,
+                                 Principal principal,
+                                 RedirectAttributes redirectAttributes) {
+        User loginedUser = (User) ((Authentication) principal).getPrincipal();
+        AppUser appUser = userService.getAppUserByUsername(loginedUser.getUsername());
+
+        MarketingGroup marketingGroupUseDelete = marketingGroupService.findMarketGroupById(id);
+
+        if (id == null) {
+            return "redirect:/employee/marketing-group";
+        }
+
+        marketingGroupUseDelete.setLastModifier(appUser.getUserId());
+        boolean done = marketingGroupService.deleteMarketingGroup(marketingGroupUseDelete);
+        redirectAttributes.addFlashAttribute("flag","showAlertDeleteSuccess");
         return "redirect:/employee/marketing-group";
     }
 

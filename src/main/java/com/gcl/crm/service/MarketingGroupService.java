@@ -10,5 +10,6 @@ public interface MarketingGroupService {
     List<MarketingGroup> searchAllGroupMktByCode(MarketingGroup searchForm);
     boolean isCodeExisted(String code, Long id);
     boolean createMarketingGroup(MarketingGroup marketingGroup, List<Long> actionIds);
-    boolean updateMarketingGroup(MarketingGroup marketingGroup);
+    boolean updateMarketingGroup(MarketingGroup marketingGroup, List<Long> actionIds);
+    boolean deleteMarketingGroup(MarketingGroup marketingGroup);
 }

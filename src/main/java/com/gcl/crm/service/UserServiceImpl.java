@@ -61,6 +61,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public List<AppUser> getAppUserByEnabled() {
+        return userRepository2.findAllByEnabled(true);
+    }
+
+    @Override
     public boolean checkUsername(String userName) {
         return userJpaRepository.existsAppUserByUserName(userName);
     }

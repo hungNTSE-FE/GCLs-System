@@ -23,6 +23,9 @@ public class EmployeeServiceImpl implements EmployeeService{
     DepartmentService departmentService;
 
     @Autowired
+    MarketingGroupService marketingGroupService;
+
+    @Autowired
     PositionService positionService;
 
     @Autowired
@@ -38,7 +41,6 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public List<Employee> getAllWorkingEmployees() {
-
         return employeeRepository.findAllByStatusNot(EmployeeStatus.OFF_WORKING);
     }
 
@@ -156,7 +158,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public List<Employee> getAllGroupedEmployees() {
+    public List<Employee> getAllGroupedEmployees(String id) {
         return null;
     }
 }
