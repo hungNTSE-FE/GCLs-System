@@ -159,6 +159,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public List<Employee> getAllGroupedEmployees(String id) {
-        return null;
+        Long empGroupId = Long.parseLong(id);
+        return employeeRepository.findAllById(empGroupId);
     }
 }

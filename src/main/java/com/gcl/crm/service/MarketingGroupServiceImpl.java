@@ -70,6 +70,7 @@ public class MarketingGroupServiceImpl implements MarketingGroupService{
         return marketingGroupRepository.findAllByStatusAndCodeContainingAndNameContaining(Status.ACTIVE, searchForm.getCode(), searchForm.getName());
     }
 
+
     @Override
     public boolean isCodeExisted(String code, Long id) {
         MarketingGroup marketingGroup = (id != null) ? marketingGroupRepository.findMarketingGroupByCodeAndIdNot(code, id)

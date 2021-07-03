@@ -14,7 +14,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.constraints.Null;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/employee")
@@ -90,8 +93,12 @@ public class EmployeeController {
         if (marketingGroupById == null) {
             return "redirect:/employee/marketing-group";
         }
-        List<Employee> employees = employeeService.getAllWorkingEmployees();
-        model.addAttribute("employees", employees);
+
+        List<Employee> empTest = employeeService.getAllNotGroupedEmployees();
+        List<Employee> employeesInGroup = marketingGroupById.getEmployees();
+        List<Employee> union = Stream.concat( empTest.stream(), employeesInGroup.stream())
+                .collect( Collectors.toList());
+        model.addAttribute("employees", union);
         model.addAttribute("marketingGroup", marketingGroupById);
         return UPDATE_GROUP_PAGE;
     }
