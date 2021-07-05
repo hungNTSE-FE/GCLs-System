@@ -10,7 +10,6 @@
   <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
   <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
 </head>
 <body class="nav-fixed">
 <th:block th:include="/common/nav-fixed.html"></th:block>
@@ -82,7 +81,7 @@
               <div class="card-body">
                 <form id="devel-generate-content-form" th:action="@{/junk/resetAll}" method="POST">
                   <div class="d-flex justify-content-between">
-                    <button class="btn btn-outline-dark" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                    <button class="btn btn-outline-dark" type="submit">
                       <i class="fas fa-redo-alt"></i>
                     </button>
                     <div class="info text-center">
@@ -138,23 +137,6 @@
         </div>
       </div>
     </main>
-
-
-    <!-- Modal Reset All-->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalCenterTitle">Bạn có muốn khôi phục các bản ghi đã chọn?</h5>
-            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Yes</button>
-            <button class="btn btn-outline-dark" type="button">No</button>
-          </div>
-        </div>
-      </div>
-    </div>
     <th:block th:include="/common/footer.html"></th:block>
   </div>
 </div>
@@ -166,8 +148,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/litepicker/dist/bundle.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" crossorigin="anonymous"></script>
 <script src="js/litepicker.js"></script>
 <script th:inline="javascript">
   const dataTable = new simpleDatatables.DataTable("#datatablesSimple", {
@@ -211,7 +191,15 @@
         icon: "success",
         title: "Khôi phục thành công",
         showConfirmButton: false,
-        timer: 3000,
+        timer: 5000,
+      });
+    } else if (showtext === 'showAlertError') {
+      swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Khôi phục thất bại",
+        showConfirmButton: false,
+        timer: 5000,
       });
     }
   });

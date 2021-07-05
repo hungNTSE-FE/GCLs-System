@@ -3,28 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <title>Hoạt động - Gia Cat Loi</title>
   <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
   <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
-  <link
-          rel="stylesheet"
-          type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
-  />
-  <script
-          data-search-pseudo-elements
-          defer
-          src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
-          crossorigin="anonymous"
-  ></script>
-  <script
-          src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
-          crossorigin="anonymous"
-  ></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
+  <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
 </head>
 <body class="nav-fixed">
 <th:block th:include="/common/nav-fixed.html"></th:block>
@@ -70,19 +55,15 @@
         <nav class="nav nav-borders">
           <a class="nav-link" th:href="@{/customer/id1}">Tổng quan</a>
           <a class="nav-link" th:href="@{/customer/information/id1}">Chi tiết</a>
-          <a class="nav-link" href="#">Nhật ký</a>
           <a class="nav-link" href="#">
-            <i class="fas fa-hand-holding-usd"></i>
-            Cơ hội
-            <span class="badge bg-hung-custom text-white-75 ms-auto"
-            >1</span
-            >
+            Chăm sóc khách hàng
+            <span class="badge bg-hung-custom text-white-75 ms-auto">1</span>
           </a>
-          <a class="nav-link active ms-0" th:href="@{/customer/action/id1}"
-          ><i class="fas fa-calendar-alt"></i> Hoạt động
-            <span class="badge bg-hung-custom text-white-75 ms-auto"
-            >1</span
-            ></a>
+          <a class="nav-link active ms-0" th:href="@{/customer/action/id1}">
+            <i class="fas fa-calendar-alt"></i>
+            Hoạt động
+            <span class="badge bg-hung-custom text-white-75 ms-auto">1</span>
+          </a>
           <a class="nav-link" th:href="@{/customer/email/id1}">Email</a>
         </nav>
         <hr class="mt-0 mb-4" />
@@ -111,15 +92,6 @@
               </tr>
               </thead>
               <tbody>
-              <!-- <tr class="content">
-                  <td><input type="checkbox" /></td>
-                  <td>FB000001</td>
-                  <td>Nguyễn Lê Hải Anh</td>
-                  <td>a@gmail.com</td>
-                  <td>0123456789</td>
-                  <td>Facebook</td>
-                  <td></td>
-                </tr> -->
               </tbody>
             </table>
           </div>
@@ -171,17 +143,16 @@
                 </div>
 
                 <div class="col-md-5">
-                  <!-- Joined input group append example-->
                   <div class="input-group input-group-joined">
                     <input class="form-control ps-0" id="date2" />
                     <span class="input-group-text">
                           <i data-feather="calendar"></i>
-                        </span>
+                    </span>
                   </div>
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label for="" class="small col-sm-3">
+                <label class="small col-sm-3">
                   Giao cho
                   <span style="color: red">*</span>
                 </label>
@@ -197,14 +168,13 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label for="" class="small col-sm-3">
+                <label class="small col-sm-3">
                   Tình trạng hoạt động
                   <span style="color: red">*</span>
                 </label>
                 <div class="col-sm-9">
                   <select
                           class="form-select"
-                          id="exampleFormControlSelect1"
                   >
                     <option>Lên kế hoạch</option>
                     <option>Đã kết thúc</option>
@@ -213,15 +183,12 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label for="" class="small col-sm-3">
+                <label class="small col-sm-3">
                   Loại hoạt động
                   <span style="color: red">*</span>
                 </label>
                 <div class="col-sm-9">
-                  <select
-                          class="form-select"
-                          id="exampleFormControlSelect1"
-                  >
+                  <select class="form-select">
                     <option>Cuộc gọi</option>
                     <option>Cuộc hẹn</option>
                     <option>Công việc</option>
@@ -229,7 +196,7 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label for="" class="small col-sm-3"> Địa điểm </label>
+                <label class="small col-sm-3"> Địa điểm </label>
                 <div class="col-sm-9">
                   <input
                           class="form-control"
@@ -239,7 +206,7 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label for="" class="small col-sm-3"> Chia sẻ </label>
+                <label class="small col-sm-3"> Chia sẻ </label>
                 <div class="col-sm-9">
                   <div class="ui blue multiple selection dropdown">
                     <i class="dropdown icon"></i>
@@ -260,7 +227,7 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label for="" class="small col-sm-3"> Địa điểm </label>
+                <label class="small col-sm-3"> Địa điểm </label>
                 <div class="col-sm-9">
                       <textarea
                               class="form-control"

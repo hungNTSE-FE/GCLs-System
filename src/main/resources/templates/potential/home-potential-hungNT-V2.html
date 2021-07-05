@@ -248,13 +248,10 @@
                         <td>
                           <div class="d-flex">
                             <input class="m-1" type="checkbox" th:value="${potential.id}" name="pid" form="remove-form" />
-                            <a href="#" class="clickshowinfo text-dark mx-1">
-                              <i class="far fa-eye"></i>
-                            </a>
-                            <a th:href="@{/potential/{id}/detail(id=${potential.id})}" class="text-dark mx-1">
+                            <a th:href="@{/potential/detail/{id}(id=${potential.id})}" class="text-dark mx-1">
                               <i class="fas fa-info-circle"></i>
                             </a>
-                            <a th:href="@{/potential/{id}/edit(id=${potential.id})}" class="text-dark mx-1">
+                            <a th:href="@{/potential/detail/edit/{id}(id=${potential.id})}" class="text-dark mx-1">
                               <i class="fas fa-edit"></i>
                             </a>
                           </div>
@@ -447,24 +444,6 @@
     </div>
 
     <!--Modal Remove-->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalCenterTitle">Bạn có muốn xoá không?</h5>
-            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-footer">
-              <button class="btn btn-primary" type="submit">
-                Xoá
-              </button>
-            <button class="btn btn-secondary" type="button">No</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!--Modal Remove Bulk-->
     <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="removeModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -478,7 +457,7 @@
                 Xoá
               </button>
             </form>
-            <button class="btn btn-secondary" type="button">No</button>
+            <button class="btn btn-outline-dark" type="button">Huỷ bỏ</button>
           </div>
         </div>
       </div>
@@ -753,7 +732,15 @@
         icon: "success",
         title: "Xoá thành công",
         showConfirmButton: false,
-        timer: 3000,
+        timer: 5000,
+      });
+    } else if (showtext === 'showAlertError') {
+      swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Xoá thất bại",
+        showConfirmButton: false,
+        timer: 5000,
       });
     }
   });

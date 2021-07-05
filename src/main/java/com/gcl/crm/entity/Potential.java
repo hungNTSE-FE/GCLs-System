@@ -4,6 +4,7 @@ import com.gcl.crm.enums.Status;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -54,6 +55,17 @@ public class Potential {
     private String marginAccount;
 
     private String note;
+
+    private Date createDate;
+
+    // Id of last employee create potential
+    private Long maker;
+
+    // Date now to update potential
+    private Date lastModified;
+
+    // Id of last employee made changes to potential
+    private Long lastModifier;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "level_id")

@@ -3,28 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no"
-  />
-  <title>Thông tin chung - Gia Cat Loi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <title>Thông tin chi tiết - Gia Cat Loi</title>
   <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
   <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
-  <link
-          rel="stylesheet"
-          type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
-  />
-  <script
-          data-search-pseudo-elements
-          defer
-          src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
-          crossorigin="anonymous"
-  ></script>
-  <script
-          src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
-          crossorigin="anonymous"
-  ></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
+  <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
 </head>
 <body class="nav-fixed">
 <th:block th:include="/common/nav-fixed.html"></th:block>
@@ -49,12 +34,12 @@
                 <nav class="rounded" aria-label="breadcrumb">
                   <ol class="breadcrumb px-3 py-2 rounded mb-0">
                     <li class="breadcrumb-item">
-                      <a th:href="@{/customer/home}">Khách hàng</a>
+                      <a th:href="@{/potential/home}">Đầu mối</a>
                     </li>
                     <li class="breadcrumb-item">
-                      <a th:href="@{/customer/home}">Tất cả</a>
+                      <a th:href="@{/potential/home}">Tất cả</a>
                     </li>
-                    <li class="breadcrumb-item active" th:href="@{/customer/id1}">Chị Nguyễn Văn A</li>
+                    <li class="breadcrumb-item active" th:text="*{potentialDetail.name}"></li>
                   </ol>
                 </nav>
               </div>
@@ -68,24 +53,15 @@
 
         <!-- Account page navigation-->
         <nav class="nav nav-borders">
-          <a class="nav-link" th:href="@{/customer/id1}">Tổng quan</a>
-          <a class="nav-link active ms-0" th:href="@{/customer/information/id1}">Chi tiết</a>
-          <a class="nav-link" href="#">Nhật ký</a>
+          <a class="nav-link active ms-0" th:href="@{/potential/detail/{id}(id=${potentialDetail.id})}">Chi tiết</a>
           <a class="nav-link" href="#">
-            <i class="fas fa-hand-holding-usd"></i>
-            Cơ hội
-            <span class="badge bg-hung-custom text-white-75 ms-auto"
-            >1</span
-            >
+            <i class="fas fa-calendar-alt"></i>
+            Hoạt động
+            <span class="badge bg-hung-custom text-white-75 ms-auto">1</span>
           </a>
-          <a class="nav-link" th:href="@{/customer/action/id1}"
-          ><i class="fas fa-calendar-alt"></i> Hoạt động
-            <span class="badge bg-hung-custom text-white-75 ms-auto"
-            >1</span
-            ></a
-          >
-          <a class="nav-link" th:href="@{/customer/email/id1}">Email</a>
+          <a class="nav-link" href="#">Email</a>
         </nav>
+
         <hr class="mt-0 mb-4" />
         <div class="card mb-4 mb-xl-0">
           <div class="card-header">Thông tin chung</div>
@@ -97,7 +73,7 @@
                     <p class="small text-muted">Họ và tên</p>
                   </div>
                   <div class="col-md-6">
-                    <label class="small mb-1">Nguyễn Văn A</label>
+                    <label class="small mb-1" th:text="*{potentialDetail.name}"></label>
                   </div>
                 </div>
                 <div class="row gx-3 mb-3">
@@ -105,7 +81,7 @@
                     <p class="small text-muted">Di động</p>
                   </div>
                   <div class="col-md-6">
-                    <label class="small mb-1">0123456789</label>
+                    <label class="small mb-1" th:text="*{potentialDetail.phoneNumber}"></label>
                   </div>
                 </div>
                 <div class="row gx-3 mb-3">
@@ -113,7 +89,7 @@
                     <p class="small text-muted">Email</p>
                   </div>
                   <div class="col-md-6">
-                    <label class="small mb-1">a@gmail.com</label>
+                    <label class="small mb-1" th:text="*{potentialDetail.email}"></label>
                   </div>
                 </div>
                 <div class="row gx-3 mb-3">
@@ -137,9 +113,7 @@
                     <p class="small text-muted">Địa chỉ</p>
                   </div>
                   <div class="col-md-6">
-                    <label class="small mb-1"
-                    >Số 3, Đường Phan Bội Châu, TP.HCM</label
-                    >
+                    <label class="small mb-1" th:text="*{potentialDetail.address}"></label>
                   </div>
                 </div>
               </div>
@@ -149,7 +123,7 @@
                     <p class="small text-muted">Mã khách hàng</p>
                   </div>
                   <div class="col-md-6">
-                    <label class="small mb-1">VT00001</label>
+                    <label class="small mb-1"></label>
                   </div>
                 </div>
                 <div class="row gx-3 mb-3">
@@ -166,12 +140,9 @@
                   </div>
                   <div class="col-md-6">
                     <label class="mb-1"></label>
-                    <span
-                            class="badge bg-primary-soft text-primary ms-auto"
-                    >
-                            Ms. Anh (a@giacatloi.com)</span
-                    >
-                    </label>
+                    <span class="badge bg-primary-soft text-primary ms-auto">
+                      Ms. Anh (a@giacatloi.com)
+                    </span>
                   </div>
                 </div>
                 <div class="row gx-3 mb-3">
@@ -180,11 +151,8 @@
                   </div>
                   <div class="col-md-6">
                     <label class="mb-1">
-                            <span
-                                    class="badge bg-hung-custom text-white-75 ms-auto"
-                            >
-                          Google</span
-                            >
+                      <span class="badge bg-hung-custom text-white-75 ms-auto" th:text="*{potentialDetail.sourceName}">
+                      </span>
                     </label>
                   </div>
                 </div>
@@ -193,9 +161,7 @@
                     <p class="small text-muted">Tình trạng</p>
                   </div>
                   <div class="col-md-6">
-                    <label class="small mb-1"
-                    ></label
-                    >
+                    <label class="small mb-1"></label>
                   </div>
                 </div>
                 <div class="row gx-3">
@@ -203,7 +169,7 @@
                     <p class="small text-muted">Mô tả</p>
                   </div>
                   <div class="col-md-6">
-                    <label class="small mb-1"></label>
+                    <label class="small mb-1" th:text="*{potentialDetail.note}"></label>
                   </div>
                 </div>
               </div>
@@ -213,7 +179,6 @@
       </div>
     </main>
     <th:block th:include="/common/footer.html"></th:block>
-
   </div>
 </div>
 <script

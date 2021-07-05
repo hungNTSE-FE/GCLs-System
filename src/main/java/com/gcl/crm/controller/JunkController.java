@@ -41,9 +41,10 @@ public class JunkController {
     }
 
     @RequestMapping(value = "/resetAll", method = RequestMethod.POST)
-    public String resetAllPotential(Model model, @RequestParam("checkedbox") List<Long> checkedPotential, RedirectAttributes redirectAttributes) {
+    public String resetAllPotential(Model model, @Nullable @RequestParam("checkedbox") List<Long> checkedPotential, RedirectAttributes redirectAttributes) {
         System.out.println(checkedPotential);
         if (checkedPotential == null) {
+            redirectAttributes.addFlashAttribute("flag","showAlertError");
             return "redirect:/junk/home";
         }
         Potential potential = new Potential();

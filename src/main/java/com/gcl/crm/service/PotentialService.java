@@ -41,13 +41,14 @@ public class PotentialService {
             String sourceName = potential.getSourceName();
             Source source = sourceService.getSourceByName(sourceName);
             potential.setSource(source);
+            potential.setCreateDate(getCurrentDate());
             potential.setStatus(Status.ACTIVE);
             potentialRepository.save(potential);
         }
         return true;
     }
 
-    public boolean editPotential(Potential newPotential){
+    public boolean editPotential(Potential newPotential, Long id){
         Potential potential = potentialRepository.findPotentialByIdAndStatus(newPotential.getId(), Status.ACTIVE);
         if (potential == null){
             return false;
@@ -57,6 +58,11 @@ public class PotentialService {
         potential.setEmail(newPotential.getEmail());
         potential.setPhoneNumber(newPotential.getPhoneNumber());
         potential.setSource(sourceService.getSourceById(newPotential.getSource().getSourceId()));
+        potential.setFirstCare(newPotential.getFirstCare());
+        potential.setSecondCare(newPotential.getSecondCare());
+        potential.setThirdCare((newPotential.getThirdCare()));
+        potential.setLastModified(getCurrentDate());
+        potential.setLastModifier(id);
         potentialRepository.save(potential);
         return true;
     }
@@ -176,5 +182,9 @@ public class PotentialService {
         Potential potential = (id != null) ? potentialRepository.findPotentialByEmailAndIdNot(email, id)
                 : potentialRepository.findPotentialByEmail(email);
         return potential != null;
+    }
+
+    private Date getCurrentDate() {
+        return new Date(System.currentTimeMillis());
     }
 }

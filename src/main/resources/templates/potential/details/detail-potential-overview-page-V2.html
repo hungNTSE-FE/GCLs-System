@@ -3,30 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no"
-  />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  <title>Tong quan - Gia Cat Loi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <title>Fluid Layout - SB Admin Pro</title>
   <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
   <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
-  <link
-          rel="stylesheet"
-          type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
-  />
-  <script
-          data-search-pseudo-elements
-          defer
-          src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
-          crossorigin="anonymous"
-  ></script>
-  <script
-          src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
-          crossorigin="anonymous"
-  ></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
+  <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
 </head>
 <body class="nav-fixed">
 <th:block th:include="/common/nav-fixed.html"></th:block>
@@ -44,19 +27,17 @@
       >
         <div class="container-fluid px-4">
           <div class="page-header-content">
-            <div
-                    class="row align-items-center justify-content-between pt-3"
-            >
+            <div class="row align-items-center justify-content-between pt-3">
               <div class="col-auto mb-3">
                 <nav class="rounded" aria-label="breadcrumb">
                   <ol class="breadcrumb px-3 py-2 rounded mb-0">
                     <li class="breadcrumb-item">
-                      <a th:href="@{/customer/home}">Khách hàng</a>
+                      <a href="dashboard-1.html">Đầu mối</a>
                     </li>
                     <li class="breadcrumb-item">
-                      <a th:href="@{/customer/home}">Tất cả</a>
+                      <a th:href="@{/potentia/home}">Tất cả</a>
                     </li>
-                    <li class="breadcrumb-item active" th:href="@{/customer/id1}">Chị Nguyễn Văn A</li>
+                    <li class="breadcrumb-item active" th:text="*{potential.name}"></li>
                   </ol>
                 </nav>
               </div>
@@ -70,23 +51,14 @@
 
         <!-- Account page navigation-->
         <nav class="nav nav-borders">
-          <a class="nav-link active ms-0" th:href="@{/customer/id1}">Tổng quan</a>
-          <a class="nav-link" th:href="@{/customer/information/id1}">Chi tiết</a>
-          <a class="nav-link" href="#">Nhật ký</a>
+          <a class="nav-link active ms-0">Tổng quan</a>
+          <a class="nav-link" href="#">Chi tiết</a>
           <a class="nav-link" href="#">
-            <i class="fas fa-hand-holding-usd"></i>
-            Cơ hội
-            <span class="badge bg-hung-custom text-white-75 ms-auto"
-            >1</span
-            >
+            <i class="fas fa-calendar-alt"></i>
+            Hoạt động
+            <span class="badge bg-hung-custom text-white-75 ms-auto">1</span>
           </a>
-          <a class="nav-link" th:href="@{/customer/action/id1}"
-          ><i class="fas fa-calendar-alt"></i> Hoạt động
-            <span class="badge bg-hung-custom text-white-75 ms-auto"
-            >1</span
-            ></a
-          >
-          <a class="nav-link" th:href="@{/customer/email/id1}">Email</a>
+          <a class="nav-link" href="#">Email</a>
         </nav>
         <hr class="mt-0 mb-4" />
         <div class="row">
@@ -99,7 +71,7 @@
                     <p class="small text-muted">Tên</p>
                   </div>
                   <div class="col-md-6">
-                    <label class="small mb-1">Chị Nguyễn Văn A</label>
+                    <label class="small mb-1" th:text="*{potential.name}">Chị Nguyễn Văn A</label>
                   </div>
                 </div>
                 <div class="row gx-3 mb-3">
@@ -107,7 +79,7 @@
                     <p class="small text-muted">Số điện thoại</p>
                   </div>
                   <div class="col-md-6">
-                    <label class="small mb-1">0123456789</label>
+                    <label class="small mb-1" th:text="*{potential.phoneNumber}"></label>
                   </div>
                 </div>
                 <div class="row gx-3 mb-3">
@@ -115,7 +87,7 @@
                     <p class="small text-muted">Email</p>
                   </div>
                   <div class="col-md-6">
-                    <label class="small mb-1">a@gmail.com</label>
+                    <label class="small mb-1" th:text="*{potential.email}"></label>
                   </div>
                 </div>
                 <div class="row gx-3 mb-3">
@@ -123,7 +95,7 @@
                     <p class="small text-muted">Nguồn</p>
                   </div>
                   <div class="col-md-6">
-                    <label class="small mb-1">Facebook</label>
+                    <label class="small mb-1" th:text="*{potential.source.sourceName}">Google</label>
                   </div>
                 </div>
                 <div class="row gx-3 mb-3">
@@ -131,9 +103,11 @@
                     <p class="small text-muted">Giao cho</p>
                   </div>
                   <div class="col-md-6">
-                    <label class="small mb-1"
-                    ><a href="#">Ms. Sang</a></label
-                    >
+                    <label class="small mb-1">
+                      <a href="#">
+                        Ms. Sang
+                      </a>
+                    </label>
                   </div>
                 </div>
                 <div class="row gx-3">
@@ -141,7 +115,7 @@
                     <p class="small text-muted">Tỉnh/Thành phố</p>
                   </div>
                   <div class="col-md-6">
-                    <label class="small mb-1">Hồ Chí Minh</label>
+                    <label class="small mb-1" th:text="*{potential.address}"></label>
                   </div>
                 </div>
               </div>
@@ -179,49 +153,46 @@
                       <th>Ngày giờ kết thúc</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <!-- <tr class="content">
-                      <td><input type="checkbox" /></td>
-                      <td>FB000001</td>
-                      <td>Nguyễn Lê Hải Anh</td>
-                      <td>a@gmail.com</td>
-                      <td>0123456789</td>
-                      <td>Facebook</td>
-                      <td></td>
-                    </tr> -->
-                    </tbody>
+                    <tbody></tbody>
                   </table>
                 </div>
               </div>
             </div>
             <div class="advanced">
-              <div class="card mb-4 card-header-actions">
-                <div class="card-header">
-                  Bình luận
-                  <button class="btn btn-primary" type="button">Gửi</button>
+              <form class="ui form">
+                <div class="card mb-4 card-header-actions">
+                  <div class="card-header">
+                    Mô tả chăm sóc khách hàng
+                    <button class="btn btn-primary" type="submit">
+                      Lưu
+                    </button>
+                  </div>
+                  <div class="card-body field description">
+                        <textarea
+                                class="form-control"
+                                name="description"
+                                rows="3"
+                                placeholder="Nhập mô tả ở đây..."
+                        ></textarea>
+                    <div class="ui error message"></div>
+                  </div>
                 </div>
-                <div class="card-body">
-                      <textarea
-                              class="form-control"
-                              id="exampleFormControlTextarea1"
-                              rows="3"
-                              placeholder="Nhập bình luận bạn ở đây"
-                      ></textarea>
-                </div>
-              </div>
+              </form>
             </div>
             <div class="hard">
               <div class="card mb-4">
-                <div class="card-header">Bình luận gần đây</div>
+                <div class="card-header">Chăm sóc khách hàng gần đây</div>
                 <div class="card-body">
                   <table id="datatablesSimple2">
                     <colgroup>
-                      <col width="70%" />
                       <col width="30%" />
+                      <col width="50%" />
+                      <col width="20%" />
                     </colgroup>
                     <thead>
                     <tr>
-                      <th>Bình luận</th>
+                      <th>Tiêu đề</th>
+                      <th>Mô tả</th>
                       <th>Ngày giờ</th>
                     </tr>
                     </thead>
@@ -280,25 +251,21 @@
                 </div>
 
                 <div class="col-md-5">
-                  <!-- Joined input group append example-->
                   <div class="input-group input-group-joined">
                     <input class="form-control ps-0" id="date2" />
                     <span class="input-group-text">
-                          <i data-feather="calendar"></i>
-                        </span>
+                      <i data-feather="calendar"></i>
+                    </span>
                   </div>
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label for="" class="small col-sm-3">
+                <label class="small col-sm-3">
                   Giao cho
                   <span style="color: red">*</span>
                 </label>
                 <div class="col-sm-9">
-                  <select
-                          class="form-select"
-                          id="exampleFormControlSelect1"
-                  >
+                  <select class="form-select">
                     <option>MKT (b@giacatloi.com)</option>
                     <option>MKT (c@giacatloi.com)</option>
                     <option>Sale (d@giacatloi.com)</option>
@@ -306,15 +273,12 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label for="" class="small col-sm-3">
+                <label class="small col-sm-3">
                   Tình trạng hoạt động
                   <span style="color: red">*</span>
                 </label>
                 <div class="col-sm-9">
-                  <select
-                          class="form-select"
-                          id="exampleFormControlSelect1"
-                  >
+                  <select class="form-select">
                     <option>Lên kế hoạch</option>
                     <option>Đã kết thúc</option>
                     <option>Huỷ</option>
@@ -322,14 +286,13 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label for="" class="small col-sm-3">
+                <label class="small col-sm-3">
                   Loại hoạt động
                   <span style="color: red">*</span>
                 </label>
                 <div class="col-sm-9">
                   <select
                           class="form-select"
-                          id="exampleFormControlSelect1"
                   >
                     <option>Cuộc gọi</option>
                     <option>Cuộc hẹn</option>
@@ -338,7 +301,7 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label for="" class="small col-sm-3"> Địa điểm </label>
+                <label class="small col-sm-3"> Địa điểm </label>
                 <div class="col-sm-9">
                   <input
                           class="form-control"
@@ -348,7 +311,7 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label for="" class="small col-sm-3"> Chia sẻ </label>
+                <label class="small col-sm-3"> Chia sẻ </label>
                 <div class="col-sm-9">
                   <div class="ui multiple selection dropdown">
                     <i class="dropdown icon"></i>
@@ -415,7 +378,7 @@
           <div class="modal-body">
             <form>
               <div class="form-group row mb-3">
-                <label for="" class="small col-sm-3">
+                <label class="small col-sm-3">
                   Email Khách hàng
                 </label>
                 <div class="col-sm-9">
@@ -423,7 +386,7 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label for="" class="small col-sm-3">
+                <label class="small col-sm-3">
                   Tiêu đề
                   <span style="color: red">*</span>
                 </label>
@@ -432,7 +395,7 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label for="" class="small col-sm-3">
+                <label class="small col-sm-3">
                   Nội dung
                   <span style="color: red">*</span>
                 </label>
@@ -445,7 +408,7 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label for="" class="small col-sm-3">
+                <label class="small col-sm-3">
                   File đính kèm
                   <span style="color: red">*</span>
                 </label>
@@ -476,25 +439,16 @@
     </div>
   </div>
 </div>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"
-></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
-<!-- Latest compiled and minified JavaScript -->
 <script type="text/javascript" th:src="@{/js/datatables/datatables-simple-demo.js}"></script>
-<script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
-        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-        crossorigin="anonymous"
-></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
-<script
-        src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"
-        crossorigin="anonymous"
-></script>
+<script src="https://semantic-ui.com/dist/components/form.js"></script>
+<script src="https://semantic-ui.com/javascript/validate-form.js"></script>
+<script src="https://semantic-ui.com/dist/components/popup.js"></script>
 <script th:inline="javascript">
   const dataTable = new simpleDatatables.DataTable("#datatablesSimple", {
     searchable: false,
@@ -526,24 +480,20 @@
   });
 
   $("#multi-select").dropdown("get value");
-</script>
 
-<script th:inline="javascript">
-  /*<![CDATA[*/
-  $(document).ready(function() {
-    var showtext = /*[[${flag}]]*/ "";
-    console.log(showtext);
-    if (showtext === 'showAlert') {
-      swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Xoá thành công",
-        showConfirmButton: false,
-        timer: 3000,
-      });
-    }
+  $(".ui.form").form({
+    fields: {
+      description: {
+        identifier: "description",
+        rules: [
+          {
+            type: "empty",
+            prompt: "Không bỏ trống.",
+          },
+        ],
+      },
+    },
   });
-  /*]]>*/
 </script>
 </body>
 </html>
