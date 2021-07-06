@@ -1,11 +1,9 @@
 package com.gcl.crm.controller;
 
-import com.gcl.crm.entity.AppUser;
-import com.gcl.crm.entity.Level;
-import com.gcl.crm.entity.Potential;
-import com.gcl.crm.entity.Source;
+import com.gcl.crm.entity.*;
 import com.gcl.crm.form.PotentialSearchForm;
 import com.gcl.crm.repository.SourceRepository;
+import com.gcl.crm.service.DepartmentService;
 import com.gcl.crm.service.LevelService;
 import com.gcl.crm.service.PotentialService;
 import com.gcl.crm.service.UserService;
@@ -49,6 +47,10 @@ public class PotentialController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    DepartmentService departmentService;
+
+
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String goHomePage(Model model, Principal principal) {
         if (principal == null) {
@@ -57,7 +59,9 @@ public class PotentialController {
         List<Source> sources = sourceRepository.getAll();
         List<Level> levels = levelService.getAll();
         List<Potential> potentials = potentialService.getAllPotentials();
+        List<Department> departments = departmentService.findAllDepartments();
         PotentialSearchForm searchForm = new PotentialSearchForm();
+        model.addAttribute("departments", departments);
         model.addAttribute("sources", sources);
         model.addAttribute("levels", levels);
         model.addAttribute("potentials", potentials);

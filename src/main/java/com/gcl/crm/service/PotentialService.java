@@ -125,6 +125,7 @@ public class PotentialService {
     public List<Potential> getAllPotentials(){
         return potentialRepository.findAllByStatus(Status.ACTIVE);
     }
+
     public List<Potential> getAllDeletedPotentials(){
         return potentialRepository.findAllByStatus(Status.INACTIVE);
     }

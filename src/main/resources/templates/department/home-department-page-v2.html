@@ -84,7 +84,7 @@
           <div class="card-body">
             <div class="mb-3">
               <form id="go-update-form" th:action="@{/department/edit-v2}">
-                <label for="exampleFormControlSelect1" class="form-label">Phòng ban</label>
+                <label  class="form-label">Phòng ban</label>
                 <select class="form-select form-control-solid" name="did"
                           id="filterDropdown123" onchange="filterText()">
                     <option th:each="department : ${departments}" th:value="${department.id}"
@@ -109,7 +109,6 @@
             <table id="datatablesSimple">
               <thead>
               <tr>
-                <th>TÊN ĐĂNG NHẬP</th>
                 <th>TÊN NGƯỜI DÙNG</th>
                 <th>NGÀY SINH</th>
                 <th>PHÒNG BAN</th>
@@ -120,7 +119,6 @@
               </thead>
               <tbody>
               <tr th:each="employee : ${employees}" class="content">
-                <td th:text="${employee.appUser.userName}"></td>
                 <td th:text="${employee.name}"></td>
                 <td th:text="${employee.birthDate}"></td>
                 <td th:text="${employee.department.name}"></td>

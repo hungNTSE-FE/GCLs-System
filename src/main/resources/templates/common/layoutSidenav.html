@@ -65,7 +65,7 @@
                 aria-expanded="false"
                 aria-controls="collapseFlows"
         >
-          <div class="nav-link-icon"><i data-feather="repeat"></i></div>
+          <div class="nav-link-icon"><i class="far fa-chart-bar"></i></div>
           Báo cáo
           <div class="sidenav-collapse-arrow">
             <i class="fas fa-angle-down"></i>
@@ -85,7 +85,7 @@
                     aria-expanded="false"
                     aria-controls="pagesCollapseWork"
             >
-              Công Việc
+              Thống kê
               <div class="sidenav-collapse-arrow">
                 <i class="fas fa-angle-down"></i>
               </div>
@@ -96,9 +96,7 @@
                     data-bs-parent="#accordionSidenavPagesMenu"
             >
               <nav class="sidenav-menu-nested nav">
-                <a class="nav-link" href="#"
-                >Báo cáo tổng hợp giao dịch khách hàng</a
-                >
+                <a class="nav-link" th:href="@{/statistic/potential}">Khách hàng tiềm năng</a>
                 <a class="nav-link" href="#">Báo cáo KPI cho nhân viên</a>
               </nav>
             </div>

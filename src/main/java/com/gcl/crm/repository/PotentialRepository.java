@@ -1,5 +1,6 @@
 package com.gcl.crm.repository;
 
+import com.gcl.crm.entity.Employee;
 import com.gcl.crm.entity.Level;
 import com.gcl.crm.entity.Potential;
 import com.gcl.crm.entity.Source;

@@ -15,4 +15,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findAllByStatusNot(EmployeeStatus status);
     List<Employee> findAllById(Long id);
     Optional<Employee> findByIdAndStatusNot(Long id, EmployeeStatus status);
+
 }
