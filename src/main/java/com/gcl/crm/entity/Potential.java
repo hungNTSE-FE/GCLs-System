@@ -56,8 +56,6 @@ public class Potential {
 
     private String note;
 
-    private Date createDate;
-
     // Id of last employee create potential
     private Long maker;
 

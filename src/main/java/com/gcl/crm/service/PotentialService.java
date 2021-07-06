@@ -41,7 +41,6 @@ public class PotentialService {
             String sourceName = potential.getSourceName();
             Source source = sourceService.getSourceByName(sourceName);
             potential.setSource(source);
-            potential.setCreateDate(getCurrentDate());
             potential.setStatus(Status.ACTIVE);
             potentialRepository.save(potential);
         }
