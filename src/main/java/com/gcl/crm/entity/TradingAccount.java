@@ -3,7 +3,8 @@ package com.gcl.crm.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
+
 
 @Entity
 @Data
@@ -23,9 +24,9 @@ public class TradingAccount {
     @Column(name="account_name")
     private String accountName ;
 
-    @Column(name = "customer_code")
-    private String customerCode;
 
+    @OneToOne(mappedBy = "tradingAccount", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Customer customer;
     public TradingAccount(){};
 
     public TradingAccount(String accountNumber, double balance, String status, String accountName, String brokerCode, String brokerName, Date createDate) {
@@ -44,15 +45,14 @@ public class TradingAccount {
     private  String brokerName ;
     @Column(name="create_date")
     private Date createDate;
-    @OneToOne(mappedBy = "tradingAccount", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Contract contract;
 
-    public Contract getContract() {
-        return contract;
+
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setContract(Contract contract) {
-        this.contract = contract;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public String getAccountNumber() {
@@ -111,11 +111,5 @@ public class TradingAccount {
         this.createDate = createDate;
     }
 
-    public String getCustomerCode() {
-        return customerCode;
-    }
 
-    public void setCustomerCode(String customerCode) {
-        this.customerCode = customerCode;
-    }
 }

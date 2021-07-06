@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CustomerProcessService {
     List<Customer> getAllCustomer();
-    Customer findCustomerByID(long id);
+    Customer findCustomerByID(String id);
     void saveCustomer(Customer customer);
 
 

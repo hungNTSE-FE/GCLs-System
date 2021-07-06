@@ -57,8 +57,8 @@
                         <div class="col-lg-9">
                             <form class="row g-3"
                                   id="customerForm"
-                                  th:action="@{/contract/createContract}"
-                                  th:object="${contract}"
+                                  th:action="@{/contract/createAccount}"
+                                  th:object="${tradingAccount}"
 
                                   method="post"
                             >
@@ -76,7 +76,7 @@
                                                 <input type="text" class="form-control"
                                                        id="tradingCode"
                                                        placeholder="Mã tài khoản giao dịch"
-                                                       th:field="${contract.number}"
+                                                       th:field="${tradingAccount.accountNumber}"
 
                                                 />
                                             </div>
@@ -89,7 +89,7 @@
                                                        class="form-control"
                                                        id="brokerCode"
                                                        placeholder="Mã môi giới"
-                                                       th:field="${contract.brokerCode}"
+                                                       th:field="${tradingAccount.brokerCode}"
 
                                                 />
                                             </div>
@@ -104,7 +104,7 @@
                                                         class="form-control ps-0"
                                                         type="text"
                                                         aria-label="Search"
-                                                        th:field="${contract.account_name}"
+                                                        th:field="${tradingAccount.accountName}"
 
                                                 />
                                             </div>
@@ -114,7 +114,7 @@
                                                         class="form-control ps-0"
                                                         type="text"
                                                         aria-label="Search"
-                                                        th:field="${contract.broker_name}"
+                                                        th:field="${tradingAccount.brokerName}"
 
                                                 />
                                             </div>
@@ -126,7 +126,7 @@
                                                 </label>
                                                 <!-- Joined input group prepend example-->
                                                 <select
-                                                        th:field="${contract.status}"
+                                                        th:field="${tradingAccount.status}"
 
                                                         class="form-select"
                                                         id="exampleFormControlSelect1"
@@ -135,30 +135,13 @@
                                                     <option value="Inactive">Inactive</option>
                                                 </select>
                                             </div>
-                                            <div class="col-md-6">
-                                                <label class="small mb-1">
-                                                    Ngày mở tài khoản
-                                                </label>
-                                                <div class="input-group input-group-joined">
-                              <span class="input-group-text">
-                                <i data-feather="calendar"></i>
-                              </span>
-                                                    <input
-                                                            th:field="${contract.createDate}"
 
-                                                            class="form-control ps-0"
-                                                            id="date"
-                                                            placeholder="Chọn ngày mở tài khoản..."
-
-                                                    />
-                                                </div>
-                                            </div>
                                         </div>
                                         <div class="row gx-3 mb-3">
 
                                             <div class="col-md-6">
                                                 <div class="button">
-                                                    <input type="submit" value="Tạo mới hợp đồng">
+                                                    <input type="submit" value="Tạo tài khoản giao dịch">
                                                 </div>
                                             </div>
                                         </div>

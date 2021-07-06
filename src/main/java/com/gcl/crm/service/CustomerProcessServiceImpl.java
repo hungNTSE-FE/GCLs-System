@@ -19,15 +19,14 @@ public class CustomerProcessServiceImpl implements CustomerProcessService{
     }
 
     @Override
-    public Customer findCustomerByID(long id) {
-        Optional<Customer> option = customerProcessRepository.findById(id);
-        Customer customer = null ;
-        if(option.isPresent()){
-            customer = option.get();
-        }else {
-            throw new RuntimeException("Task not found for id  :"+id);
+    public Customer findCustomerByID(String id) {
+        List<Customer> customerList = getAllCustomer();
+        for(int i = 0 ; i < customerList.size();i++){
+            if(customerList.get(i).getCustomerCode().equals(id)){
+                return customerList.get(i);
+            }
         }
-        return customer;
+        return null;
     }
 
     @Override
