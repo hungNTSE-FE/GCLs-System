@@ -1,10 +1,10 @@
 package com.gcl.crm.form;
 
+import java.sql.Date;
 import javax.validation.constraints.*;
-import java.util.Date;
-
 public class CustomerForm {
-    private Long hdnCustomerCode;
+
+    private String hdnCustomerCode;
 
     @NotBlank(message = "Tên khách hàng không thẻ bỏ trống")
     @Size(min = 3, max = 50, message = "Độ dài tên khách hàng phải ở khoảng 3 đến 50 ký tự")
@@ -26,6 +26,8 @@ public class CustomerForm {
 
     @NotBlank(message = "Trạng thái không thể bỏ trống")
     private String status;
+
+    private String description;
 
     @NotBlank(message = "Tên ngân hàng không thể bỏ trống")
     private String bankName;
@@ -58,6 +60,26 @@ public class CustomerForm {
     @NotBlank(message = "Mã môi giới không thể bỏ trống")
     private String brokerCode;
 
+    private String imageBefore ;
+
+    private String imageAfter ;
+
+    public String getImageBefore() {
+        return imageBefore;
+    }
+
+    public void setImageBefore(String imageBefore) {
+        this.imageBefore = imageBefore;
+    }
+
+    public String getImageAfter() {
+        return imageAfter;
+    }
+
+    public void setImageAfter(String imageAfter) {
+        this.imageAfter = imageAfter;
+    }
+
     private String brokerName;
 
     private String accountCreateDate;
@@ -77,11 +99,11 @@ public class CustomerForm {
 
     private ComboboxForm comboboxForm;
 
-    public Long getHdnCustomerCode() {
+    public String getHdnCustomerCode() {
         return hdnCustomerCode;
     }
 
-    public void setHdnCustomerCode(Long hdnCustomerCode) {
+    public void setHdnCustomerCode(String hdnCustomerCode) {
         this.hdnCustomerCode = hdnCustomerCode;
     }
 
@@ -213,14 +235,6 @@ public class CustomerForm {
         this.identifyNumber = identifyNumber;
     }
 
-    public String getDateOfIssue() {
-        return dateOfIssue;
-    }
-
-    public void setDateOfIssue(String dateOfIssue) {
-        this.dateOfIssue = dateOfIssue;
-    }
-
     public String getPlaceOfIssue() {
         return placeOfIssue;
     }
@@ -275,6 +289,22 @@ public class CustomerForm {
 
     public void setHdnEmployeeId(Long hdnEmployeeId) {
         this.hdnEmployeeId = hdnEmployeeId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDateOfIssue() {
+        return dateOfIssue;
+    }
+
+    public void setDateOfIssue(String dateOfIssue) {
+        this.dateOfIssue = dateOfIssue;
     }
 
     public String getDateOfBirth() {

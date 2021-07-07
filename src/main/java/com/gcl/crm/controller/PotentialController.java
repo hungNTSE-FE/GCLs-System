@@ -2,13 +2,17 @@ package com.gcl.crm.controller;
 
 import com.gcl.crm.entity.*;
 import com.gcl.crm.form.PotentialSearchForm;
+import com.gcl.crm.form.CustomerDistributionForm;
 import com.gcl.crm.repository.SourceRepository;
 import com.gcl.crm.service.DepartmentService;
+import com.gcl.crm.service.EmployeeService;
 import com.gcl.crm.service.LevelService;
 import com.gcl.crm.service.PotentialService;
 import com.gcl.crm.service.UserService;
 import com.gcl.crm.utils.ExcelReader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -17,6 +21,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -51,6 +57,9 @@ public class PotentialController {
     DepartmentService departmentService;
 
 
+    @Autowired
+    EmployeeService employeeService;
+
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String goHomePage(Model model, Principal principal) {
         if (principal == null) {
@@ -60,12 +69,18 @@ public class PotentialController {
         List<Level> levels = levelService.getAll();
         List<Potential> potentials = potentialService.getAllPotentials();
         List<Department> departments = departmentService.findAllDepartments();
+        List<Employee> employees = employeeService.getAllWorkingEmployees();
+        List<Potential> potentialsSharing = potentialService.getListPotentialToShare();
         PotentialSearchForm searchForm = new PotentialSearchForm();
         model.addAttribute("departments", departments);
+        CustomerDistributionForm customerDistributionForm = new CustomerDistributionForm();
         model.addAttribute("sources", sources);
         model.addAttribute("levels", levels);
         model.addAttribute("potentials", potentials);
         model.addAttribute("searchForm", searchForm);
+        model.addAttribute("employees", employees);
+        model.addAttribute("potentialsSharing", potentialsSharing);
+        model.addAttribute("customerDistributionForm", customerDistributionForm);
         return DASHBOARD_PAGE;
     }
 
@@ -234,6 +249,15 @@ public class PotentialController {
             model.addAttribute("error", e.getMessage());
         }
         return "redirect:/potential/home";
+    }
+
+    @PostMapping(value = "/getPotentialToShare")
+    public ResponseEntity<List<Potential>> getPotentialToShare(@RequestBody String ids) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Long> listSelectedId = mapper.readValue(ids,
+                mapper.getTypeFactory().constructCollectionType(List.class, Long.class));
+
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     private String getCurrentDate() {

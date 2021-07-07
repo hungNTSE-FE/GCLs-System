@@ -12,8 +12,9 @@ public class CustomerRepository {
     @Autowired
     EntityManager entityManager;
 
-    public void register(Customer customer) {
+    public Customer register(Customer customer) {
         entityManager.persist(customer);
+        return customer;
     }
 
     public void update(Customer customer) { entityManager.merge(customer); }

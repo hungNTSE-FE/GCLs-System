@@ -5,18 +5,23 @@ import java.util.Date;
 
 @Entity
 @Table(name = "CUSTOMER_DISTRIBUTION")
-public class Customer_Distribution {
+public class CustomerDistribution {
 
     @Column(name = "SEQ_NO")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer seq_no;
 
-    @Column(name = "CUSTOMER_CODE")
-    private Long customer_code;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_code")
+    private Customer customer;
 
-    @Column(name = "EMPLOYEE_ID")
-    private Long employee_id;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id", nullable = false)
+    private Employee employee;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Potential potential;
 
     @Column(name = "DATE_DISTRIBUTION")
     private Date date_distribution;
@@ -39,22 +44,6 @@ public class Customer_Distribution {
 
     public void setSeq_no(Integer seq_no) {
         this.seq_no = seq_no;
-    }
-
-    public Long getCustomer_code() {
-        return customer_code;
-    }
-
-    public void setCustomer_code(Long customer_code) {
-        this.customer_code = customer_code;
-    }
-
-    public Long getEmployee_id() {
-        return employee_id;
-    }
-
-    public void setEmployee_id(Long employee_id) {
-        this.employee_id = employee_id;
     }
 
     public Date getDate_distribution() {
@@ -95,5 +84,29 @@ public class Customer_Distribution {
 
     public void setUpd_user(Long upd_user) {
         this.upd_user = upd_user;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Potential getPotential() {
+        return potential;
+    }
+
+    public void setPotential(Potential potential) {
+        this.potential = potential;
     }
 }

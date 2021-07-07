@@ -83,7 +83,7 @@
                               class="dropdown-item"
                               href="#"
                               data-bs-toggle="modal"
-                              data-bs-target="#exampleModalShareLead"
+                              data-bs-target="#modalShareLead"
                       >Chia sẻ đầu mối</a
                       >
                     </div>
@@ -248,7 +248,7 @@
                       <tr th:each="potential : ${potentials}" th:id="${potential.id}">
                         <td>
                           <div class="d-flex">
-                            <input class="m-1" type="checkbox" th:value="${potential.id}" name="pid" form="remove-form" />
+                            <input class="m-1 potential-id" type="checkbox" th:value="${potential.id}" name="potential-id" form="remove-form" />
                             <a th:href="@{/potential/detail/{id}(id=${potential.id})}" class="text-dark mx-1">
                               <i class="fas fa-info-circle"></i>
                             </a>
@@ -333,7 +333,7 @@
     <!-- Modal Share leads -->
     <div
             class="modal fade"
-            id="exampleModalShareLead"
+            id="modalShareLead"
             tabindex="-1"
             role="dialog"
             aria-labelledby="myExtraLargeModalLabel"
@@ -363,7 +363,13 @@
               </tr>
               </thead>
               <tbody>
-                <tr></tr>
+              <tr th:each="potential : ${potentialsSharing}">
+                <td th:text="${potential.name}"></td>
+                <td th:text="${potential.phoneNumber}"></td>
+                <td th:text="${potential.email}"></td>
+                <td th:text="${potential.email}"></td>
+                <td th:text="${potential.email}"></td>
+              </tr>
               </tbody>
             </table>
 
@@ -388,9 +394,9 @@
                         class="form-control"
                         size="10"
                 >
-                  <option value="1">Test 1</option>
-                  <option value="2">Test 2</option>
-                  <option value="3">Test 3</option>
+                  <option th:each="employee : ${employees}"
+                          th:value="${employee.id}"
+                          th:utext="${employee.name}"/>
                 </select>
               </div>
 
@@ -438,10 +444,17 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-primary" type="button">Lưu</button>
+            <button class="btn btn-primary" id="sharingLeads" type="button">Chia sẻ</button>
             <button class="btn btn-outline-dark" type="button">
               Bỏ qua
             </button>
+          </div>
+          <div>
+            <form action="#" id ="customerDistributionForm" method="POST" th:action="@{/marketing/distributionPotential}"
+                  th:object="${customerDistributionForm}">
+              <input type="hidden" id="empIdList" th:field="${customerDistributionForm.empIdList}">
+              <input type="hidden" id="potentialIdList" th:field="${customerDistributionForm.potentialIdList}">
+            </form>
           </div>
         </div>
       </div>
@@ -607,6 +620,7 @@
 <script src="https://semantic-ui.com/dist/components/form.js"></script>
 <script src="https://semantic-ui.com/javascript/validate-form.js"></script>
 <script src="https://semantic-ui.com/dist/components/popup.js"></script>
+<script type="text/javascript" th:src="@{/js/potential.js}"></script>
 <script th:inline="javascript">
   $(document).ready(function () {
     $("#btnRight").click(function (e) {
@@ -657,6 +671,7 @@
       e.preventDefault();
       updateIDs();
     });
+
   });
 
   function updateIDs() {
