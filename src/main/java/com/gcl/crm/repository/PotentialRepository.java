@@ -22,6 +22,6 @@ public interface PotentialRepository extends JpaRepository<Potential, Long> {
     List<Potential> findAllByStatus(Status status);
     List<Potential> findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndStatus
             (String name, String phone, String email, Status status);
-    List<Potential> findAllByDateContaining(String year);
+    List<Potential> findAllByDateContaining(String date);
     List<Potential> findAllByDate(String date);
 }

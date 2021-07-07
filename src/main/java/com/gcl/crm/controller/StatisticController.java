@@ -26,12 +26,16 @@ public class StatisticController {
 
     /*
     Return list 12 integer number of potentials present volatility
-    URL: localhost:8082/statistic/potential/volatility?year=2021
+    Return null if year is empty or not match [yyyy]
+    URL: http://localhost:8082/statistic/potential/volatility?year=2021
      */
     @GetMapping(value = {"/potential/volatility"})
     @ResponseBody
-    public List<Integer> getPotentialVolatility(@Nullable @RequestParam("year") Integer year){
+    public List<Integer> getPotentialVolatility(@Nullable @RequestParam("year") String year){
         if (year == null){
+            return null;
+        }
+        if (!year.matches("[0-9]{4}")){
             return null;
         }
         return statisticService.getPotentialVolatility(year);
@@ -39,11 +43,27 @@ public class StatisticController {
 
     /*
     Return list potentials of current date
-    URL: localhost:8082/statistic/potential/today
+    URL: http://localhost:8082/statistic/potential/today
      */
     @GetMapping(value = {"/potential/today"})
     @ResponseBody
     public List<RecentPotentialForm> getTodayPotential(){
         return statisticService.getTodayPotential();
+    }
+
+    /*
+    Return list 8 integers present number of potential count by level
+    Return null if date is empty or not match [M/yyyy] and [MM/yyyy]
+    URL: http://localhost:8081/statistic/potential/level?date=05/2021
+     */
+    @GetMapping(value = {"/potential/level"})
+    @ResponseBody
+    public List<Integer> getPotentialLevel(@Nullable @RequestParam("date") String date){
+        if (date == null)
+            return null;
+        if (!date.matches("[0-9]{1,2}[/][0-9]{4}")){
+            return null;
+        }
+        return statisticService.countPotentialByDateGroupByLevel(date);
     }
 }
