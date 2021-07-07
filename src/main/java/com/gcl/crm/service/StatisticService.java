@@ -59,7 +59,7 @@ public class StatisticService {
                     break;
                 case "12":
                     result[11]++;
-                    break;
+                      break;
                 default:
                     break;
             }

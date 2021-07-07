@@ -12,6 +12,7 @@ import java.security.Principal;
 
 @Controller
 public class MainController {
+    private static final String LOGIN_PAGE = "loginPage";
 
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public String welcomePage(Model model) {
@@ -22,68 +23,6 @@ public class MainController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String DefaultPage(Model model) {
-        return "loginPage";
+        return LOGIN_PAGE;
     }
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String DefaultTest(Model model) {
-        return "department/test";
-    }
-
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String adminPage(Model model, Principal principal) {
-
-        User loginedUser = (User) ((Authentication) principal).getPrincipal();
-
-        String userInfo = WebUtils.toString(loginedUser);
-        model.addAttribute("userInfo", userInfo);
-        return "adminPage";
-    }
-
-    @RequestMapping(value = "/userInfo", method = RequestMethod.GET)
-    public String userInfo(Model model, Principal principal) {
-
-        // Sau khi user login thanh cong se co principal
-        String userName = principal.getName();
-
-        System.out.println("User Name: " + userName);
-
-        User loginedUser = (User) ((Authentication) principal).getPrincipal();
-
-        String userInfo = WebUtils.toString(loginedUser);
-        model.addAttribute("userInfo", userInfo);
-
-        return "userInfoPage";
-    }
-
-    @RequestMapping(value = "/403", method = RequestMethod.GET)
-    public String accessDenied(Model model, Principal principal) {
-        if (principal != null) {
-            User loginedUser = (User) ((Authentication) principal).getPrincipal();
-
-            String userInfo = WebUtils.toString(loginedUser);
-
-            model.addAttribute("userInfo", userInfo);
-
-            String message = "Hi" + principal.getName() + "<br> You do not have permission to access this page!";
-            model.addAttribute("message", message);
-        }
-        return "/error/error-403";
-    }
-
-    @RequestMapping(value = "/400", method = RequestMethod.GET)
-    public String error400(Model model, Principal principal) {
-        if (principal != null) {
-            User loginedUser = (User) ((Authentication) principal).getPrincipal();
-
-            String userInfo = WebUtils.toString(loginedUser);
-        }
-        return "/error/error-400";
-    }
-
-    @RequestMapping(value = "/401", method = RequestMethod.GET)
-    public String error401(Model model, Principal principal) {
-        return "/error/error-401";
-    }
-
-
 }
