@@ -133,26 +133,6 @@ public class ExcelReader {
                         String initialState = cellValue.toString();
                         item.setInitialState(initialState);
                         break;
-                    case COLUMN_INDEX_FIRST_CARE:
-                        String firstCare = cellValue.toString();
-                        item.setFirstCare(firstCare);
-                        break;
-                    case COLUMN_INDEX_SECOND_CARE:
-                        String secondCare = cellValue.toString();
-                        item.setSecondCare(secondCare);
-                        break;
-                    case COLUMN_INDEX_THIRD_CARE:
-                        String thirdCare = cellValue.toString();
-                        item.setThirdCare(thirdCare);
-                        break;
-                    case COLUMN_INDEX_TRADING_ACCOUNT:
-                        String tradingAccount = cellValue.toString();
-                        item.setTradingAccount(tradingAccount);
-                        break;
-                    case COLUMN_INDEX_MARGIN_ACCOUNT:
-                        String marginAccount = cellValue.toString();
-                        item.setMarginAccount(marginAccount);
-                        break;
                     case COLUMN_INDEX_NOTE:
                         String note = cellValue.toString();
                         item.setNote(note);
