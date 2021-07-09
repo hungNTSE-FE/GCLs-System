@@ -40,6 +40,8 @@ public class PotentialController {
     private static final String DETAIL_OVERVIEW_PAGE = "/potential/details/detail-potential-overview-page-V2";
     private static final String DETAIL_INFORMATION_PAGE = "/potential/details/detail-potential-information-page-V2";
     private static final String DETAIL_ACTION_PAGE = "/potential/details/detail-potential-action-page-V2";
+    private static final String DETAIL_TAKECARE_PAGE = "/potential/details/detail-potential-takecare-page";
+    private static final String ERROR_USER = "loginPage";
 
     @Autowired
     PotentialService potentialService;
@@ -63,7 +65,7 @@ public class PotentialController {
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String goHomePage(Model model, Principal principal) {
         if (principal == null) {
-            return ERROR_400;
+            return ERROR_USER;
         }
         List<Source> sources = sourceRepository.getAll();
         List<Level> levels = levelService.getAll();
@@ -100,7 +102,7 @@ public class PotentialController {
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String goDetailInformationCustomer(Model model, @PathVariable("id") Long id, Principal principal) {
         if (principal == null) {
-            return ERROR_400;
+            return ERROR_USER;
         }
         Potential potentialDetail = potentialService.getPotentialById(id);
         Potential potentialEntity = new Potential();
@@ -110,6 +112,21 @@ public class PotentialController {
         model.addAttribute("potentialDetail", potentialDetail);
         model.addAttribute("potentialEntity", potentialEntity);
         return DETAIL_INFORMATION_PAGE;
+    }
+
+    @RequestMapping(value = "/detail/takecare/{id}", method = RequestMethod.GET)
+    public String goDetailTakeCarePotential(Model model, @PathVariable("id") Long id, Principal principal) {
+        if (principal == null) {
+            return ERROR_USER;
+        }
+        Potential potentialDetail = potentialService.getPotentialById(id);
+        Potential potentialEntity = new Potential();
+        if (potentialDetail == null) {
+            return "redirect:/potential/home";
+        }
+        model.addAttribute("potentialDetail", potentialDetail);
+        model.addAttribute("potentialEntity", potentialEntity);
+        return DETAIL_TAKECARE_PAGE;
     }
 
     @RequestMapping(value = "/email/id1", method = RequestMethod.GET)

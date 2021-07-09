@@ -61,9 +61,9 @@ public class PotentialService {
         potential.setEmail(newPotential.getEmail());
         potential.setPhoneNumber(newPotential.getPhoneNumber());
         potential.setSource(sourceService.getSourceById(newPotential.getSource().getSourceId()));
-        potential.setFirstCare(newPotential.getFirstCare());
-        potential.setSecondCare(newPotential.getSecondCare());
-        potential.setThirdCare((newPotential.getThirdCare()));
+//        potential.setFirstCare(newPotential.getFirstCare());
+//        potential.setSecondCare(newPotential.getSecondCare());
+//        potential.setThirdCare((newPotential.getThirdCare()));
         potential.setLastModified(getCurrentDate());
         potential.setLastModifier(id);
         potentialRepository.save(potential);

@@ -9,7 +9,7 @@ import java.util.List;
 public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "CONTRACT_ID", nullable = false)
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

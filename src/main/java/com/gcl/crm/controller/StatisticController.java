@@ -27,7 +27,7 @@ public class StatisticController {
     /*
     Return list 12 integer number of potentials present volatility
     Return null if year is empty or not match [yyyy]
-    URL: http://localhost:8082/statistic/potential/volatility?year=2021
+    URL: http://localhost:8081/statistic/potential/volatility?year=2021
      */
     @GetMapping(value = {"/potential/volatility"})
     @ResponseBody
@@ -43,7 +43,7 @@ public class StatisticController {
 
     /*
     Return list potentials of current date
-    URL: http://localhost:8082/statistic/potential/today
+    URL: http://localhost:8081/statistic/potential/today
      */
     @GetMapping(value = {"/potential/today"})
     @ResponseBody

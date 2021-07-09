@@ -54,12 +54,16 @@
         <!-- Account page navigation-->
         <nav class="nav nav-borders">
           <a class="nav-link active ms-0" th:href="@{/potential/detail/{id}(id=${potentialDetail.id})}">Chi tiết</a>
-          <a class="nav-link" href="#">
+          <a class="nav-link" th:href="@{/potential/detail/takecare/{id}(id=${potentialDetail.id})}">
+            Chăm sóc khách hàng
+            <span class="badge bg-hung-custom text-white-75 ms-auto">1</span>
+          </a>
+          <a class="nav-link" th:href="@{/customer/action/id1}">
             <i class="fas fa-calendar-alt"></i>
             Hoạt động
             <span class="badge bg-hung-custom text-white-75 ms-auto">1</span>
           </a>
-          <a class="nav-link" href="#">Email</a>
+          <a class="nav-link" th:href="@{/customer/email/id1}">Email</a>
         </nav>
 
         <hr class="mt-0 mb-4" />

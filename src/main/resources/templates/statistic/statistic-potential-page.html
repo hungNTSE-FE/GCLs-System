@@ -70,9 +70,9 @@
               <div class="card-header">
                 ĐẦU MỐI MỚI
                 <div>
-                  <a href="#" class="text-dark">
+                  <button href="#" class=" btn text-dark" id="reloadNewPotentials">
                     <i class="fas fa-sync-alt"></i>
-                  </a>
+                  </button>
                 </div>
               </div>
               <div class="card-body">
@@ -89,27 +89,7 @@
                     <th>EMAIL</th>
                   </tr>
                   </thead>
-                  <tbody>
-                  <tr>
-                    <td>Nguyen Truong Tuan Kiet Vy</td>
-                    <td><div class="text-danger">Hot</div></td>
-                    <td>nguyenvanA@gmail.com</td>
-                  </tr>
-                  <tr>
-                    <td>Nguyen Van B</td>
-                    <td><div class="text-primary">Cold</div></td>
-                    <td>b@gmail.com</td>
-                  </tr>
-                  <tr>
-                    <td>Nguyen Van C</td>
-                    <td><div class="text-warning">Warm</div></td>
-                    <td>c@gmail.com</td>
-                  </tr>
-                  <tr>
-                    <td>Nguyen Truong Tuan Kiet Vy</td>
-                    <td><div class="text-danger">Hot</div></td>
-                    <td>nguyenvanA@gmail.com</td>
-                  </tr>
+                  <tbody id="dataNewPotential">
                   </tbody>
                 </table>
               </div>
@@ -131,153 +111,6 @@
                           height="50"
                   ></canvas>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <div class="col-sm">
-            <div class="card card-header-actions">
-              <div class="card-header">
-                ĐẦU MỐI ĐANG CHĂM SÓC
-                <a href="#" class="text-dark">
-                  <i class="fas fa-sync-alt"></i>
-                </a>
-              </div>
-              <div class="card-body">
-                <table id="datatablesTakeCareOfPotential">
-                  <colgroup>
-                    <col width="50%">
-                    <col width="20%">
-                    <col width="30%">
-                  </colgroup>
-                  <thead>
-                  <tr>
-                    <th>HỌ VÀ TÊN</th>
-                    <th>RATING</th>
-                    <th>EMAIL</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td>Nguyen Truong Tuan Kiet Vy</td>
-                    <td><div class="text-danger">Hot</div></td>
-                    <td>nguyenvanA@gmail.com</td>
-                  </tr>
-                  <tr>
-                    <td>Nguyen Van B</td>
-                    <td><div class="text-primary">Cold</div></td>
-                    <td>b@gmail.com</td>
-                  </tr>
-                  <tr>
-                    <td>Nguyen Van C</td>
-                    <td><div class="text-warning">Warm</div></td>
-                    <td>c@gmail.com</td>
-                  </tr>
-                  <tr>
-                    <td>Nguyen Truong Tuan Kiet Vy</td>
-                    <td><div class="text-danger">Hot</div></td>
-                    <td>nguyenvanA@gmail.com</td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm">
-            <div class="card card-header-actions">
-              <div class="card-header">
-                ĐẦU MỐI PRE-QUALIFIED
-                <a href="#" class="text-dark">
-                  <i class="fas fa-sync-alt"></i>
-                </a>
-              </div>
-              <div class="card-body">
-                <table id="datatablesPreQualifiedOfPotential">
-                  <colgroup>
-                    <col width="50%">
-                    <col width="20%">
-                    <col width="30%">
-                  </colgroup>
-                  <thead>
-                  <tr>
-                    <th>HỌ VÀ TÊN</th>
-                    <th>RATING</th>
-                    <th>EMAIL</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td>Nguyen Truong Tuan Kiet Vy</td>
-                    <td><div class="text-danger">Hot</div></td>
-                    <td>nguyenvanA@gmail.com</td>
-                  </tr>
-                  <tr>
-                    <td>Nguyen Van B</td>
-                    <td><div class="text-primary">Cold</div></td>
-                    <td>b@gmail.com</td>
-                  </tr>
-                  <tr>
-                    <td>Nguyen Van C</td>
-                    <td><div class="text-warning">Warm</div></td>
-                    <td>c@gmail.com</td>
-                  </tr>
-                  <tr>
-                    <td>Nguyen Truong Tuan Kiet Vy</td>
-                    <td><div class="text-danger">Hot</div></td>
-                    <td>nguyenvanA@gmail.com</td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm">
-            <div class="card card-header-actions">
-              <div class="card-header">
-                ĐẦU MỐI QUALIFIED
-                <a href="#" class="text-dark">
-                  <i class="fas fa-sync-alt"></i>
-                </a>
-              </div>
-              <div class="card-body">
-                <table id="datatablesQualifiedOfPotential">
-                  <colgroup>
-                    <col width="50%">
-                    <col width="20%">
-                    <col width="30%">
-                  </colgroup>
-                  <thead>
-                  <tr>
-                    <th>HỌ VÀ TÊN</th>
-                    <th>RATING</th>
-                    <th>EMAIL</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td>Nguyen Truong Tuan Kiet Vy</td>
-                    <td><div class="text-danger">Hot</div></td>
-                    <td>nguyenvanA@gmail.com</td>
-                  </tr>
-                  <tr>
-                    <td>Nguyen Van B</td>
-                    <td><div class="text-primary">Cold</div></td>
-                    <td>b@gmail.com</td>
-                  </tr>
-                  <tr>
-                    <td>Nguyen Van C</td>
-                    <td><div class="text-warning">Warm</div></td>
-                    <td>c@gmail.com</td>
-                  </tr>
-                  <tr>
-                    <td>Nguyen Truong Tuan Kiet Vy</td>
-                    <td><div class="text-danger">Hot</div></td>
-                    <td>nguyenvanA@gmail.com</td>
-                  </tr>
-                  </tbody>
-                </table>
               </div>
             </div>
           </div>
