@@ -19,6 +19,8 @@ public class Care {
 
     private Long lastModifier;
 
+    private String modifierName;
+
     private Date acceptDate;
 
     private boolean accepted;

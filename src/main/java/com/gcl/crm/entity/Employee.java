@@ -52,7 +52,7 @@ public class Employee {
     @Column(name = "start_date")
     private Date startDate;
 
-    @Column(name = "broker_code", unique = true)
+    @Column(name = "broker_code")
     private Long brokerCode;
 
     @Enumerated(EnumType.ORDINAL)

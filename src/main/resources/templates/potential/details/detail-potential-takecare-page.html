@@ -100,7 +100,7 @@
                 <td class="asset_value">
                   <textarea th:disabled="${potentialDetail.cares.size() != 0}" name="description"
                             th:text="${potentialDetail.cares.size() > 0 ? potentialDetail.cares.get(0).description : ''}"
-                            class="form-control" rows="3" form="form-tk"></textarea>
+                            class="form-control" rows="3" form="form-tk" required></textarea>
                 </td>
                 <td>
                   <div th:if="${potentialDetail.cares.size() > 0}">
@@ -123,7 +123,7 @@
                 <td class="asset_value">
                   <textarea th:disabled="${potentialDetail.cares.size() != 1}" name="description"
                             th:text="${potentialDetail.cares.size() > 1 ? potentialDetail.cares.get(1).description : ''}"
-                            class="form-control" rows="3" form="form-tk"></textarea>
+                            class="form-control" rows="3" form="form-tk" required></textarea>
                 </td>
                 <td>
                   <div th:if="${potentialDetail.cares.size() > 1}">
@@ -146,7 +146,7 @@
                 <td class="asset_value">
                   <textarea th:disabled="${potentialDetail.cares.size() != 2}" name="description"
                             th:text="${potentialDetail.cares.size() > 2 ? potentialDetail.cares.get(2).description : ''}"
-                            class="form-control" rows="3" form="form-tk"></textarea>
+                            class="form-control" rows="3" form="form-tk" required></textarea>
                 </td>
                 <td>
                   <div th:if="${potentialDetail.cares.size() > 2}">

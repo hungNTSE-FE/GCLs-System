@@ -1,9 +1,6 @@
 package com.gcl.crm.service;
 
-import com.gcl.crm.entity.Care;
-import com.gcl.crm.entity.Level;
-import com.gcl.crm.entity.Potential;
-import com.gcl.crm.entity.Source;
+import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.form.PotentialSearchForm;
 import com.gcl.crm.repository.CareRepository;
@@ -194,12 +191,13 @@ public class PotentialService {
         return potentialRepository2.getListPotentialToShare();
     }
 
-    public boolean addTakeCarePotentialDetail(Potential potential, Long uid, String description){
+    public boolean addTakeCarePotentialDetail(Potential potential, AppUser user, String description){
         Care care = new Care();
         care.setDescription(description);
         care.setPotential(potential);
         care.setLastModified(this.getCurrentDate());
-        care.setLastModifier(uid);
+        care.setLastModifier(user.getUserId());
+        care.setModifierName(user.getEmployee().getName());
         care.setAccepted(false);
         Care confirm = careRepository.save(care);
         return confirm.equals(care);

@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -58,7 +59,6 @@ public class PotentialController {
 
     @Autowired
     DepartmentService departmentService;
-
 
     @Autowired
     EmployeeService employeeService;
@@ -117,19 +117,16 @@ public class PotentialController {
 
     @RequestMapping(value = "/detail/takecare/{id}", method = RequestMethod.GET)
     public String goDetailTakeCarePotential(Model model, @PathVariable("id") Long id, Principal principal) {
-        System.out.println(principal);
         Potential potential = potentialService.getPotentialById(id);
         if (potential == null){
             return "redirect:/potential/home";
         }
-        Care care = new Care();
         model.addAttribute("potentialDetail", potential);
-        model.addAttribute("care", care);
         return DETAIL_TAKECARE_PAGE;
     }
 
     @PostMapping(value = {"/detail/take-care/{id}"})
-    public String takeCare(Model model, @PathVariable("id") Long pid,
+    public String takeCare(@PathVariable("id") Long pid, Principal principal,
                            @Nullable @RequestParam("description") String description,
                            @RequestParam("index") Integer index){
         Potential potential = potentialService.getPotentialById(pid);
@@ -139,23 +136,19 @@ public class PotentialController {
         if (index > 3){
             return "redirect:/potential/detail/takecare/" + pid;
         }
-        System.out.println("ok");
-        boolean done = potentialService.addTakeCarePotentialDetail(potential, null, description);
+        AppUser currentUser = userService.getAppUserByUsername(principal.getName());
+        Long uid = currentUser == null ? null : currentUser.getEmployee().getId();
+        boolean done = potentialService.addTakeCarePotentialDetail(potential, currentUser, description);
         return "redirect:/potential/detail/takecare/" + pid;
     }
 
     @RequestMapping(value = "/detail/takecare/MKT/{id}", method = RequestMethod.GET)
     public String goDetailTakeCarePotentialOfMKT(Model model, @PathVariable("id") Long id, Principal principal) {
-//        if (principal == null) {
-//            return ERROR_USER;
-//        }
         Potential potentialDetail = potentialService.getPotentialById(id);
-        Potential potentialEntity = new Potential();
         if (potentialDetail == null) {
             return "redirect:/potential/home";
         }
         model.addAttribute("potentialDetail", potentialDetail);
-        model.addAttribute("potentialEntity", potentialEntity);
         return DETAIL_TAKECARE_MKTPAGE;
     }
 
@@ -305,12 +298,6 @@ public class PotentialController {
                 mapper.getTypeFactory().constructCollectionType(List.class, Long.class));
 
         return new ResponseEntity<>(null, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/test/checkbox", method = RequestMethod.POST)
-    public String testSubmitCheckbox(Model model) {
-        System.out.println("Checkbox submit OK");
-        return "redirect:/potential/home";
     }
 
     private String getCurrentDate() {

@@ -34,12 +34,9 @@
                                 <nav class="rounded" aria-label="breadcrumb">
                                     <ol class="breadcrumb px-3 py-2 rounded mb-0">
                                         <li class="breadcrumb-item">
-                                            <a th:href="@{/customer/home}">Khách hàng</a>
+                                            <a th:href="@{/potential/home}">Đầu mối</a>
                                         </li>
-                                        <li class="breadcrumb-item">
-                                            <a th:href="@{/customer/home}">Tất cả</a>
-                                        </li>
-                                        <li class="breadcrumb-item active" th:href="@{/customer/id1}">Chị Nguyễn Văn A</li>
+                                        <li class="breadcrumb-item active" th:text="${potentialDetail.name}"></li>
                                     </ol>
                                 </nav>
                             </div>
@@ -65,14 +62,15 @@
                     </a>
                     <a class="nav-link active ms-0" th:href="@{/potential/detail/takecare/MKT/{id}(id=${potentialDetail.id})}">
                         Chăm sóc khách hàng (MKT)
-                        <span class="badge bg-hung-custom text-white-75 ms-auto">1</span>
+                        <span class="badge bg-hung-custom text-white-75 ms-auto"
+                              th:text="${potentialDetail.cares.size()}" th:if="${potentialDetail.cares.size() != 0}"></span>
                     </a>
                 </nav>
                 <hr class="mt-0 mb-4" />
                 <div class="card mb-4 mb-xl-0">
                     <div class="card-header">CHĂM SÓC KHÁCH HÀNG</div>
                     <div class="card-body">
-                        <form id="form" method="POST" th:action="@{/potential/test/checkbox}">
+                        <form id="form-mkt" method="POST" th:action="@{/potential/detail/take-care/MKT/{id}(id=${potentialDetail.id})}">
                             <table id="datatablesManageTakeCareOfPotential">
                                 <colgroup>
                                     <col width="12%" />
@@ -94,35 +92,41 @@
                                 <tr>
                                     <td>CHĂM KHÁCH LẦN 1</td>
                                     <td class="asset_value">
-                                        <textarea class="form-control" rows="3"></textarea>
+                                        <textarea th:text="${potentialDetail.cares.size() < 1 ? '' : potentialDetail.cares.get(0).description}"
+                                                  disabled class="form-control" rows="3"></textarea>
                                     </td>
                                     <td>
-                                        <input class="form-check-input" onchange="$('#form').submit();" type="checkbox" value="">
+                                        <input class="form-check-input" onchange="$('#form-mkt').submit();" type="checkbox" value="0" name="index"
+                                               th:disabled="${potentialDetail.cares.size() < 1 ? true : potentialDetail.cares.get(0).accepted}"/>
                                     </td>
-                                    <td>Team Bình Dương</td>
-                                    <td>16/06/2021 10:12</td>
+                                    <td th:text="${potentialDetail.cares.size() < 1 ? '' : potentialDetail.cares.get(0).modifierName}"></td>
+                                    <td th:text="${potentialDetail.cares.size() < 1 ? '' : potentialDetail.cares.get(0).lastModified}"></td>
                                 </tr>
                                 <tr>
-                                    <td>CHĂM KHÁCH LẦN 1</td>
+                                    <td>CHĂM KHÁCH LẦN 2</td>
                                     <td class="asset_value">
-                                        <textarea class="form-control" rows="3"></textarea>
+                                        <textarea th:text="${potentialDetail.cares.size() < 2 ? '' : potentialDetail.cares.get(1).description}"
+                                                  disabled class="form-control" rows="3"></textarea>
                                     </td>
                                     <td>
-                                        <input class="form-check-input" onchange="$('#form').submit();" type="checkbox" value="">
+                                        <input class="form-check-input" onchange="$('#form-mkt').submit();" type="checkbox" value="1" name="index"
+                                               th:disabled="${potentialDetail.cares.size() < 2 ? true : potentialDetail.cares.get(1).accepted}"/>
                                     </td>
-                                    <td>Team Bình Dương</td>
-                                    <td>16/06/2021 10:12</td>
+                                    <td th:text="${potentialDetail.cares.size() < 2 ? '' : potentialDetail.cares.get(1).modifierName}"></td>
+                                    <td th:text="${potentialDetail.cares.size() < 2 ? '' : potentialDetail.cares.get(1).lastModified}"></td>
                                 </tr>
                                 <tr>
-                                    <td>CHĂM KHÁCH LẦN 1</td>
+                                    <td>CHĂM KHÁCH LẦN 3</td>
                                     <td class="asset_value">
-                                        <textarea class="form-control" rows="3"></textarea>
+                                        <textarea th:text="${potentialDetail.cares.size() < 3 ? '' : potentialDetail.cares.get(2).description}"
+                                                  disabled class="form-control" rows="3"></textarea>
                                     </td>
                                     <td>
-                                        <input class="form-check-input" onchange="$('#form').submit();" type="checkbox" value="">
+                                        <input class="form-check-input" onchange="$('#form-mkt').submit();" type="checkbox" value="2" name="index"
+                                               th:disabled="${potentialDetail.cares.size() < 3 ? true : potentialDetail.cares.get(2).accepted}"/>
                                     </td>
-                                    <td>Team Bình Dương</td>
-                                    <td>16/06/2021 10:12</td>
+                                    <td th:text="${potentialDetail.cares.size() < 3 ? '' : potentialDetail.cares.get(2).modifierName}"></td>
+                                    <td th:text="${potentialDetail.cares.size() < 3 ? '' : potentialDetail.cares.get(2).lastModified}"></td>
                                 </tr>
                                 </tbody>
                             </table>
