@@ -41,6 +41,7 @@ public class PotentialController {
     private static final String DETAIL_INFORMATION_PAGE = "/potential/details/detail-potential-information-page-V2";
     private static final String DETAIL_ACTION_PAGE = "/potential/details/detail-potential-action-page-V2";
     private static final String DETAIL_TAKECARE_PAGE = "/potential/details/detail-potential-takecare-page";
+    private static final String DETAIL_TAKECARE_MKTPAGE = "/potential/details/marketing/detail-potential-takecare-MKTpage";
     private static final String ERROR_USER = "loginPage";
 
     @Autowired
@@ -127,6 +128,21 @@ public class PotentialController {
         model.addAttribute("potentialDetail", potentialDetail);
         model.addAttribute("potentialEntity", potentialEntity);
         return DETAIL_TAKECARE_PAGE;
+    }
+
+    @RequestMapping(value = "/detail/takecare/MKT/{id}", method = RequestMethod.GET)
+    public String goDetailTakeCarePotentialOfMKT(Model model, @PathVariable("id") Long id, Principal principal) {
+//        if (principal == null) {
+//            return ERROR_USER;
+//        }
+        Potential potentialDetail = potentialService.getPotentialById(id);
+        Potential potentialEntity = new Potential();
+        if (potentialDetail == null) {
+            return "redirect:/potential/home";
+        }
+        model.addAttribute("potentialDetail", potentialDetail);
+        model.addAttribute("potentialEntity", potentialEntity);
+        return DETAIL_TAKECARE_MKTPAGE;
     }
 
     @RequestMapping(value = "/email/id1", method = RequestMethod.GET)
@@ -275,6 +291,12 @@ public class PotentialController {
                 mapper.getTypeFactory().constructCollectionType(List.class, Long.class));
 
         return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/test/checkbox", method = RequestMethod.POST)
+    public String testSubmitCheckbox(Model model) {
+        System.out.println("Checkbox submit OK");
+        return "redirect:/potential/home";
     }
 
     private String getCurrentDate() {

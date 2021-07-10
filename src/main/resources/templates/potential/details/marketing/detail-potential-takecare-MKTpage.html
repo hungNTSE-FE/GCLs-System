@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>Chăm sóc khách hàng tiềm năng - Gia Cat Loi</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
+    <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
+</head>
+<body class="nav-fixed">
+<th:block th:include="/common/nav-fixed.html"></th:block>
+<div id="layoutSidenav">
+    <th:block th:include="/common/layoutSidenav.html"></th:block>
+    <div id="layoutSidenav_content">
+        <main>
+            <header
+                    class="
+              page-header page-header-compact page-header-light
+              border-bottom
+              bg-white
+              mb-4
+            "
+            >
+                <div class="container-fluid px-4">
+                    <div class="page-header-content">
+                        <div
+                                class="row align-items-center justify-content-between pt-3"
+                        >
+                            <div class="col-auto mb-3">
+                                <nav class="rounded" aria-label="breadcrumb">
+                                    <ol class="breadcrumb px-3 py-2 rounded mb-0">
+                                        <li class="breadcrumb-item">
+                                            <a th:href="@{/customer/home}">Khách hàng</a>
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <a th:href="@{/customer/home}">Tất cả</a>
+                                        </li>
+                                        <li class="breadcrumb-item active" th:href="@{/customer/id1}">Chị Nguyễn Văn A</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="container-fluid px-4">
+                <th:block th:include="/potential/common/potential-card-header-hungNT.html"></th:block>
+
+                <!-- Account page navigation-->
+                <nav class="nav nav-borders">
+                    <a class="nav-link" th:href="@{/potential/detail/{id}(id=${potentialDetail.id})}">Chi tiết</a>
+                    <a class="nav-link" th:href="@{/potential/detail/takecare/{id}(id=${potentialDetail.id})}">
+                        Chăm sóc khách hàng
+                        <span class="badge bg-hung-custom text-white-75 ms-auto">1</span>
+                    </a>
+                    <a class="nav-link" th:href="@{/customer/action/id1}">
+                        <i class="fas fa-calendar-alt"></i>
+                        Hoạt động
+                        <span class="badge bg-hung-custom text-white-75 ms-auto">1</span>
+                    </a>
+                    <a class="nav-link active ms-0" th:href="@{/potential/detail/takecare/MKT/{id}(id=${potentialDetail.id})}">
+                        Chăm sóc khách hàng (MKT)
+                        <span class="badge bg-hung-custom text-white-75 ms-auto">1</span>
+                    </a>
+                </nav>
+                <hr class="mt-0 mb-4" />
+                <div class="card mb-4 mb-xl-0">
+                    <div class="card-header">CHĂM SÓC KHÁCH HÀNG</div>
+                    <div class="card-body">
+                        <form id="form" method="POST" th:action="@{/potential/test/checkbox}">
+                            <table id="datatablesManageTakeCareOfPotential">
+                                <colgroup>
+                                    <col width="12%" />
+                                    <col width="60%" />
+                                    <col width="8%" />
+                                    <col width="10%" />
+                                    <col width="20%" />
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th>Tiêu đề</th>
+                                    <th>Nội dung</th>
+                                    <th>Cập nhật</th>
+                                    <th>Người phụ trách</th>
+                                    <th>Ngày cập nhật</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>CHĂM KHÁCH LẦN 1</td>
+                                    <td class="asset_value">
+                                        <textarea class="form-control" rows="3"></textarea>
+                                    </td>
+                                    <td>
+                                        <input class="form-check-input" onchange="$('#form').submit();" type="checkbox" value="">
+                                    </td>
+                                    <td>Team Bình Dương</td>
+                                    <td>16/06/2021 10:12</td>
+                                </tr>
+                                <tr>
+                                    <td>CHĂM KHÁCH LẦN 1</td>
+                                    <td class="asset_value">
+                                        <textarea class="form-control" rows="3"></textarea>
+                                    </td>
+                                    <td>
+                                        <input class="form-check-input" onchange="$('#form').submit();" type="checkbox" value="">
+                                    </td>
+                                    <td>Team Bình Dương</td>
+                                    <td>16/06/2021 10:12</td>
+                                </tr>
+                                <tr>
+                                    <td>CHĂM KHÁCH LẦN 1</td>
+                                    <td class="asset_value">
+                                        <textarea class="form-control" rows="3"></textarea>
+                                    </td>
+                                    <td>
+                                        <input class="form-check-input" onchange="$('#form').submit();" type="checkbox" value="">
+                                    </td>
+                                    <td>Team Bình Dương</td>
+                                    <td>16/06/2021 10:12</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Toast container -->
+            <div style="position: absolute; bottom: 1rem; right: 1rem;">
+                <!-- Toast -->
+                <div class="toast" id="toastBasic" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+                    <div class="toast-header bg-info text-white">
+                        <i data-feather="alert-circle"></i>
+                        <strong class="mr-auto">Thông báo</strong>
+                        <small class="text-white-50" style="margin-left: 14rem !important;">just now</small>
+                        <button class="ml-2 mb-1 btn-close btn-close-white" type="button" data-bs-dismiss="toast" aria-label="Close">                                                                         </button>
+                    </div>
+                    <div class="toast-body">Kiểm tra và sửa lại thông tin chăm sóc lần 1.</div>
+                </div>
+            </div>
+
+        </main>
+        <th:block th:include="/common/footer.html"></th:block>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/js/datatables/datatables-custom.js}"></script>
+<script th:inline="javascript">
+    $("#toastBasicTrigger").on("click", function(e) {
+        e.preventDefault();
+        $("#toastBasic").toast("show");
+    });
+    $('.ui.dropdown').dropdown();
+</script>
+</body>
+</html>
