@@ -44,11 +44,10 @@ public class Potential {
 
     private String initialState;
 
-    private String tradingAccount;
-
-    private String marginAccount;
-
     private String note;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "potential")
+    private List<Care> cares;
 
     // Id of employee create potential
     private Long maker;

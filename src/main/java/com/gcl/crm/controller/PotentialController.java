@@ -96,7 +96,7 @@ public class PotentialController {
         if (potential == null) {
             return "redirect:/potential/home";
         }
-        model.addAttribute("potential", potential);
+        model.addAttribute("potentialDetail", potential);
         return DETAIL_OVERVIEW_PAGE;
     }
 
@@ -117,17 +117,31 @@ public class PotentialController {
 
     @RequestMapping(value = "/detail/takecare/{id}", method = RequestMethod.GET)
     public String goDetailTakeCarePotential(Model model, @PathVariable("id") Long id, Principal principal) {
-        if (principal == null) {
-            return ERROR_USER;
-        }
-        Potential potentialDetail = potentialService.getPotentialById(id);
-        Potential potentialEntity = new Potential();
-        if (potentialDetail == null) {
+        System.out.println(principal);
+        Potential potential = potentialService.getPotentialById(id);
+        if (potential == null){
             return "redirect:/potential/home";
         }
-        model.addAttribute("potentialDetail", potentialDetail);
-        model.addAttribute("potentialEntity", potentialEntity);
+        Care care = new Care();
+        model.addAttribute("potentialDetail", potential);
+        model.addAttribute("care", care);
         return DETAIL_TAKECARE_PAGE;
+    }
+
+    @PostMapping(value = {"/detail/take-care/{id}"})
+    public String takeCare(Model model, @PathVariable("id") Long pid,
+                           @Nullable @RequestParam("description") String description,
+                           @RequestParam("index") Integer index){
+        Potential potential = potentialService.getPotentialById(pid);
+        if (potential == null){
+            return "redirect:/potential/home";
+        }
+        if (index > 3){
+            return "redirect:/potential/detail/takecare/" + pid;
+        }
+        System.out.println("ok");
+        boolean done = potentialService.addTakeCarePotentialDetail(potential, null, description);
+        return "redirect:/potential/detail/takecare/" + pid;
     }
 
     @RequestMapping(value = "/detail/takecare/MKT/{id}", method = RequestMethod.GET)
@@ -305,4 +319,5 @@ public class PotentialController {
         String formattedDate = newYorkDateFormatter.format(LocalDate.now());
         return formattedDate;
     }
+
 }

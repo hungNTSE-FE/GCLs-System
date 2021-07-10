@@ -1,10 +1,12 @@
 package com.gcl.crm.service;
 
+import com.gcl.crm.entity.Care;
 import com.gcl.crm.entity.Level;
 import com.gcl.crm.entity.Potential;
 import com.gcl.crm.entity.Source;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.form.PotentialSearchForm;
+import com.gcl.crm.repository.CareRepository;
 import com.gcl.crm.repository.PotentialRepository;
 import com.gcl.crm.repository.PotentialRepository2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class PotentialService {
 
     @Autowired
     LevelService levelService;
+
+    @Autowired
+    CareRepository careRepository;
 
     @Autowired
     SourceService sourceService;
@@ -61,9 +66,6 @@ public class PotentialService {
         potential.setEmail(newPotential.getEmail());
         potential.setPhoneNumber(newPotential.getPhoneNumber());
         potential.setSource(sourceService.getSourceById(newPotential.getSource().getSourceId()));
-//        potential.setFirstCare(newPotential.getFirstCare());
-//        potential.setSecondCare(newPotential.getSecondCare());
-//        potential.setThirdCare((newPotential.getThirdCare()));
         potential.setLastModified(getCurrentDate());
         potential.setLastModifier(id);
         potentialRepository.save(potential);
@@ -190,6 +192,17 @@ public class PotentialService {
 
     public List<Potential> getListPotentialToShare() {
         return potentialRepository2.getListPotentialToShare();
+    }
+
+    public boolean addTakeCarePotentialDetail(Potential potential, Long uid, String description){
+        Care care = new Care();
+        care.setDescription(description);
+        care.setPotential(potential);
+        care.setLastModified(this.getCurrentDate());
+        care.setLastModifier(uid);
+        care.setAccepted(false);
+        Care confirm = careRepository.save(care);
+        return confirm.equals(care);
     }
 
     private Date getCurrentDate() {

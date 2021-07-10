@@ -34,12 +34,9 @@
                 <nav class="rounded" aria-label="breadcrumb">
                   <ol class="breadcrumb px-3 py-2 rounded mb-0">
                     <li class="breadcrumb-item">
-                      <a th:href="@{/customer/home}">Khách hàng</a>
+                      <a th:href="@{/potential/home}">Đầu mối</a>
                     </li>
-                    <li class="breadcrumb-item">
-                      <a th:href="@{/customer/home}">Tất cả</a>
-                    </li>
-                    <li class="breadcrumb-item active" th:href="@{/customer/id1}">Chị Nguyễn Văn A</li>
+                    <li class="breadcrumb-item active" th:text="${potentialDetail.name}"></li>
                   </ol>
                 </nav>
               </div>
@@ -56,7 +53,8 @@
           <a class="nav-link" th:href="@{/potential/detail/{id}(id=${potentialDetail.id})}">Chi tiết</a>
           <a class="nav-link active ms-0" th:href="@{/potential/detail/takecare/{id}(id=${potentialDetail.id})}">
             Chăm sóc khách hàng
-            <span class="badge bg-hung-custom text-white-75 ms-auto">1</span>
+            <span th:if="${potentialDetail.cares.size() > 0}" th:text="${potentialDetail.cares.size()}"
+                  class="badge bg-hung-custom text-white-75 ms-auto"></span>
           </a>
           <a class="nav-link" th:href="@{/customer/action/id1}">
             <i class="fas fa-calendar-alt"></i>
@@ -69,6 +67,10 @@
         <div class="card mb-4 mb-xl-0">
           <div class="card-header">CHĂM SÓC KHÁCH HÀNG</div>
           <div class="card-body">
+            <form th:if="${potentialDetail.cares.size() < 3}" th:action="@{/potential/detail/take-care/{id}(id=${potentialDetail.id})}"
+                  method="POST" id="form-tk">
+              <input type="hidden" name="index" th:value="${potentialDetail.cares.size() + 1}" />
+            </form>
             <table id="datatablesManageTakeCareOfPotential">
               <colgroup>
                 <col width="2%" />
@@ -89,46 +91,72 @@
               <tbody>
               <tr>
                 <td>
-                  <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Sending">
+                  <button form="form-tk" th:disabled="${potentialDetail.cares.size() != 0}"
+                          data-bs-toggle="tooltip" data-bs-placement="top" title="Gửi" type="submit">
                     <i data-feather="send"></i>
-                  </a>
+                  </button>
                 </td>
                 <td>CHĂM KHÁCH LẦN 1</td>
                 <td class="asset_value">
-                  <textarea class="form-control" rows="3"></textarea>
+                  <textarea th:disabled="${potentialDetail.cares.size() != 0}" name="description"
+                            th:text="${potentialDetail.cares.size() > 0 ? potentialDetail.cares.get(0).description : ''}"
+                            class="form-control" rows="3" form="form-tk"></textarea>
                 </td>
-                <td></td>
-                <td>16/06/2021 10:12</td>
+                <td>
+                  <div th:if="${potentialDetail.cares.size() > 0}">
+                    <span th:if="${potentialDetail.cares.get(0).isAccepted()}"
+                          class="badge badge-md bg-success text-white ms-auto">Đã xem</span>
+                    <span th:if="${!potentialDetail.cares.get(0).isAccepted()}"
+                          class="badge badge-md bg-orange text-white ms-auto">Đã gửi</span>
+                  </div>
+                </td>
+                <td th:text="${potentialDetail.cares.size() > 0 ? potentialDetail.cares.get(0).lastModified : ''}"></td>
               </tr>
               <tr>
                 <td>
-                  <a data-bs-toggle="tooltip" data-bs-placement="top" title="Sending">
+                  <button form="form-tk" th:disabled="${potentialDetail.cares.size() != 1}"
+                          data-bs-toggle="tooltip" data-bs-placement="top" title="Gửi" type="submit">
                     <i data-feather="send"></i>
-                  </a>
+                  </button>
                 </td>
                 <td>CHĂM KHÁCH LẦN 2</td>
                 <td class="asset_value">
-                  <textarea class="form-control" rows="3"></textarea>
+                  <textarea th:disabled="${potentialDetail.cares.size() != 1}" name="description"
+                            th:text="${potentialDetail.cares.size() > 1 ? potentialDetail.cares.get(1).description : ''}"
+                            class="form-control" rows="3" form="form-tk"></textarea>
                 </td>
                 <td>
-                  <span class="badge badge-md bg-success text-white ms-auto">Đã Xem</span>
+                  <div th:if="${potentialDetail.cares.size() > 1}">
+                    <span th:if="${potentialDetail.cares.get(1).isAccepted()}"
+                          class="badge badge-md bg-success text-white ms-auto">Đã Xem</span>
+                    <span th:if="${!potentialDetail.cares.get(1).isAccepted()}"
+                          class="badge badge-md bg-orange text-white ms-auto">Đã gửi</span>
+                  </div>
                 </td>
-                <td>16/06/2021 10:12</td>
+                <td th:text="${potentialDetail.cares.size() > 1 ? potentialDetail.cares.get(1).lastModified : ''}"></td>
               </tr>
               <tr>
                 <td>
-                  <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Sending">
+                  <button th:disabled="${potentialDetail.cares.size() != 2}" form="form-tk"
+                          data-bs-toggle="tooltip" data-bs-placement="top" title="Gửi" type="submit">
                     <i data-feather="send"></i>
-                  </a>
+                  </button>
                 </td>
                 <td>CHĂM KHÁCH LẦN 3</td>
                 <td class="asset_value">
-                  <textarea class="form-control" rows="3" disabled></textarea>
+                  <textarea th:disabled="${potentialDetail.cares.size() != 2}" name="description"
+                            th:text="${potentialDetail.cares.size() > 2 ? potentialDetail.cares.get(2).description : ''}"
+                            class="form-control" rows="3" form="form-tk"></textarea>
                 </td>
                 <td>
-                  <span class="badge badge-md bg-danger text-white ms-auto">Chưa Xem</span>
+                  <div th:if="${potentialDetail.cares.size() > 2}">
+                    <span th:if="${potentialDetail.cares.get(2).isAccepted()}"
+                          class="badge badge-md bg-success text-white ms-auto">Đã Xem</span>
+                    <span th:if="${!potentialDetail.cares.get(2).isAccepted()}"
+                          class="badge badge-md bg-orange text-white ms-auto">Đã gửi</span>
+                  </div>
                 </td>
-                <td>16/06/2021 10:12</td>
+                <td th:text="${potentialDetail.cares.size() > 2 ? potentialDetail.cares.get(2).lastModified : ''}"></td>
               </tr>
               </tbody>
             </table>
