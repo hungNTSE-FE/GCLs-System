@@ -76,6 +76,9 @@ public class Customer {
     @Column(name="trading_account")
     private String number;
 
+    @Column(name="contract_number")
+    private String contractNumber;
+
     @Column(name = "ADD_USER")
     private String addUser;
 
@@ -115,6 +118,13 @@ public class Customer {
     @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CustomerDistribution> customerDistributionList;
 
+    public String getContractNumber() {
+        return contractNumber;
+    }
+
+    public void setContractNumber(String contractNumber) {
+        this.contractNumber = contractNumber;
+    }
 
     public TradingAccount getTradingAccount() {
         return tradingAccount;

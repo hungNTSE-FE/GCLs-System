@@ -43,6 +43,15 @@
       height: 100%;
       right: 0;
     }
+    .fa-check{
+      color: springgreen;
+    }
+    .fa-times{
+      color:  red;
+    }
+    .i {
+      color: violet;
+    }
   </style>
 </head>
 <body class="nav-fixed">
@@ -111,7 +120,7 @@
                 <th>Mô tả</th>
 
                 <th>Mở tài khoản </th>
-                <th>Giao dịch</th>
+                <th>Hợp đồng</tH>
 
 
               </tr>
@@ -125,15 +134,43 @@
                 <th:block th:switch="${customer.number}">
                   <th:block th:case="'none'">
                     <td>
-                      <a th:href="@{'/contract/openAccount/'+${customer.customerCode}}"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+                      <a th:href="@{'/contract/openAccount/'+${customer.customerCode}}"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i>&nbsp;Mở tài khoản</a>
 
                     </td>
                   </th:block>
                   <th:block th:case="*">
                     <td>
+                      <i class="fa fa-check" aria-hidden="true"></i>&nbsp;
                       Đã mở tài khoản
 
                     </td>
+
+
+                  </th:block>
+                </th:block>
+                <th:block th:switch="${customer.number}">
+                  <th:block th:case="'none'">
+                    <td>
+                      <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Chưa có tài khoản</a>
+
+                    </td>
+                  </th:block>
+                  <th:block th:case="*">
+                    <th:block th:switch="${customer.contractNumber}">
+                      <th:block th:case="'none'">
+                        <td>
+                          <a th:href="@{'/contract/showCreateContract/'+${customer.customerCode}}"> <i data-feather="edit"></i>&nbsp;Ký hợp đồng</a>
+
+
+
+                        </td>
+                      </th:block>
+                      <th:block th:case="*">
+                        <td>
+                          <i class="fa fa-check" aria-hidden="true"> </i>&nbsp; Đã kí hợp đồng
+                        </td>
+                      </th:block>
+                    </th:block>
 
 
                   </th:block>
@@ -144,10 +181,7 @@
 
 
 
-                <td>
-                  <a th:href="@{'/transaction/perform/'+${customer.customerCode}}"><i class="fa fa-usd" aria-hidden="true"></i></a>
 
-                </td>
 
               </tr>
               </tbody>

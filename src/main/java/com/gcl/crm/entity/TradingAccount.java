@@ -27,7 +27,9 @@ public class TradingAccount {
 
     @OneToOne(mappedBy = "tradingAccount", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Customer customer;
-    public TradingAccount(){};
+    public TradingAccount(){
+
+    };
 
     public TradingAccount(String accountNumber, double balance, String status, String accountName, String brokerCode, String brokerName, Date createDate) {
         this.accountNumber = accountNumber;
@@ -45,7 +47,16 @@ public class TradingAccount {
     private  String brokerName ;
     @Column(name="create_date")
     private Date createDate;
+    @Column(name="active_date")
+    private Date activeDate ;
 
+    public Date getActiveDate() {
+        return activeDate;
+    }
+
+    public void setActiveDate(Date activeDate) {
+        this.activeDate = activeDate;
+    }
 
     public Customer getCustomer() {
         return customer;

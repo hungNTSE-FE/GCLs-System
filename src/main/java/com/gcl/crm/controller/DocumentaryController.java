@@ -44,6 +44,14 @@ public class DocumentaryController {
         model.addAttribute("listDocs",listDocs);
         return "documentary/documentary-home";
     }
+    @GetMapping({"/viewDocumentary"})
+    public String employeeViewDocumentary(Model model){
+        List<Documentary> listDocs = documentaryRepo.findAll();
+
+        model.addAttribute("listDocs",listDocs);
+        return "documentary/view-documentary-page";
+    }
+
     @GetMapping({"/"})
     public String showDocumentaryHomePagev2(Model model){
         List<Documentary> listDocs = documentaryRepo.findAll();
@@ -68,8 +76,8 @@ public class DocumentaryController {
         ra.addFlashAttribute("message","Công văn đã được gửi");
         return "redirect:/documentary/home";
     }
-    @GetMapping({"/download"})
-    public void downloadDocumentary(@Param("id") int id, HttpServletResponse response) throws Exception {
+    @GetMapping({"/downloadDocumentary/{id}"})
+    public void downloadDocumentary(@PathVariable(name="id") int id, HttpServletResponse response) throws Exception {
         Optional<Documentary> result = documentaryRepo.findById(id);
         if(!result.isPresent()){
             throw new Exception("Không tìm thấy công văn !!!");

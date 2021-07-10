@@ -74,6 +74,7 @@ public class CustomerService {
             //Identification
             //kh-ng depar-docu
             customer.setNumber("none");
+            customer.setContractNumber("none");
             BankAccount bankAccount = registerBanking(customerForm);
             bankAccount.setCustomer(customer);
             List<BankAccount> bankAccountList = new ArrayList<>();

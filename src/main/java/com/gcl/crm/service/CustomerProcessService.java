@@ -8,7 +8,7 @@ public interface CustomerProcessService {
     List<Customer> getAllCustomer();
     Customer findCustomerByID(String id);
     void saveCustomer(Customer customer);
-
+    List<Customer> getCustomerHaveTradingAccount();
 
     void deleteCustomer(Long id);
 }

@@ -1,8 +1,8 @@
 package com.gcl.crm.entity;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.util.List;
+import java.util.Date;
+
 
 @Entity
 @Table
@@ -12,7 +12,7 @@ public class Contract {
     @Column(name = "CONTRACT_ID", nullable = false)
     private String id ;
 
-    @OneToOne(mappedBy = "identification", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "contract", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Customer customer;
 
 
@@ -27,15 +27,15 @@ public class Contract {
     public void setNumber(String number) {
         this.number = number;
     }
-
+    @Column(name="status")
+    private String status ;
     @Column(name="broker_code")
     private String brokerCode;
     @Column(name = "account_name")
     private String account_name;
     @Column(name="broker_name")
     private String broker_name;
-    @Column(name="status")
-    private String status;
+
     @Column(name="create_date")
     private Date createDate ;
 
