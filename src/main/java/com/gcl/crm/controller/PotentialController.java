@@ -155,6 +155,8 @@ public class PotentialController {
         if (potentialDetail == null) {
             return "redirect:/potential/home";
         }
+        model.addAttribute("levels", levelService.getAll());
+        model.addAttribute("selectedLevel", potentialDetail.getLevel());
         model.addAttribute("potentialDetail", potentialDetail);
         return DETAIL_TAKECARE_MKTPAGE;
     }
@@ -165,7 +167,6 @@ public class PotentialController {
         Potential potential = potentialService.getPotentialById(id);
         AppUser currentUser = userService.getAppUserByUsername(principal.getName());
         boolean done = potentialService.acceptTakeCareInfo(potential, currentUser, index);
-        System.out.println(done);
         return "redirect:/potential/detail/takecare/MKT/" + id;
     }
 
@@ -289,7 +290,7 @@ public class PotentialController {
     ) {
         boolean done = potentialService.editLevelPotential(pid, levelId);
         redirectAttributes.addFlashAttribute("flag","showAlertUpdateLevelSuccessful");
-        return "redirect:/potential/detail/takecare/" + pid;
+        return "redirect:/potential/detail/takecare/MKT/" + pid;
     }
 
     @RequestMapping(value = "/remove",  method = RequestMethod.POST)

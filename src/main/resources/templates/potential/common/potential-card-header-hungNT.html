@@ -3,7 +3,7 @@
 <div class="card">
   <div class="card-body">
     <div class="d-flex justify-content-between">
-      <form id="form-mkt" method="POST" th:action="@{/potential/detail/edit/level/MKT/{id}(id=${potentialDetail.id})}">
+      <form id="form-level-mkt" method="POST" th:action="@{/potential/detail/edit/level/MKT/{id}(id=${potentialDetail.id})}">
       <div
               style="
                       display: flex;
@@ -18,7 +18,7 @@
           <div class="d-flex">
             <p id="label-name" class="text-muted" th:text="*{selectedLevel.levelName}"></p>
 
-              <select onchange="$('#form-mkt').submit();" name="level" class="form-control form-control-sm edit-select-custom" id="selectLevel">
+              <select onchange="$('#form-level-mkt').submit();" name="level" class="form-control form-control-sm edit-select-custom" id="selectLevel">
                 <option th:each="level : ${levels}"
                         th:value="${level.levelId}"
                         th:text="${level.levelName}"
