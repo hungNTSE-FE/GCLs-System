@@ -203,6 +203,22 @@ public class PotentialService {
         return confirm.equals(care);
     }
 
+    public boolean acceptTakeCareInfo(Potential potential, AppUser user, Integer index){
+        List<Care> cares = potential.getCares();
+        if (cares.size() <= index){
+            return false;
+        }
+        Care care = cares.get(index);
+        if (care.isAccepted()){
+            return false;
+        }
+        care.setAccepted(true);
+        care.setAcceptDate(this.getCurrentDate());
+        care.setAcceptor(user.getUserId());
+        Care confirm = careRepository.save(care);
+        return care.equals(confirm);
+    }
+
     private Date getCurrentDate() {
         return new Date(System.currentTimeMillis());
     }
