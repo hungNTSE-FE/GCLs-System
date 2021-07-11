@@ -159,6 +159,16 @@ public class PotentialController {
         return DETAIL_TAKECARE_MKTPAGE;
     }
 
+    @PostMapping(value = {"/detail/take-care/MKT/{id}"})
+    public String markTakeCareAsSeen(@PathVariable("id") Long id, Principal principal,
+                                     @RequestParam("index") Integer index){
+        Potential potential = potentialService.getPotentialById(id);
+        AppUser currentUser = userService.getAppUserByUsername(principal.getName());
+        boolean done = potentialService.acceptTakeCareInfo(potential, currentUser, index);
+        System.out.println(done);
+        return "redirect:/potential/detail/takecare/MKT/" + id;
+    }
+
     @RequestMapping(value = "/email/id1", method = RequestMethod.GET)
     public String goDetailEmailCustomer(Model model) {
         return "detail-potential-email-page-V2";

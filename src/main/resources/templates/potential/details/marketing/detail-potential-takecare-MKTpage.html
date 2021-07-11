@@ -97,10 +97,11 @@
                                     </td>
                                     <td>
                                         <input class="form-check-input" onchange="$('#form-mkt').submit();" type="checkbox" value="0" name="index"
-                                               th:disabled="${potentialDetail.cares.size() < 1 ? true : potentialDetail.cares.get(0).accepted}"/>
+                                               th:disabled="${potentialDetail.cares.size() < 1 ? true : potentialDetail.cares.get(0).accepted}"
+                                               th:checked="${potentialDetail.cares.size() < 1 ? false : potentialDetail.cares.get(0).accepted}"/>
                                     </td>
                                     <td th:text="${potentialDetail.cares.size() < 1 ? '' : potentialDetail.cares.get(0).modifierName}"></td>
-                                    <td th:text="${potentialDetail.cares.size() < 1 ? '' : potentialDetail.cares.get(0).lastModified}"></td>
+                                    <td th:text="${potentialDetail.cares.size() < 1 ? '' : potentialDetail.cares.get(0).acceptDate}"></td>
                                 </tr>
                                 <tr>
                                     <td>CHĂM KHÁCH LẦN 2</td>
@@ -110,10 +111,11 @@
                                     </td>
                                     <td>
                                         <input class="form-check-input" onchange="$('#form-mkt').submit();" type="checkbox" value="1" name="index"
-                                               th:disabled="${potentialDetail.cares.size() < 2 ? true : potentialDetail.cares.get(1).accepted}"/>
+                                               th:disabled="${potentialDetail.cares.size() < 2 ? true : potentialDetail.cares.get(1).accepted}"
+                                               th:checked="${potentialDetail.cares.size() < 2 ? false : potentialDetail.cares.get(1).accepted}"/>
                                     </td>
                                     <td th:text="${potentialDetail.cares.size() < 2 ? '' : potentialDetail.cares.get(1).modifierName}"></td>
-                                    <td th:text="${potentialDetail.cares.size() < 2 ? '' : potentialDetail.cares.get(1).lastModified}"></td>
+                                    <td th:text="${potentialDetail.cares.size() < 2 ? '' : potentialDetail.cares.get(1).acceptDate}"></td>
                                 </tr>
                                 <tr>
                                     <td>CHĂM KHÁCH LẦN 3</td>
@@ -123,10 +125,11 @@
                                     </td>
                                     <td>
                                         <input class="form-check-input" onchange="$('#form-mkt').submit();" type="checkbox" value="2" name="index"
-                                               th:disabled="${potentialDetail.cares.size() < 3 ? true : potentialDetail.cares.get(2).accepted}"/>
+                                               th:disabled="${potentialDetail.cares.size() < 3 ? true : potentialDetail.cares.get(2).accepted}"
+                                               th:checked="${potentialDetail.cares.size() < 3 ? false : potentialDetail.cares.get(2).accepted}"/>
                                     </td>
                                     <td th:text="${potentialDetail.cares.size() < 3 ? '' : potentialDetail.cares.get(2).modifierName}"></td>
-                                    <td th:text="${potentialDetail.cares.size() < 3 ? '' : potentialDetail.cares.get(2).lastModified}"></td>
+                                    <td th:text="${potentialDetail.cares.size() < 3 ? '' : potentialDetail.cares.get(2).acceptDate}"></td>
                                 </tr>
                                 </tbody>
                             </table>
