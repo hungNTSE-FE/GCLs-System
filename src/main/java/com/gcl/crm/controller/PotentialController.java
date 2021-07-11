@@ -111,6 +111,8 @@ public class PotentialController {
             return "redirect:/potential/home";
         }
         model.addAttribute("potentialDetail", potentialDetail);
+        model.addAttribute("levels", levelService.getAll());
+        model.addAttribute("selectedLevel", potentialDetail.getLevel());
         model.addAttribute("potentialEntity", potentialEntity);
         return DETAIL_INFORMATION_PAGE;
     }
@@ -121,14 +123,18 @@ public class PotentialController {
         if (potential == null){
             return "redirect:/potential/home";
         }
+        model.addAttribute("levels", levelService.getAll());
+        model.addAttribute("selectedLevel", potential.getLevel());
         model.addAttribute("potentialDetail", potential);
         return DETAIL_TAKECARE_PAGE;
     }
 
     @PostMapping(value = {"/detail/take-care/{id}"})
-    public String takeCare(@PathVariable("id") Long pid, Principal principal,
+    public String takeCare(@PathVariable("id") Long pid,
+                           Principal principal,
                            @Nullable @RequestParam("description") String description,
-                           @RequestParam("index") Integer index){
+                           @RequestParam("index") Integer index,
+                           RedirectAttributes redirectAttributes){
         Potential potential = potentialService.getPotentialById(pid);
         if (potential == null){
             return "redirect:/potential/home";
@@ -139,6 +145,7 @@ public class PotentialController {
         AppUser currentUser = userService.getAppUserByUsername(principal.getName());
         Long uid = currentUser == null ? null : currentUser.getEmployee().getId();
         boolean done = potentialService.addTakeCarePotentialDetail(potential, currentUser, description);
+        redirectAttributes.addFlashAttribute("flag","showAlert");
         return "redirect:/potential/detail/takecare/" + pid;
     }
 
@@ -263,6 +270,16 @@ public class PotentialController {
         }
         redirectAttributes.addFlashAttribute("flag","showAlertUpdateSuccessful");
         return "redirect:/potential/detail/edit/" + potential.getId();
+    }
+
+    @RequestMapping(value = "/detail/edit/level/MKT/{id}", method = RequestMethod.POST)
+    public String editLevel(@Nullable @RequestParam("level") int levelId,
+                            @Nullable @PathVariable("id") Long pid,
+                            RedirectAttributes redirectAttributes
+    ) {
+        boolean done = potentialService.editLevelPotential(pid, levelId);
+        redirectAttributes.addFlashAttribute("flag","showAlertUpdateLevelSuccessful");
+        return "redirect:/potential/detail/takecare/" + pid;
     }
 
     @RequestMapping(value = "/remove",  method = RequestMethod.POST)

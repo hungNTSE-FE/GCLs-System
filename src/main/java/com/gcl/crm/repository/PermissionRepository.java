@@ -11,5 +11,4 @@ import java.util.List;
 public interface PermissionRepository extends JpaRepository<Permission, Long> {
     List<Permission> findAllByStatus(Status status);
     Permission findPermissionByIdAndStatus(Long id, Status status);
-
 }

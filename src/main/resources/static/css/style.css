@@ -20620,3 +20620,7 @@ pre[class*=language-] {
 .token.variable {
   color: #ff6666;
 }
+
+.edit-select-custom {
+  display: none;
+}

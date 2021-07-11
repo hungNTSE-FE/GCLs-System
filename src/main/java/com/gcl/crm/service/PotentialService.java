@@ -4,6 +4,7 @@ import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.form.PotentialSearchForm;
 import com.gcl.crm.repository.CareRepository;
+import com.gcl.crm.repository.LevelRepository;
 import com.gcl.crm.repository.PotentialRepository;
 import com.gcl.crm.repository.PotentialRepository2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class PotentialService {
 
     @Autowired
     LevelService levelService;
+
+    @Autowired
+    LevelRepository levelRepository;
 
     @Autowired
     CareRepository careRepository;
@@ -65,6 +69,17 @@ public class PotentialService {
         potential.setSource(sourceService.getSourceById(newPotential.getSource().getSourceId()));
         potential.setLastModified(getCurrentDate());
         potential.setLastModifier(id);
+        potentialRepository.save(potential);
+        return true;
+    }
+
+    public boolean editLevelPotential(Long id, int levelId) {
+        Potential potential = potentialRepository.findPotentialByIdAndStatus(id, Status.ACTIVE);
+        if (potential == null) {
+            return false;
+        }
+        Level level = levelRepository.findByLevelId(levelId);
+        potential.setLevel(level);
         potentialRepository.save(potential);
         return true;
     }

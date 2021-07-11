@@ -91,8 +91,13 @@
               <tbody>
               <tr>
                 <td>
-                  <button form="form-tk" th:disabled="${potentialDetail.cares.size() != 0}"
-                          data-bs-toggle="tooltip" data-bs-placement="top" title="Gửi" type="submit">
+                  <button class="btn btn-transparent-dark"
+                          form="form-tk"
+                          th:disabled="${potentialDetail.cares.size() != 0}"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="Gửi"
+                          type="submit">
                     <i data-feather="send"></i>
                   </button>
                 </td>
@@ -114,8 +119,13 @@
               </tr>
               <tr>
                 <td>
-                  <button form="form-tk" th:disabled="${potentialDetail.cares.size() != 1}"
-                          data-bs-toggle="tooltip" data-bs-placement="top" title="Gửi" type="submit">
+                  <button class="btn btn-transparent-dark"
+                          form="form-tk"
+                          th:disabled="${potentialDetail.cares.size() != 1}"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="Gửi"
+                          type="submit">
                     <i data-feather="send"></i>
                   </button>
                 </td>
@@ -137,8 +147,13 @@
               </tr>
               <tr>
                 <td>
-                  <button th:disabled="${potentialDetail.cares.size() != 2}" form="form-tk"
-                          data-bs-toggle="tooltip" data-bs-placement="top" title="Gửi" type="submit">
+                  <button class="btn btn-transparent-dark"
+                          th:disabled="${potentialDetail.cares.size() != 2}"
+                          form="form-tk"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="Gửi"
+                          type="submit">
                     <i data-feather="send"></i>
                   </button>
                 </td>
@@ -163,37 +178,58 @@
           </div>
         </div>
       </div>
-      <!-- Toast container -->
-      <div style="position: absolute; bottom: 1rem; right: 1rem;">
-        <!-- Toast -->
-        <div class="toast" id="toastBasic" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
-          <div class="toast-header bg-info text-white">
-            <i data-feather="alert-circle"></i>
-            <strong class="mr-auto">Thông báo</strong>
-            <small class="text-white-50" style="margin-left: 14rem !important;">just now</small>
-            <button class="ml-2 mb-1 btn-close btn-close-white" type="button" data-bs-dismiss="toast" aria-label="Close">                                                                         </button>
-          </div>
-          <div class="toast-body">Kiểm tra và sửa lại thông tin chăm sóc lần 1.</div>
-        </div>
-      </div>
-
     </main>
     <th:block th:include="/common/footer.html"></th:block>
   </div>
 </div>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.8.3.js" integrity="sha256-dW19+sSjW7V1Q/Z3KD1saC6NcE5TUIhLJzJbrdKzxKc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script type="text/javascript" th:src="@{/js/datatables/datatables-custom.js}"></script>
 <script th:inline="javascript">
-  $("#toastBasicTrigger").on("click", function(e) {
-    e.preventDefault();
-    $("#toastBasic").toast("show");
+  $(document).ready(function() {
+    $('a.edit').click(function() {
+      var dad = $(this).parent().parent();
+      dad.find('#label-name').hide();
+      dad.find('#selectLevel').show().focus();
+    });
+
+    $('#selectLevel').focusout(function() {
+      var dad = $(this).parent();
+      $(this).hide();
+      dad.find('#label-name').show().focus();
+    });
   });
-  $('.ui.dropdown').dropdown();
+
+  /*<![CDATA[*/
+  $(document).ready(function() {
+    var showtext = /*[[${flag}]]*/ "";
+    console.log(showtext);
+    if (showtext === 'showAlert') {
+      swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Gửi thành công",
+        showConfirmButton: false,
+        timer: 5000,
+      });
+    } else if (showtext === 'showAlertUpdateLevelSuccessful') {
+      swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Cập nhật thành công",
+        showConfirmButton: false,
+        timer: 5000,
+      });
+    }
+  });
+  /*]]>*/
+
+
 </script>
 </body>
 </html>

@@ -79,7 +79,6 @@ window.addEventListener('DOMContentLoaded', event => {
         targetAnchor.classList.add('active');
     });
 });
-
 function selectAllNone() {
     var tvNodes = document.getElementById("treeview");
     var chBoxes = tvNodes.getElementsByTagName("input");
@@ -124,6 +123,8 @@ $(".user-info").click(function () {
 $(".card-body").click(function (e) {
     e.stopPropagation();
 });
+
+
 
 
 

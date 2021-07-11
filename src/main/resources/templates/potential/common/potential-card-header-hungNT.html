@@ -3,6 +3,7 @@
 <div class="card">
   <div class="card-body">
     <div class="d-flex justify-content-between">
+      <form id="form-mkt" method="POST" th:action="@{/potential/detail/edit/level/MKT/{id}(id=${potentialDetail.id})}">
       <div
               style="
                       display: flex;
@@ -14,8 +15,25 @@
         <div class="text">
           <h3 th:text="*{potentialDetail.name}"></h3>
           <p class="text-muted" th:text="*{potentialDetail.phoneNumber}"></p>
+          <div class="d-flex">
+            <p id="label-name" class="text-muted" th:text="*{selectedLevel.levelName}"></p>
+
+              <select onchange="$('#form-mkt').submit();" name="level" class="form-control form-control-sm edit-select-custom" id="selectLevel">
+                <option th:each="level : ${levels}"
+                        th:value="${level.levelId}"
+                        th:text="${level.levelName}"
+                        th:selected="${selectedLevel.levelName.contains(level.levelName)}"
+                ></option>
+              </select>
+
+
+            <a href="#" class="edit text-sm px-1">
+              <i class="fas fa-pen"></i>
+            </a>
+          </div>
         </div>
       </div>
+      </form>
       <div class="d-flex flex-row-reverse">
         <div class="p-1">
           <div class="dropdown">
@@ -34,7 +52,7 @@
                   class="btn btn-outline-dark"
                   type="button"
                   data-bs-toggle="modal"
-                  data-bs-target="#exampleModalCenter"
+                  data-bs-target="#exampleModalEmail"
           >
             Gửi Email
           </button>
@@ -70,4 +88,88 @@
   </div>
 </div>
 
+<!-- Modal Mail-->
+<div
+        class="modal fade"
+        id="exampleModalEmail"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">
+          Gửi Email
+        </h5>
+        <button
+                class="btn-close"
+                type="button"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group row mb-3">
+            <label class="small col-sm-3">
+              Email Khách hàng
+            </label>
+            <div class="col-sm-9">
+              <label class="small">a@gmail.com</label>
+            </div>
+          </div>
+          <div class="form-group row mb-3">
+            <label class="small col-sm-3">
+              Tiêu đề
+              <span style="color: red">*</span>
+            </label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group row mb-3">
+            <label class="small col-sm-3">
+              Nội dung
+              <span style="color: red">*</span>
+            </label>
+            <div class="col-sm-9">
+                      <textarea
+                              class="form-control"
+                              id="exampleFormControlTextarea1"
+                              rows="3"
+                      ></textarea>
+            </div>
+          </div>
+          <div class="form-group row mb-3">
+            <label class="small col-sm-3">
+              File đính kèm
+              <span style="color: red">*</span>
+            </label>
+            <div class="col-sm-9">
+              <input
+                      class="form-control form-control-sm"
+                      type="file"
+                      name="upload"
+                      placeholder=""
+                      style="border: 1px solid #aaa"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" type="button">Gửi</button>
+        <button
+                class="btn btn-outline-dark"
+                type="button"
+                data-bs-dismiss="modal"
+        >
+          Huỷ
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 </html>
