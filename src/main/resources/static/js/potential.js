@@ -49,7 +49,7 @@ function render_data_potential_sharing(data) {
             + '<td>' + potential.source + '</td>'
             + '<td>' + potential.time + '</td></tr>'
         $('#datatablesShareLeads > tbody:last-child').append(markup);
-        listSelectedPotentailId.push(Number(potential.potential_id));
+        listSelectedPotentailId.push(Number(potential.potentialID));
     });
 
     $('#potentialIdList').val(listSelectedPotentailId.join());
