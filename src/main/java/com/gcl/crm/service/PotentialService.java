@@ -214,7 +214,7 @@ public class PotentialService {
         }
         care.setAccepted(true);
         care.setAcceptDate(this.getCurrentDate());
-        care.setAcceptor(user.getUserId());
+        care.setAcceptor(user.getEmployee().getId());
         Care confirm = careRepository.save(care);
         return care.equals(confirm);
     }
