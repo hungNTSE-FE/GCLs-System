@@ -41,7 +41,7 @@ $('#modalPotentailSharing').on('click', function () {
 })
 
 $('#dropdown_sharing_department').on('change', function(){
-    $('#lstBox1').remove();
+    $('#lstBox1').empty();
     $.ajax({
         type: "POST",
         contentType: "application/json",
@@ -92,8 +92,6 @@ $('#modalShareLead').on('hide.bs.modal', function () {
 
 function render_data_potential_sharing_combobox(data) {
     $.each(data, function (index, emp){
-        var opt_text = emp.name;
-        var opt_value = emp.id;
-        $('#lstBox1').append(`<option value="${opt_value}">${opt_text}</option>`);
+        $('#lstBox1').append(`<option value="${emp.id}">${emp.name}</option>`);
     })
 }
