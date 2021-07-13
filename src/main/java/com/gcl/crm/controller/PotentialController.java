@@ -228,7 +228,7 @@ public class PotentialController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(Model model, @ModelAttribute("potentialForm") Potential potential, RedirectAttributes redirectAttributes) {
+    public String create(Model model, @ModelAttribute("potentialForm") Potential potential, RedirectAttributes redirectAttributes, Principal principal) {
         boolean error = false;
         if (potentialService.isPhoneExisted(potential.getPhoneNumber(), potential.getId())){
             model.addAttribute("duplicatePhone", "Số điện thoại này đã tồn tại");
@@ -243,8 +243,8 @@ public class PotentialController {
             model.addAttribute("sources", sources);
             return CREATE_PAGE;
         }
-        potential.setDate(getCurrentDate());
-        boolean done = potentialService.createPotential(potential);
+        AppUser currentUser = userService.getAppUserByUsername(principal.getName());
+        boolean done = potentialService.createPotential(potential, currentUser);
         redirectAttributes.addFlashAttribute("flag","showAlert");
         return "redirect:/potential/create";
     }

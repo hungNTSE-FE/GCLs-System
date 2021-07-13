@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -96,11 +98,13 @@ public class PotentialService {
         }
     }
 
-    public boolean createPotential(Potential potential) {
+    public boolean createPotential(Potential potential, AppUser appUser) {
         String sourceName = potential.getSourceName();
         Source source = sourceService.getSourceByName(sourceName);
         potential.setSource(source);
         potential.setStatus(Status.ACTIVE);
+        potential.setMaker(appUser.getUserId());
+        potential.setDate(getStringCurrentDate());
         Potential poten = potentialRepository.save(potential);
         return poten != null;
     }
@@ -236,5 +240,11 @@ public class PotentialService {
 
     private Date getCurrentDate() {
         return new Date(System.currentTimeMillis());
+    }
+    private String getStringCurrentDate() {
+        String newYorkDateTimePattern = "dd/MM/yyyy";
+        DateTimeFormatter newYorkDateFormatter = DateTimeFormatter.ofPattern(newYorkDateTimePattern);
+        String formattedDate = newYorkDateFormatter.format(LocalDate.now());
+        return formattedDate;
     }
 }
