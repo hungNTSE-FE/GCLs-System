@@ -118,6 +118,10 @@ public class Customer {
     @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CustomerDistribution> customerDistributionList;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "source_id")
+    private Source source;
+
     public String getContractNumber() {
         return contractNumber;
     }
@@ -300,5 +304,13 @@ public class Customer {
 
     public void setCustomerDistributionList(List<CustomerDistribution> customerDistributionList) {
         this.customerDistributionList = customerDistributionList;
+    }
+
+    public Source getSource() {
+        return source;
+    }
+
+    public void setSource(Source source) {
+        this.source = source;
     }
 }

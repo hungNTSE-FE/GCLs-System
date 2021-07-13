@@ -62,29 +62,6 @@ public class CustomerController {
         model.addAttribute(CUSTOMER_FORM, customerForm);
         return ADD_CUSTOMER_PAGE;
     }
-//    @PostMapping(value = "/updateCustomer")
-//    public String updateCustomer(@RequestParam(name="customerID") long id,Model model, @ModelAttribute(CUSTOMER_FORM) CustomerForm customerForm
-//            , BindingResult result, Errors errors) throws ParseException {
-//        List<BankAccount> bankAccountList = new ArrayList<>();
-//        Customer customer = new Customer();
-//        customer.setCustomerCode(id);
-//        customer.setCreateDate(WebUtils.getSystemDate());
-//        customer.setUpdDate(WebUtils.getSystemDate());
-//        customer.setCustomerName(customerForm.getCustomerName());
-//        customer.setDescription(customerForm.getDescription());
-//        customer.setEmail(customerForm.getEmail());
-//        customer.setGender(Gender.findByOption(customerForm.getGender()));
-//        customer.setPhoneNumber(customerForm.getPhoneNumber());
-//        customer.setStatus(customerForm.getStatus());
-////        BankAccount bankAccount = customerService.registerBanking(customerForm);
-////        customer.setBankAccounts(bankAccountList);
-//        Identification identification = customerService.registerIdentification(customerForm);
-//        customer.setIdentification(identification);
-//    customerProcessService.saveCustomer(customer);
-//
-//
-//        return "redirect:/customer/manageCustomer";
-//    }
 
     @PostMapping(value = "/registerCustomer")
     public String registerCustomer(Model model, @Valid @ModelAttribute(CUSTOMER_FORM) CustomerForm customerForm
