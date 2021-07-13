@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -26,7 +24,7 @@ public class MarketingServices {
     CustomerRepository customerRepository;
 
     @Autowired
-    UserRepository2 userRepository2;
+    UserRepository userRepository;
 
     @Autowired
     WKCustomerRepository wkCustomerRepository;
@@ -69,8 +67,8 @@ public class MarketingServices {
         return wkCustomerRepository.getAllWkCustomer();
     }
 
-    public List<AppUser> getListUser(){
-        return userRepository2.findAllByEnabled(true);
+    public List<User> getListUser(){
+        return userRepository.findAllByEnabled(true);
     }
 
     public ComboboxForm initComboboxData() {

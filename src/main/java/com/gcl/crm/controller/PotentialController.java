@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +27,6 @@ import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -142,7 +140,7 @@ public class PotentialController {
         if (index > 3){
             return "redirect:/potential/detail/takecare/" + pid;
         }
-        AppUser currentUser = userService.getAppUserByUsername(principal.getName());
+        User currentUser = userService.getUserByUsername(principal.getName());
         Long uid = currentUser == null ? null : currentUser.getEmployee().getId();
         boolean done = potentialService.addTakeCarePotentialDetail(potential, currentUser, description);
         redirectAttributes.addFlashAttribute("flag","showAlert");
@@ -165,7 +163,7 @@ public class PotentialController {
     public String markTakeCareAsSeen(@PathVariable("id") Long id, Principal principal,
                                      @RequestParam("index") Integer index){
         Potential potential = potentialService.getPotentialById(id);
-        AppUser currentUser = userService.getAppUserByUsername(principal.getName());
+        User currentUser = userService.getUserByUsername(principal.getName());
         boolean done = potentialService.acceptTakeCareInfo(potential, currentUser, index);
         return "redirect:/potential/detail/takecare/MKT/" + id;
     }
@@ -243,7 +241,7 @@ public class PotentialController {
             model.addAttribute("sources", sources);
             return CREATE_PAGE;
         }
-        AppUser currentUser = userService.getAppUserByUsername(principal.getName());
+        User currentUser = userService.getUserByUsername(principal.getName());
         boolean done = potentialService.createPotential(potential, currentUser);
         redirectAttributes.addFlashAttribute("flag","showAlert");
         return "redirect:/potential/create";
@@ -254,8 +252,8 @@ public class PotentialController {
                        @Nullable @ModelAttribute("potential") Potential potential,
                        Principal principal
     ) {
-        User loginedUser = (User) ((Authentication) principal).getPrincipal();
-        AppUser appUser = userService.getAppUserByUsername(loginedUser.getUsername());
+        org.springframework.security.core.userdetails.User loginedUser = (org.springframework.security.core.userdetails.User) ((Authentication) principal).getPrincipal();
+        User user = userService.getUserByUsername(loginedUser.getUsername());
         boolean error = false;
 
         if (potential == null){
@@ -274,7 +272,7 @@ public class PotentialController {
             model.addAttribute("sources", sources);
             return UPDATE_PAGE;
         }
-        boolean done = potentialService.editPotential(potential, appUser.getUserId());
+        boolean done = potentialService.editPotential(potential, user.getUserId());
         if (!done){
             redirectAttributes.addFlashAttribute("message", "Không tìm thấy đầu mối");
             return "redirect:/potential/home";

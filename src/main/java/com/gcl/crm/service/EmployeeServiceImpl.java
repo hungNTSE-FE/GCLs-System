@@ -4,7 +4,7 @@ import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.EmployeeStatus;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.repository.EmployeeRepository;
-import com.gcl.crm.repository.UserJpaRepository;
+import com.gcl.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     PositionService positionService;
 
     @Autowired
-    UserJpaRepository userJpaRepository;
+    UserRepository userRepository;
 
     @Autowired
     UserService userService;
@@ -69,17 +69,17 @@ public class EmployeeServiceImpl implements EmployeeService{
         employee.setDepartment(department);
         employee.setPosition(position);
 
-        AppUser appUser = employee.getAppUser();
+        User user = employee.getUser();
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        appUser.setEncrytedPassword(bCryptPasswordEncoder.encode(appUser.getEncrytedPassword()));
-        appUser.setEnabled(true);
+        user.setEncrytedPassword(bCryptPasswordEncoder.encode(user.getEncrytedPassword()));
+        user.setEnabled(true);
 
         employee.setIdentification(null);
         employee.setStatus(EmployeeStatus.WORKING);
-        employee.setAppUser(null);
+        employee.setUser(null);
         employee = employeeRepository.save(employee);
-        appUser.setEmployee(employee);
-        userJpaRepository.save(appUser);
+        user.setEmployee(employee);
+        userRepository.save(user);
         return employee != null;
     }
 
@@ -98,10 +98,10 @@ public class EmployeeServiceImpl implements EmployeeService{
         if (employee2 == null){
             return false;
         }
-        AppUser appUser = userService.getUserByEmployeeId(employee.getId());
+        User user = userService.getUserByEmployeeId(employee.getId());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        appUser.setEncrytedPassword(encoder.encode(password));
-        appUser = userJpaRepository.save(appUser);
+        user.setEncrytedPassword(encoder.encode(password));
+        user = userRepository.save(user);
 
         Position position = positionService.findPositionById(pid);
         Department department = departmentService.findDepartmentById(did.toString());
@@ -114,7 +114,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         employee2.setNote(employee.getNote());
         employee2.setPhone(employee.getPhone());
         employee2.setCompanyEmail(employee.getCompanyEmail());
-        employee2.setAppUser(appUser);
+        employee2.setUser(user);
         employeeRepository.save(employee2);
         return true;
     }

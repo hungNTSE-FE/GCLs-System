@@ -66,7 +66,7 @@ public class Employee {
     private String taxCode;
 
     @OneToOne(mappedBy = "employee")
-    private AppUser appUser;
+    private User user;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
@@ -220,12 +220,12 @@ public class Employee {
         this.taxCode = taxCode;
     }
 
-    public AppUser getAppUser() {
-        return appUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setAppUser(AppUser appUser) {
-        this.appUser = appUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Department getDepartment() {

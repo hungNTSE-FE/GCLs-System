@@ -82,9 +82,9 @@
                                                                     required
                                                                     style="width: 100%"
                                                             >
-                                                                <option th:each="users : ${appUsers}"
-                                                                        th:value="${users.userId}"
-                                                                        th:text="${users.employee.name}">
+                                                                <option th:each="user : ${users}"
+                                                                        th:value="${user.userId}"
+                                                                        th:text="${user.employee.name}">
                                                                 </option>
                                                             </select>
                                                         </div>

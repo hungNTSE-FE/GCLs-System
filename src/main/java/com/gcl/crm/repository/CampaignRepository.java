@@ -1,7 +1,6 @@
 package com.gcl.crm.repository;
 
 import com.gcl.crm.entity.Campaign;
-import com.gcl.crm.entity.UserRole;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;

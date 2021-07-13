@@ -19,9 +19,9 @@ public class NotificationServiceImpl implements NotificationService {
 
 
     @Override
-    public boolean createNotification(Notification notification, List<Long> appUserIds) {
+    public boolean createNotification(Notification notification, List<Long> userIds) {
         notification.setIsRead(IsRead.NOT_READ);
-        notification.setAppUsers(userService.getAppUsersByIdList(appUserIds));
+        notification.setUsers(userService.getUsersByIdList(userIds));
         notification = notificationRepository.save(notification);
         return notification != null;
     }

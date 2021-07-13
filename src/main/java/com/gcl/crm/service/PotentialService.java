@@ -98,12 +98,12 @@ public class PotentialService {
         }
     }
 
-    public boolean createPotential(Potential potential, AppUser appUser) {
+    public boolean createPotential(Potential potential, User user) {
         String sourceName = potential.getSourceName();
         Source source = sourceService.getSourceByName(sourceName);
         potential.setSource(source);
         potential.setStatus(Status.ACTIVE);
-        potential.setMaker(appUser.getUserId());
+        potential.setMaker(user.getUserId());
         potential.setDate(getStringCurrentDate());
         Potential poten = potentialRepository.save(potential);
         return poten != null;
@@ -210,7 +210,7 @@ public class PotentialService {
         return potentialRepository2.getListPotentialToShare();
     }
 
-    public boolean addTakeCarePotentialDetail(Potential potential, AppUser user, String description){
+    public boolean addTakeCarePotentialDetail(Potential potential, User user, String description){
         Care care = new Care();
         care.setDescription(description);
         care.setPotential(potential);
@@ -222,7 +222,7 @@ public class PotentialService {
         return confirm.equals(care);
     }
 
-    public boolean acceptTakeCareInfo(Potential potential, AppUser user, Integer index){
+    public boolean acceptTakeCareInfo(Potential potential, User user, Integer index){
         List<Care> cares = potential.getCares();
         if (cares.size() <= index){
             return false;

@@ -6,14 +6,11 @@ import com.gcl.crm.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.constraints.Null;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +75,7 @@ public class EmployeeController {
             return ERROR_400;
         }
         Employee employee = new Employee();
-        employee.setAppUser(new AppUser());
+        employee.setUser(new User());
 
         List<Department> departments = departmentService.findAllDepartments();
         List<Position> positions = positionService.findAllPositions();
@@ -124,14 +121,14 @@ public class EmployeeController {
                                  @RequestParam("listSelected") List<Long> aidList,
                                  Principal principal,
                                  RedirectAttributes redirectAttributes) {
-        User loginedUser = (User) ((Authentication) principal).getPrincipal();
-        AppUser appUser = userService.getAppUserByUsername(loginedUser.getUsername());
+        org.springframework.security.core.userdetails.User loginedUser = (org.springframework.security.core.userdetails.User) ((Authentication) principal).getPrincipal();
+        User user = userService.getUserByUsername(loginedUser.getUsername());
         boolean  error = false;
         if (!error && marketingGroupService.isCodeExisted(marketingGroup.getCode(), marketingGroup.getId())) {
             redirectAttributes.addFlashAttribute("flag","showAlertError");
             return "redirect:/employee/marketing-group";
         }
-        marketingGroup.setMaker(appUser.getUserId());
+        marketingGroup.setMaker(user.getUserId());
         boolean done = marketingGroupService.createMarketingGroup(marketingGroup, aidList);
         redirectAttributes.addFlashAttribute("flag","showAlert");
         return "redirect:/employee/marketing-group";
@@ -147,8 +144,8 @@ public class EmployeeController {
                                Principal principal,
                                RedirectAttributes redirectAttributes
                                ) {
-        User loginedUser = (User) ((Authentication) principal).getPrincipal();
-        AppUser appUser = userService.getAppUserByUsername(loginedUser.getUsername());
+        org.springframework.security.core.userdetails.User loginedUser = (org.springframework.security.core.userdetails.User) ((Authentication) principal).getPrincipal();
+        User user = userService.getUserByUsername(loginedUser.getUsername());
 
         MarketingGroup marketingGroup1 = marketingGroupService.findMarketGroupById(id);
         boolean error = false;
@@ -160,11 +157,11 @@ public class EmployeeController {
             redirectAttributes.addFlashAttribute("flag","showAlertError");
             return "redirect:/employee/marketing-group";
         }
-        marketingGroup1.setLastModifier(appUser.getUserId());
+        marketingGroup1.setLastModifier(user.getUserId());
         marketingGroup1.setId(Long.parseLong(id));
         marketingGroup1.setCode(code);
         marketingGroup1.setName(name);
-        marketingGroup1.setMaker(appUser.getUserId());
+        marketingGroup1.setMaker(user.getUserId());
         marketingGroup1.setNote(description);
         boolean done = marketingGroupService.updateMarketingGroup(marketingGroup1, aidList);
         redirectAttributes.addFlashAttribute("flag","showAlert");
@@ -176,8 +173,8 @@ public class EmployeeController {
                                  @Nullable @RequestParam("idDl") String id,
                                  Principal principal,
                                  RedirectAttributes redirectAttributes) {
-        User loginedUser = (User) ((Authentication) principal).getPrincipal();
-        AppUser appUser = userService.getAppUserByUsername(loginedUser.getUsername());
+        org.springframework.security.core.userdetails.User loginedUser = (org.springframework.security.core.userdetails.User) ((Authentication) principal).getPrincipal();
+        User user = userService.getUserByUsername(loginedUser.getUsername());
 
         MarketingGroup marketingGroupUseDelete = marketingGroupService.findMarketGroupById(id);
 
@@ -185,7 +182,7 @@ public class EmployeeController {
             return "redirect:/employee/marketing-group";
         }
 
-        marketingGroupUseDelete.setLastModifier(appUser.getUserId());
+        marketingGroupUseDelete.setLastModifier(user.getUserId());
         boolean done = marketingGroupService.deleteMarketingGroup(marketingGroupUseDelete);
         redirectAttributes.addFlashAttribute("flag","showAlertDeleteSuccess");
         return "redirect:/employee/marketing-group";

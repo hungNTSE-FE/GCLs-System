@@ -1,11 +1,8 @@
 package com.gcl.crm.service;
 
-import com.gcl.crm.entity.Action;
-import com.gcl.crm.entity.AppUser;
+import com.gcl.crm.entity.User;
 import com.gcl.crm.entity.Employee;
-import com.gcl.crm.enums.Status;
-import com.gcl.crm.repository.UserJpaRepository;
-import com.gcl.crm.repository.UserRepository2;
+import com.gcl.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,56 +14,53 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService{
 
     @Autowired
-    UserRepository2 userRepository2;
-
-    @Autowired
     EmployeeService employeeService;
 
     @Autowired
-    UserJpaRepository userJpaRepository;
+    UserRepository userRepository;
 
     @Override
-    public List<AppUser> getAppUsersByIdList(List<Long> aidList) {
+    public List<User> getUsersByIdList(List<Long> aidList) {
         if (aidList == null){
             return null;
         }
-        List<AppUser> appUsers = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         for (int i = 0; i < aidList.size(); i++) {
-            Optional<AppUser> action = userRepository2.findByUserIdAndAndEnabled(aidList.get(i), true);
+            Optional<User> action = userRepository.findByUserIdAndAndEnabled(aidList.get(i), true);
             if (action.isPresent()){
-                appUsers.add(action.get());
+                users.add(action.get());
             }
         }
-        return appUsers;
+        return users;
     }
 
     @Override
-    public AppUser getAppUserByUsername(String userName) {
-        return userRepository2.findAppUserByUserName(userName);
+    public User getUserByUsername(String userName) {
+        return userRepository.findUserByUserName(userName);
     }
 
     @Override
-    public AppUser getUserByEmployeeId(Long employeeId) {
+    public User getUserByEmployeeId(Long employeeId) {
         Employee employee = employeeService.getEmployeeById(employeeId);
-        AppUser appUser = userJpaRepository.findAppUserByEmployee(employee);
-        return appUser;
+        User user = userRepository.findUserByEmployee(employee);
+        return user;
     }
 
     @Override
     public void disableUserByEmployeeId(Long employeeId) {
         Employee employee = employeeService.getEmployeeById(employeeId);
-        AppUser appUser = userJpaRepository.findAppUserByEmployee(employee);
-        appUser.setEnabled(false);
-        userJpaRepository.save(appUser);
+        User user = userRepository.findUserByEmployee(employee);
+        user.setEnabled(false);
+        userRepository.save(user);
     }
 
     @Override
-    public List<AppUser> getAppUserByEnabled() {
-        return userRepository2.findAllByEnabled(true);
+    public List<User> getUserByEnabled() {
+        return userRepository.findAllByEnabled(true);
     }
 
     @Override
     public boolean checkUsername(String userName) {
-        return userJpaRepository.existsAppUserByUserName(userName);
+        return userRepository.existsUserByUserName(userName);
     }
 }

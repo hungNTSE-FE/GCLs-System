@@ -1,15 +1,14 @@
 package com.gcl.crm.controller;
 
-import com.gcl.crm.entity.AppUser;
+import com.gcl.crm.entity.User;
 import com.gcl.crm.entity.ChatMessage;
-import com.gcl.crm.repository.UserRepository2;
+import com.gcl.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,25 +19,25 @@ import java.security.Principal;
 public class ChatController {
 
     @Autowired
-    UserRepository2 userRepository2;
+    UserRepository userRepository;
 
     @GetMapping("/chat-socket-v2")
     public String goChatV2(Model model, Principal principal) {
-        User loginedUser = (User) ((Authentication) principal).getPrincipal();
-        AppUser appUser = userRepository2.findAppUserByUserName(loginedUser.getUsername());
-        String appUserName = appUser.getEmployee().getName();
-        System.out.println("name: " + appUserName);
-        model.addAttribute("username", appUserName);
+        org.springframework.security.core.userdetails.User loginedUser = (org.springframework.security.core.userdetails.User) ((Authentication) principal).getPrincipal();
+        User user = userRepository.findUserByUserName(loginedUser.getUsername());
+        String userName = user.getEmployee().getName();
+        System.out.println("name: " + userName);
+        model.addAttribute("username", userName);
         return "/message/chat-socket-page-V2";
     }
 
     @GetMapping("/messagechat")
     public String goChat(Model model, Principal principal) {
-        User loginedUser = (User) ((Authentication) principal).getPrincipal();
-        AppUser appUser = userRepository2.findAppUserByUserName(loginedUser.getUsername());
-        String appUserName = appUser.getEmployee().getName();
-        System.out.println("name: " + appUserName);
-        model.addAttribute("username", appUserName);
+        org.springframework.security.core.userdetails.User loginedUser = (org.springframework.security.core.userdetails.User) ((Authentication) principal).getPrincipal();
+        User user = userRepository.findUserByUserName(loginedUser.getUsername());
+        String userName = user.getEmployee().getName();
+        System.out.println("name: " + userName);
+        model.addAttribute("username", userName);
         return "/message/websocket-chat";
     }
 

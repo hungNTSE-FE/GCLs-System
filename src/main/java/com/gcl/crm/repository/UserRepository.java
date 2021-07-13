@@ -1,31 +1,18 @@
 package com.gcl.crm.repository;
 
-import com.gcl.crm.entity.AppUser;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.gcl.crm.entity.User;
+import com.gcl.crm.entity.Employee;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
-import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
-@Transactional
-public class UserRepository {
-
-    @Autowired
-    private EntityManager entityManager;
-
-    public AppUser findUserAccount(String userName) {
-        try {
-            String sql = "Select e from " + AppUser.class.getName() + " e "
-                    + " Where e.userName = :userName ";
-            Query query = entityManager.createQuery(sql, AppUser.class);
-            query.setParameter("userName", userName);
-
-            return (AppUser) query.getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findUserByEmployee(Employee employee);
+    boolean existsUserByUserName(String userName);
+    User findUserByUserName(String userName);
+    List<User> findAllByEnabled(boolean enabled);
+    Optional<User> findByUserIdAndAndEnabled(Long id, boolean enabled);
 }

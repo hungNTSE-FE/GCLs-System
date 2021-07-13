@@ -33,7 +33,7 @@ public class DepartmentController {
     public String home(Model model, Principal principal){
         // Sau khi user login thanh cong se co principal
         User loginedUser = (User) ((Authentication) principal).getPrincipal();
-
+        System.out.println("login");
         String userInfo = WebUtils.toString(loginedUser);
         model.addAttribute("userInfo", userInfo);
 
@@ -43,6 +43,7 @@ public class DepartmentController {
         model.addAttribute("employees", employees);
         model.addAttribute("departments", departments);
         model.addAttribute("departmentForm", departmentForm);
+        System.out.println("department home");
         return "department/home-department-page-v2";
     }
 

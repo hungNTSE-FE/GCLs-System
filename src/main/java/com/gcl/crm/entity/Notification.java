@@ -31,14 +31,14 @@ public class Notification {
 
 //    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    @JoinColumn(name = "actor_id")
-//    private AppUser appUser;
+//    private User user;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "notification_user", joinColumns = @JoinColumn(name = "notification_id"),
             inverseJoinColumns = @JoinColumn(name = "appuser_id"))
-    private List<AppUser> appUsers;
+    private List<User> users;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "actor_id", nullable = false)
-    private AppUser appUser;
+    private User user;
 }

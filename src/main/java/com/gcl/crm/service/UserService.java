@@ -1,14 +1,14 @@
 package com.gcl.crm.service;
 
-import com.gcl.crm.entity.AppUser;
+import com.gcl.crm.entity.User;
 
 import java.util.List;
 
 public interface UserService {
-    List<AppUser> getAppUsersByIdList(List<Long> aidList);
-    AppUser getUserByEmployeeId(Long employeeId);
+    List<User> getUsersByIdList(List<Long> aidList);
+    User getUserByEmployeeId(Long employeeId);
     void disableUserByEmployeeId(Long employeeId);
     boolean checkUsername(String userName);
-    AppUser getAppUserByUsername(String userName);
-    List<AppUser> getAppUserByEnabled();
+    User getUserByUsername(String userName);
+    List<User> getUserByEnabled();
 }

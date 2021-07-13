@@ -14,7 +14,7 @@ public class ActionType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "code", nullable = false)
+    @Column(name = "code")
     private String code;
 
     @Column(name = "name")
