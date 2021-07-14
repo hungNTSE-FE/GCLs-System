@@ -1,4 +1,4 @@
-let urlNewStatistic = 'http://localhost:8081/statistic/potential/today';
+let urlNewStatistic = 'http://localhost:8085/statistic/potential/today';
 
 if (document.getElementById("datatablesStatisticPotential") != null) {
     let dataTableStatisticPotential = new simpleDatatables.DataTable("#datatablesStatisticPotential", {
@@ -42,4 +42,14 @@ if (document.getElementById("datatablesStatisticPotential") != null) {
             }
         }
     );
+} else if (document.getElementById("datatablesPotentials") != null) {
+    const dataTablePotential = new simpleDatatables.DataTable("#datatablesPotentials", {
+        fixedHeight: true,
+        fixedColumns: true,
+        labels: {
+            placeholder: "Tìm kiếm đầu mối...",
+            perPage: "Show {select} leads per page",
+            noRows: "Không có đầu mối",
+        },
+    });
 }

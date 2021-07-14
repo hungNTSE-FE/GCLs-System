@@ -40,20 +40,20 @@ public class PotentialService {
     @Autowired
     SourceService sourceService;
 
-    public boolean importPotential(List<Potential> potentials){
+    public boolean importPotential(List<Potential> potentials, User user){
         if (potentials.size() == 0){
             return false;
         }
         for (Potential potential : potentials){
-            Potential savedData1 = potentialRepository.findPotentialByPhoneNumberAndIdNot(potential.getPhoneNumber(), null);
-            Potential savedData2 = potentialRepository.findPotentialByEmailAndIdNot(potential.getEmail(), null);
-            if (savedData1 != null || savedData2 != null){
+
+            if (potentialRepository.findAllByPhoneNumberOrEmail(potential.getPhoneNumber(), potential.getEmail()).size() > 0){
                 continue;
             }
             String sourceName = potential.getSourceName();
             Source source = sourceService.getSourceByName(sourceName);
             potential.setSource(source);
             potential.setStatus(Status.ACTIVE);
+            potential.setMaker(user.getEmployee().getId());
             potentialRepository.save(potential);
         }
         return true;
@@ -160,10 +160,19 @@ public class PotentialService {
         List<Potential> potentials = potentialRepository
                 .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndStatus
                         (searchForm.getName(), searchForm.getPhone(), searchForm.getEmail(), Status.ACTIVE);
+        if (searchForm.getTime() ==  null || searchForm.getTime().isEmpty()) {
+            return potentials;
+        }
         String[] dateRange = searchForm.getTime().split("-");
-        Date date1 = new Date(Date.parse(dateRange[0].trim()));
-        Date date2 = new Date(Date.parse(dateRange[1].trim()));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date1 = null;
+        Date date2 = null;
+        try {
+            date1 = simpleDateFormat.parse(dateRange[0].trim());
+            date2 = simpleDateFormat.parse(dateRange[1].trim());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         List<Potential> result = new ArrayList<>();
         for (int i = 0; i < potentials.size(); i++) {
             Potential potential = potentials.get(i);

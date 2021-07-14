@@ -1,5 +1,5 @@
 var xmlHttp = new XMLHttpRequest();
-var url = " http://localhost:8081/statistic/potential/volatility?year=2021";
+var url = " http://localhost:8085/statistic/potential/volatility?year=2021";
 xmlHttp.open("GET", url, true);
 xmlHttp.send();
 xmlHttp.onreadystatechange = function() {

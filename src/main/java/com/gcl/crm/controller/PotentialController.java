@@ -179,16 +179,18 @@ public class PotentialController {
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String search(Model model, @Nullable @ModelAttribute("searchForm") PotentialSearchForm searchForm){
+    public String search(Model model, @Nullable @ModelAttribute("searchForm") PotentialSearchForm searchForm, RedirectAttributes redirectAttributes){
         if (searchForm == null){
             return "redirect:/potential/home";
         }
+        CustomerDistributionForm customerDistributionForm = new CustomerDistributionForm();
         List<Source> sources = sourceRepository.getAll();
         List<Level> levels = levelService.getAll();
         List<Potential> potentials = potentialService.search(searchForm);
         model.addAttribute("sources", sources);
         model.addAttribute("levels", levels);
         model.addAttribute("potentials", potentials);
+        model.addAttribute("customerDistributionForm", customerDistributionForm);
         return DASHBOARD_PAGE;
     }
 
@@ -303,11 +305,13 @@ public class PotentialController {
     }
 
     @RequestMapping(value = "/import", method = RequestMethod.POST)
-    public String importExcelFile(Model model, @RequestParam("upload") MultipartFile file){
+    public String importExcelFile(Model model, @RequestParam("upload") MultipartFile file, Principal principal){
         ExcelReader excelReader = new ExcelReader();
         try {
             List<Potential> potentialData = excelReader.getPotentialData(file.getInputStream(), file.getOriginalFilename());
-            potentialService.importPotential(potentialData);
+            org.springframework.security.core.userdetails.User loginedUser = (org.springframework.security.core.userdetails.User) ((Authentication) principal).getPrincipal();
+            User currentUser = userService.getUserByUsername(loginedUser.getUsername());
+            potentialService.importPotential(potentialData, currentUser);
             model.addAttribute("message", "Dữ liệu mới đã được lưu vào hệ thống");
         } catch (IOException e) {
             model.addAttribute("error", "Không thể mở tệp đã chọn");
