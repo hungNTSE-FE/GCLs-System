@@ -153,11 +153,17 @@
                                     </div>
                                 </td>
                                 <td th:text="${employee.id}"></td>
-                                <td th:text="${employee.user.userName}"></td>
+                                <td>
+                                    <span th:if="${employee.user}" th:text="${employee.user.userName}"></span>
+                                </td>
                                 <td th:text="${employee.name}"></td>
-                                <td th:text="${employee.department.name}"></td>
+                                <td>
+                                    <span th:if="${employee.department}" th:text="${employee.department.name}"></span>
+                                </td>
                                 <td th:text="${employee.startDate}"></td>
-                                <td th:text="${employee.position.name}"></td>
+                                <td>
+                                    <span th:if="${employee.position}" th:text="${employee.position.name}"></span>
+                                </td>
                             </tr>
                             </tbody>
                         </table>

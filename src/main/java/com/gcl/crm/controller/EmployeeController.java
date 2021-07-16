@@ -46,7 +46,7 @@ public class EmployeeController {
         if (principal == null) {
             return ERROR_400;
         }
-        List<Employee> employees = employeeService.getAllNotGroupedEmployees();
+        List<Employee> employees = employeeService.getAllEmployees();
         List<Department> departments = departmentService.findAllDepartments();
         List<Position> positions = positionService.findAllPositions();
         model.addAttribute("employees", employees);

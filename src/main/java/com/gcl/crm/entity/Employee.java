@@ -65,7 +65,7 @@ public class Employee {
     @Column(name = "tax_code")
     private String taxCode;
 
-    @OneToOne(mappedBy = "employee")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "employee")
     private User user;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

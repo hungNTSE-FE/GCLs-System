@@ -25,7 +25,7 @@ public class User {
     @Column(name = "Enabled", length = 1, nullable = false)
     private boolean enabled;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name ="employee_id")
     private Employee employee;
 

@@ -76,10 +76,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 
         employee.setIdentification(null);
         employee.setStatus(EmployeeStatus.WORKING);
-        employee.setUser(null);
+        employee.setUser(user);
         employee = employeeRepository.save(employee);
-        user.setEmployee(employee);
-        userRepository.save(user);
         return employee != null;
     }
 
