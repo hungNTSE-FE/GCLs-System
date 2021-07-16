@@ -29,9 +29,6 @@ public class Department {
     @Column(name = "note", length = 1000)
     private String note;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "departments")
-    private List<Permission> permissions;
-
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Employee> employees;
 
