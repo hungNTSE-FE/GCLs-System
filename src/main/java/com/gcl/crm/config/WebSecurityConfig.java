@@ -68,12 +68,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // Cấu hình cho Login form.
         http.formLogin()//
                 .loginPage("/login")//
-                .defaultSuccessUrl("/welcome", true);
+                .defaultSuccessUrl("/welcome", true)
+                .failureUrl("/login?error");
 
         // Cấu hình cho Logout Page.
         http.logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
+                .logoutSuccessUrl("/login?logout")
                 .permitAll();
 
         // Cấu hình Remember Me.

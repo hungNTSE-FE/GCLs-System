@@ -66,7 +66,7 @@
                     <div class="modal-body text-dark">Bạn có muốn xoá nhóm quyền này ?</div>
                     <div class="modal-footer">
                       <form th:action="@{/permission/delete}" method="POST">
-                        <input type="hidden" name="aid" th:value="${permission.id}" />
+                        <input type="hidden" name="role-id" th:value="${role.id}" />
                         <button type="submit" class="btn btn-red" id="delete1">
                           Xoá
                         </button>
@@ -82,7 +82,7 @@
             </div>
           </div>
           <div class="card-body">
-            <form id="update-form" th:action="@{/permission/edit}" method="POST" th:object="${permission}">
+            <form id="update-form" th:action="@{/permission/edit}" method="POST" th:object="${role}">
               <input type="hidden" th:field="*{id}" />
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Nhóm quyền<span style="color: red">*</span></label></label>
@@ -118,17 +118,17 @@
           <div class="card-body">
             <div id="treeview_container" class="hummingbird-treeview">
               <ul id="treeview" class="hummingbird-base d-grid gap-3 d-md-flex justify-content-between mh-100">
-                <li th:each="type : ${actionTypes}">
+                <li th:each="module : ${modules}">
                   <i class="fa fa-minus"></i>
-                  <input th:id="${'action-type-' + type.id}" data-id="custom-0" type="checkbox" />
-                  <label th:for="${'action-type-' + type.id}" th:text="${type.name}"></label>
+                  <input th:id="${'action-type-' + module.id}" data-id="custom-0" type="checkbox" />
+                  <label th:for="${'action-type-' + module.id}" th:text="${module.name}"></label>
                   <ul style="display: block">
-                    <li th:each="action : ${type.actions}">
+                    <li th:each="privilege : ${module.privileges}">
 <!--                      <i class="fa fa-plus"></i>-->
-                      <input form="update-form" name="action-id" th:value="${action.id}"
-                             th:id="${'action-' + action.id}" data-id="custom-1" type="checkbox"
-                             th:checked="${permission.actions.contains(action)}" />
-                      <label th:for="${'action-' + action.id}" th:text="${action.name}"></label>
+                      <input form="update-form" name="privilege-id" th:value="${privilege.id}"
+                             th:id="${'privilege-' + privilege.id}" data-id="custom-1" type="checkbox"
+                             th:checked="${role.privileges != null ? role.privileges.contains(privilege) : false}" />
+                      <label th:for="${'privilege-' + privilege.id}" th:text="${privilege.name}"></label>
                     </li>
                   </ul>
               </ul>

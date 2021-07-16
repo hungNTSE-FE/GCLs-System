@@ -54,8 +54,7 @@ public class NotificationController {
                          Principal principal,
                          RedirectAttributes redirectAttributes
     ) {
-        org.springframework.security.core.userdetails.User loginedUser = (org.springframework.security.core.userdetails.User) ((Authentication) principal).getPrincipal();
-        User user = userService.getUserByUsername(loginedUser.getUsername());
+        User user = userService.getUserByUsername(principal.getName());
         user.getUserId();
         notification.setUser(user);
         notification.setCreated_at(getCurrentDate());

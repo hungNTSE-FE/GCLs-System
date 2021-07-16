@@ -5,6 +5,7 @@ import com.gcl.crm.entity.Role;
 import com.gcl.crm.entity.User;
 import com.gcl.crm.entity.UserRole;
 import com.gcl.crm.repository.UserRepository;
+import com.gcl.crm.service.PrivilegeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    PrivilegeService privilegeService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUserByUserName(username);
@@ -32,13 +36,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private List<SimpleGrantedAuthority> getAuthorities(User user){
-        List<UserRole> userRoles = user.getUserRoles();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        for (UserRole userRole : userRoles){
-            Role role = userRole.getRole();
-            for (Privilege privilege : role.getPrivileges()){
-                authorities.add(new SimpleGrantedAuthority("ROLE_" + privilege.getCode()));
-            }
+        List<Privilege> privileges = privilegeService.getUserPrivileges(user);
+        for (Privilege privilege : privileges){
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + privilege.getCode()));
         }
         return authorities;
     }

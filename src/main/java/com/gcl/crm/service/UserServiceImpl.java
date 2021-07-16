@@ -1,8 +1,12 @@
 package com.gcl.crm.service;
 
+import com.gcl.crm.entity.Role;
 import com.gcl.crm.entity.User;
 import com.gcl.crm.entity.Employee;
+import com.gcl.crm.entity.UserRole;
+import com.gcl.crm.enums.Status;
 import com.gcl.crm.repository.UserRepository;
+import com.gcl.crm.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,19 +23,22 @@ public class UserServiceImpl implements UserService{
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    UserRoleRepository userRoleRepository;
+
     @Override
-    public List<User> getUsersByIdList(List<Long> aidList) {
-        if (aidList == null){
+    public List<User> getUsersByIdList(List<Long> userIdList) {
+        if (userIdList == null){
             return null;
         }
-        List<User> users = new ArrayList<>();
-        for (int i = 0; i < aidList.size(); i++) {
-            Optional<User> action = userRepository.findByUserIdAndAndEnabled(aidList.get(i), true);
-            if (action.isPresent()){
-                users.add(action.get());
+        List<User> users = userRepository.findAllByEnabled(true);
+        List<User> result = new ArrayList<>();
+        for (User user : users){
+            if (userIdList.contains(user.getUserId())){
+                result.add(user);
             }
         }
-        return users;
+        return result;
     }
 
     @Override
@@ -57,6 +64,18 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User> getUserByEnabled() {
         return userRepository.findAllByEnabled(true);
+    }
+
+    @Override
+    public List<User> getUsersByRole(Role role) {
+        List<UserRole> userRoles = userRoleRepository.findAllByRoleAndStatus(role, Status.ACTIVE);
+        List<User> users = new ArrayList<>();
+        for (UserRole userRole : userRoles){
+            if (userRole.getStatus().equals(Status.ACTIVE)){
+                users.add(userRole.getUser());
+            }
+        }
+        return users;
     }
 
     @Override

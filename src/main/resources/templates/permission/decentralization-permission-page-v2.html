@@ -50,35 +50,43 @@
           <div class="card-header">
             Phòng ban (13)
             <div>
-              <button form="decentralize-form" type="submit" class="btn btn-primary" id="update1">Cập nhật</button>
+              <button form="decentralize-form" type="submit" class="btn btn-primary">Cập nhật</button>
               <a class="btn btn-outline-dark" th:href="@{/permission/home}">Trở về</a>
             </div>
 
           </div>
           <form th:action="@{/permission/decentralize}" method="POST" id="decentralize-form">
-            <input type="hidden" name="pid" th:value="${permission.id}" />
+            <input type="hidden" name="role-id" th:value="${role.id}" />
           </form>
           <div class="card-body">
             <p><strong>Nhóm quyền:</strong> Chăm sóc khách hàng</p>
             <table id="datatablesSimple">
               <colgroup>
-                <col width="10%">
-                <col width="90%">
+                <col width="15%">
+                <col width="40%">
+                <col width="15%">
+                <col width="30%">
               </colgroup>
               <thead>
               <tr>
                 <th>HÀNH ĐỘNG</th>
+                <th>TÊN NHÂN VIÊN</th>
+                <th>TÊN TÀI KHOẢN</th>
                 <th>TÊN PHÒNG BAN</th>
               </tr>
               </thead>
               <tbody>
-              <tr th:each="department : ${departments}">
+              <tr th:each="employee : ${employees}">
                 <td>
                   <input class="form-check-input" id="flexCheckSolidDefault" type="checkbox"
-                         th:value="${department.id}" name="department-id" form="decentralize-form"
-                         th:checked="${permission.departments.contains(department)}" />
+                         th:value="${employee.user.userId}" name="user-id" form="decentralize-form"
+                         th:checked="${employeesOfRole.contains(employee.id)}" />
                 </td>
-                <td th:text="${department.name}"></td>
+                <td th:text="${employee.name}"></td>
+                <td>
+                  <span th:if="${employee.user}" th:text="${employee.user.userName}"></span>
+                </td>
+                <td th:if="${employee.department}" th:text="${employee.department.name}"></td>
               </tr>
               </tbody>
             </table>

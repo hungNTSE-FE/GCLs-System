@@ -1,5 +1,6 @@
 package com.gcl.crm.entity;
 
+import com.gcl.crm.enums.Status;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -26,6 +27,8 @@ public class Role {
 
     private Long lastModifier;
 
+    private String description;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
     private List<UserRole> userRoles;
 
@@ -33,4 +36,8 @@ public class Role {
     @JoinTable(name = "role_privilege", joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "privilege_id"))
     private List<Privilege> privileges;
+
+    @Column(name = "active")
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 }

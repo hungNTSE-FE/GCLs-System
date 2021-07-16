@@ -254,8 +254,7 @@ public class PotentialController {
                        @Nullable @ModelAttribute("potential") Potential potential,
                        Principal principal
     ) {
-        org.springframework.security.core.userdetails.User loginedUser = (org.springframework.security.core.userdetails.User) ((Authentication) principal).getPrincipal();
-        User user = userService.getUserByUsername(loginedUser.getUsername());
+        User user = userService.getUserByUsername(principal.getName());
         boolean error = false;
 
         if (potential == null){
@@ -309,8 +308,7 @@ public class PotentialController {
         ExcelReader excelReader = new ExcelReader();
         try {
             List<Potential> potentialData = excelReader.getPotentialData(file.getInputStream(), file.getOriginalFilename());
-            org.springframework.security.core.userdetails.User loginedUser = (org.springframework.security.core.userdetails.User) ((Authentication) principal).getPrincipal();
-            User currentUser = userService.getUserByUsername(loginedUser.getUsername());
+            User currentUser = userService.getUserByUsername(principal.getName());
             potentialService.importPotential(potentialData, currentUser);
             model.addAttribute("message", "Dữ liệu mới đã được lưu vào hệ thống");
         } catch (IOException e) {

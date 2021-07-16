@@ -23,8 +23,7 @@ public class ChatController {
 
     @GetMapping("/chat-socket-v2")
     public String goChatV2(Model model, Principal principal) {
-        org.springframework.security.core.userdetails.User loginedUser = (org.springframework.security.core.userdetails.User) ((Authentication) principal).getPrincipal();
-        User user = userRepository.findUserByUserName(loginedUser.getUsername());
+        User user = userRepository.findUserByUserName(principal.getName());
         String userName = user.getEmployee().getName();
         System.out.println("name: " + userName);
         model.addAttribute("username", userName);
@@ -33,8 +32,7 @@ public class ChatController {
 
     @GetMapping("/messagechat")
     public String goChat(Model model, Principal principal) {
-        org.springframework.security.core.userdetails.User loginedUser = (org.springframework.security.core.userdetails.User) ((Authentication) principal).getPrincipal();
-        User user = userRepository.findUserByUserName(loginedUser.getUsername());
+        User user = userRepository.findUserByUserName(principal.getName());
         String userName = user.getEmployee().getName();
         System.out.println("name: " + userName);
         model.addAttribute("username", userName);

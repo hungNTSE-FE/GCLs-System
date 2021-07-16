@@ -15,4 +15,5 @@ public interface EmployeeService {
     boolean deleteEmployee(Long eid);
     List<Employee> getAllNotGroupedEmployees();
     List<Employee> getAllGroupedEmployees(String id);
+    List<Employee> getAllWorkingEmployeesWithUserNotNull();
 }

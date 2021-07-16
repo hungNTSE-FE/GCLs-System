@@ -160,4 +160,17 @@ public class EmployeeServiceImpl implements EmployeeService{
         Long empGroupId = Long.parseLong(id);
         return employeeRepository.findAllById(empGroupId);
     }
+
+    @Override
+    public List<Employee> getAllWorkingEmployeesWithUserNotNull() {
+        List<Employee> employees = employeeRepository.findAllByStatusNot(EmployeeStatus.OFF_WORKING);
+        List<Employee> result = new ArrayList<>();
+        for (Employee employee : employees){
+            if (employee.getUser() == null){
+                continue;
+            }
+            result.add(employee);
+        }
+        return result;
+    }
 }

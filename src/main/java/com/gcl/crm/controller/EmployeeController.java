@@ -121,8 +121,7 @@ public class EmployeeController {
                                  @RequestParam("listSelected") List<Long> aidList,
                                  Principal principal,
                                  RedirectAttributes redirectAttributes) {
-        org.springframework.security.core.userdetails.User loginedUser = (org.springframework.security.core.userdetails.User) ((Authentication) principal).getPrincipal();
-        User user = userService.getUserByUsername(loginedUser.getUsername());
+        User user = userService.getUserByUsername(principal.getName());
         boolean  error = false;
         if (!error && marketingGroupService.isCodeExisted(marketingGroup.getCode(), marketingGroup.getId())) {
             redirectAttributes.addFlashAttribute("flag","showAlertError");
@@ -144,8 +143,7 @@ public class EmployeeController {
                                Principal principal,
                                RedirectAttributes redirectAttributes
                                ) {
-        org.springframework.security.core.userdetails.User loginedUser = (org.springframework.security.core.userdetails.User) ((Authentication) principal).getPrincipal();
-        User user = userService.getUserByUsername(loginedUser.getUsername());
+        User user = userService.getUserByUsername(principal.getName());
 
         MarketingGroup marketingGroup1 = marketingGroupService.findMarketGroupById(id);
         boolean error = false;
@@ -173,8 +171,7 @@ public class EmployeeController {
                                  @Nullable @RequestParam("idDl") String id,
                                  Principal principal,
                                  RedirectAttributes redirectAttributes) {
-        org.springframework.security.core.userdetails.User loginedUser = (org.springframework.security.core.userdetails.User) ((Authentication) principal).getPrincipal();
-        User user = userService.getUserByUsername(loginedUser.getUsername());
+        User user = userService.getUserByUsername(principal.getName());
 
         MarketingGroup marketingGroupUseDelete = marketingGroupService.findMarketGroupById(id);
 

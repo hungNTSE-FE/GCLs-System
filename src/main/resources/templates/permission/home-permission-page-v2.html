@@ -67,19 +67,19 @@
               </tr>
               </thead>
               <tbody>
-              <tr th:each="permission : ${permissions}">
+              <tr th:each="role : ${roles}">
                 <td>
                   <a class="btn btn-datatable btn-icon btn-transparent-dark me-2"
-                     th:href="@{/permission/decentralize(pid=${permission.id})}">
+                     th:href="@{/permission/decentralize(rid=${role.id})}">
                     <i data-feather="more-vertical"></i>
                   </a>
                   <a class="btn btn-datatable btn-icon btn-transparent-dark"
-                     th:href="@{/permission/edit(pid=${permission.id})}">
+                     th:href="@{/permission/edit(rid=${role.id})}">
                     <i data-feather="edit"></i>
                   </a>
                 </td>
-                <td th:text="${permission.name}"></td>
-                <td th:text="${permission.description}"></td>
+                <td th:text="${role.name}"></td>
+                <td th:text="${role.description}"></td>
               </tr>
               </tbody>
             </table>
@@ -102,9 +102,9 @@
       var showtext = [[${flag}]];
       if (showtext === 'showAlert') {
         new Swal.fire({
-          position: "top-end";
-          icon: "success";
-          title: "Lưu thành công";
+          position: "top-end",
+          icon: "success",
+          title: "Lưu thành công",
           showConfirmButton: false,
           timer: 3000,
         });
