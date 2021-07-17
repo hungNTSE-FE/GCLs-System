@@ -1,5 +1,6 @@
 package com.gcl.crm.entity;
 
+import com.gcl.crm.enums.PotentialRating;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.form.CustomerStatusEvaluationForm;
 import com.gcl.crm.form.PotentialSearchForm;
@@ -73,6 +74,9 @@ public class Potential {
 
     // Id of last employee made changes to potential
     private Long lastModifier;
+
+    @Enumerated(EnumType.ORDINAL)
+    private PotentialRating potentialRating;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "level_id")
