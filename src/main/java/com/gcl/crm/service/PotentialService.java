@@ -23,6 +23,9 @@ import java.util.Optional;
 public class PotentialService {
 
     @Autowired
+    DiaryService diaryService;
+
+    @Autowired
     PotentialRepository potentialRepository;
 
     @Autowired
@@ -59,7 +62,7 @@ public class PotentialService {
         return true;
     }
 
-    public boolean editPotential(Potential newPotential, Long id){
+    public boolean editPotential(Potential newPotential, User currentUser){
         Potential potential = potentialRepository.findPotentialByIdAndStatus(newPotential.getId(), Status.ACTIVE);
         if (potential == null){
             return false;
@@ -70,19 +73,23 @@ public class PotentialService {
         potential.setPhoneNumber(newPotential.getPhoneNumber());
         potential.setSource(sourceService.getSourceById(newPotential.getSource().getSourceId()));
         potential.setLastModified(getCurrentDate());
-        potential.setLastModifier(id);
-        potentialRepository.save(potential);
+        potential.setLastModifier(currentUser.getEmployee().getId());
+        potential = potentialRepository.save(potential);
+        diaryService.createDiary("Thông tin đầu mối được cập nhật", currentUser, potential);
         return true;
     }
 
-    public boolean editLevelPotential(Long id, int levelId) {
+    public boolean editLevelPotential(Long id, int levelId, User currentUser) {
         Potential potential = potentialRepository.findPotentialByIdAndStatus(id, Status.ACTIVE);
         if (potential == null) {
             return false;
         }
         Level level = levelRepository.findByLevelId(levelId);
         potential.setLevel(level);
-        potentialRepository.save(potential);
+        potential.setLastModifier(currentUser.getEmployee().getId());
+        potential.setLastModified(this.getCurrentDate());
+        potential = potentialRepository.save(potential);
+        diaryService.createDiary("Cập nhật cấp độ", currentUser, potential);
         return true;
     }
 
@@ -90,11 +97,14 @@ public class PotentialService {
         return potentialRepository.findPotentialByIdAndStatus(id, Status.ACTIVE);
     }
 
-    public void removePotentials(List<Long> idList){
+    public void removePotentials(List<Long> idList, User currentUser){
         for (Long id : idList){
             Potential potential = potentialRepository.findPotentialByIdAndStatus(id, Status.ACTIVE);
             potential.setStatus(Status.INACTIVE);
-            potentialRepository.save(potential);
+            potential.setLastModified(this.getCurrentDate());
+            potential.setLastModifier(currentUser.getEmployee().getId());
+            potential = potentialRepository.save(potential);
+            diaryService.createDiary("Bị xóa và được chuyển tới thùng rác", currentUser, potential);
         }
     }
 
@@ -106,16 +116,18 @@ public class PotentialService {
         potential.setMaker(user.getUserId());
         potential.setDate(getStringCurrentDate());
         Potential poten = potentialRepository.save(potential);
+        diaryService.createDiary("Đầu mối được tạo", user, potential);
         return poten != null;
     }
 
-    public boolean resetPotential(Long id) {
+    public boolean resetPotential(Long id,User currentUser) {
         Potential potential = potentialRepository.findPotentialByIdAndStatus(id, Status.INACTIVE);
         if (potential == null) {
             return false;
         }
         potential.setStatus(Status.ACTIVE);
         Potential potential1 = potentialRepository.save(potential);
+        diaryService.createDiary("Đầu mối được phục hồi từ thùng rác", currentUser, potential);
         return potential1 != null;
     }
 
@@ -133,14 +145,16 @@ public class PotentialService {
         return potentials;
     }
 
-    public boolean resetAllPotential(Potential potential, List<Long> checkedPotential) {
-
+    public boolean resetAllPotential(List<Long> checkedPotential, User currentUser) {
         for (int i = 0; i < checkedPotential.size(); i++) {
-            potential = potentialRepository.findPotentialByIdAndStatus(checkedPotential.get(i), Status.INACTIVE);
+            Potential potential = potentialRepository.findPotentialByIdAndStatus(checkedPotential.get(i), Status.INACTIVE);
             potential.setStatus(Status.ACTIVE);
+            potential.setLastModified(this.getCurrentDate());
+            potential.setLastModifier(currentUser.getEmployee().getId());
             potential = potentialRepository.save(potential);
+            diaryService.createDiary("Đầu mối được phục hồi từ thùng rác", currentUser, potential);
         }
-        return potential != null;
+        return true;
     }
 
     public List<Potential> getAllPotentials(){
@@ -228,6 +242,7 @@ public class PotentialService {
         care.setModifierName(user.getEmployee().getName());
         care.setAccepted(false);
         Care confirm = careRepository.save(care);
+        diaryService.createDiary("Cập nhật chăm sóc lần " + potential.getCares().size(), user, potential);
         return confirm.equals(care);
     }
 

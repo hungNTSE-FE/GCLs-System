@@ -74,6 +74,9 @@ public class Potential {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "potential")
     private List<CustomerDistribution> customerDistributionList;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "potential")
+    private List<Diary> diaries;
+
     @Override
     public boolean equals(Object o) {
         if (o == this) {

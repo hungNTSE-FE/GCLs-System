@@ -73,103 +73,20 @@
                     <div class="card-body" style="max-height: 27em">
                         <!-- Styled timeline component example -->
                         <div class="timeline">
-                            <div class="timeline-item">
+                            <div th:each="diary : ${diaries.keySet()}" class="timeline-item">
                                 <div class="timeline-item-marker">
-                                    <div class="timeline-item-marker-text">01/01/2021</div>
+                                    <div class="timeline-item-marker-text" th:text="${diary.createdDate}">01/01/2021</div>
                                     <div
                                             class="
                           timeline-item-marker-indicator
                           bg-primary-soft
-                          text-primary
-                        "
-                                    >
+                          text-primary"  >
                                         <i data-feather="flag"></i>
                                     </div>
                                 </div>
                                 <div class="timeline-item-content pt-0">
                                     <div class="card shadow-sm">
-                                        <div class="card-body">
-                                            <h5 class="text-primary">Beginning</h5>
-                                            This is the content for the first timeline item. In
-                                            this styled example, we're styling the timeline marker
-                                            with background and typography utility classes. We've
-                                            also shown that you can use the card component within
-                                            the timeline item content.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-item-marker">
-                                    <div class="timeline-item-marker-text">02/02/2021</div>
-                                    <div
-                                            class="
-                          timeline-item-marker-indicator
-                          bg-success-soft
-                          text-success
-                        "
-                                    >
-                                        <i data-feather="gift"></i>
-                                    </div>
-                                </div>
-                                <div class="timeline-item-content pt-0">
-                                    <div class="card shadow-sm">
-                                        <div class="card-body">
-                                            <h5 class="text-success">Second Item</h5>
-                                            This is the content for the second timeline item. In
-                                            this timeline example, we're also using some spacing
-                                            utilities on the timeline item content to remove the
-                                            padding from the top of that element.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-item-marker">
-                                    <div class="timeline-item-marker-text">03/03/2021</div>
-                                    <div
-                                            class="
-                          timeline-item-marker-indicator
-                          bg-secondary-soft
-                          text-secondary
-                        "
-                                    >
-                                        <i data-feather="map"></i>
-                                    </div>
-                                </div>
-                                <div class="timeline-item-content pt-0">
-                                    <div class="card shadow-sm">
-                                        <div class="card-body">
-                                            <h5 class="text-secondary">Third Item</h5>
-                                            This is the content for the third timeline item. Keep
-                                            in mind this is just an example of what you can put
-                                            within the timeline item content. There are many other
-                                            ways you can use this timeline, and it's fully
-                                            responsive too!
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-item-marker">
-                                    <div class="timeline-item-marker-text">04/04/2021</div>
-                                    <div
-                                            class="
-                          timeline-item-marker-indicator
-                          bg-warning-soft
-                          text-warning
-                        "
-                                    >
-                                        <i data-feather="send"></i>
-                                    </div>
-                                </div>
-                                <div class="timeline-item-content pt-0">
-                                    <div class="card shadow-sm">
-                                        <div class="card-body">
-                                            <h5 class="text-warning">Last Item</h5>
-                                            You can use different icons in the icon markers,
-                                            letters, or no icons at all if you just want a blank
-                                            circle.
+                                        <div class="card-body" th:text="${diary.content + ' bởi ' + diaries.get(diary).name}">
                                         </div>
                                     </div>
                                 </div>
