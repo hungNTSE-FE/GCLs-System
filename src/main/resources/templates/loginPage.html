@@ -24,12 +24,6 @@
               </div>
               <div class="card-body">
                 <!-- Login form-->
-                <div class="alert-danger text-center" th:if="${param.error}">
-                  Tài khoản hoặc mật khẩu không đúng
-                </div>
-                <div class="alert-success text-center" th:if="${param.logout}">
-                  Đăng xuất thành công
-                </div>
                 <form th:action="@{/login}" method="POST">
                   <!-- Form Group (email address)-->
                   <div class="mb-3">
@@ -44,6 +38,9 @@
                       Mật khẩu
                     </label>
                     <input class="form-control" id="inputPassword" type="password" name="password"/>
+                  </div>
+                  <div class="text-danger mb-3" th:if="${param.error}">
+                    Mật khẩu của bạn đã nhập không chính xác
                   </div>
                   <!-- Form Group (remember password checkbox)-->
                   <div class="mb-3">
