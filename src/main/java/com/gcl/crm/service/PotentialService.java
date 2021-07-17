@@ -2,11 +2,9 @@ package com.gcl.crm.service;
 
 import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.Status;
+import com.gcl.crm.form.EmployeeSearchForm;
 import com.gcl.crm.form.PotentialSearchForm;
-import com.gcl.crm.repository.CareRepository;
-import com.gcl.crm.repository.LevelRepository;
-import com.gcl.crm.repository.PotentialRepository;
-import com.gcl.crm.repository.PotentialRepository2;
+import com.gcl.crm.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +38,9 @@ public class PotentialService {
 
     @Autowired
     SourceService sourceService;
+
+    @Autowired
+    EmployeesRepository employeesRepository;
 
     public boolean importPotential(List<Potential> potentials, User user){
         if (potentials.size() == 0){
@@ -246,6 +247,10 @@ public class PotentialService {
         care.setAcceptor(user.getEmployee().getId());
         Care confirm = careRepository.save(care);
         return care.equals(confirm);
+    }
+
+    public List<EmployeeSearchForm> getEmployeeByDepartmentId(Long id) {
+        return employeesRepository.getListEmployeeByDepartmentId(id);
     }
 
     private Date getCurrentDate() {

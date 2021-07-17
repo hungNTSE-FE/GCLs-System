@@ -388,9 +388,6 @@
                         class="form-control"
                         size="10"
                 >
-                  <option th:each="employee : ${employees}"
-                          th:value="${employee.id}"
-                          th:utext="${employee.name}"/>
                 </select>
               </div>
 
@@ -425,7 +422,7 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-primary" id="sharingLeads" type="button">Chia sẻ</button>
-            <button class="btn btn-outline-dark" id="closeSharingLeads" type="button">
+            <button class="btn btn-outline-dark" data-bs-dismiss="modal" id="closeSharingLeads" type="button">
               Bỏ qua
             </button>
           </div>

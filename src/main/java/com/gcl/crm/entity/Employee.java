@@ -2,6 +2,8 @@ package com.gcl.crm.entity;
 
 import com.gcl.crm.enums.EmployeeStatus;
 import com.gcl.crm.enums.Gender;
+import com.gcl.crm.form.CustomerStatusEvaluationForm;
+import com.gcl.crm.form.EmployeeSearchForm;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,6 +13,16 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "employee")
+@SqlResultSetMapping(
+        name = "getEmployeesByDepartmentId",
+        classes = @ConstructorResult(
+                targetClass = EmployeeSearchForm.class
+                , columns = {
+                @ColumnResult(name = "id", type = Long.class),
+                @ColumnResult(name = "name", type = String.class),
+        }
+        )
+)
 public class Employee {
 
     @Id

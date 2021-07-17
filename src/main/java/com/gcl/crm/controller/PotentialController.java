@@ -1,6 +1,7 @@
 package com.gcl.crm.controller;
 
 import com.gcl.crm.entity.*;
+import com.gcl.crm.form.EmployeeSearchForm;
 import com.gcl.crm.form.PotentialSearchForm;
 import com.gcl.crm.form.CustomerDistributionForm;
 import com.gcl.crm.repository.SourceRepository;
@@ -339,6 +340,17 @@ public class PotentialController {
         CustomerDistributionForm customerDistributionForm = new CustomerDistributionForm();
         customerDistributionForm.setPotentialSearchFormList(potentialsSharing);
         return new ResponseEntity<>(customerDistributionForm, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/getEmployeeByDepartmentId")
+    public ResponseEntity<List<EmployeeSearchForm>> getEmployeeByDepartmentId(@RequestBody String id) throws JsonProcessingException {
+        List<EmployeeSearchForm> employeeList = null;
+        try {
+            employeeList = potentialService.getEmployeeByDepartmentId(Long.parseLong(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(employeeList, HttpStatus.OK);
     }
 
     private String getCurrentDate() {
