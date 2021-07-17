@@ -1,5 +1,7 @@
 package com.gcl.crm.entity;
 
+import com.gcl.crm.form.CustomerStatusForm;
+import com.gcl.crm.form.TradingAccountForm;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,6 +11,20 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name="trading_account")
+@SqlResultSetMapping(
+        name = "getTradingAccountByMonth",
+        classes = @ConstructorResult(
+                targetClass = TradingAccountForm.class
+                , columns = {
+                @ColumnResult(name = "phone_number", type = String.class),
+                @ColumnResult(name = "email", type = String.class),
+                @ColumnResult(name = "account_number", type = String.class),
+                @ColumnResult(name = "account_name", type = String.class),
+                @ColumnResult(name = "broker_code", type = String.class),
+                @ColumnResult(name = "broker_name", type = String.class),
+        }
+        )
+)
 public class TradingAccount {
 
     @Id

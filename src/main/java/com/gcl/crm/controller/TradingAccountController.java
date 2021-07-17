@@ -2,6 +2,8 @@ package com.gcl.crm.controller;
 
 import com.gcl.crm.entity.TradingAccount;
 import com.gcl.crm.exporter.TradingAccountExcelExporter;
+import com.gcl.crm.form.TradingAccountForm;
+import com.gcl.crm.repository.TradingAccountRepository2;
 import com.gcl.crm.service.CustomerProcessService;
 import com.gcl.crm.service.TradingAccountService;
 import com.gcl.crm.utils.WebUtils;
@@ -23,8 +25,12 @@ import java.util.List;
 public class TradingAccountController {
     @Autowired
     CustomerProcessService customerProcessService;
+
     @Autowired
     TradingAccountService tradingAccountService;
+
+    @Autowired
+    TradingAccountRepository2 tradingAccountRepository2;
 
     @GetMapping("/exportData")
     public void exportTradingAccount(HttpServletResponse response) throws IOException, ParseException {
@@ -73,6 +79,8 @@ public class TradingAccountController {
         model.addAttribute("stopTradingAccountList",stopTradingAccountList);
 
         model.addAttribute("allTradingAccountList",allTradingAccountList);
+
+        List<TradingAccountForm> tradingAccountForms = tradingAccountRepository2.getTradingAccountByMonth("2021-07-17");
         return "tradingAccount/view-tradingAccount-page";
     }
 }
