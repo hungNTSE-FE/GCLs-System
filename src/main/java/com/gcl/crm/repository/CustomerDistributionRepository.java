@@ -13,6 +13,6 @@ public class CustomerDistributionRepository {
     EntityManager entityManager;
 
     public void insertDataCustomer(CustomerDistribution customerDistribution) {
-        entityManager.merge(customerDistribution);
+        entityManager.persist(customerDistribution);
     }
 }

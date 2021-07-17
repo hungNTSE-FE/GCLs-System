@@ -41,6 +41,7 @@ $('#modalPotentailSharing').on('click', function () {
 })
 
 function render_data_potential_sharing(data) {
+    listSelectedPotentailId = [];
     $(data.potentialSearchFormList).each(function(index, potential){
         markup = '<tr><td>' + potential.name + '</td>'
             + '<td>' + potential.phone + '</td>'
@@ -48,8 +49,10 @@ function render_data_potential_sharing(data) {
             + '<td>' + potential.source + '</td>'
             + '<td>' + potential.time + '</td></tr>'
         $('#datatablesShareLeads > tbody:last-child').append(markup);
+        listSelectedPotentailId.push(Number(potential.potential_id));
     });
 
+    $('#potentialIdList').val(listSelectedPotentailId.join());
     dataTableShareLeads = new simpleDatatables.DataTable("#datatablesShareLeads", {
         perPage: 5,
         searchable: true,

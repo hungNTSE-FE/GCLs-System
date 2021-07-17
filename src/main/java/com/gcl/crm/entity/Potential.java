@@ -90,6 +90,13 @@ public class Potential {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "potential")
     private List<CustomerDistribution> customerDistributionList;
 
+    public Potential() {
+    }
+
+    public Potential(Long id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this) {

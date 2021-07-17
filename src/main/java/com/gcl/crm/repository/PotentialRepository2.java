@@ -25,7 +25,7 @@ public class PotentialRepository2 {
                 "where not exists(\n" +
                 "    select 1\n" +
                 "    from customer_distribution p2\n" +
-                "    where p1.id = p2.customer_code\n" +
+                "    where p1.id = p2.potential_id\n" +
                 "    )\n";
         if (!CollectionUtils.isEmpty(listSelectedId)) {
             sql = sql + " and p1.id in :list_selected_id";
@@ -36,5 +36,9 @@ public class PotentialRepository2 {
             query.setParameter("list_selected_id", listSelectedId);
         }
         return query.getResultList();
+    }
+
+    public Potential getReferenceById(Long id) {
+        return entityManager.getReference(Potential.class, id);
     }
 }
