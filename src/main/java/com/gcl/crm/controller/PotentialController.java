@@ -5,11 +5,7 @@ import com.gcl.crm.form.EmployeeSearchForm;
 import com.gcl.crm.form.PotentialSearchForm;
 import com.gcl.crm.form.CustomerDistributionForm;
 import com.gcl.crm.repository.SourceRepository;
-import com.gcl.crm.service.DepartmentService;
-import com.gcl.crm.service.EmployeeService;
-import com.gcl.crm.service.LevelService;
-import com.gcl.crm.service.PotentialService;
-import com.gcl.crm.service.UserService;
+import com.gcl.crm.service.*;
 import com.gcl.crm.utils.ExcelReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +25,8 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Controller
 @RequestMapping("/potential")
@@ -47,6 +45,9 @@ public class PotentialController {
 
     @Autowired
     PotentialService potentialService;
+
+    @Autowired
+    DiaryService diaryService;
 
     @Autowired
     SourceRepository sourceRepository;
@@ -145,11 +146,13 @@ public class PotentialController {
     }
 
     @RequestMapping(value = "/detail/diary/{id}", method = RequestMethod.GET)
-    public String goDetailDiary(Model model, @PathVariable("id") Long id, Principal principal) {
-        Potential potential = potentialService.getPotentialById(id);
+    public String goDetailDiary(Model model, @PathVariable("id") Long potentialId) {
+        Potential potential = potentialService.getPotentialById(potentialId);
         if (potential == null) {
             return "redirect:/potential/home";
         }
+        TreeMap<Diary, Employee> diaries = new TreeMap<>(diaryService.getDiaryMap(potentialId));
+        model.addAttribute("diaries", diaries);
         model.addAttribute("levels", levelService.getAll());
         model.addAttribute("selectedLevel", potential.getLevel());
         model.addAttribute("potentialDetail", potential);
@@ -256,7 +259,7 @@ public class PotentialController {
             model.addAttribute("sources", sources);
             return UPDATE_PAGE;
         }
-        boolean done = potentialService.editPotential(potential, user.getUserId());
+        boolean done = potentialService.editPotential(potential, user);
         if (!done){
             redirectAttributes.addFlashAttribute("message", "Không tìm thấy đầu mối");
             return "redirect:/potential/home";
@@ -268,20 +271,23 @@ public class PotentialController {
     @RequestMapping(value = "/detail/edit/level/MKT/{id}", method = RequestMethod.POST)
     public String editLevel(@Nullable @RequestParam("level") int levelId,
                             @Nullable @PathVariable("id") Long pid,
-                            RedirectAttributes redirectAttributes
-    ) {
-        boolean done = potentialService.editLevelPotential(pid, levelId);
+                            RedirectAttributes redirectAttributes, Principal principal) {
+        User currentUser = userService.getUserByUsername(principal.getName());
+        boolean done = potentialService.editLevelPotential(pid, levelId, currentUser);
         redirectAttributes.addFlashAttribute("flag","showAlertUpdateLevelSuccessful");
         return "redirect:/potential/detail/takecare/MKT/" + pid;
     }
 
     @RequestMapping(value = "/remove",  method = RequestMethod.POST)
-    public String remove(Model model, RedirectAttributes redirectAttributes, @Nullable @RequestParam("pid") List<Long> idList) {
+    public String remove(Model model, RedirectAttributes redirectAttributes,
+                         @Nullable @RequestParam("potential-id") List<Long> idList,
+                         Principal principal) {
         if (idList == null){
             redirectAttributes.addFlashAttribute("flag","showAlertError");
             return "redirect:/potential/home";
         }
-        potentialService.removePotentials(idList);
+        User currentUser = userService.getUserByUsername(principal.getName());
+        potentialService.removePotentials(idList, currentUser);
         redirectAttributes.addFlashAttribute("flag","showAlert");
         return "redirect:/potential/home";
     }
@@ -325,7 +331,6 @@ public class PotentialController {
             return "redirect:/potential/detail/takecare/" + pid;
         }
         User currentUser = userService.getUserByUsername(principal.getName());
-        Long uid = currentUser == null ? null : currentUser.getEmployee().getId();
         boolean done = potentialService.addTakeCarePotentialDetail(potential, currentUser, description);
         redirectAttributes.addFlashAttribute("flag","showAlert");
         return "redirect:/potential/detail/takecare/" + pid;

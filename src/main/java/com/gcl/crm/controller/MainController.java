@@ -13,7 +13,6 @@ public class MainController {
 
     @RequestMapping(value = {"/welcome", "/"}, method = RequestMethod.GET)
     public String welcomePage(Model model) {
-        System.out.println("acb");
         model.addAttribute("title", "Welcome");
         model.addAttribute("message", "This is welcome page!");
         return "redirect:/department/home";

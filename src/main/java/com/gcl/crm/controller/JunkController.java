@@ -1,7 +1,9 @@
 package com.gcl.crm.controller;
 
 import com.gcl.crm.entity.Potential;
+import com.gcl.crm.entity.User;
 import com.gcl.crm.service.PotentialService;
+import com.gcl.crm.service.UserService;
 import io.micrometer.core.lang.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -21,6 +24,9 @@ public class JunkController {
     @Autowired
     PotentialService potentialService;
 
+    @Autowired
+    UserService userService;
+
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String goHomePage(Model model) {
         List<Potential> potentials = potentialService.getAllDeletedPotentials();
@@ -29,26 +35,25 @@ public class JunkController {
     }
 
     @RequestMapping(value = "/reset/{id}", method = RequestMethod.GET)
-    public String resetPotential(Model model, @Nullable @PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-        boolean done = potentialService.resetPotential(id);
+    public String resetPotential(Model model, @Nullable @PathVariable("id") Long id,
+                                 RedirectAttributes redirectAttributes, Principal principal) {
+        User currentUser = userService.getUserByUsername(principal.getName());
+        boolean done = potentialService.resetPotential(id, currentUser);
         if (done) {
-            System.out.println("Ket qua: success");
             redirectAttributes.addFlashAttribute("flag","showAlert");
-        } else {
-            System.out.println("False");
         }
         return "redirect:/junk/home";
     }
 
     @RequestMapping(value = "/resetAll", method = RequestMethod.POST)
-    public String resetAllPotential(Model model, @Nullable @RequestParam("checkedbox") List<Long> checkedPotential, RedirectAttributes redirectAttributes) {
-        System.out.println(checkedPotential);
+    public String resetAllPotential(@Nullable @RequestParam("checkedbox") List<Long> checkedPotential,
+                                    RedirectAttributes redirectAttributes, Principal principal) {
         if (checkedPotential == null) {
             redirectAttributes.addFlashAttribute("flag","showAlertError");
             return "redirect:/junk/home";
         }
-        Potential potential = new Potential();
-        boolean done = potentialService.resetAllPotential(potential, checkedPotential);
+        User currentUser = userService.getUserByUsername(principal.getName());
+        boolean done = potentialService.resetAllPotential(checkedPotential, currentUser);
         redirectAttributes.addFlashAttribute("flag","showAlert");
         return "redirect:/junk/home";
     }

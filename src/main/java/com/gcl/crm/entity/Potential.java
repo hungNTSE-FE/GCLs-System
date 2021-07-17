@@ -94,6 +94,9 @@ public class Potential {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "potential")
     private List<CustomerDistribution> customerDistributionList;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "potential")
+    private List<Diary> diaries;
+
     public Potential() {
     }
 
