@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>Chăm sóc khách hàng tiềm năng - Gia Cat Loi</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
+    <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
+</head>
+<body class="nav-fixed">
+<th:block th:include="/common/nav-fixed.html"></th:block>
+<div id="layoutSidenav">
+    <th:block th:include="/common/layoutSidenav.html"></th:block>
+    <div id="layoutSidenav_content">
+        <main>
+            <header
+                    class="
+              page-header page-header-compact page-header-light
+              border-bottom
+              bg-white
+              mb-4
+            "
+            >
+                <div class="container-fluid px-4">
+                    <div class="page-header-content">
+                        <div
+                                class="row align-items-center justify-content-between pt-3"
+                        >
+                            <div class="col-auto mb-3">
+                                <nav class="rounded" aria-label="breadcrumb">
+                                    <ol class="breadcrumb px-3 py-2 rounded mb-0">
+                                        <li class="breadcrumb-item">
+                                            <a th:href="@{/potential/home}">Đầu mối</a>
+                                        </li>
+                                        <li class="breadcrumb-item active" th:text="${potentialDetail.name}"></li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="container-fluid px-4">
+                <th:block th:include="/potential/common/potential-card-header-hungNT.html"></th:block>
+
+                <!-- Account page navigation-->
+                <nav class="nav nav-borders">
+                    <a class="nav-link" th:href="@{/potential/detail/{id}(id=${potentialDetail.id})}">Chi tiết</a>
+                    <a class="nav-link active ms-0" th:href="@{/potential/detail/takecare/{id}(id=${potentialDetail.id})}">
+                        Chăm sóc khách hàng
+                        <span th:if="${potentialDetail.cares.size() > 0}" th:text="${potentialDetail.cares.size()}"
+                              class="badge bg-hung-custom text-white-75 ms-auto"></span>
+                    </a>
+                    <a class="nav-link" th:href="@{/potential/detail/diary/{id}(id=${potentialDetail.id})}">
+                        <i class="fas fa-calendar-alt"></i>
+                        Nhật ký
+                    </a>
+                    <a class="nav-link" th:href="@{/customer/action/id1}">
+                        <i class="fas fa-calendar-alt"></i>
+                        Hoạt động
+                        <span class="badge bg-hung-custom text-white-75 ms-auto">1</span>
+                    </a>
+                    <a class="nav-link" th:href="@{/customer/email/id1}">Email</a>
+                </nav>
+                <hr class="mt-0 mb-4" />
+                <div class="card card-scrollable mb-4 mb-xl-0">
+                    <div class="card-header">NHẬT KÝ KHÁCH HÀNG</div>
+                    <div class="card-body" style="max-height: 27em">
+                        <!-- Styled timeline component example -->
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-item-marker">
+                                    <div class="timeline-item-marker-text">01/01/2021</div>
+                                    <div
+                                            class="
+                          timeline-item-marker-indicator
+                          bg-primary-soft
+                          text-primary
+                        "
+                                    >
+                                        <i data-feather="flag"></i>
+                                    </div>
+                                </div>
+                                <div class="timeline-item-content pt-0">
+                                    <div class="card shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="text-primary">Beginning</h5>
+                                            This is the content for the first timeline item. In
+                                            this styled example, we're styling the timeline marker
+                                            with background and typography utility classes. We've
+                                            also shown that you can use the card component within
+                                            the timeline item content.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-item-marker">
+                                    <div class="timeline-item-marker-text">02/02/2021</div>
+                                    <div
+                                            class="
+                          timeline-item-marker-indicator
+                          bg-success-soft
+                          text-success
+                        "
+                                    >
+                                        <i data-feather="gift"></i>
+                                    </div>
+                                </div>
+                                <div class="timeline-item-content pt-0">
+                                    <div class="card shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="text-success">Second Item</h5>
+                                            This is the content for the second timeline item. In
+                                            this timeline example, we're also using some spacing
+                                            utilities on the timeline item content to remove the
+                                            padding from the top of that element.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-item-marker">
+                                    <div class="timeline-item-marker-text">03/03/2021</div>
+                                    <div
+                                            class="
+                          timeline-item-marker-indicator
+                          bg-secondary-soft
+                          text-secondary
+                        "
+                                    >
+                                        <i data-feather="map"></i>
+                                    </div>
+                                </div>
+                                <div class="timeline-item-content pt-0">
+                                    <div class="card shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="text-secondary">Third Item</h5>
+                                            This is the content for the third timeline item. Keep
+                                            in mind this is just an example of what you can put
+                                            within the timeline item content. There are many other
+                                            ways you can use this timeline, and it's fully
+                                            responsive too!
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-item-marker">
+                                    <div class="timeline-item-marker-text">04/04/2021</div>
+                                    <div
+                                            class="
+                          timeline-item-marker-indicator
+                          bg-warning-soft
+                          text-warning
+                        "
+                                    >
+                                        <i data-feather="send"></i>
+                                    </div>
+                                </div>
+                                <div class="timeline-item-content pt-0">
+                                    <div class="card shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="text-warning">Last Item</h5>
+                                            You can use different icons in the icon markers,
+                                            letters, or no icons at all if you just want a blank
+                                            circle.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer small text-muted">
+                        Updated yesterday at 11:59 PM
+                    </div>
+                </div>
+            </div>
+        </main>
+        <th:block th:include="/common/footer.html"></th:block>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
+<script src="https://code.jquery.com/jquery-1.8.3.js" integrity="sha256-dW19+sSjW7V1Q/Z3KD1saC6NcE5TUIhLJzJbrdKzxKc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+</body>
+</html>

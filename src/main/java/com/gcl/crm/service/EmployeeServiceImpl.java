@@ -73,7 +73,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         user.setEncrytedPassword(bCryptPasswordEncoder.encode(user.getEncrytedPassword()));
         user.setEnabled(true);
-
+        user.setEmployee(employee);
         employee.setIdentification(null);
         employee.setStatus(EmployeeStatus.WORKING);
         employee.setUser(user);
@@ -173,4 +173,19 @@ public class EmployeeServiceImpl implements EmployeeService{
         }
         return result;
     }
+
+    @Override
+    public boolean isPhoneExisted(String phone, Long id) {
+        Employee employee = (id != null) ? employeeRepository.findEmployeeByPhoneAndIdNot(phone, id)
+                : employeeRepository.findEmployeeByPhone(phone);
+        return employee != null;
+    }
+
+    @Override
+    public boolean isEmailExisted(String email, Long id) {
+        Employee employee = (id != null) ? employeeRepository.findEmployeeByCompanyEmailAndIdNot(email, id)
+                : employeeRepository.findEmployeeByCompanyEmail(email);
+        return employee != null;
+    }
+
 }

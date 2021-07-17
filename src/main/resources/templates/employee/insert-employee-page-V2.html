@@ -94,14 +94,14 @@
                               id="input-username"
                               type="text"
                               placeholder="Nhập tên đăng nhập"
+                             required
                       />
                     </div>
                     <!-- Form Group (last name)-->
                     <div class="col-md-6">
-                      <label class="small mb-1" for="inputLastName">Mã số cá nhân</label>
+                      <label class="small mb-1">Mã số cá nhân</label>
                       <input
                               class="form-control"
-                              id="inputAddress"
                               type="text"
                               placeholder="Nhập mã số"
                       />
@@ -111,7 +111,7 @@
                   <div class="row gx-3 mb-3">
                     <!-- Form Group (first name)-->
                     <div class="col-md-6">
-                      <label class="small mb-1" for="inputFirstName">
+                      <label class="small mb-1" >
                         Mật khẩu
                         <span style="color: red">*</span>
                       </label>
@@ -120,11 +120,12 @@
                               id="inputPassword"
                               type="password"
                               placeholder="Nhập mật khẩu"
+                             required
                       />
                     </div>
                     <!-- Form Group (last name)-->
                     <div class="col-md-6">
-                      <label class="small mb-1" for="inputLastName">Địa chỉ</label>
+                      <label class="small mb-1">Địa chỉ</label>
                       <input th:field="*{address}"
                               class="form-control"
                               id="inputAddress"
@@ -137,7 +138,7 @@
                   <div class="row gx-3 mb-3">
                     <!-- Form Group (organization name)-->
                     <div class="col-md-6">
-                      <label class="small mb-1" for="inputOrgName">
+                      <label class="small mb-1">
                         Tên người dùng
                         <span style="color: red">*</span>
                       </label>
@@ -146,24 +147,27 @@
                               id="inputFullName"
                               type="text"
                               placeholder="Nhập tên người dùng"
+                             required
                       />
                     </div>
                     <!-- Form Group (location)-->
                     <div class="col-md-6">
-                      <label class="small mb-1" for="inputLocation">Điện thoại</label>
+                      <label class="small mb-1">Điện thoại</label>
                       <input th:field="*{phone}"
                               class="form-control"
                               id="inputPhone"
                               type="text"
                               placeholder="Nhập số điện thoại"
                       />
+                      <!--Tạo error ở đây-->
+                      <span th:if="${duplicatePhone}" th:text="${duplicatePhone}" style="color:red"></span>
                     </div>
                   </div>
                   <!-- Form Row        -->
                   <div class="row gx-3 mb-3">
                     <!-- Form Group (organization name)-->
                     <div class="col-md-6">
-                      <label class="small mb-1" for="inputEmailAddress">Ngày sinh</label>
+                      <label class="small mb-1">Ngày sinh</label>
                       <div class="input-group input-group-joined">
                             <span class="input-group-text">
                               <i data-feather="calendar"></i>
@@ -177,27 +181,29 @@
                     </div>
                     <!-- Form Group (location)-->
                     <div class="col-md-6">
-                      <label class="small mb-1" for="inputLocation">Email</label>
+                      <label class="small mb-1">Email</label>
                       <input th:field="*{companyEmail}" class="form-control"
                               id="inputEmail"
                               type="email"
                               placeholder="Nhập Email"
                       />
+                      <!--Tạo error ở đây-->
+                      <span th:if="${duplicateEmail}" th:text="${duplicateEmail}" style="color:red"></span>
                     </div>
                   </div>
                   <!-- Form Row-->
                   <div class="row gx-3 mb-3">
                     <!-- Form Group (phone number)-->
                     <div class="col-md-6">
-                      <label class="small mb-1" for="inputPhone">Chức vụ</label>
-                      <select class="form-select" id="exampleFormControlSelect1" name="pid">
+                      <label class="small mb-1">Chức vụ</label>
+                      <select class="form-select" id="exampleFormControlSelect1" name="pid" disabled>
                         <option th:each="position : ${positions}" th:text="${position.name}"
-                                th:value="${position.id}"></option>
+                                th:value="${position.id}" ></option>
                       </select>
                     </div>
                     <!-- Form Group (birthday)-->
                     <div class="col-md-6">
-                      <label class="small mb-1" for="inputBirthday">Phòng ban</label>
+                      <label class="small mb-1">Phòng ban</label>
                       <select class="form-select" id="exampleFormControlSelect1" name="did">
                         <option th:each="department : ${departments}" th:text="${department.name}"
                                 th:value="${department.id}"></option>

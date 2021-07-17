@@ -88,7 +88,7 @@
                                                 Tên đăng nhập
                                                 <span style="color: red">*</span>
                                             </label>
-                                            <input th:value="${employee.user.userName}" disabled
+                                            <input th:value="${employee.user?.userName}" disabled
                                                    class="form-control"
                                                    id="inputUsername"
                                                    type="text" name="user-name"
@@ -165,13 +165,11 @@
                                     <div class="row gx-3 mb-3">
                                         <!-- Form Group (organization name)-->
                                         <div class="col-md-6">
-                                            <label class="small mb-1" for="inputEmailAddress"
-                                            >Ngày sinh</label
-                                            >
+                                            <label class="small mb-1">Ngày sinh</label>
                                             <div class="input-group input-group-joined">
-                            <span class="input-group-text">
-                              <i data-feather="calendar"></i>
-                            </span>
+                                                <span class="input-group-text">
+                                                     <i data-feather="calendar"></i>
+                                                </span>
                                                 <input th:field="*{birthDate}"
                                                         class="form-control ps-0"
                                                         id="litepicker"
@@ -199,9 +197,7 @@
                                             <label class="small mb-1"
                                             >Chức vụ</label
                                             >
-                                            <select name="pid"
-                                                    class="form-select"
-                                            >
+                                            <select name="pid" class="form-select" disabled>
                                                 <option th:each="position : ${positions}" th:text="${position.name}"
                                                         th:value="${position.id}" th:selected="${position.equals(employee.position)}"></option>
                                             </select>

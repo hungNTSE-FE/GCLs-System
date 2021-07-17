@@ -46,7 +46,7 @@ public class EmployeeController {
         if (principal == null) {
             return ERROR_400;
         }
-        List<Employee> employees = employeeService.getAllEmployees();
+        List<Employee> employees = employeeService.getAllWorkingEmployees();
         List<Department> departments = departmentService.findAllDepartments();
         List<Position> positions = positionService.findAllPositions();
         model.addAttribute("employees", employees);
@@ -188,17 +188,31 @@ public class EmployeeController {
     @PostMapping({"/create"})
     public String create(Model model, @Nullable @ModelAttribute("employee") Employee employee,
                          @Nullable @RequestParam("pid") Long pid,
-                         @Nullable @RequestParam("did") Long did){
+                         @Nullable @RequestParam("did") Long did,
+                         RedirectAttributes redirectAttributes){
+        boolean error = false;
         if (employee == null){
             return "redirect:/employee/home";
         }
-        boolean done = employeeService.createEmployee(employee, pid, did);
-        if (done){
-            model.addAttribute("message", "Tạo mới nhân viên thành công");
-        } else {
-            model.addAttribute("error", "Có lỗi xảy ra! Tạo mới thất bại");
+        if (employeeService.isPhoneExisted(employee.getPhone(), employee.getId())) {
+            model.addAttribute("duplicatePhone", "Số điện thoại này đã tồn tại");
+            error = true;
         }
-        return "redirect:/employee/create";
+        if (employeeService.isEmailExisted(employee.getCompanyEmail(), employee.getId())) {
+            model.addAttribute("duplicateEmail", "Email này đã tồn tại");
+            error = true;
+        }
+        if (error) {
+            List<Department> departments = departmentService.findAllDepartments();
+            List<Position> positions = positionService.findAllPositions();
+            model.addAttribute("employee", employee);
+            model.addAttribute("departments", departments);
+            model.addAttribute("positions", positions);
+            return "employee/insert-employee-page-V2";
+        }
+        boolean done = employeeService.createEmployee(employee, pid, did);
+        redirectAttributes.addFlashAttribute("flag", "successCreate");
+        return "redirect:/employee/home";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
@@ -231,17 +245,30 @@ public class EmployeeController {
                        @Nullable @RequestParam("pid") Long pid,
                        @Nullable @RequestParam("did") Long did,
                        @Nullable @RequestParam("user-name") String username,
-                       @Nullable @RequestParam("password") String password){
+                       @Nullable @RequestParam("password") String password,
+                       RedirectAttributes redirectAttributes){
+        boolean error = false;
         if (employee == null){
+            return "redirect:/employee/home";
+        }
+        if (employeeService.isPhoneExisted(employee.getPhone(), employee.getId())) {
+            redirectAttributes.addFlashAttribute("flag", "duplicatePhone");
+            error = true;
+        }
+        if (employeeService.isEmailExisted(employee.getCompanyEmail(), employee.getId())) {
+            redirectAttributes.addFlashAttribute("flag", "duplicateEmail");
+            error = true;
+        }
+        if (error) {
             return "redirect:/employee/home";
         }
         boolean done = employeeService.updateEmployee(employee, pid, did, username, password);
         if (done){
-            model.addAttribute("message", "Cập nhật nhân viên thành công");
+            redirectAttributes.addFlashAttribute("flag", "successEdit");
         } else {
             model.addAttribute("error", "Đã có lỗi xảy ra! Cập nhật thất bại");
         }
-        return "redirect:/employee/edit?eid=" + employee.getId();
+        return "redirect:/employee/home";
     }
 
     @PostMapping({"/delete"})

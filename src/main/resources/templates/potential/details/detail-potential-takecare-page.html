@@ -56,6 +56,10 @@
             <span th:if="${potentialDetail.cares.size() > 0}" th:text="${potentialDetail.cares.size()}"
                   class="badge bg-hung-custom text-white-75 ms-auto"></span>
           </a>
+          <a class="nav-link" th:href="@{/potential/detail/diary/{id}(id=${potentialDetail.id})}">
+            <i class="fas fa-calendar-alt"></i>
+            Nhật ký
+          </a>
           <a class="nav-link" th:href="@{/customer/action/id1}">
             <i class="fas fa-calendar-alt"></i>
             Hoạt động
@@ -228,8 +232,6 @@
     }
   });
   /*]]>*/
-
-
 </script>
 </body>
 </html>

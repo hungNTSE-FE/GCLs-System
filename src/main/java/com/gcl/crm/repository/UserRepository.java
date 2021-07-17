@@ -15,4 +15,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findUserByUserName(String userName);
     List<User> findAllByEnabled(boolean enabled);
     Optional<User> findByUserIdAndAndEnabled(Long id, boolean enabled);
+
 }

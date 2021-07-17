@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -22,7 +22,7 @@
             <div class="text-center mt-4">
               <img class="img-fluid p-4" src="/assets/img/illustrations/403-error-forbidden.svg" alt="" />
               <p class="lead">Bạn chưa được cấp quyền để truy cập đường dẫn này.</p>
-              <a class="text-arrow-icon" href="/welcome">
+              <a class="text-arrow-icon" th:href="@{/login}">
                 <i class="ms-0 me-1" data-feather="arrow-left"></i>
                 Trở về trang chủ
               </a>

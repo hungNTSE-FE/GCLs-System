@@ -41,6 +41,7 @@ public class PotentialController {
     private static final String DETAIL_ACTION_PAGE = "/potential/details/detail-potential-action-page-V2";
     private static final String DETAIL_TAKECARE_PAGE = "/potential/details/detail-potential-takecare-page";
     private static final String DETAIL_TAKECARE_MKTPAGE = "/potential/details/marketing/detail-potential-takecare-MKTpage";
+    private static final String DETAIL_DIARY_PAGE = "/potential/details/detail-potential-diary-page";
     private static final String ERROR_USER = "loginPage";
 
     @Autowired
@@ -127,26 +128,6 @@ public class PotentialController {
         return DETAIL_TAKECARE_PAGE;
     }
 
-    @PostMapping(value = {"/detail/take-care/{id}"})
-    public String takeCare(@PathVariable("id") Long pid,
-                           Principal principal,
-                           @Nullable @RequestParam("description") String description,
-                           @RequestParam("index") Integer index,
-                           RedirectAttributes redirectAttributes){
-        Potential potential = potentialService.getPotentialById(pid);
-        if (potential == null){
-            return "redirect:/potential/home";
-        }
-        if (index > 3){
-            return "redirect:/potential/detail/takecare/" + pid;
-        }
-        User currentUser = userService.getUserByUsername(principal.getName());
-        Long uid = currentUser == null ? null : currentUser.getEmployee().getId();
-        boolean done = potentialService.addTakeCarePotentialDetail(potential, currentUser, description);
-        redirectAttributes.addFlashAttribute("flag","showAlert");
-        return "redirect:/potential/detail/takecare/" + pid;
-    }
-
     @RequestMapping(value = "/detail/takecare/MKT/{id}", method = RequestMethod.GET)
     public String goDetailTakeCarePotentialOfMKT(Model model, @PathVariable("id") Long id, Principal principal) {
         Potential potentialDetail = potentialService.getPotentialById(id);
@@ -159,18 +140,21 @@ public class PotentialController {
         return DETAIL_TAKECARE_MKTPAGE;
     }
 
-    @PostMapping(value = {"/detail/take-care/MKT/{id}"})
-    public String markTakeCareAsSeen(@PathVariable("id") Long id, Principal principal,
-                                     @RequestParam("index") Integer index){
-        Potential potential = potentialService.getPotentialById(id);
-        User currentUser = userService.getUserByUsername(principal.getName());
-        boolean done = potentialService.acceptTakeCareInfo(potential, currentUser, index);
-        return "redirect:/potential/detail/takecare/MKT/" + id;
-    }
-
     @RequestMapping(value = "/email/id1", method = RequestMethod.GET)
     public String goDetailEmailCustomer(Model model) {
         return "detail-potential-email-page-V2";
+    }
+
+    @RequestMapping(value = "/detail/diary/{id}", method = RequestMethod.GET)
+    public String goDetailDiary(Model model, @PathVariable("id") Long id, Principal principal) {
+        Potential potential = potentialService.getPotentialById(id);
+        if (potential == null) {
+            return "redirect:/potential/home";
+        }
+        model.addAttribute("levels", levelService.getAll());
+        model.addAttribute("selectedLevel", potential.getLevel());
+        model.addAttribute("potentialDetail", potential);
+        return DETAIL_DIARY_PAGE;
     }
 
     @RequestMapping(value = "/action/id1", method = RequestMethod.GET)
@@ -179,7 +163,7 @@ public class PotentialController {
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String search(Model model, @Nullable @ModelAttribute("searchForm") PotentialSearchForm searchForm, RedirectAttributes redirectAttributes){
+    public String search(Model model, @Nullable @ModelAttribute("searchForm") PotentialSearchForm searchForm){
         if (searchForm == null){
             return "redirect:/potential/home";
         }
@@ -317,6 +301,35 @@ public class PotentialController {
             model.addAttribute("error", e.getMessage());
         }
         return "redirect:/potential/home";
+    }
+
+    @PostMapping(value = {"/detail/take-care/MKT/{id}"})
+    public String markTakeCareAsSeen(@PathVariable("id") Long id, Principal principal,
+                                     @RequestParam("index") Integer index){
+        Potential potential = potentialService.getPotentialById(id);
+        User currentUser = userService.getUserByUsername(principal.getName());
+        boolean done = potentialService.acceptTakeCareInfo(potential, currentUser, index);
+        return "redirect:/potential/detail/takecare/MKT/" + id;
+    }
+
+    @PostMapping(value = {"/detail/take-care/{id}"})
+    public String takeCare(@PathVariable("id") Long pid,
+                           Principal principal,
+                           @Nullable @RequestParam("description") String description,
+                           @RequestParam("index") Integer index,
+                           RedirectAttributes redirectAttributes){
+        Potential potential = potentialService.getPotentialById(pid);
+        if (potential == null){
+            return "redirect:/potential/home";
+        }
+        if (index > 3){
+            return "redirect:/potential/detail/takecare/" + pid;
+        }
+        User currentUser = userService.getUserByUsername(principal.getName());
+        Long uid = currentUser == null ? null : currentUser.getEmployee().getId();
+        boolean done = potentialService.addTakeCarePotentialDetail(potential, currentUser, description);
+        redirectAttributes.addFlashAttribute("flag","showAlert");
+        return "redirect:/potential/detail/takecare/" + pid;
     }
 
     @PostMapping(value = "/getPotentialToShare")

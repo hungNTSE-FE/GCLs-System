@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         List<Privilege> privileges = privilegeService.getAllPrivileges();
-        for (Privilege privilege : privileges){
+        for (Privilege privilege : privileges) {
             http.authorizeRequests()
                     .antMatchers(privilege.getUrl())
                     .hasAuthority("ROLE_" + privilege.getCode());

@@ -15,5 +15,7 @@ public interface EmployeeService {
     boolean deleteEmployee(Long eid);
     List<Employee> getAllNotGroupedEmployees();
     List<Employee> getAllGroupedEmployees(String id);
+    boolean isPhoneExisted(String phone, Long id);
+    boolean isEmailExisted(String email, Long id);
     List<Employee> getAllWorkingEmployeesWithUserNotNull();
 }
