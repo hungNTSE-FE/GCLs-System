@@ -1,6 +1,8 @@
 package com.gcl.crm.entity;
 
 import com.gcl.crm.enums.Status;
+import com.gcl.crm.form.CustomerStatusEvaluationForm;
+import com.gcl.crm.form.PotentialSearchForm;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,6 +11,20 @@ import java.util.List;
 
 @Data
 @Entity
+@SqlResultSetMapping(
+        name = "getPotentailFormToShare",
+        classes = @ConstructorResult(
+                targetClass = PotentialSearchForm.class
+                , columns = {
+                @ColumnResult(name = "potentialID", type = Long.class),
+                @ColumnResult(name = "name", type = String.class),
+                @ColumnResult(name = "phone", type = String.class),
+                @ColumnResult(name = "email", type = String.class),
+                @ColumnResult(name = "source_name", type = String.class),
+                @ColumnResult(name = "time", type = String.class),
+        }
+        )
+)
 public class Potential {
 
     @Id

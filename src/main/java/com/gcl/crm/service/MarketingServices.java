@@ -98,7 +98,7 @@ public class MarketingServices {
     public void distributeCustomerData(CustomerDistributionForm customerDistributionForm) {
         try{
             List<Long> empId = customerDistributionForm.getEmpIdList();
-            List<Potential> potentialList = potentialRepository2.getListPotentialToShare();
+            List<Potential> potentialList = null;
             Random random = new Random();
             Date systemDate = WebUtils.getSystemDate();
             int i = 0;

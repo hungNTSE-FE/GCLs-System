@@ -78,11 +78,14 @@
                           "
                             aria-labelledby="dropdownMenuButton"
                     >
+                      <button data-bs-toggle="modal"
+                              data-bs-target="#modalShareLead"
+                              id = "hdnModalPotentailSharing"
+                              hidden>Chia sẻ đầu mối</button>
                       <a
                               class="dropdown-item"
                               href="#"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modalShareLead"
+                              id = "modalPotentailSharing"
                       >Chia sẻ đầu mối</a
                       >
                     </div>
@@ -361,13 +364,6 @@
               </tr>
               </thead>
               <tbody>
-              <tr th:each="potential : ${potentialsSharing}">
-                <td th:text="${potential.name}"></td>
-                <td th:text="${potential.phoneNumber}"></td>
-                <td th:text="${potential.email}"></td>
-                <td th:text="${potential.email}"></td>
-                <td th:text="${potential.email}"></td>
-              </tr>
               </tbody>
             </table>
 
@@ -429,7 +425,7 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-primary" id="sharingLeads" type="button">Chia sẻ</button>
-            <button class="btn btn-outline-dark" type="button">
+            <button class="btn btn-outline-dark" id="closeSharingLeads" type="button">
               Bỏ qua
             </button>
           </div>

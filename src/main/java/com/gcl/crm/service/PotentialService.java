@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PotentialService {
@@ -215,8 +216,8 @@ public class PotentialService {
         return potential != null;
     }
 
-    public List<Potential> getListPotentialToShare() {
-        return potentialRepository2.getListPotentialToShare();
+    public List<PotentialSearchForm> getListPotentialToShare(List<Long> listSelectedId) {
+        return potentialRepository2.getListPotentialToShare(listSelectedId);
     }
 
     public boolean addTakeCarePotentialDetail(Potential potential, User user, String description){
