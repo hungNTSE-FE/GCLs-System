@@ -40,7 +40,7 @@ $('#modalPotentailSharing').on('click', function () {
 
 })
 
-$('#dropdown_sharing_department').on('change', function(){
+$('#selectDepartment').on('change', function(){
     $('#lstBox1').empty();
     $.ajax({
         type: "POST",
@@ -67,12 +67,12 @@ function render_data_potential_sharing(data) {
             + '<td>' + potential.email + '</td>'
             + '<td>' + potential.source + '</td>'
             + '<td>' + potential.time + '</td></tr>'
-        $('#datatablesShareLeads > tbody:last-child').append(markup);
+        $('#datatablesCheckedPotential > tbody:last-child').append(markup);
         listSelectedPotentailId.push(Number(potential.potentialID));
     });
 
     $('#potentialIdList').val(listSelectedPotentailId.join());
-    dataTableShareLeads = new simpleDatatables.DataTable("#datatablesShareLeads", {
+    dataTableShareLeads = new simpleDatatables.DataTable("#datatablesCheckedPotential", {
         perPage: 5,
         searchable: true,
         perPageSelect: false,
@@ -84,7 +84,7 @@ function render_data_potential_sharing(data) {
 
 $('#modalShareLead').on('hide.bs.modal', function () {
     dataTableShareLeads.destroy();
-    $('#datatablesShareLeads tbody tr').each(function(){
+    $('#datatablesCheckedPotential tbody tr').each(function(){
         $(this).remove();
     });
 
