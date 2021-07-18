@@ -33,9 +33,6 @@
             outline: none;
             background-color: #fff;
         }
-        .fa-check-circle{
-            color: yellow;
-        }
         .user-info-in {
             background-color: #fff;
             width: 0;
@@ -46,7 +43,6 @@
             height: 100%;
             right: 0;
         }
-
     </style>
 </head>
 <body class="nav-fixed">
@@ -70,11 +66,10 @@
                                     <div class="page-header-icon">
                                         <i data-feather="filter"></i>
                                     </div>
-                                    Cơ cấu công ty
+                                    Lịch sử giao dịch
                                 </h1>
                                 <div class="page-header-subtitle">
-                                    Cơ cấu công ty là nơi hiển thị chi tiết phòng ban, nhân
-                                    viên nào của công ty.
+                                   Hiển thị tất cả lịch sử nạp tiền và rút tiền của cách hàng
                                 </div>
                             </div>
                         </div>
@@ -87,13 +82,20 @@
                     <div class="card-header">Filter</div>
                     <div class="card-body">
                         <div class="mb-3">
-
+                            <!--              <form id="go-update-form" th:action="@{/department/edit-v2}">-->
+                            <!--                <label for="exampleFormControlSelect1" class="form-label">Phòng ban</label>-->
+                            <!--                <select class="form-select form-control-solid" name="did"-->
+                            <!--                        id="exampleFormControlSelect1">-->
+                            <!--                  <option th:each="department : ${departments}" th:value="${department.id}"-->
+                            <!--                          th:text="${department.name}"></option>-->
+                            <!--                </select>-->
+                            <!--              </form>-->
                         </div>
                     </div>
                 </div>
                 <div class="card mb-4 card-header-actions mx-auto">
                     <div class="card-header">
-                        Hiển Thị khách hàng
+                        Hiển Thị Giao Dịch
                         <div>
 
                         </div>
@@ -102,68 +104,27 @@
                         <table id="datatablesSimple">
                             <thead>
                             <tr>
-                                <th>Tài khoản giao dịch </th>
-                                <th>Tên khách hàng</th>
-                                <th>Mã Khách hàng</th>
-                                <th>Số điện thoại</th>
-                                <th>Người mô giới</th>
-                                <th>Trạng thái</th>
-                                <th>Cập nhật</th>
-
+                                <th>Chủ tài khoản</th>
+                                <th>Tài khoản giao dịch</th>
+                                <th>Ngân hàng</th>
+                                <th>Loại giao dịch</th>
+                                <th>Phí</th>
+                                <th>Số tiền</th>
+                                <th>Ngày giao dịch</th>
 
 
 
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="customer : ${listCustomers}">
-                                <td th:text="${customer.tradingAccount.accountNumber}"></td>
-                                <td th:text="${customer.customerName}"></td>
-                                <td th:text="${customer.customerCode}"></td>
-                                <td th:text="${customer.phoneNumber}"></td>
-                                <td th:text="${customer.tradingAccount.brokerName}"></td>
-                                <th:block th:switch="${customer.tradingAccount.status}">
-                                    <th:block th:case="'Inactive'">
-                                        <td>
-                                            <a th:href="@{'/contract/active/'+${customer.customerCode}}"><i  onclick="return confirm('Sau khi kích hoạt tài khoản sẽ có thể ký quỹ')" class="fa fa-arrow-circle-right" aria-hidden="true"></i>&nbsp;Kích Hoạt</a>
-
-                                        </td>
-                                    </th:block>
-                                    <th:block th:case="'Active'">
-                                        <td>
-                                            <i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;
-                                            Đã kích hoạt
-                                        </td>
-
-
-                                    </th:block>
-                                    <th:block th:case="'Block'">
-                                        <td>
-                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                            Khóa
-                                        </td>
-
-
-                                    </th:block>
-                                    <th:block th:case="'Stop'">
-                                        <td>
-                                            <i class="fa fa-unlock" aria-hidden="true"></i>
-                                            Dừng giao dịch
-                                        </td>
-
-
-                                    </th:block>
-                                </th:block>
-                                <td>
-                                    <a th:href="@{'/contract/showUpdateAccountForm/'+${customer.customerCode}}"><i data-feather="edit"></i>&nbsp;Cập nhật</a>
-
-                                </td>
-
-
-
-
-
-
+                            <tr th:each="transactionHistory : ${listTransactionHistories}">
+                                <td th:text="${transactionHistory.customerName}"></td>
+                                <td th:text="${transactionHistory.accountNumber}"></td>
+                                <td th:text="${ transactionHistory.bankName}"></td>
+                                <td th:text="${transactionHistory.transactionType}"></td>
+                                <td th:text="${transactionHistory.fee}"></td>
+                                <td th:text="${transactionHistory.money}"></td>
+                                <td th:text="${transactionHistory.createDate}"></td>
 
 
                             </tr>

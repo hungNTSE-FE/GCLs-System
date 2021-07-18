@@ -49,6 +49,10 @@ public class TradingAccount {
     private Date createDate;
     @Column(name="active_date")
     private Date activeDate ;
+    @Column (name="update_date")
+    private Date updateDate;
+    @Column(name = "update_type")
+    private String updateType;
 
     public Date getActiveDate() {
         return activeDate;
@@ -122,5 +126,19 @@ public class TradingAccount {
         this.createDate = createDate;
     }
 
+    public Date getUpdateDate() {
+        return updateDate;
+    }
 
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public String getUpdateType() {
+        return updateType;
+    }
+
+    public void setUpdateType(String updateType) {
+        this.updateType = updateType;
+    }
 }

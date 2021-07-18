@@ -97,7 +97,7 @@
                 <div class="row">
                     <div class="col-lg-9">
                         <form class="row g-3"
-                              id="customerForm"
+                              id="contractForm"
                               th:action="@{/contract/createContract}"
                               th:object="${contract}"
 
@@ -109,30 +109,36 @@
                                     <div class="card-header">Tạo mới hợp đồng</div>
                                     <div class="card-body">
                                         <div class="row gx-3 mb-3">
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 form-validate">
                                                 <label for="tradingCode" class="small mb-1">
                                                     Mã hợp đồng
                                                     <span style="color: red">*</span>
                                                 </label>
                                                 <input type="text" class="form-control"
-                                                       id="tradingCode"
+                                                       id="contractID"
                                                        placeholder="Mã hợp đồng"
                                                        th:field="${contract.id}"
 
                                                 />
+                                                <i class="fas fa-check-circle "></i>
+                                                <i class="fas fa-exclamation-circle"></i>
+                                                <small>Error Message</small>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 form-validate">
                                                 <label class="small mb-1">
                                                     Trạng thái
                                                     <span style="color: red">*</span>
                                                 </label>
                                                 <input type="text"
                                                        class="form-control"
-                                                       id="brokerCode"
+                                                       id="status"
                                                        th:field="${contract.status}"
 
 
                                                 />
+                                                <i class="fas fa-check-circle "></i>
+                                                <i class="fas fa-exclamation-circle"></i>
+                                                <small>Error Message</small>
                                             </div>
                                         </div>
 
@@ -559,5 +565,60 @@
         autoRefresh: true,
     });
 </script>
+<script>
+    const form = document.getElementById('contractForm');
+    const id = document.getElementById('contractID');
+
+    const status = document.getElementById('status');
+
+
+
+    form.addEventListener('submit',(e) => {
+
+
+        const  idValue = id.value.trim();
+        const statusValue  = status.value.trim();
+        //
+            const re = /^GCL[0-9]{4}^HCM[0-9]{4};
+
+        if(idValue ==''){
+            setErrorFor(id,"Mã hợp đồng không thể trống");
+            e.preventDefault();
+
+
+        }else {
+            setSuccessFor(id);
+        }
+        if(!idValue.matches(re)){
+            setErrorFor(id,"Mã hợp đồng có dạng GCLXXXX/HCMXXXX");
+            e.preventDefault();
+        }
+        if(statusValue ==''){
+            setErrorFor(status,"Trạng thái không thể trống");
+            e.preventDefault();
+        }else {
+            setSuccessFor(status);
+        }
+
+
+    });
+    //
+    function setErrorFor(input,message) {
+        const  inputBox=input.parentElement;
+
+        const small = inputBox.querySelector('small');
+        small.innerText = message;
+        inputBox.className='col-md-6 form-validate error';
+
+    }
+    function setSuccessFor(input) {
+        const  inputBox=input.parentElement;
+
+
+        inputBox.className='col-md-6 form-validate success';
+
+    }
+</script>
+
 </body>
 </html>

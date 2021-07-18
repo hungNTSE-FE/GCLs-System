@@ -3,6 +3,7 @@ package com.gcl.crm.controller;
 import com.gcl.crm.entity.*;
 import com.gcl.crm.form.TradingForm;
 import com.gcl.crm.service.CustomerProcessService;
+import com.gcl.crm.service.TransactionHistoryService;
 import com.gcl.crm.service.TransactionService;
 import com.gcl.crm.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,8 @@ public class TransactionController {
     private CustomerProcessService customerProcessService;
     @Autowired
     private TransactionService transactionService;
-
+    @Autowired
+    private TransactionHistoryService transactionHistoryService;
     @GetMapping({"/home"})
     public  String viewTransactionPage(Model model){
         model.addAttribute("listTransactions",transactionService.getAllTransaction());
@@ -106,6 +108,8 @@ public class TransactionController {
 //    }
     @GetMapping({"/history"})
     public  String viewTransactionHistory(Model model){
+        model.addAttribute("listTransactionHistories",transactionHistoryService.getAllTransactionHistory());
+
         return "transaction/history-transaction-page";
     }
 //    @PostMapping({"/deposit"})

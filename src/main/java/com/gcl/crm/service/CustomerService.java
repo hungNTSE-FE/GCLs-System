@@ -130,6 +130,7 @@ public class CustomerService {
 
         bankAccount.setCreateDate(WebUtils.getSystemDate());
         bankAccount.setUpdDate(WebUtils.getSystemDate());
+
         return  bankAccount;
     }
 

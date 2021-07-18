@@ -50,6 +50,7 @@ public class ContractController {
         Customer customer = customerProcessService.findCustomerByID(id);
         model.addAttribute("customer",customer);
         TradingAccount tradingAccount = new TradingAccount();
+        tradingAccount.setAccountNumber(customer.getCustomerCode());
         model.addAttribute("tradingAccount",tradingAccount);
         List<BankAccount> bankAccountList = customer.getBankAccounts();
         System.out.println(bankAccountList.size());
@@ -72,10 +73,15 @@ public class ContractController {
 
     @PostMapping({"/createAccount"})
     public String createTradingAccount(@RequestParam(name="customerCode") String customerCode,@ModelAttribute("tradingAccount") TradingAccount tradingAccount) throws ParseException {
-
+        System.out.println(customerCode);
         Customer customer =customerProcessService.findCustomerByID(customerCode);
-        customer.setNumber(tradingAccount.getAccountNumber());
+        System.out.println(customer.getCustomerName());
+        customer.setNumber(customer.getCustomerCode());
         tradingAccount.setCreateDate(WebUtils.getSystemDate());
+        tradingAccount.setUpdateDate(WebUtils.getSystemDate());
+        tradingAccount.setUpdateType("Inactive");
+        tradingAccount.setAccountNumber(customer.getNumber());
+        tradingAccount.setAccountName(customer.getCustomerName());
         tradingAccount.setCustomer(customer);
         customer.setTradingAccount(tradingAccount);
 
@@ -88,6 +94,8 @@ public class ContractController {
         Customer customer = customerProcessService.findCustomerByID(id);
         TradingAccount tradingAccount = customer.getTradingAccount();
         tradingAccount.setStatus("Active");
+        tradingAccount.setUpdateType("Active");
+        tradingAccount.setUpdateDate(WebUtils.getSystemDate());
         tradingAccount.setActiveDate(WebUtils.getSystemDate());
             System.out.println(tradingAccount.getActiveDate());
         tradingAccount.setCustomer(customer);
@@ -112,6 +120,32 @@ public class ContractController {
 
         customerProcessService.saveCustomer(customer);
         return "redirect:/contract/manageCustomer";
+    }
+    @GetMapping({"/showUpdateAccountForm/{id}"})
+    public String showUpdateAccountForm(@PathVariable(name="id") String id ,Model model){
+        Customer customer = customerProcessService.findCustomerByID(id);
+
+        model.addAttribute("customer",customer);
+        model.addAttribute("tradingAccount",customer.getTradingAccount());
+        return "contract/update-account-page";
+    }
+    @PostMapping({"/updateAccount"})
+    public String updateTradingAccount(@RequestParam(name="customerCode") String customerCode,@ModelAttribute("tradingAccount") TradingAccount tradingAccount) throws ParseException {
+        Customer customer =customerProcessService.findCustomerByID(customerCode);
+        System.out.println(customer.getCustomerName());
+        customer.setNumber(customer.getCustomerCode());
+        System.out.println(customer.getNumber());
+        tradingAccount.setAccountName(customer.getCustomerName());
+        tradingAccount.setCreateDate(customer.getTradingAccount().getCreateDate());
+        tradingAccount.setUpdateDate(WebUtils.getSystemDate());
+        tradingAccount.setUpdateType(tradingAccount.getStatus());
+
+        tradingAccount.setCustomer(customer);
+        customer.setTradingAccount(tradingAccount);
+
+
+        customerProcessService.saveCustomer(customer);
+        return "redirect:/contract/manageTradingAccount";
     }
 
 }
