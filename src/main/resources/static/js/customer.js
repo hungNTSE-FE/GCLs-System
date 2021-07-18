@@ -7,7 +7,6 @@ var URL_UPDATE_CUSTOMER = '/customer/updateCustomer';
 var CUSTOMER_FORM_ID = '#customerForm';
 var BTN_REGISTER_CUSTOMER_ID = '#registerCustomer';
 var BTN_UPDATE_CUSTOMER_ID = '#updateCustomer';
-var BTN_SAVE_CUSTOMER_ID = '#saveCustomer';
 
 var CUSTOMER_FORM = {
     BROKER_CMB_ID : '#brokerCmb',
@@ -48,10 +47,6 @@ $(BTN_REGISTER_CUSTOMER_ID).on('click', function (){
 $(BTN_UPDATE_CUSTOMER_ID).on('click', function (){
     registerCustomer();
 });
-
-$(BTN_SAVE_CUSTOMER_ID).on('click', function(){
-    saveCustomer();
-})
 
 function registerCustomer(){
     // Remove error before submit form
@@ -173,18 +168,4 @@ function validateDateTime() {
     // }
 
     return true;
-}
-
-function saveCustomer(){
-    // Remove error before submit form
-    removeError();
-
-    if (!checkNulankUndefined($('#customerName').val()) && !checkNulankUndefined($('#phoneNumber').val())
-            && !checkNulankUndefined($('#email').val())) {
-        alert("Vui lòng nhập tên, số điện thoại hoặc email!");
-        return;
-    }
-    setValueForm();
-    $(CUSTOMER_FORM_ID).attr('action', URL_SAVE_CUSTOMER);
-    $(CUSTOMER_FORM_ID).submit();
 }

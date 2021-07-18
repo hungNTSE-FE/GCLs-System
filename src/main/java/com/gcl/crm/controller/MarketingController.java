@@ -1,8 +1,6 @@
 package com.gcl.crm.controller;
 
-import com.gcl.crm.entity.User;
 import com.gcl.crm.entity.TMP_KPI_EMPLOYEE;
-import com.gcl.crm.entity.WKCustomer;
 import com.gcl.crm.form.*;
 import com.gcl.crm.service.MarketingServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +18,8 @@ public class MarketingController {
 
     public static final String MAIN_PAGE = "marketing/marketing.html";
     public static final String CUSTOMER_REPORT_PAGE = "marketing/customerStatusReport.html";
-    public static final String CUSTOMER_DISTRIBUTION_MNG_PAGE = "marketing/customerDistributionManagement.html";
     public static final String EMPLOYEE_KPI_EVALUATION_REPORT_PAGE = "marketing/employeeKPIReport.html";
     public static final String APP_USER = "users";
-    public static final String LIST_WK_CUSTOMER = "wkCustomerList";
-
 
     @Autowired
     MarketingServices maketingServices;
@@ -47,17 +42,6 @@ public class MarketingController {
         CustomerStatusReportForm customerStatusReportForm = maketingServices.
                 getCustomerStatusReport(fromDate, toDate);
         return new ResponseEntity<>(customerStatusReportForm, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/manageDataCustomer")
-    public String initCustomerDistributionManagementScreen(Model model, @ModelAttribute CustomerForm customerForm) {
-        List<User> users = maketingServices.getListUser();
-        List<WKCustomer> wkCustomerList = maketingServices.getAllWkCustomer();
-        ComboboxForm comboboxForm = maketingServices.initComboboxData();
-        customerForm.setComboboxForm(comboboxForm);
-        model.addAttribute(APP_USER, users);
-        model.addAttribute(LIST_WK_CUSTOMER, wkCustomerList);
-        return CUSTOMER_DISTRIBUTION_MNG_PAGE;
     }
 
     @GetMapping(value = "/employeeKPIEvaluation")

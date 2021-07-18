@@ -27,9 +27,6 @@ public class MarketingServices {
     UserRepository userRepository;
 
     @Autowired
-    WKCustomerRepository wkCustomerRepository;
-
-    @Autowired
     PotentialRepository2 potentialRepository2;
 
     @Autowired
@@ -64,10 +61,6 @@ public class MarketingServices {
 
     public Boolean validateDate(Date fromDate, Date toDate) {
         return Boolean.TRUE;
-    }
-
-    public List<WKCustomer> getAllWkCustomer(){
-        return wkCustomerRepository.getAllWkCustomer();
     }
 
     public List<User> getListUser(){

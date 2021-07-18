@@ -29,11 +29,6 @@ public class CustomerController {
     @Autowired
     CustomerService customerService;
 
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public String goHomePage(Model model) {
-        return "/customer/home-customer-page-V2";
-    }
-
     @GetMapping({"/manageCustomer"})
     public  String viewCustomer(Model model){
         model.addAttribute("listCustomers",customerProcessService.getAllCustomer());
@@ -77,19 +72,6 @@ public class CustomerController {
     public String deleteCustomer(@PathVariable(value ="id") long id){
         customerProcessService.deleteCustomer(id);
         return "redirect:/customer/manageCustomer";
-    }
-
-    @PostMapping(value = "/saveCustomer")
-    public String saveCustomer(Model model, @ModelAttribute(CUSTOMER_FORM) CustomerForm customerForm
-            , BindingResult result, Errors errors) {
-        WKCustomer wkCustomer = customerService.saveCustomer(customerForm);
-        ComboboxForm comboboxForm = customerService.initComboboxData();
-        customerForm.setComboboxForm(comboboxForm);
-        customerForm.setHdnCustomerCode(Optional.ofNullable(wkCustomer)
-                                                    .map(WKCustomer::getCustomerCode)
-                                                    .orElse(null));
-        model.addAttribute(CUSTOMER_FORM, customerForm);
-        return ADD_CUSTOMER_PAGE;
     }
 
 }

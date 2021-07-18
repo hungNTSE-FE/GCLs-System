@@ -41,10 +41,6 @@ public class CustomerService {
     @Autowired
     IdentificationRepository identificationRepository;
 
-    @Autowired
-    WKCustomerRepository wkCustomerRepository;
-
-
     public ComboboxForm initComboboxData() {
         ComboboxForm comboboxForm = new ComboboxForm();
         List<SelectItem> sourceList = sourceRepository.getAll()
@@ -87,39 +83,6 @@ public class CustomerService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Transactional
-    public WKCustomer saveCustomer(CustomerForm customerForm) {
-        WKCustomer wkCustomer = new WKCustomer();
-        try {
-            wkCustomer.setCustomerCode(customerForm.getHdnCustomerCode());
-            wkCustomer.setCustomerName(customerForm.getCustomerName());
-            wkCustomer.setAddress(customerForm.getAddress());
-            wkCustomer.setEmail(customerForm.getEmail());
-            wkCustomer.setGender(Gender.findByOption(customerForm.getGender()));
-            wkCustomer.setPhoneNumber(customerForm.getPhoneNumber());
-            wkCustomer.setDescription(customerForm.getDescription());
-            wkCustomer.setStatus(customerForm.getStatus());
-            wkCustomer.setCreateDate(WebUtils.getSystemDate());
-            wkCustomer.setUpdDate(WebUtils.getSystemDate());
-
-            wkCustomer.setIdentityNumber(customerForm.getIdentifyNumber());
-            wkCustomer.setIssuePlace(customerForm.getPlaceOfIssue());
-            wkCustomer.setFrontImageUrl(customerForm.getImageBefore());
-            wkCustomer.setBackImageUrl(customerForm.getImageAfter());
-            wkCustomer.setIssueDate(convertStringToDate(customerForm.getDateOfIssue(), "yyyy-mm-dd"));
-            wkCustomer.setBirthDate(convertStringToDate(customerForm.getDateOfBirth(), "yyyy-mm-dd"));
-
-            if (Objects.isNull(customerForm.getHdnCustomerCode())) {
-                wkCustomerRepository.persitTmpCustomer(wkCustomer);
-            } else {
-                wkCustomerRepository.mergeTmpCustomer(wkCustomer);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return wkCustomer;
     }
 
     public BankAccount registerBanking(CustomerForm customerForm) throws ParseException{
