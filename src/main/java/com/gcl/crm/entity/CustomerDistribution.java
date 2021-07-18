@@ -13,7 +13,7 @@ public class CustomerDistribution {
     private Integer seq_no;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_code")
+    @JoinColumn(name = "CUSTOMER_ID")
     private Customer customer;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

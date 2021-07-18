@@ -29,7 +29,7 @@ public class TransactionHistory {
     @Column(name = "account_number")
     private String  accountNumber  ;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_code")
+    @JoinColumn(name = "CUSTOMER_ID")
     private Customer customer;
     @Column(name = "customer_name")
     private  String customerName ;

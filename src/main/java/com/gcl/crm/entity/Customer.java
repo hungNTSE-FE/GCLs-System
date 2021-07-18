@@ -3,7 +3,6 @@ package com.gcl.crm.entity;
 import com.gcl.crm.enums.Gender;
 import com.gcl.crm.form.CustomerStatusForm;
 import com.gcl.crm.form.CustomerStatusEvaluationForm;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "CUSTOMER")
-@IdClass(CustomerId.class)
 @SqlResultSetMapping(
         name = "getCustomerStatusListMapping",
         classes = @ConstructorResult(
@@ -43,7 +41,11 @@ import java.util.List;
 public class Customer {
 
     @Id
-    @Column(name = "CUSTOMER_CODE")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CUSTOMER_ID")
+    private Integer customerId;
+
+    @Column(name = "CUSTOMER_CODE", unique = true)
     private String customerCode;
 
     @Column(name = "CUSTOMER_NAME")
