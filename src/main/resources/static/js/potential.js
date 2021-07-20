@@ -1,3 +1,4 @@
+var dataTableShareLeads;
 $('#sharingLeads').on('click', function(){
     var optsListBox2 = $('#lstBox2 option:not([disabled])');
     if (optsListBox2.length === 0) {
@@ -13,15 +14,12 @@ $('#sharingLeads').on('click', function(){
     $('#customerDistributionForm').submit();
 })
 
-$('#modalShareLead').on('shown.bs.modal', function () {
+$('#modalPotentailSharing').on('click', function () {
     var listSelectedPotentailId = [];
     $('input[name="potential-id"]:checked').each(function() {
         listSelectedPotentailId.push(Number(this.value));
     });
 
-    var customerDistributionForm = {
-        'potentialIdList' : listSelectedPotentailId
-    }
     $.ajax({
         type: "POST",
         contentType: "application/json",
@@ -31,10 +29,69 @@ $('#modalShareLead').on('shown.bs.modal', function () {
         cache: false,
         timeout: 600000,
         success: function (data) {
-            console.log("Success : ", e);
+            render_data_potential_sharing(data);
+            $('#hdnModalPotentailSharing').click();
         },
         error: function (e) {
             console.log("ERROR : ", e);
         },
     });
+
+
 })
+
+$('#selectDepartment').on('change', function(){
+    $('#lstBox1').empty();
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/potential/getEmployeeByDepartmentId",
+        dataType: 'json',
+        data: $(this).val(),
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+            render_data_potential_sharing_combobox(data);
+        },
+        error: function (e) {
+            // window.location.href = "http://localhost:8081/error/error-400.html";
+        },
+    });
+})
+
+function render_data_potential_sharing(data) {
+    listSelectedPotentailId = [];
+    $(data.potentialSearchFormList).each(function(index, potential){
+        markup = '<tr><td>' + potential.name + '</td>'
+            + '<td>' + potential.phone + '</td>'
+            + '<td>' + potential.email + '</td>'
+            + '<td>' + potential.source + '</td>'
+            + '<td>' + potential.time + '</td></tr>'
+        $('#datatablesCheckedPotential > tbody:last-child').append(markup);
+        listSelectedPotentailId.push(Number(potential.potentialID));
+    });
+
+    $('#potentialIdList').val(listSelectedPotentailId.join());
+    dataTableShareLeads = new simpleDatatables.DataTable("#datatablesCheckedPotential", {
+        perPage: 5,
+        searchable: true,
+        perPageSelect: false,
+        labels: {
+            placeholder: "Tìm kiếm đầu mối...",
+        },
+    });
+}
+
+$('#modalShareLead').on('hide.bs.modal', function () {
+    dataTableShareLeads.destroy();
+    $('#datatablesCheckedPotential tbody tr').each(function(){
+        $(this).remove();
+    });
+
+})
+
+function render_data_potential_sharing_combobox(data) {
+    $.each(data, function (index, emp){
+        $('#lstBox1').append(`<option value="${emp.id}">${emp.name}</option>`);
+    })
+}

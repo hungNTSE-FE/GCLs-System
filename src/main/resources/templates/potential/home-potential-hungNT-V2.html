@@ -78,11 +78,14 @@
                           "
                             aria-labelledby="dropdownMenuButton"
                     >
+                      <button data-bs-toggle="modal"
+                              data-bs-target="#modalShareLead"
+                              id = "hdnModalPotentailSharing"
+                              hidden>Chia sẻ đầu mối</button>
                       <a
                               class="dropdown-item"
                               href="#"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modalShareLead"
+                              id = "modalPotentailSharing"
                       >Chia sẻ đầu mối</a
                       >
                     </div>
@@ -361,13 +364,6 @@
               </tr>
               </thead>
               <tbody>
-              <tr th:each="potential : ${potentialsSharing}">
-                <td th:text="${potential.name}"></td>
-                <td th:text="${potential.phoneNumber}"></td>
-                <td th:text="${potential.email}"></td>
-                <td th:text="${potential.email}"></td>
-                <td th:text="${potential.email}"></td>
-              </tr>
               </tbody>
             </table>
 
@@ -392,9 +388,6 @@
                         class="form-control"
                         size="10"
                 >
-                  <option th:each="employee : ${employees}"
-                          th:value="${employee.id}"
-                          th:utext="${employee.name}"/>
                 </select>
               </div>
 
@@ -429,7 +422,7 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-primary" id="sharingLeads" type="button">Chia sẻ</button>
-            <button class="btn btn-outline-dark" type="button">
+            <button class="btn btn-outline-dark" data-bs-dismiss="modal" id="closeSharingLeads" type="button">
               Bỏ qua
             </button>
           </div>
@@ -472,13 +465,13 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/bundle.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
-<script type="text/javascript" th:src="@{/js/potential.js}"></script>
 <script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
 <script type="text/javascript" th:src="@{/js/datatables/datatables-custom.js}"></script>
 <script type="text/javascript" th:src="@{/js/litepicker.js}"></script>
 <script type="text/javascript" th:src="@{/js/semantic/main.js}"></script>
 <script type="text/javascript" th:src="@{/js/listbox/main.js}"></script>
 <script type="text/javascript" th:src="@{/js/modules/checkbox/main.js}"></script>
+<script type="text/javascript" th:src="@{/js/potential.js}"></script>
 <script th:inline="javascript">
   /*<![CDATA[*/
   $(document).ready(function() {

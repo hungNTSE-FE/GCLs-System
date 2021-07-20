@@ -30,6 +30,9 @@ public class Department {
     private String note;
 
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Task> tasks;
+
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Employee> employees;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

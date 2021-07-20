@@ -1,19 +1,31 @@
 package com.gcl.crm.controller;
 
-import com.gcl.crm.entity.Task;
-import com.gcl.crm.entity.Transaction;
-import com.gcl.crm.service.TaskService;
+import com.gcl.crm.entity.*;
+import com.gcl.crm.form.TradingForm;
+import com.gcl.crm.service.CustomerProcessService;
+import com.gcl.crm.service.TransactionHistoryService;
 import com.gcl.crm.service.TransactionService;
+import com.gcl.crm.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.sql.Date;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/transaction")
 public class TransactionController {
     @Autowired
+    private CustomerProcessService customerProcessService;
+    @Autowired
     private TransactionService transactionService;
+    @Autowired
+    private TransactionHistoryService transactionHistoryService;
     @GetMapping({"/home"})
     public  String viewTransactionPage(Model model){
         model.addAttribute("listTransactions",transactionService.getAllTransaction());
@@ -48,5 +60,12 @@ public class TransactionController {
         transactionService.deleteTransactionByID(id);
         return "redirect:/transaction/home";
 
+    }
+
+    @GetMapping({"/history"})
+    public  String viewTransactionHistory(Model model){
+        model.addAttribute("listTransactionHistories",transactionHistoryService.getAllTransactionHistory());
+
+        return "transaction/history-transaction-page";
     }
 }

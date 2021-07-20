@@ -1,0 +1,79 @@
+DELIMITER $$
+DROP PROCEDURE IF EXISTS PROC_RATING_POTENTIAL;
+CREATE PROCEDURE PROC_RATING_POTENTIAL()
+BEGIN
+    DECLARE MAX_RANK_DATA DOUBLE;
+    DECLARE MIN_RANK_DATA DOUBLE;
+    DECLARE RANGE_DATA DOUBLE;
+
+DROP TEMPORARY TABLE IF EXISTS TMP_RANK_DATA;
+CREATE TEMPORARY TABLE TMP_RANK_DATA
+SELECT (
+        (CASE WHEN phone_number IS NOT NULL AND phone_number <> '' THEN 1 ELSE 0 END) +
+        (CASE WHEN email IS NOT NULL AND email <> '' THEN 1 ELSE 0 END) +
+        (CASE WHEN name IS NOT NULL AND name <> '' THEN 1 ELSE 0 END)
+    ) + COALESCE(RANK_SOURCE.RANK_SOURCE, 0) AS RANK_DATA
+     , potential.id
+     , potential.email
+     , potential.phone_number
+     , potential.source_id
+FROM potential
+LEFT JOIN (
+    SELECT tmp_rank.source_id
+         , tmp_rank.PER_SOURCE
+         , CASE
+               WHEN PER_SOURCE > 0
+                   THEN @RANK_SOURCE := @RANK_SOURCE + 1
+               ELSE @RANK_SOURCE := 0
+        END AS RANK_SOURCE
+    FROM (
+             SELECT TMP_POTEN.source_id
+                  , TMP_POTEN.NUM_POT_BY_SOURCE
+                  , COALESCE(TMP_CUS.NUM_CUS_BY_SOURCE, 0)                               AS NUM_CUS_BY_SOURCE
+                  , COALESCE(TMP_CUS.NUM_CUS_BY_SOURCE, 0) / TMP_POTEN.NUM_POT_BY_SOURCE AS PER_SOURCE
+
+             FROM (
+                      SELECT COUNT(1) AS NUM_POT_BY_SOURCE
+                           , source_id
+                      FROM potential
+                      WHERE MONTH(STR_TO_DATE(potential.date, '%d/%m/%Y')) = MONTH(SYSDATE()) - 1
+                      GROUP BY source_id
+                  ) TMP_POTEN
+                      LEFT JOIN
+                  (
+                      SELECT COUNT(1) AS NUM_CUS_BY_SOURCE
+                           , source_id
+                      FROM customer
+                      WHERE MONTH(create_date) = MONTH(SYSDATE()) - 1
+                      GROUP BY source_id
+                  ) TMP_CUS
+                  ON TMP_POTEN.source_id = TMP_CUS.source_id
+             ORDER BY PER_SOURCE
+         ) tmp_rank,
+         (SELECT @RANK_SOURCE := 0) T
+     ) RANK_SOURCE
+ON RANK_SOURCE.source_id = potential.source_id
+WHERE MONTH(STR_TO_DATE(potential.date, '%d/%m/%Y')) = MONTH(sysdate())
+ORDER BY RANK_DATA DESC;
+
+SELECT MAX(RANK_DATA)
+     , MIN(RANK_DATA)
+     , TRUNCATE((MAX(RANK_DATA) - MIN(RANK_DATA))/3, 2)
+INTO MAX_RANK_DATA
+    , MIN_RANK_DATA
+    , RANGE_DATA
+FROM TMP_RANK_DATA;
+
+UPDATE potential
+INNER JOIN TMP_RANK_DATA TRD on potential.id = TRD.id
+SET potential.potential_rating = CASE
+                                     WHEN TRD.RANK_DATA < @MIN_RANK_DATA + @RANGE_DATA THEN 0
+                                     WHEN TRD.RANK_DATA >= @MAX_RANK_DATA - @RANGE_DATA THEN 2
+                                     ELSE 1
+                                 END
+    , potential.last_modified = sysdate()
+WHERE MONTH(STR_TO_DATE(potential.date, '%d/%m/%Y')) = MONTH(sysdate());
+
+END $$
+DELIMITER
+;

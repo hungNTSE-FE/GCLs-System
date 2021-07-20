@@ -1,6 +1,7 @@
 package com.gcl.crm.controller;
 
 import com.gcl.crm.entity.*;
+import com.gcl.crm.form.EmployeeSearchForm;
 import com.gcl.crm.form.PotentialSearchForm;
 import com.gcl.crm.form.CustomerDistributionForm;
 import com.gcl.crm.repository.SourceRepository;
@@ -73,7 +74,6 @@ public class PotentialController {
         List<Potential> potentials = potentialService.getAllPotentials();
         List<Department> departments = departmentService.findAllDepartments();
         List<Employee> employees = employeeService.getAllWorkingEmployees();
-        List<Potential> potentialsSharing = potentialService.getListPotentialToShare();
         PotentialSearchForm searchForm = new PotentialSearchForm();
         model.addAttribute("departments", departments);
         CustomerDistributionForm customerDistributionForm = new CustomerDistributionForm();
@@ -82,7 +82,6 @@ public class PotentialController {
         model.addAttribute("potentials", potentials);
         model.addAttribute("searchForm", searchForm);
         model.addAttribute("employees", employees);
-        model.addAttribute("potentialsSharing", potentialsSharing);
         model.addAttribute("customerDistributionForm", customerDistributionForm);
         return DASHBOARD_PAGE;
     }
@@ -338,12 +337,25 @@ public class PotentialController {
     }
 
     @PostMapping(value = "/getPotentialToShare")
-    public ResponseEntity<List<Potential>> getPotentialToShare(@RequestBody String ids) throws JsonProcessingException {
+    public ResponseEntity<CustomerDistributionForm> getPotentialToShare(@RequestBody String ids) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         List<Long> listSelectedId = mapper.readValue(ids,
                 mapper.getTypeFactory().constructCollectionType(List.class, Long.class));
+        List<PotentialSearchForm> potentialsSharing = potentialService.getListPotentialToShare(listSelectedId);
+        CustomerDistributionForm customerDistributionForm = new CustomerDistributionForm();
+        customerDistributionForm.setPotentialSearchFormList(potentialsSharing);
+        return new ResponseEntity<>(customerDistributionForm, HttpStatus.OK);
+    }
 
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    @PostMapping(value = "/getEmployeeByDepartmentId")
+    public ResponseEntity<List<EmployeeSearchForm>> getEmployeeByDepartmentId(@RequestBody String id) throws JsonProcessingException {
+        List<EmployeeSearchForm> employeeList = null;
+        try {
+            employeeList = potentialService.getEmployeeByDepartmentId(Long.parseLong(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(employeeList, HttpStatus.OK);
     }
 
     private String getCurrentDate() {
