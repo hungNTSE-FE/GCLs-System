@@ -41,6 +41,9 @@ public class CustomerService {
     @Autowired
     IdentificationRepository identificationRepository;
 
+    @Autowired
+    PotentialService potentialService;
+
     public ComboboxForm initComboboxData() {
         ComboboxForm comboboxForm = new ComboboxForm();
         List<SelectItem> sourceList = sourceRepository.getAll()
@@ -59,11 +62,27 @@ public class CustomerService {
         return comboboxForm;
     }
 
+    public CustomerForm initForm(Long potentialId) {
+        CustomerForm form = new CustomerForm();
+        List<Employee> employeeList = employeeService.getAllWorkingEmployees();
+        form.setEmployeeList(employeeList);
+        form.setComboboxForm(initComboboxData());
+        if (Objects.nonNull(potentialId)) {
+            Potential potential = potentialService.getPotentialById(potentialId);
+            form.setCustomerName(potential.getName());
+            form.setEmail(potential.getEmail());
+            form.setPhoneNumber(potential.getPhoneNumber());
+            form.setHdnSourceId(potential.getSource().getSourceId());
+
+        }
+        return form;
+    }
+
     @Transactional
     public void registerCustomer(CustomerForm customerForm) {
         try {
             Customer customer = convertToCustomerEntity(customerForm);
-            customer.setEmployee(new Employee(6L));
+            customer.setEmployee(new Employee(customerForm.getHdnEmployeeId()));
             customer.setCustomerCode(customerForm.getCustomerName());
             // Set level 6 as default of customer when register customer successfully
             customer.setLevel(new Level(LevelEnum.LEVEL_6.getValue()));
@@ -111,13 +130,18 @@ public class CustomerService {
 
     }
 
+    public Employee getEmployeeByUser(User user) {
+        return employeeRepository.findEmployeeByUser(user);
+    }
+
     private Customer convertToCustomerEntity(CustomerForm customerForm) throws ParseException {
         Customer customer = new Customer();
-        customer.setCustomerCode(customerForm.getHdnCustomerCode());
+        customer.setCustomerCode(null);
         customer.setCustomerName(customerForm.getCustomerName());
         customer.setAddress(customerForm.getAddress());
         customer.setEmail(customerForm.getEmail());
         customer.setGender(Gender.findByOption(customerForm.getGender()));
+        customer.setSource(new Source(customerForm.getHdnSourceId()));
         customer.setPhoneNumber(customerForm.getPhoneNumber());
         customer.setDescription(customerForm.getDescription());
         customer.setStatus(customerForm.getStatus());

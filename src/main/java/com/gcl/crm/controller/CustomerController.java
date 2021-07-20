@@ -6,6 +6,7 @@ import com.gcl.crm.form.CustomerForm;
 import com.gcl.crm.service.CustomerProcessService;
 import com.gcl.crm.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,9 +53,8 @@ public class CustomerController {
         return "customer/update-customer-page";
     }
     @RequestMapping(value = "/addCustomer", method = RequestMethod.GET)
-    public String addCustomerPage(Model model, @ModelAttribute("CustomerForm") CustomerForm customerForm) {
-        ComboboxForm comboboxForm = customerService.initComboboxData();
-        customerForm.setComboboxForm(comboboxForm);
+    public String addCustomerPage(Model model, @Nullable @RequestParam("potentialId") Long potentialId) {
+        CustomerForm customerForm = customerService.initForm(potentialId);
         model.addAttribute(CUSTOMER_FORM, customerForm);
         return ADD_CUSTOMER_PAGE;
     }

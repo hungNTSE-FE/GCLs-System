@@ -67,7 +67,36 @@
                                     <div class="row gx-3 mb-3">
                                         <div class="col-md-6 form-validate">
                                             <label class="small mb-1">
-                                                Tên
+                                                Tên môi giới
+                                                <span style="color: red">*</span>
+                                            </label>
+                                            <select
+                                                    class="form-select"
+                                                    id="brokerNameCmb"
+                                            >
+                                                <option th:each="employee : ${CustomerForm.employeeList}"
+                                                        th:value="${employee.id}"
+                                                        th:utext="${employee.name}"/>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 form-validate">
+                                            <label class="small mb-1"> Mã môi giới
+                                                <span style="color: red">*</span>
+                                            </label>
+                                            <select
+                                                    class="form-select"
+                                                    id="brokerCodeCmb"
+                                            >
+                                                <option th:each="employee : ${CustomerForm.employeeList}"
+                                                        th:value="${employee.id}"
+                                                        th:utext="${employee.brokerCode}"/>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row gx-3 mb-3">
+                                        <div class="col-md-6 form-validate">
+                                            <label class="small mb-1">
+                                                Tên khách hàng
                                                 <span style="color: red">*</span>
                                             </label>
                                             <input type="text" class="form-control"
@@ -142,16 +171,24 @@
                                         </div>
                                         <div class="col-md-6 form-validate">
                                             <label class="small mb-1" for="genderCmb">Giới tính</label>
-                                            <select id="genderCmb" class="form-control">
+                                            <select id="genderCmb" class="form-select">
                                                 <option value="0">Nam</option>
                                                 <option value="1">Nữ</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="small mb-1" for="customerDescription"
-                                        >Mô tả <!--<span style="color: red">*</span> --></label
-                                        >
+                                        <label class="small mb-1" for="customerDescription">Địa chỉ</label>
+                                        <textarea
+                                                class="form-control"
+                                                id="customerAddress"
+                                                rows="3"
+                                                placeholder="Nhập địa chỉ"
+                                                th:field="${CustomerForm.address}"
+                                        ></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="small mb-1" for="customerDescription">Mô tả</label>
                                         <textarea
                                                 class="form-control"
                                                 id="customerDescription"
@@ -205,7 +242,9 @@
 
                                     <div class="row gx-3 mb-3">
                                         <div class="col-md-6 form-validate">
-                                            <label for="exampleFormControlSelect1" class="small mb-1"> Nơi cấp </label>
+                                            <label for="exampleFormControlSelect1" class="small mb-1"> Nơi cấp
+                                                <span style="color: red">*</span>
+                                            </label>
                                             <select
                                                     th:field="${CustomerForm.placeOfIssue}"
                                                     class="form-select"
@@ -218,7 +257,9 @@
                                             </select>
                                         </div>
                                         <div class="col-md-6 form-validate">
-                                            <label class="small mb-1"> Ngày cấp </label>
+                                            <label class="small mb-1"> Ngày cấp
+                                                <span style="color: red">*</span>
+                                            </label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="iconDateOfIssue">
@@ -238,7 +279,9 @@
                                     </div>
                                     <div class="row gx-3 mb-3">
                                         <div class="col-md-6 form-validate">
-                                            <label class="small mb-1"> Mặt trước</label>
+                                            <label class="small mb-1"> Mặt trước
+                                                <span style="color: red">*</span>
+                                            </label>
                                             <div id="imageBefore">
                                                 <div class="wrapper">
                                                     <div class="image">
@@ -264,7 +307,9 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 form-validate">
-                                            <label class="small mb-1"> Mặt sau </label>
+                                            <label class="small mb-1"> Mặt sau
+                                                <span style="color: red">*</span>
+                                            </label>
                                             <div id="imageAfter">
                                                 <div class="wrapper1">
                                                     <div class="image1">

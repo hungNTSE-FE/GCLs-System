@@ -9,7 +9,8 @@ var BTN_REGISTER_CUSTOMER_ID = '#registerCustomer';
 var BTN_UPDATE_CUSTOMER_ID = '#updateCustomer';
 
 var CUSTOMER_FORM = {
-    BROKER_CMB_ID : '#brokerCmb',
+    BROKER_CMB_NAME : '#brokerNameCmb',
+    BROKER_CMB_ID : '#brokerCodeCmb',
     SOURCE_CMB_ID : '#sourceCmb',
     GENDER_CMB_ID : '#genderCmb',
     CUSTOMER_STS_ID : '#customerStatusCmb',
@@ -38,7 +39,18 @@ function init(){
     if (checkNulankUndefined(hdnCusSts)) {
         $(CUSTOMER_FORM.CUSTOMER_STS_ID).val(hdnCusSts);
     }
+
+    $(CUSTOMER_FORM.BROKER_CMB_NAME).val(null);
+    $(CUSTOMER_FORM.BROKER_CMB_ID).val(null);
 }
+
+$(CUSTOMER_FORM.BROKER_CMB_NAME).on('change', function(){
+    $(CUSTOMER_FORM.BROKER_CMB_ID).val($(this).val());
+})
+
+$(CUSTOMER_FORM.BROKER_CMB_ID).on('change', function(){
+    $(CUSTOMER_FORM.BROKER_CMB_NAME).val($(this).val());
+})
 
 $(BTN_REGISTER_CUSTOMER_ID).on('click', function (){
     registerCustomer();
