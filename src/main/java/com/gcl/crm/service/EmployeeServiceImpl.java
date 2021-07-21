@@ -6,6 +6,7 @@ import com.gcl.crm.enums.Status;
 import com.gcl.crm.repository.EmployeeRepository;
 import com.gcl.crm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public boolean createEmployee(Employee employee, Long pid, Long did) {
+    public boolean createEmployee(Employee employee, Long pid, Long did) throws DuplicateKeyException {
         Position position = positionService.findPositionById(pid);
         Department department = null;
         if (did != null){
@@ -70,6 +71,9 @@ public class EmployeeServiceImpl implements EmployeeService{
         employee.setPosition(position);
 
         User user = employee.getUser();
+        if (userService.checkUsername(user.getUserName())){
+            throw new DuplicateKeyException("Duplicate username");
+        }
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         user.setEncrytedPassword(bCryptPasswordEncoder.encode(user.getEncrytedPassword()));
         user.setEnabled(true);

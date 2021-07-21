@@ -5,7 +5,7 @@ BEGIN
     DECLARE SUM_DATA DOUBLE;
     DECLARE SUM_KPI DOUBLE;
 #Tổng Data được phân bổ
-SELECT COUNT(customer_code)
+SELECT COUNT(customer_id)
 INTO SUM_DATA
 FROM customer_distribution
 WHERE date_distribution BETWEEN START_DATE AND END_DATE
@@ -23,12 +23,12 @@ SELECT emp.id
     , coalesce(tmp.SUM_DATA_CUS, 0) as SUM_DATA_CUS
 FROM employee emp
          LEFT JOIN customer_distribution cd on emp.id = cd.employee_id
-         LEFT JOIN customer ON cd.customer_code = customer.customer_code
-         LEFT JOIN trading_account ta on customer.customer_code = ta.customer_code
+         LEFT JOIN customer ON cd.customer_id = customer.customer_id
+         LEFT JOIN trading_account ta on customer.customer_id = ta.customer_id
          LEFT JOIN transaction t on ta.account_number = t.trading_account_number
          LEFT JOIN
      (
-         SELECT employee_id, count(customer_code) as SUM_DATA_CUS # Tổng data được phân bổ của từng sales
+         SELECT employee_id, count(customer_id) as SUM_DATA_CUS # Tổng data được phân bổ của từng sales
          FROM customer_distribution
          WHERE date_distribution BETWEEN START_DATE AND END_DATE
          GROUP BY employee_id

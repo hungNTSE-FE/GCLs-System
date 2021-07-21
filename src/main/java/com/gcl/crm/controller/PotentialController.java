@@ -1,30 +1,30 @@
 package com.gcl.crm.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gcl.crm.entity.*;
-import com.gcl.crm.form.PotentialSearchForm;
 import com.gcl.crm.form.CustomerDistributionForm;
+import com.gcl.crm.form.EmployeeSearchForm;
+import com.gcl.crm.form.PotentialSearchForm;
 import com.gcl.crm.repository.SourceRepository;
 import com.gcl.crm.service.*;
 import com.gcl.crm.utils.ExcelReader;
+import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
 @Controller
@@ -40,7 +40,6 @@ public class PotentialController {
     private static final String DETAIL_TAKECARE_PAGE = "/potential/details/detail-potential-takecare-page";
     private static final String DETAIL_TAKECARE_MKTPAGE = "/potential/details/marketing/detail-potential-takecare-MKTpage";
     private static final String DETAIL_DIARY_PAGE = "/potential/details/detail-potential-diary-page";
-    private static final String ERROR_USER = "loginPage";
 
     @Autowired
     PotentialService potentialService;
@@ -64,16 +63,12 @@ public class PotentialController {
     EmployeeService employeeService;
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public String goHomePage(Model model, Principal principal) {
-        if (principal == null) {
-            return ERROR_USER;
-        }
+    public String goHomePage(Model model) {
         List<Source> sources = sourceRepository.getAll();
         List<Level> levels = levelService.getAll();
         List<Potential> potentials = potentialService.getAllPotentials();
         List<Department> departments = departmentService.findAllDepartments();
         List<Employee> employees = employeeService.getAllWorkingEmployees();
-        List<Potential> potentialsSharing = potentialService.getListPotentialToShare();
         PotentialSearchForm searchForm = new PotentialSearchForm();
         model.addAttribute("departments", departments);
         CustomerDistributionForm customerDistributionForm = new CustomerDistributionForm();
@@ -82,16 +77,12 @@ public class PotentialController {
         model.addAttribute("potentials", potentials);
         model.addAttribute("searchForm", searchForm);
         model.addAttribute("employees", employees);
-        model.addAttribute("potentialsSharing", potentialsSharing);
         model.addAttribute("customerDistributionForm", customerDistributionForm);
         return DASHBOARD_PAGE;
     }
 
     @RequestMapping(value = "/detail/overview/{id}", method = RequestMethod.GET)
-    public String goPotentialDetail(Model model, @PathVariable("id") Long id, Principal principal) {
-        if (principal == null) {
-            return ERROR_400;
-        }
+    public String goPotentialDetail(Model model, @PathVariable("id") Long id) {
         Potential potential = potentialService.getPotentialById(id);
         if (potential == null) {
             return "redirect:/potential/home";
@@ -101,10 +92,7 @@ public class PotentialController {
     }
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-    public String goDetailInformationCustomer(Model model, @PathVariable("id") Long id, Principal principal) {
-        if (principal == null) {
-            return ERROR_USER;
-        }
+    public String goDetailInformationCustomer(Model model, @PathVariable("id") Long id) {
         Potential potentialDetail = potentialService.getPotentialById(id);
         Potential potentialEntity = new Potential();
         if (potentialDetail == null) {
@@ -118,7 +106,7 @@ public class PotentialController {
     }
 
     @RequestMapping(value = "/detail/takecare/{id}", method = RequestMethod.GET)
-    public String goDetailTakeCarePotential(Model model, @PathVariable("id") Long id, Principal principal) {
+    public String goDetailTakeCarePotential(Model model, @PathVariable("id") Long id) {
         Potential potential = potentialService.getPotentialById(id);
         if (potential == null){
             return "redirect:/potential/home";
@@ -182,10 +170,7 @@ public class PotentialController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String goCreatePage(Model model, Principal principal) {
-        if (principal == null) {
-            return ERROR_400;
-        }
+    public String goCreatePage(Model model) {
         List<Source> sources = sourceRepository.getAll();
         Potential potential = new Potential();
         model.addAttribute("potentialForm", potential);
@@ -294,17 +279,24 @@ public class PotentialController {
     }
 
     @RequestMapping(value = "/import", method = RequestMethod.POST)
-    public String importExcelFile(Model model, @RequestParam("upload") MultipartFile file, Principal principal){
+    public String importExcelFile(RedirectAttributes redirectAttributes, @RequestParam("upload") MultipartFile file,
+                                  Principal principal){
+        if (file.isEmpty()){
+            redirectAttributes.addFlashAttribute("error", "Tập tin trống");
+            return "redirect:/potential/home";
+        }
         ExcelReader excelReader = new ExcelReader();
         try {
             List<Potential> potentialData = excelReader.getPotentialData(file.getInputStream(), file.getOriginalFilename());
             User currentUser = userService.getUserByUsername(principal.getName());
             potentialService.importPotential(potentialData, currentUser);
-            model.addAttribute("message", "Dữ liệu mới đã được lưu vào hệ thống");
+            redirectAttributes.addFlashAttribute("message", "Dữ liệu mới đã được lưu vào hệ thống");
         } catch (IOException e) {
-            model.addAttribute("error", "Không thể mở tệp đã chọn");
+            redirectAttributes.addFlashAttribute("error", "Không thể mở tệp đã chọn");
         } catch (IllegalStateException e){
-            model.addAttribute("error", e.getMessage());
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        } catch (NotOfficeXmlFileException e){
+            redirectAttributes.addFlashAttribute("error", "Tập tin đã chọn không đúng định dạng");
         }
         return "redirect:/potential/home";
     }
@@ -338,12 +330,25 @@ public class PotentialController {
     }
 
     @PostMapping(value = "/getPotentialToShare")
-    public ResponseEntity<List<Potential>> getPotentialToShare(@RequestBody String ids) throws JsonProcessingException {
+    public ResponseEntity<CustomerDistributionForm> getPotentialToShare(@RequestBody String ids) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         List<Long> listSelectedId = mapper.readValue(ids,
                 mapper.getTypeFactory().constructCollectionType(List.class, Long.class));
+        List<PotentialSearchForm> potentialsSharing = potentialService.getListPotentialToShare(listSelectedId);
+        CustomerDistributionForm customerDistributionForm = new CustomerDistributionForm();
+        customerDistributionForm.setPotentialSearchFormList(potentialsSharing);
+        return new ResponseEntity<>(customerDistributionForm, HttpStatus.OK);
+    }
 
-        return new ResponseEntity<>(null, HttpStatus.OK);
+    @PostMapping(value = "/getEmployeeByDepartmentId")
+    public ResponseEntity<List<EmployeeSearchForm>> getEmployeeByDepartmentId(@RequestBody String id) throws JsonProcessingException {
+        List<EmployeeSearchForm> employeeList = null;
+        try {
+            employeeList = potentialService.getEmployeeByDepartmentId(Long.parseLong(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(employeeList, HttpStatus.OK);
     }
 
     private String getCurrentDate() {

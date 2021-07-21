@@ -1,6 +1,9 @@
 package com.gcl.crm.form;
 
+import com.gcl.crm.entity.Employee;
+
 import java.sql.Date;
+import java.util.List;
 import javax.validation.constraints.*;
 public class CustomerForm {
 
@@ -98,6 +101,8 @@ public class CustomerForm {
     private String updUser;
 
     private ComboboxForm comboboxForm;
+
+    private List<Employee> employeeList;
 
     public String getHdnCustomerCode() {
         return hdnCustomerCode;
@@ -313,5 +318,13 @@ public class CustomerForm {
 
     public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public List<Employee> getEmployeeList() {
+        return employeeList;
+    }
+
+    public void setEmployeeList(List<Employee> employeeList) {
+        this.employeeList = employeeList;
     }
 }

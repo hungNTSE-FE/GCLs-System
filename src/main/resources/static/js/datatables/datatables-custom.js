@@ -52,12 +52,4 @@ if (document.getElementById("datatablesStatisticPotential") != null) {
             noRows: "Không có đầu mối",
         },
     });
-    const dataTableShareLeads = new simpleDatatables.DataTable("#datatablesCheckedPotential", {
-        perPage: 5,
-        searchable: true,
-        perPageSelect: false,
-        labels: {
-            placeholder: "Tìm kiếm đầu mối...",
-        },
-    });
 }

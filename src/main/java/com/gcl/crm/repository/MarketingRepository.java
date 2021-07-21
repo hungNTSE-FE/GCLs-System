@@ -30,7 +30,7 @@ public class MarketingRepository {
                             ", count(if(level_name = 'Level 7', 1, null)) level_7\n" +
                     "from employee emp\n" +
                         "inner join customer_distribution cus_dis on emp.id = cus_dis.employee_id\n" +
-                        "inner join customer cus on cus.customer_code = cus_dis.customer_code\n" +
+                        "inner join customer cus on cus.customer_id = cus_dis.customer_id\n" +
                         "inner join level lv on cus.level_id = lv.level_id\n" +
                         "where cus_dis.date_distribution between " +
                                         "str_to_date(:start_date, '%Y-%m-%d') and str_to_date(:end_date, '%Y-%m-%d')\n" +
@@ -48,7 +48,7 @@ public class MarketingRepository {
                     ", count(if(level_name = 'Level 7', 1, null)) level_7\n" +
                 "from employee emp\n" +
                     "inner join customer_distribution cus_dis on emp.id = cus_dis.employee_id\n" +
-                    "inner join customer cus on cus.customer_code = cus_dis.customer_code\n" +
+                    "inner join customer cus on cus.customer_id = cus_dis.customer_id\n" +
                     "inner join level lv on cus.level_id = lv.level_id\n" +
                 "where cus_dis.date_distribution between str_to_date(:start_date, '%Y-%m-%d') and  str_to_date(:end_date, '%Y-%m-%d')\n" +
                 "group by full_name";

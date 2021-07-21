@@ -38,7 +38,7 @@ public class BankAccount {
     public BankAccount() {
     }
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_code")
+    @JoinColumn(name = "CUSTOMER_ID")
     private Customer customer;
 
     public Customer getCustomer() {

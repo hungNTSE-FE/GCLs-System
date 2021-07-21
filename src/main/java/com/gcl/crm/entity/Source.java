@@ -17,6 +17,13 @@ public class Source {
     @Column(name = "METHODS")
     private String methods;
 
+    public Source() {
+    }
+
+    public Source(Long sourceId) {
+        this.sourceId = sourceId;
+    }
+
     public Long getSourceId() {
         return sourceId;
     }

@@ -27,13 +27,13 @@ public class MarketingServices {
     UserRepository userRepository;
 
     @Autowired
-    WKCustomerRepository wkCustomerRepository;
-
-    @Autowired
     PotentialRepository2 potentialRepository2;
 
     @Autowired
     SourceRepository sourceRepository;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     @Autowired
     CustomerDistributionRepository customerDistributionRepository;
@@ -61,10 +61,6 @@ public class MarketingServices {
 
     public Boolean validateDate(Date fromDate, Date toDate) {
         return Boolean.TRUE;
-    }
-
-    public List<WKCustomer> getAllWkCustomer(){
-        return wkCustomerRepository.getAllWkCustomer();
     }
 
     public List<User> getListUser(){
@@ -97,19 +93,22 @@ public class MarketingServices {
     @Transactional
     public void distributeCustomerData(CustomerDistributionForm customerDistributionForm) {
         try{
-            List<Long> empId = customerDistributionForm.getEmpIdList();
-            List<Potential> potentialList = potentialRepository2.getListPotentialToShare();
+            List<Long> empIdList = customerDistributionForm.getEmpIdList();
+            List<Long> potentialIDList = customerDistributionForm.getPotentialIdList();
             Random random = new Random();
             Date systemDate = WebUtils.getSystemDate();
             int i = 0;
-            for (Potential potential : potentialList) {
-                int randomIndex = random.nextInt(empId.size());
+            for (Long potentialId : potentialIDList) {
+                int randomIndex = random.nextInt(empIdList.size());
                 CustomerDistribution customerDistribution = new CustomerDistribution();
+                customerDistribution.setPotential(potentialRepository2.getReferenceById(potentialId));
+                customerDistribution.setEmployee(employeeRepository.findEmployeeById(empIdList.get(i++)));
                 customerDistribution.setAdd_date(systemDate);
                 customerDistribution.setDate_distribution(systemDate);
+                customerDistribution.setCustomer(null);
                 customerDistribution.setUpd_date(systemDate);
                 customerDistributionRepository.insertDataCustomer(customerDistribution);
-                if (i == empId.size()) i = 0;
+                if (i == empIdList.size()) i = 0;
             }
         } catch(Exception e) {
             e.printStackTrace();

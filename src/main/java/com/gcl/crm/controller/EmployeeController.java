@@ -4,6 +4,7 @@ import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.EmployeeStatus;
 import com.gcl.crm.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -200,6 +201,10 @@ public class EmployeeController {
         }
         if (employeeService.isEmailExisted(employee.getCompanyEmail(), employee.getId())) {
             model.addAttribute("duplicateEmail", "Email này đã tồn tại");
+            error = true;
+        }
+        if (userService.checkUsername(employee.getUser().getUserName())){
+            model.addAttribute("duplicateUsername", "Tên đăng nhập đã được sử dụng");
             error = true;
         }
         if (error) {

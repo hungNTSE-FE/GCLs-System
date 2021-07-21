@@ -2,6 +2,7 @@ package com.gcl.crm.utils;
 
 import com.gcl.crm.entity.Potential;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -23,19 +24,8 @@ public class ExcelReader {
     public static final int COLUMN_INDEX_EMAIL = 4;
     public static final int COLUMN_INDEX_SOURCE = 5;
     public static final int COLUMN_INDEX_ADDRESS = 6;
-    public static final int COLUMN_INDEX_MKT_ID = 7;
-    public static final int COLUMN_INDEX_MKT_TEAM = 9;
-    public static final int COLUMN_INDEX_SALE = 10;
-    public static final int COLUMN_INDEX_COURSE = 11;
-    public static final int COLUMN_INDEX_INITIAL_STATE = 12;
-    public static final int COLUMN_INDEX_FIRST_CARE = 13;
-    public static final int COLUMN_INDEX_SECOND_CARE = 15;
-    public static final int COLUMN_INDEX_THIRD_CARE = 17;
-    public static final int COLUMN_INDEX_TRADING_ACCOUNT = 19;
-    public static final int COLUMN_INDEX_MARGIN_ACCOUNT = 21;
-    public static final int COLUMN_INDEX_NOTE = 23;
 
-    private Workbook getWorkbook(InputStream stream, String filename) throws IOException {
+    private Workbook getWorkbook(InputStream stream, String filename) throws IOException, NotOfficeXmlFileException {
         Workbook workbook = null;
         if (filename.endsWith("xlsx")) {
             workbook = new XSSFWorkbook(stream);
@@ -112,30 +102,6 @@ public class ExcelReader {
                     case COLUMN_INDEX_ADDRESS:
                         String address = cellValue.toString();
                         item.setAddress(address);
-                        break;
-                    case COLUMN_INDEX_MKT_ID:
-                        String mktId = cellValue.toString();
-                        item.setMktId(mktId);
-                        break;
-                    case COLUMN_INDEX_MKT_TEAM:
-                        String mktTeam = cellValue.toString();
-                        item.setMktTeam(mktTeam);
-                        break;
-                    case COLUMN_INDEX_SALE:
-                        String sale = cellValue.toString();
-                        item.setSale(sale);
-                        break;
-                    case COLUMN_INDEX_COURSE:
-                        String course = cellValue.toString();
-                        item.setCourse(course);
-                        break;
-                    case COLUMN_INDEX_INITIAL_STATE:
-                        String initialState = cellValue.toString();
-                        item.setInitialState(initialState);
-                        break;
-                    case COLUMN_INDEX_NOTE:
-                        String note = cellValue.toString();
-                        item.setNote(note);
                         break;
                     default:
                         break;

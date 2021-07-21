@@ -67,7 +67,36 @@
                                     <div class="row gx-3 mb-3">
                                         <div class="col-md-6 form-validate">
                                             <label class="small mb-1">
-                                                Tên
+                                                Tên môi giới
+                                                <span style="color: red">*</span>
+                                            </label>
+                                            <select
+                                                    class="form-select"
+                                                    id="brokerNameCmb"
+                                            >
+                                                <option th:each="employee : ${CustomerForm.employeeList}"
+                                                        th:value="${employee.id}"
+                                                        th:utext="${employee.name}"/>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 form-validate">
+                                            <label class="small mb-1"> Mã môi giới
+                                                <span style="color: red">*</span>
+                                            </label>
+                                            <select
+                                                    class="form-select"
+                                                    id="brokerCodeCmb"
+                                            >
+                                                <option th:each="employee : ${CustomerForm.employeeList}"
+                                                        th:value="${employee.id}"
+                                                        th:utext="${employee.brokerCode}"/>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row gx-3 mb-3">
+                                        <div class="col-md-6 form-validate">
+                                            <label class="small mb-1">
+                                                Tên khách hàng
                                                 <span style="color: red">*</span>
                                             </label>
                                             <input type="text" class="form-control"
@@ -142,16 +171,24 @@
                                         </div>
                                         <div class="col-md-6 form-validate">
                                             <label class="small mb-1" for="genderCmb">Giới tính</label>
-                                            <select id="genderCmb" class="form-control">
+                                            <select id="genderCmb" class="form-select">
                                                 <option value="0">Nam</option>
                                                 <option value="1">Nữ</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="small mb-1" for="customerDescription"
-                                        >Mô tả <!--<span style="color: red">*</span> --></label
-                                        >
+                                        <label class="small mb-1" for="customerDescription">Địa chỉ</label>
+                                        <textarea
+                                                class="form-control"
+                                                id="customerAddress"
+                                                rows="3"
+                                                placeholder="Nhập địa chỉ"
+                                                th:field="${CustomerForm.address}"
+                                        ></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="small mb-1" for="customerDescription">Mô tả</label>
                                         <textarea
                                                 class="form-control"
                                                 id="customerDescription"
@@ -163,94 +200,6 @@
                                 </div>
                             </div>
                         </div>
-
-<!--                        <div id="tradingAccountInfo">-->
-<!--                            <div class="card mb-4">-->
-<!--                                <div class="card-header">ThÔNG TIN TÀI KHOẢN GIAO DỊCH</div>-->
-<!--                                <div class="card-body">-->
-<!--                                    <div class="row gx-3 mb-3">-->
-<!--                                        <div class="col-md-6">-->
-<!--                                            <label for="tradingCode" class="small mb-1">-->
-<!--                         '8513577', NULL, '0', 'ACB', '2021-06-18 23:30:02', 'Nguyễn Trịnh Đức Duy', '2021-06-18 23:30:02', NULL, NULL, '28'
-                       Mã tài khoản giao dịch-->
-<!--                                                <span style="color: red">*</span>-->
-<!--                                            </label>-->
-<!--                                            <input type="text" class="form-control"-->
-<!--                                                   id="tradingCode"-->
-<!--                                                   placeholder="Mã tài khoản giao dịch"-->
-<!--                                                   th:field="${CustomerForm.accountCode}"-->
-<!--                                            />-->
-<!--                                        </div>-->
-<!--                                        <div class="col-md-6">-->
-<!--                                            <label class="small mb-1">-->
-<!--                                                Mã môi giới-->
-<!--                                                <span style="color: red">*</span>-->
-<!--                                            </label>-->
-<!--                                            <input type="text"-->
-<!--                                                   class="form-control"-->
-<!--                                                   id="brokerCode"-->
-<!--                                                   placeholder="Mã môi giới"-->
-<!--                                                   th:field="${CustomerForm.brokerCode}"-->
-<!--                                            />-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-
-<!--                                    <div class="row gx-3 mb-3">-->
-<!--                                        <div class="col-md-6">-->
-<!--                                            <label for="" class="small mb-1">-->
-<!--                                                Tên tài khoản giao dịch-->
-<!--                                            </label>-->
-<!--                                            <input-->
-<!--                                                    class="form-control ps-0"-->
-<!--                                                    type="text"-->
-<!--                                                    aria-label="Search"-->
-<!--                                                    th:field="${CustomerForm.accountName}"-->
-<!--                                            />-->
-<!--                                        </div>-->
-<!--                                        <div class="col-md-6">-->
-<!--                                            <label class="small mb-1"> Tên môi giới </label>-->
-<!--                                            <input-->
-<!--                                                    class="form-control ps-0"-->
-<!--                                                    type="text"-->
-<!--                                                    aria-label="Search"-->
-<!--                                                    th:field="${CustomerForm.brokerName}"-->
-<!--                                            />-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    <div class="row gx-3 mb-3">-->
-<!--                                        <div class="col-md-6">-->
-<!--                                            <label for="" class="small mb-1">-->
-<!--                                                Trạng thái-->
-<!--                                            </label>-->
-<!--                                            &lt;!&ndash; Joined input group prepend example&ndash;&gt;-->
-<!--                                            <select-->
-<!--                                                    class="form-select"-->
-<!--                                                    id="exampleFormControlSelect1"-->
-<!--                                            >-->
-<!--                                                <option value="Active">Active</option>-->
-<!--                                                <option value="Inactive">Inactive</option>-->
-<!--                                            </select>-->
-<!--                                        </div>-->
-<!--                                        <div class="col-md-6">-->
-<!--                                            <label class="small mb-1">-->
-<!--                                                Ngày mở tài khoản-->
-<!--                                            </label>-->
-<!--                                            <div class="input-group input-group-joined">-->
-<!--                              <span class="input-group-text">-->
-<!--                                <i data-feather="calendar"></i>-->
-<!--                              </span>-->
-<!--                                                <input-->
-<!--                                                        class="form-control ps-0"-->
-<!--                                                        id="date"-->
-<!--                                                        placeholder="Chọn ngày mở tài khoản..."-->
-<!--                                                        th:field="${CustomerForm.accountCreateDate}"-->
-<!--                                                />-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
 
                         <div id="identity">
                             <div class="card mb-4">
@@ -293,7 +242,9 @@
 
                                     <div class="row gx-3 mb-3">
                                         <div class="col-md-6 form-validate">
-                                            <label for="exampleFormControlSelect1" class="small mb-1"> Nơi cấp </label>
+                                            <label for="exampleFormControlSelect1" class="small mb-1"> Nơi cấp
+                                                <span style="color: red">*</span>
+                                            </label>
                                             <select
                                                     th:field="${CustomerForm.placeOfIssue}"
                                                     class="form-select"
@@ -306,7 +257,9 @@
                                             </select>
                                         </div>
                                         <div class="col-md-6 form-validate">
-                                            <label class="small mb-1"> Ngày cấp </label>
+                                            <label class="small mb-1"> Ngày cấp
+                                                <span style="color: red">*</span>
+                                            </label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="iconDateOfIssue">
@@ -326,7 +279,9 @@
                                     </div>
                                     <div class="row gx-3 mb-3">
                                         <div class="col-md-6 form-validate">
-                                            <label class="small mb-1"> Mặt trước</label>
+                                            <label class="small mb-1"> Mặt trước
+                                                <span style="color: red">*</span>
+                                            </label>
                                             <div id="imageBefore">
                                                 <div class="wrapper">
                                                     <div class="image">
@@ -352,7 +307,9 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 form-validate">
-                                            <label class="small mb-1"> Mặt sau </label>
+                                            <label class="small mb-1"> Mặt sau
+                                                <span style="color: red">*</span>
+                                            </label>
                                             <div id="imageAfter">
                                                 <div class="wrapper1">
                                                     <div class="image1">
@@ -435,11 +392,6 @@
                                     <ul class="nav flex-column" id="stickyNav">
                                         <li class="nav-item">
                                             <a class="nav-link" href="#customerInformation">Đầu mối</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#tradingAccountInfo"
-                                            >Tài khoản giao dịch</a
-                                            >
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="#identity"

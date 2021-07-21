@@ -96,6 +96,7 @@
                               placeholder="Nhập tên đăng nhập"
                              required
                       />
+                      <span th:if="${duplicateUsername}" th:text="${duplicateUsername}" style="color:red"></span>
                     </div>
                     <!-- Form Group (last name)-->
                     <div class="col-md-6">
@@ -196,7 +197,7 @@
                     <!-- Form Group (phone number)-->
                     <div class="col-md-6">
                       <label class="small mb-1">Chức vụ</label>
-                      <select class="form-select" id="exampleFormControlSelect1" name="pid" disabled>
+                      <select class="form-select" id="exampleFormControlSelect1" name="pid">
                         <option th:each="position : ${positions}" th:text="${position.name}"
                                 th:value="${position.id}" ></option>
                       </select>

@@ -42,8 +42,7 @@ public class CustomerService {
     IdentificationRepository identificationRepository;
 
     @Autowired
-    WKCustomerRepository wkCustomerRepository;
-
+    PotentialService potentialService;
 
     public ComboboxForm initComboboxData() {
         ComboboxForm comboboxForm = new ComboboxForm();
@@ -63,19 +62,38 @@ public class CustomerService {
         return comboboxForm;
     }
 
+    public CustomerForm initForm(Long potentialId) {
+        CustomerForm form = new CustomerForm();
+        List<Employee> employeeList = employeeService.getAllWorkingEmployees();
+        form.setEmployeeList(employeeList);
+        form.setComboboxForm(initComboboxData());
+        if (Objects.nonNull(potentialId)) {
+            Potential potential = potentialService.getPotentialById(potentialId);
+            form.setCustomerName(potential.getName());
+            form.setEmail(potential.getEmail());
+            form.setPhoneNumber(potential.getPhoneNumber());
+            form.setHdnSourceId(potential.getSource().getSourceId());
+
+        }
+        return form;
+    }
+
     @Transactional
     public void registerCustomer(CustomerForm customerForm) {
         try {
             Customer customer = convertToCustomerEntity(customerForm);
-            customer.setEmployee(new Employee(1L));
-
+            customer.setEmployee(new Employee(customerForm.getHdnEmployeeId()));
+            customer.setCustomerCode(customerForm.getCustomerName());
             // Set level 6 as default of customer when register customer successfully
             customer.setLevel(new Level(LevelEnum.LEVEL_6.getValue()));
             //Identification
-
-             List<BankAccount> bankAccountList = new ArrayList<>();
-             bankAccountList.add(registerBanking(customerForm));
-
+            //kh-ng depar-docu
+            customer.setNumber("none");
+            customer.setContractNumber("none");
+            BankAccount bankAccount = registerBanking(customerForm);
+            bankAccount.setCustomer(customer);
+            List<BankAccount> bankAccountList = new ArrayList<>();
+             bankAccountList.add(bankAccount);
             customer.setIdentification(registerIdentification(customerForm));
             customer.setBankAccounts(bankAccountList);
 
@@ -86,39 +104,6 @@ public class CustomerService {
         }
     }
 
-    @Transactional
-    public WKCustomer saveCustomer(CustomerForm customerForm) {
-        WKCustomer wkCustomer = new WKCustomer();
-        try {
-            wkCustomer.setCustomerCode(customerForm.getHdnCustomerCode());
-            wkCustomer.setCustomerName(customerForm.getCustomerName());
-            wkCustomer.setAddress(customerForm.getAddress());
-            wkCustomer.setEmail(customerForm.getEmail());
-            wkCustomer.setGender(Gender.findByOption(customerForm.getGender()));
-            wkCustomer.setPhoneNumber(customerForm.getPhoneNumber());
-            wkCustomer.setDescription(customerForm.getDescription());
-            wkCustomer.setStatus(customerForm.getStatus());
-            wkCustomer.setCreateDate(WebUtils.getSystemDate());
-            wkCustomer.setUpdDate(WebUtils.getSystemDate());
-
-            wkCustomer.setIdentityNumber(customerForm.getIdentifyNumber());
-            wkCustomer.setIssuePlace(customerForm.getPlaceOfIssue());
-            wkCustomer.setFrontImageUrl(customerForm.getImageBefore());
-            wkCustomer.setBackImageUrl(customerForm.getImageAfter());
-            wkCustomer.setIssueDate(convertStringToDate(customerForm.getDateOfIssue(), "yyyy-mm-dd"));
-            wkCustomer.setBirthDate(convertStringToDate(customerForm.getDateOfBirth(), "yyyy-mm-dd"));
-
-            if (Objects.isNull(customerForm.getHdnCustomerCode())) {
-                wkCustomerRepository.persitTmpCustomer(wkCustomer);
-            } else {
-                wkCustomerRepository.mergeTmpCustomer(wkCustomer);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return wkCustomer;
-    }
-
     public BankAccount registerBanking(CustomerForm customerForm) throws ParseException{
         BankAccount bankAccount = new BankAccount(customerForm.getBankNumber(),
                 customerForm.getBankName(),
@@ -127,6 +112,7 @@ public class CustomerService {
 
         bankAccount.setCreateDate(WebUtils.getSystemDate());
         bankAccount.setUpdDate(WebUtils.getSystemDate());
+
         return  bankAccount;
     }
 
@@ -144,13 +130,18 @@ public class CustomerService {
 
     }
 
+    public Employee getEmployeeByUser(User user) {
+        return employeeRepository.findEmployeeByUser(user);
+    }
+
     private Customer convertToCustomerEntity(CustomerForm customerForm) throws ParseException {
         Customer customer = new Customer();
-        customer.setCustomerCode(customerForm.getHdnCustomerCode());
+        customer.setCustomerCode(null);
         customer.setCustomerName(customerForm.getCustomerName());
         customer.setAddress(customerForm.getAddress());
         customer.setEmail(customerForm.getEmail());
         customer.setGender(Gender.findByOption(customerForm.getGender()));
+        customer.setSource(new Source(customerForm.getHdnSourceId()));
         customer.setPhoneNumber(customerForm.getPhoneNumber());
         customer.setDescription(customerForm.getDescription());
         customer.setStatus(customerForm.getStatus());

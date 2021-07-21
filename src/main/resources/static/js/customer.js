@@ -7,10 +7,10 @@ var URL_UPDATE_CUSTOMER = '/customer/updateCustomer';
 var CUSTOMER_FORM_ID = '#customerForm';
 var BTN_REGISTER_CUSTOMER_ID = '#registerCustomer';
 var BTN_UPDATE_CUSTOMER_ID = '#updateCustomer';
-var BTN_SAVE_CUSTOMER_ID = '#saveCustomer';
 
 var CUSTOMER_FORM = {
-    BROKER_CMB_ID : '#brokerCmb',
+    BROKER_CMB_NAME : '#brokerNameCmb',
+    BROKER_CMB_ID : '#brokerCodeCmb',
     SOURCE_CMB_ID : '#sourceCmb',
     GENDER_CMB_ID : '#genderCmb',
     CUSTOMER_STS_ID : '#customerStatusCmb',
@@ -39,7 +39,18 @@ function init(){
     if (checkNulankUndefined(hdnCusSts)) {
         $(CUSTOMER_FORM.CUSTOMER_STS_ID).val(hdnCusSts);
     }
+
+    $(CUSTOMER_FORM.BROKER_CMB_NAME).val(null);
+    $(CUSTOMER_FORM.BROKER_CMB_ID).val(null);
 }
+
+$(CUSTOMER_FORM.BROKER_CMB_NAME).on('change', function(){
+    $(CUSTOMER_FORM.BROKER_CMB_ID).val($(this).val());
+})
+
+$(CUSTOMER_FORM.BROKER_CMB_ID).on('change', function(){
+    $(CUSTOMER_FORM.BROKER_CMB_NAME).val($(this).val());
+})
 
 $(BTN_REGISTER_CUSTOMER_ID).on('click', function (){
     registerCustomer();
@@ -48,10 +59,6 @@ $(BTN_REGISTER_CUSTOMER_ID).on('click', function (){
 $(BTN_UPDATE_CUSTOMER_ID).on('click', function (){
     registerCustomer();
 });
-
-$(BTN_SAVE_CUSTOMER_ID).on('click', function(){
-    saveCustomer();
-})
 
 function registerCustomer(){
     // Remove error before submit form
@@ -148,43 +155,29 @@ function validateDateTime() {
     var currentDate = new Date();
     var parentSelector;
     var errMessage;
-    if ( Date.parse(birthDate) >= issueDate || Date.parse(birthDate) >= Date.parse(currentDate)) {
-        errMessage = 'Ngày sinh phải nhỏ hơn ngày cấp và ngày hiện tại';
-        parentSelector = $(CUSTOMER_FORM.DATE_OF_BIRTH_ID).closest('.form-validate');
-        if (parentSelector.hasClass('error')) {
-            parentSelector.append('<small class="showErr">' + errMessage + '</small>');
-        } else {
-            parentSelector.addClass('error');
-            parentSelector.append('<small class="showErr">' + errMessage + '</small>');
-        }
-        return false;
-    }
+    // if ( Date.parse(birthDate) >= issueDate || Date.parse(birthDate) >= Date.parse(currentDate)) {
+    //     errMessage = 'Ngày sinh phải nhỏ hơn ngày cấp và ngày hiện tại';
+    //     parentSelector = $(CUSTOMER_FORM.DATE_OF_BIRTH_ID).closest('.form-validate');
+    //     if (parentSelector.hasClass('error')) {
+    //         parentSelector.append('<small class="showErr">' + errMessage + '</small>');
+    //     } else {
+    //         parentSelector.addClass('error');
+    //         parentSelector.append('<small class="showErr">' + errMessage + '</small>');
+    //     }
+    //     return false;
+    // }
 
-    if ( Date.parse(issueDate) > Date.parse(currentDate)) {
-        errMessage = 'Ngày ngày cấp phải nhỏ hơn ngày hiện tại';
-        parentSelector = $(CUSTOMER_FORM.DATE_OF_BIRTH_ID).closest('.form-validate');
-        if (parentSelector.hasClass('error')) {
-            parentSelector.append('<small class="showErr">' + errMessage + '</small>');
-        } else {
-            parentSelector.addClass('error');
-            parentSelector.append('<small class="showErr">' + errMessage + '</small>');
-        }
-        return false;
-    }
+    // if ( Date.parse(issueDate) > Date.parse(currentDate)) {
+    //     errMessage = 'Ngày ngày cấp phải nhỏ hơn ngày hiện tại';
+    //     parentSelector = $(CUSTOMER_FORM.DATE_OF_BIRTH_ID).closest('.form-validate');
+    //     if (parentSelector.hasClass('error')) {
+    //         parentSelector.append('<small class="showErr">' + errMessage + '</small>');
+    //     } else {
+    //         parentSelector.addClass('error');
+    //         parentSelector.append('<small class="showErr">' + errMessage + '</small>');
+    //     }
+    //     return false;
+    // }
 
     return true;
-}
-
-function saveCustomer(){
-    // Remove error before submit form
-    removeError();
-
-    if (!checkNulankUndefined($('#customerName').val()) && !checkNulankUndefined($('#phoneNumber').val())
-            && !checkNulankUndefined($('#email').val())) {
-        alert("Vui lòng nhập tên, số điện thoại hoặc email!");
-        return;
-    }
-    setValueForm();
-    $(CUSTOMER_FORM_ID).attr('action', URL_SAVE_CUSTOMER);
-    $(CUSTOMER_FORM_ID).submit();
 }
