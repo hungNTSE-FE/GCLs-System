@@ -54,6 +54,7 @@ LEFT JOIN (
      ) RANK_SOURCE
 ON RANK_SOURCE.source_id = potential.source_id
 WHERE MONTH(STR_TO_DATE(potential.date, '%d/%m/%Y')) = MONTH(sysdate())
+AND YEAR(STR_TO_DATE(potential.date, '%d/%m/%Y')) = YEAR(sysdate())
 ORDER BY RANK_DATA DESC;
 
 SELECT MAX(RANK_DATA)
@@ -67,12 +68,14 @@ FROM TMP_RANK_DATA;
 UPDATE potential
 INNER JOIN TMP_RANK_DATA TRD on potential.id = TRD.id
 SET potential.potential_rating = CASE
-                                     WHEN TRD.RANK_DATA < @MIN_RANK_DATA + @RANGE_DATA THEN 0
-                                     WHEN TRD.RANK_DATA >= @MAX_RANK_DATA - @RANGE_DATA THEN 2
+                                     WHEN TRD.RANK_DATA < MIN_RANK_DATA + RANGE_DATA THEN 0
+                                     WHEN TRD.RANK_DATA >= MAX_RANK_DATA - RANGE_DATA THEN 2
                                      ELSE 1
                                  END
     , potential.last_modified = sysdate()
-WHERE MONTH(STR_TO_DATE(potential.date, '%d/%m/%Y')) = MONTH(sysdate());
+WHERE MONTH(STR_TO_DATE(potential.date, '%d/%m/%Y')) = MONTH(sysdate())
+      AND YEAR(STR_TO_DATE(potential.date, '%d/%m/%Y')) = YEAR(sysdate())
+;
 
 END $$
 DELIMITER

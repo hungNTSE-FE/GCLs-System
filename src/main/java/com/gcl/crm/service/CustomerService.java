@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,11 +76,9 @@ public class CustomerService {
     }
 
     @Transactional
-    public void registerCustomer(CustomerForm customerForm) {
+    public void registerCustomer(CustomerForm customerForm, User user) {
         try {
-            Customer customer = convertToCustomerEntity(customerForm);
-            customer.setEmployee(new Employee(customerForm.getHdnEmployeeId()));
-            customer.setCustomerCode(customerForm.getCustomerName());
+            Customer customer = convertToCustomerEntity(customerForm, user);
             // Set level 6 as default of customer when register customer successfully
             customer.setLevel(new Level(LevelEnum.LEVEL_6.getValue()));
             //Identification
@@ -134,17 +129,22 @@ public class CustomerService {
         return employeeRepository.findEmployeeByUser(user);
     }
 
-    private Customer convertToCustomerEntity(CustomerForm customerForm) throws ParseException {
+    private Customer convertToCustomerEntity(CustomerForm customerForm, User user) throws ParseException {
         Customer customer = new Customer();
+        customer.setEmployee(new Employee(customerForm.getHdnEmployeeId()));
+        customer.setCustomerCode(customerForm.getCustomerName());
         customer.setCustomerCode(null);
         customer.setCustomerName(customerForm.getCustomerName());
         customer.setAddress(customerForm.getAddress());
         customer.setEmail(customerForm.getEmail());
         customer.setGender(Gender.findByOption(customerForm.getGender()));
-        customer.setSource(new Source(customerForm.getHdnSourceId()));
+        Optional.of(sourceRepository.findObjectByPrimaryKey(customerForm.getHdnSourceId()))
+                .ifPresent(customer::setSource);
         customer.setPhoneNumber(customerForm.getPhoneNumber());
         customer.setDescription(customerForm.getDescription());
         customer.setStatus(customerForm.getStatus());
+        customer.setAddUser(user.getEmployee().getId());
+        customer.setUpdUser(user.getEmployee().getId());
         customer.setCreateDate(WebUtils.getSystemDate());
         customer.setUpdDate(WebUtils.getSystemDate());
         return customer;
