@@ -5,6 +5,7 @@ import com.gcl.crm.form.ComboboxForm;
 import com.gcl.crm.form.CustomerForm;
 import com.gcl.crm.service.CustomerProcessService;
 import com.gcl.crm.service.CustomerService;
+import com.gcl.crm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,9 @@ public class CustomerController {
 
     @Autowired
     CustomerService customerService;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping({"/manageCustomer"})
     public  String viewCustomer(Model model){
@@ -61,8 +65,10 @@ public class CustomerController {
 
     @PostMapping(value = "/registerCustomer")
     public String registerCustomer(Model model, @Valid @ModelAttribute(CUSTOMER_FORM) CustomerForm customerForm
-            , BindingResult result, Errors errors) {
-        customerService.registerCustomer(customerForm);
+            , BindingResult result, Errors errors, Principal principal) {
+        User user = userService.getUserByUsername(principal.getName());
+
+        customerService.registerCustomer(customerForm, user);
         ComboboxForm comboboxForm = customerService.initComboboxData();
         customerForm.setComboboxForm(comboboxForm);
         model.addAttribute(CUSTOMER_FORM, customerForm);

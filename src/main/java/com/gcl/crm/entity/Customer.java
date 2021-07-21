@@ -82,13 +82,13 @@ public class Customer {
     private String contractNumber;
 
     @Column(name = "ADD_USER")
-    private String addUser;
+    private Long addUser;
 
     @Column(name = "UPD_DATE")
     private Date updDate;
 
     @Column(name = "UPD_USER")
-    private Date updUser;
+    private Long updUser;
 
     @ManyToOne
     @JoinColumn(name = "LEVEL_ID")
@@ -121,8 +121,16 @@ public class Customer {
     private List<CustomerDistribution> customerDistributionList;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "source_id")
+    @JoinColumn(name = "SOURCE_ID")
     private Source source;
+
+    public Integer getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
 
     public String getContractNumber() {
         return contractNumber;
@@ -260,11 +268,11 @@ public class Customer {
         this.employee = employee;
     }
 
-    public String getAddUser() {
+    public Long getAddUser() {
         return addUser;
     }
 
-    public void setAddUser(String addUser) {
+    public void setAddUser(Long addUser) {
         this.addUser = addUser;
     }
 
@@ -276,11 +284,11 @@ public class Customer {
         this.updDate = updDate;
     }
 
-    public Date getUpdUser() {
+    public Long getUpdUser() {
         return updUser;
     }
 
-    public void setUpdUser(Date updUser) {
+    public void setUpdUser(Long updUser) {
         this.updUser = updUser;
     }
 
