@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class MainController {
     private static final String LOGIN_PAGE = "loginPage";
+    private static final String FORGOT_PAGE = "forgot-password";
     private static final String PAGE_ERROR_403 = "error/error-403";
 
     @RequestMapping(value = {"/welcome", "/"}, method = RequestMethod.GET)
@@ -22,6 +23,9 @@ public class MainController {
     public String getLoginPage(Model model) {
         return LOGIN_PAGE;
     }
+
+    @RequestMapping(value = "/forgot-password", method = RequestMethod.GET)
+    public String getForgotPassword(Model model) { return FORGOT_PAGE; }
 
     @GetMapping(value = {"/403"})
     public String accessDenied(){

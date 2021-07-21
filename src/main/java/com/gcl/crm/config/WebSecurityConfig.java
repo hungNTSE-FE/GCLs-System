@@ -55,10 +55,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .hasAuthority("ROLE_" + privilege.getCode());
         }
 
-        http.authorizeRequests().antMatchers("/css/**", "/js/**", "/image/**").permitAll();
+        http.authorizeRequests().antMatchers("/css/**", "/js/**", "/image/**", "/assets/img/illustrations/forgot-password.svg", "/assets/img/illustrations/change-pass-1.svg").permitAll();
 
         // Các trang không yêu cầu login
-        http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll();
+        http.authorizeRequests().antMatchers("/", "/login", "/logout", "/forgot-password").permitAll();
 
         // Khi người dùng đã login, với vai trò XX.
         // Nhưng truy cập vào trang yêu cầu vai trò YY,
