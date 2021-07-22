@@ -16,14 +16,15 @@
           <h3 th:text="*{potentialDetail.name}"></h3>
           <p class="text-muted" th:text="*{potentialDetail.phoneNumber}"></p>
           <div class="d-flex">
-            <p id="label-name" class="text-muted" th:text="*{selectedLevel.levelName}"></p>
+            <p id="label-name" class="text-muted" th:text="*{selectedLevel} ? ${selectedLevel.levelName} : '---'"></p>
 
               <select onchange="$('#form-level-mkt').submit();" name="level" class="form-control form-control-sm edit-select-custom" id="selectLevel">
                 <option th:each="level : ${levels}"
                         th:value="${level.levelId}"
                         th:text="${level.levelName}"
-                        th:selected="${selectedLevel.levelName.contains(level.levelName)}"
-                ></option>
+                        th:selected="${selectedLevel} ? ${selectedLevel.levelName.contains(level.levelName)} : null"
+                >
+                </option>\\
               </select>
 
 
