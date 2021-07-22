@@ -43,7 +43,7 @@
                                 <li class="breadcrumb-item">
                                     <a href="dashboard-1.html">Trang chủ</a>
                                 </li>
-                                <li class="breadcrumb-item active">Thêm mới đầu mối</li>
+                                <li class="breadcrumb-item active">Thêm mới khách hàng</li>
                             </ol>
                         </nav>
                     </div>
@@ -59,6 +59,19 @@
                 <div class="container-xl px-4 mt-n10">
                 <div class="row">
                     <div class="col-lg-9">
+                        <div id="errorInfo" th:if="${errorInfo}">
+                            <div class="card mb-4">
+                                <div class="card-header">ThÔNG TIN LỖI</div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <div th:each="error : ${errorInfo}">
+                                            <p style="color: red" th:text="${error.message}"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Default Bootstrap Toasts-->
                         <div id="customerInformation">
                             <div class="card mb-4">

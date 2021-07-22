@@ -1,5 +1,6 @@
 package com.gcl.crm.service;
 
+import com.gcl.crm.dto.ErrorInFo;
 import com.gcl.crm.dto.SelectItem;
 import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.Gender;
@@ -148,6 +149,17 @@ public class CustomerService {
         customer.setCreateDate(WebUtils.getSystemDate());
         customer.setUpdDate(WebUtils.getSystemDate());
         return customer;
+    }
+
+    public List<ErrorInFo> checkBussinessBeforeRegistCustomer(CustomerForm customerForm) {
+        List<ErrorInFo> errorInFoList = new ArrayList<>();
+        if (Objects.nonNull(bankRepository.findObjectByPrimaryKey(customerForm.getBankNumber()))){
+            errorInFoList.add(new ErrorInFo("bank_number", "Số tài khoản đã tồn tại"));
+        }
+        if (identificationRepository.findById(customerForm.getIdentifyNumber()).isPresent()){
+            errorInFoList.add(new ErrorInFo("identity_number", "Số căn cước công dân đã tồn tại"));
+        }
+        return errorInFoList;
     }
 
     private Date convertStringToDate(String date, String pattern) throws ParseException {

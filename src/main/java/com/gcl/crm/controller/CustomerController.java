@@ -1,5 +1,6 @@
 package com.gcl.crm.controller;
 
+import com.gcl.crm.dto.ErrorInFo;
 import com.gcl.crm.entity.*;
 import com.gcl.crm.form.ComboboxForm;
 import com.gcl.crm.form.CustomerForm;
@@ -9,6 +10,7 @@ import com.gcl.crm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -67,7 +69,14 @@ public class CustomerController {
     public String registerCustomer(Model model, @Valid @ModelAttribute(CUSTOMER_FORM) CustomerForm customerForm
             , BindingResult result, Errors errors, Principal principal) {
         User user = userService.getUserByUsername(principal.getName());
-
+        List<ErrorInFo> errorInFoList = customerService.checkBussinessBeforeRegistCustomer(customerForm);
+        if (!CollectionUtils.isEmpty(errorInFoList)) {
+            ComboboxForm comboboxForm = customerService.initComboboxData();
+            customerForm.setComboboxForm(comboboxForm);
+            model.addAttribute(CUSTOMER_FORM, customerForm);
+            model.addAttribute("errorInfo", errorInFoList);
+            return ADD_CUSTOMER_PAGE;
+        }
         customerService.registerCustomer(customerForm, user);
         ComboboxForm comboboxForm = customerService.initComboboxData();
         customerForm.setComboboxForm(comboboxForm);
