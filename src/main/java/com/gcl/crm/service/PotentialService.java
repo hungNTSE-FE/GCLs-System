@@ -8,6 +8,7 @@ import com.gcl.crm.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -45,6 +46,7 @@ public class PotentialService {
     @Autowired
     EmployeesRepository employeesRepository;
 
+    @Transactional
     public boolean importPotential(List<Potential> potentials, User user){
         if (potentials.size() == 0){
             return false;
@@ -61,6 +63,7 @@ public class PotentialService {
             potential.setMaker(user.getEmployee().getId());
             potentialRepository.save(potential);
         }
+        potentialRepository2.ratingPotential();
         return true;
     }
 

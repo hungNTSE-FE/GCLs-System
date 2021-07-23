@@ -8,6 +8,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 import java.util.List;
 
 @Repository
@@ -40,5 +41,10 @@ public class PotentialRepository2 {
 
     public Potential getReferenceById(Long id) {
         return entityManager.getReference(Potential.class, id);
+    }
+
+    public void ratingPotential() {
+        StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("PROC_RATING_POTENTIAL");
+        storedProcedureQuery.execute();
     }
 }
