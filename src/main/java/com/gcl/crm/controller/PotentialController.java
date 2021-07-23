@@ -105,18 +105,6 @@ public class PotentialController {
         return DETAIL_INFORMATION_PAGE;
     }
 
-    @RequestMapping(value = "/detail/takecare/{id}", method = RequestMethod.GET)
-    public String goDetailTakeCarePotential(Model model, @PathVariable("id") Long id) {
-        Potential potential = potentialService.getPotentialById(id);
-        if (potential == null){
-            return "redirect:/potential/home";
-        }
-        model.addAttribute("levels", levelService.getAll());
-        model.addAttribute("selectedLevel", potential.getLevel());
-        model.addAttribute("potentialDetail", potential);
-        return DETAIL_TAKECARE_PAGE;
-    }
-
     @RequestMapping(value = "/detail/takecare/MKT/{id}", method = RequestMethod.GET)
     public String goDetailTakeCarePotentialOfMKT(Model model, @PathVariable("id") Long id, Principal principal) {
         Potential potentialDetail = potentialService.getPotentialById(id);
@@ -351,6 +339,48 @@ public class PotentialController {
         return new ResponseEntity<>(employeeList, HttpStatus.OK);
     }
 
+    //   SALE
+    @RequestMapping(value = "/detail/sale/{id}", method = RequestMethod.GET)
+    public String goDetailInformationCustomerSale(Model model, @PathVariable("id") Long id) {
+        Potential potentialDetail = potentialService.getPotentialById(id);
+        Potential potentialEntity = new Potential();
+        if (potentialDetail == null) {
+            return "redirect:/potential/home";
+        }
+        model.addAttribute("potentialDetail", potentialDetail);
+        model.addAttribute("levels", levelService.getAll());
+        model.addAttribute("selectedLevel", potentialDetail.getLevel());
+        model.addAttribute("potentialEntity", potentialEntity);
+        return "/potential/sale/detail-potential-information-salesman";
+    }
+
+    @RequestMapping(value = "/detail/diary/sale/{id}", method = RequestMethod.GET)
+    public String goDetailDiarySalesman(Model model, @PathVariable("id") Long potentialId) {
+        Potential potential = potentialService.getPotentialById(potentialId);
+        if (potential == null) {
+            return "redirect:/potential/home";
+        }
+        TreeMap<Diary, Employee> diaries = new TreeMap<>(diaryService.getDiaryMap(potentialId));
+        model.addAttribute("diaries", diaries);
+        model.addAttribute("levels", levelService.getAll());
+        model.addAttribute("selectedLevel", potential.getLevel());
+        model.addAttribute("potentialDetail", potential);
+        return "/potential/sale/detail-potential-diary-salesman";
+    }
+
+    @RequestMapping(value = "/detail/takecare/{id}", method = RequestMethod.GET)
+    public String goDetailTakeCarePotential(Model model, @PathVariable("id") Long id) {
+        Potential potential = potentialService.getPotentialById(id);
+        if (potential == null){
+            return "redirect:/potential/home";
+        }
+        model.addAttribute("levels", levelService.getAll());
+        model.addAttribute("selectedLevel", potential.getLevel());
+        model.addAttribute("potentialDetail", potential);
+        return "/potential/sale/detail-potential-takecare-page";
+    }
+
+    //END SALE
     private String getCurrentDate() {
         String newYorkDateTimePattern = "dd/MM/yyyy";
         DateTimeFormatter newYorkDateFormatter = DateTimeFormatter.ofPattern(newYorkDateTimePattern);

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -16,4 +17,10 @@ public class UserController {
 
     @RequestMapping(value = "/accountProfile", method = RequestMethod.GET)
     public String goAccountProfile(Model model) { return ACCOUNT_PROFILE_PAGE; }
+
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+    public String formChangePassword(Model model, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("flag","showAlert");
+        return "redirect:/user/changePassword";
+    }
 }
