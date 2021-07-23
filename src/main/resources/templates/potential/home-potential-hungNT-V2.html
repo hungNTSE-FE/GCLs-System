@@ -243,6 +243,7 @@
                         <th>NGUỒN</th>
                         <th>TÌNH TRẠNG</th>
                         <th>GIAO CHO</th>
+                        <th>ĐÁNH GIÁ</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -268,6 +269,7 @@
                           <span th:if="${potential.level}" th:text="${potential.level.levelName}"></span>
                         </td>
                         <td th:text="${potential.sale}"></td>
+                        <td th:text="${potential.potentialRating}"></td>
                       </tr>
                       </tbody>
                     </table>

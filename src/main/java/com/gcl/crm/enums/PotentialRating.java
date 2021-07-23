@@ -3,9 +3,9 @@ package com.gcl.crm.enums;
 import java.util.Arrays;
 
 public enum PotentialRating {
-    HIGH(2)
+    LOW(0)
     , MEDIUM(1)
-    , LOW(0);
+    , HIGH(2);
 
     private Integer value;
 

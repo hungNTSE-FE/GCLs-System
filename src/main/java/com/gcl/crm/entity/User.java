@@ -32,6 +32,4 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
     private List<UserRole> userRoles;
 
-    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Notification> notifications;
 }
