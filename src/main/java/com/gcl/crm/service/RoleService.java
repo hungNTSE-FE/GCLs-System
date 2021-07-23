@@ -69,6 +69,13 @@ public class RoleService {
         role.get().setStatus(Status.INACTIVE);
         role.get().setLastModifier(user.getEmployee().getId());
         role.get().setLastModified(this.getCurrentDate());
+        List<UserRole> userRoleList = role.get().getUserRoles();
+        userRoleList.forEach(userRole -> {
+            userRole.setStatus(Status.INACTIVE);
+            userRole.setLastModified(this.getCurrentDate());
+            userRole.setLastModifier(user.getEmployee().getId());
+        });
+        role.get().setUserRoles(userRoleList);
         roleRepository.save(role.get());
         return true;
     }
