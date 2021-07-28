@@ -22,18 +22,18 @@ SELECT emp.id
     , sum(COALESCE(T.amount, 0)) as SUM_LOT
     , coalesce(tmp.SUM_DATA_CUS, 0) as SUM_DATA_CUS
 FROM employee emp
-         LEFT JOIN customer_distribution cd on emp.id = cd.employee_id
+         LEFT JOIN customer_distribution cd on emp.id = cd.id
          LEFT JOIN customer ON cd.customer_id = customer.customer_id
-         LEFT JOIN trading_account ta on customer.customer_id = ta.customer_id
+         LEFT JOIN trading_account ta on customer.customer_id = ta.customerid
          LEFT JOIN transaction t on ta.account_number = t.trading_account_number
          LEFT JOIN
      (
-         SELECT employee_id, count(customer_id) as SUM_DATA_CUS # Tổng data được phân bổ của từng sales
+         SELECT id, count(customer_id) as SUM_DATA_CUS # Tổng data được phân bổ của từng sales
          FROM customer_distribution
          WHERE date_distribution BETWEEN START_DATE AND END_DATE
-         GROUP BY employee_id
+         GROUP BY id
      ) tmp
-     ON tmp.employee_id = emp.id
+     ON tmp.id = emp.id
 WHERE cd.date_distribution BETWEEN START_DATE AND END_DATE
 GROUP BY emp.id
 ;
