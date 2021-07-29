@@ -13,5 +13,5 @@ public interface UserService {
     User getUserByUsername(String userName);
     List<User> getUserByEnabled();
     List<User> getUsersByRole(Role role);
-    boolean changePassword(User modifier, User modifiedUser, String newPassword);
+    boolean changePassword(User modifiedUser, String newPassword);
 }

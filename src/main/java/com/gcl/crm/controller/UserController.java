@@ -51,7 +51,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("wrongPass", "Mật khẩu cũ không chính xác");
             return "redirect:/user/change-password";
         }
-        if (userService.changePassword(currentUser, currentUser, passwordForm.getNewPassword())){
+        if (userService.changePassword(currentUser, passwordForm.getNewPassword())){
             redirectAttributes.addFlashAttribute("flag", "showAlert");
         }
         return "redirect:/user/change-password";

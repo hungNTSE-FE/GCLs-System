@@ -19,4 +19,5 @@ public interface EmployeeService {
     boolean isPhoneExisted(String phone, Long id);
     boolean isEmailExisted(String email, Long id);
     List<Employee> getAllWorkingEmployeesWithUserNotNull();
+    Employee getEmployeeByEmail(String email);
 }

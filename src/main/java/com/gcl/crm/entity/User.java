@@ -31,8 +31,4 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
     private List<UserRole> userRoles;
-
-    private Date lastModified;
-
-    private Long lastModifier;
 }

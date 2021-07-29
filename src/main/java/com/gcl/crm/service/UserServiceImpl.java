@@ -82,10 +82,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean changePassword(User modifier, User modifiedUser, String newPassword) {
+    public boolean changePassword(User modifiedUser, String newPassword) {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
-        modifiedUser.setLastModified(this.getCurrentDate());
-        modifiedUser.setLastModifier(modifier.getEmployee().getId());
         modifiedUser.setEncryptedPassword(encoder.encode(newPassword));
         userRepository.save(modifiedUser);
         return true;

@@ -179,6 +179,15 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
+    public Employee getEmployeeByEmail(String email) {
+        Employee employee = employeeRepository.findEmployeeByCompanyEmail(email);
+        if ( employee != null && employee.getStatus().equals(EmployeeStatus.WORKING)){
+            return employee;
+        }
+        return null;
+    }
+
+    @Override
     public boolean isPhoneExisted(String phone, Long id) {
         Employee employee = (id != null) ? employeeRepository.findEmployeeByPhoneAndIdNot(phone, id)
                 : employeeRepository.findEmployeeByPhone(phone);

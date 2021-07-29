@@ -38,4 +38,16 @@ public class WebUtils {
         LocalDateTime now = LocalDateTime.now();
         return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(dtf.format(now));
     }
+
+    public static String generateRandomPassword(int length) {
+        String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+                "0123456789" +
+                "abcdefghijklmnopqrstuvxyz";
+        StringBuilder password = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            int index = (int) (alphaNumericString.length() * Math.random());
+            password.append(alphaNumericString.charAt(index));
+        }
+        return password.toString();
+    }
 }
