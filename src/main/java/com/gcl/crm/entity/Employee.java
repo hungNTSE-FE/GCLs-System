@@ -46,9 +46,6 @@ public class Employee {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "academic_level")
-    private String academicLevel;
-
     @Column(name = "personal_email")
     private String personalEmail;
 
@@ -60,6 +57,8 @@ public class Employee {
 
     @Column(name = "major")
     private String major;
+
+    private String avatar;
 
     @Column(name = "start_date")
     private Date startDate;
@@ -73,9 +72,6 @@ public class Employee {
 
     @Column(name = "note", length = 1000)
     private String note;
-
-    @Column(name = "tax_code")
-    private String taxCode;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "employee")
     private User user;
@@ -161,14 +157,6 @@ public class Employee {
         this.address = address;
     }
 
-    public String getAcademicLevel() {
-        return academicLevel;
-    }
-
-    public void setAcademicLevel(String academicLevel) {
-        this.academicLevel = academicLevel;
-    }
-
     public String getPersonalEmail() {
         return personalEmail;
     }
@@ -231,14 +219,6 @@ public class Employee {
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    public String getTaxCode() {
-        return taxCode;
-    }
-
-    public void setTaxCode(String taxCode) {
-        this.taxCode = taxCode;
     }
 
     public User getUser() {

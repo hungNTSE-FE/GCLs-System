@@ -32,7 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         return new org.springframework.security.core.userdetails.User
-                (user.getUserName(), user.getEncrytedPassword(), this.getAuthorities(user));
+                (user.getUserName(), user.getEncryptedPassword(), this.getAuthorities(user));
     }
 
     private List<SimpleGrantedAuthority> getAuthorities(User user){

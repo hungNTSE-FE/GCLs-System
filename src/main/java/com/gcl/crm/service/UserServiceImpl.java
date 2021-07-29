@@ -8,9 +8,12 @@ import com.gcl.crm.enums.Status;
 import com.gcl.crm.repository.UserRepository;
 import com.gcl.crm.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,7 +82,21 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public boolean changePassword(User modifier, User modifiedUser, String newPassword) {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        modifiedUser.setLastModified(this.getCurrentDate());
+        modifiedUser.setLastModifier(modifier.getEmployee().getId());
+        modifiedUser.setEncryptedPassword(encoder.encode(newPassword));
+        userRepository.save(modifiedUser);
+        return true;
+    }
+
+    @Override
     public boolean checkUsername(String userName) {
         return userRepository.existsUserByUserName(userName);
+    }
+
+    private Date getCurrentDate(){
+        return new Date(System.currentTimeMillis());
     }
 }

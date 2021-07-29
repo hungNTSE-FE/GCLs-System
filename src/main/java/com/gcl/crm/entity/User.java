@@ -20,7 +20,7 @@ public class User {
     private String userName;
 
     @Column(name = "Encryted_Password", nullable = false)
-    private String encrytedPassword;
+    private String encryptedPassword;
 
     @Column(name = "Enabled", length = 1, nullable = false)
     private boolean enabled;
@@ -32,4 +32,7 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
     private List<UserRole> userRoles;
 
+    private Date lastModified;
+
+    private Long lastModifier;
 }

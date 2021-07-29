@@ -75,7 +75,7 @@ public class EmployeeServiceImpl implements EmployeeService{
             throw new DuplicateKeyException("Duplicate username");
         }
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        user.setEncrytedPassword(bCryptPasswordEncoder.encode(user.getEncrytedPassword()));
+        user.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getEncryptedPassword()));
         user.setEnabled(true);
         user.setEmployee(employee);
         employee.setIdentification(null);
@@ -102,7 +102,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         }
         User user = userService.getUserByEmployeeId(employee.getId());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.setEncrytedPassword(encoder.encode(password));
+        user.setEncryptedPassword(encoder.encode(password));
         user = userRepository.save(user);
 
         Position position = positionService.findPositionById(pid);
