@@ -26,7 +26,7 @@ import java.util.List;
         }
         )
 )
-public class Potential {
+public class Potential implements Comparable<Potential> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -121,5 +121,27 @@ public class Potential {
         }
         return this.phoneNumber.equals(potential.getPhoneNumber())
                 || this.email.equals(potential.getEmail());
+    }
+
+    @Override
+    public int compareTo(Potential potential) {
+        String[] dateStr1 = this.date.split("/");
+        String[] dateStr2 = potential.getDate().split("/");
+        try {
+            //{day, month, year}
+            int[] date1 = {Integer.parseInt(dateStr1[0]), Integer.parseInt(dateStr1[1]), Integer.parseInt(dateStr1[2])};
+            int[] date2 = {Integer.parseInt(dateStr2[0]), Integer.parseInt(dateStr2[1]), Integer.parseInt(dateStr2[2])};
+            for (int i = 2; i >= 0; i--) {
+                if (date1[i] > date2[i]){
+                    return -1;
+                }
+                if (date1[i] < date2[i]){
+                    return 1;
+                }
+            }
+            return 0;
+        } catch (NumberFormatException ex){
+            return 0;
+        }
     }
 }

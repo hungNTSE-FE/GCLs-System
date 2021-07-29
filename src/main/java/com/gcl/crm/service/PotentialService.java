@@ -13,10 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -163,7 +160,9 @@ public class PotentialService {
     }
 
     public List<Potential> getAllPotentials(){
-        return potentialRepository.findAllByStatus(Status.ACTIVE);
+        List<Potential> potentials = potentialRepository.findAllByStatus(Status.ACTIVE);
+        Collections.sort(potentials);
+        return potentials;
     }
 
     public List<Potential> getAllDeletedPotentials(){
