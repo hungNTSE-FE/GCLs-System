@@ -166,7 +166,9 @@ public class PotentialService {
     }
 
     public List<Potential> getAllDeletedPotentials(){
-        return potentialRepository.findAllByStatus(Status.INACTIVE);
+        List<Potential> potentials = potentialRepository.findAllByStatus(Status.INACTIVE);
+        Collections.sort(potentials);
+        return potentials;
     }
 
     public List<Potential> search(PotentialSearchForm searchForm){
@@ -218,6 +220,7 @@ public class PotentialService {
                 result.add(potential);
             }
         }
+        Collections.sort(result);
         return result;
     }
 
