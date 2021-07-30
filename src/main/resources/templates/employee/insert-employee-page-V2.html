@@ -69,6 +69,7 @@
                   JPG or PNG no larger than 5 MB
                 </div>
                 <!-- Profile picture upload button-->
+                <input type="file" name="avatar" form="create-form" />
                 <button class="btn btn-primary" type="button">
                   Tải hình ảnh lên
                 </button>
@@ -80,7 +81,8 @@
             <div class="card mb-4">
               <div class="card-header">Thông tin nhân viên</div>
               <div class="card-body">
-                <form id="create-form" method="POST" th:action="@{/employee/create}" th:object="${employee}">
+                <form id="create-form" method="POST" th:action="@{/employee/create}" th:object="${employeeForm}"
+                      enctype="multipart/form-data">
                   <!-- Form Row-->
                   <div class="row gx-3 mb-3">
                     <!-- Form Group (first name)-->
@@ -89,7 +91,7 @@
                         Tên đăng nhập
                         <span style="color: red">*</span>
                       </label>
-                      <input th:field="*{user.userName}"
+                      <input th:field="*{username}"
                               class="form-control"
                               id="input-username"
                               type="text"
@@ -101,7 +103,7 @@
                     <!-- Form Group (last name)-->
                     <div class="col-md-6">
                       <label class="small mb-1">Mã số cá nhân</label>
-                      <input
+                      <input th:field="*{employeeCode}"
                               class="form-control"
                               type="text"
                               placeholder="Nhập mã số"
@@ -116,7 +118,7 @@
                         Mật khẩu
                         <span style="color: red">*</span>
                       </label>
-                      <input th:field="*{user.encrytedPassword}"
+                      <input th:field="*{rawPassword}"
                               class="form-control"
                               id="inputPassword"
                               type="password"
@@ -157,7 +159,7 @@
                       <input th:field="*{phone}"
                               class="form-control"
                               id="inputPhone"
-                              type="text"
+                              type="tel"
                               placeholder="Nhập số điện thoại"
                       />
                       <!--Tạo error ở đây-->
@@ -183,7 +185,7 @@
                     <!-- Form Group (location)-->
                     <div class="col-md-6">
                       <label class="small mb-1">Email</label>
-                      <input th:field="*{companyEmail}" class="form-control"
+                      <input th:field="*{email}" class="form-control"
                               id="inputEmail"
                               type="email"
                               placeholder="Nhập Email"
@@ -197,7 +199,7 @@
                     <!-- Form Group (phone number)-->
                     <div class="col-md-6">
                       <label class="small mb-1">Chức vụ</label>
-                      <select class="form-select" id="exampleFormControlSelect1" name="pid">
+                      <select class="form-select" id="exampleFormControlSelect1" th:field="*{positionId}">
                         <option th:each="position : ${positions}" th:text="${position.name}"
                                 th:value="${position.id}" ></option>
                       </select>
@@ -205,7 +207,7 @@
                     <!-- Form Group (birthday)-->
                     <div class="col-md-6">
                       <label class="small mb-1">Phòng ban</label>
-                      <select class="form-select" id="exampleFormControlSelect1" name="did">
+                      <select class="form-select" id="exampleFormControlSelect1" th:field="*{departmentId}">
                         <option th:each="department : ${departments}" th:text="${department.name}"
                                 th:value="${department.id}"></option>
                       </select>

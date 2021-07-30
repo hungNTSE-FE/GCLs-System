@@ -2,6 +2,7 @@ package com.gcl.crm.controller;
 
 import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.EmployeeStatus;
+import com.gcl.crm.form.CreateEmployeeForm;
 import com.gcl.crm.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -10,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
@@ -75,12 +77,11 @@ public class EmployeeController {
         if (principal == null) {
             return ERROR_400;
         }
-        Employee employee = new Employee();
-        employee.setUser(new User());
+        CreateEmployeeForm createEmployeeForm = new CreateEmployeeForm();
 
         List<Department> departments = departmentService.findAllDepartments();
         List<Position> positions = positionService.findAllPositions();
-        model.addAttribute("employee", employee);
+        model.addAttribute("employeeForm", createEmployeeForm);
         model.addAttribute("departments", departments);
         model.addAttribute("positions", positions);
         return "employee/insert-employee-page-V2";
@@ -187,35 +188,32 @@ public class EmployeeController {
     }
 
     @PostMapping({"/create"})
-    public String create(Model model, @Nullable @ModelAttribute("employee") Employee employee,
-                         @Nullable @RequestParam("pid") Long pid,
-                         @Nullable @RequestParam("did") Long did,
-                         RedirectAttributes redirectAttributes){
+    public String create(Model model, @Nullable @ModelAttribute("employeeForm") CreateEmployeeForm employeeForm,
+                         @RequestParam("avatar") MultipartFile avatar,
+                         RedirectAttributes redirectAttributes, Principal principal){
         boolean error = false;
-        if (employee == null){
-            return "redirect:/employee/home";
-        }
-        if (employeeService.isPhoneExisted(employee.getPhone(), employee.getId())) {
+        if (employeeService.isPhoneExisted(employeeForm.getPhone(), null)) {
             model.addAttribute("duplicatePhone", "Số điện thoại này đã tồn tại");
             error = true;
         }
-        if (employeeService.isEmailExisted(employee.getCompanyEmail(), employee.getId())) {
+        if (employeeService.isEmailExisted(employeeForm.getEmail(), null)) {
             model.addAttribute("duplicateEmail", "Email này đã tồn tại");
             error = true;
         }
-        if (userService.checkUsername(employee.getUser().getUserName())){
+        if (userService.checkUsername(employeeForm.getUsername())){
             model.addAttribute("duplicateUsername", "Tên đăng nhập đã được sử dụng");
             error = true;
         }
         if (error) {
             List<Department> departments = departmentService.findAllDepartments();
             List<Position> positions = positionService.findAllPositions();
-            model.addAttribute("employee", employee);
+            model.addAttribute("employeeForm", employeeForm);
             model.addAttribute("departments", departments);
             model.addAttribute("positions", positions);
             return "employee/insert-employee-page-V2";
         }
-        boolean done = employeeService.createEmployee(employee, pid, did);
+        User currentUser = userService.getUserByUsername(principal.getName());
+        boolean done = employeeService.createEmployee(employeeForm, currentUser, avatar);
         redirectAttributes.addFlashAttribute("flag", "successCreate");
         return "redirect:/employee/home";
     }
@@ -232,6 +230,7 @@ public class EmployeeController {
             redirectAttributes.addAttribute("error", "Không tìm thấy nhân viên được chọn");
             return "redirect:/employee/home";
         }
+        System.out.println(employee.getAvatar());
         List<Department> departments = departmentService.findAllDepartments();
         List<Position> positions = positionService.findAllPositions();
         model.addAttribute("departments", departments);

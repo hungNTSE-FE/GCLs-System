@@ -93,6 +93,10 @@ public class Employee {
     @ManyToMany(mappedBy = "employees", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Task> tasks;
 
+    public String getAvatar() {
+        return "avatar/" + id + "/" + avatar;
+    }
+
     public Employee() {
     }
 

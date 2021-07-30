@@ -3,13 +3,20 @@ package com.gcl.crm.service;
 import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.EmployeeStatus;
 import com.gcl.crm.enums.Status;
+import com.gcl.crm.form.CreateEmployeeForm;
 import com.gcl.crm.repository.EmployeeRepository;
 import com.gcl.crm.repository.UserRepository;
+import com.gcl.crm.utils.FileUploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -61,27 +68,40 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public boolean createEmployee(Employee employee, Long pid, Long did) throws DuplicateKeyException {
-        Position position = positionService.findPositionById(pid);
-        Department department = null;
-        if (did != null){
-            department = departmentService.findDepartmentById(did.toString());
-        }
+    @Transactional
+    public boolean createEmployee(CreateEmployeeForm employeeForm, User currentUser, MultipartFile avatar)
+            throws DuplicateKeyException {
+        Position position = positionService.findPositionById(employeeForm.getPositionId());
+        Department department = departmentService.findDepartmentById(employeeForm.getDepartmentId().toString());
+
+        // Init employee info
+        Employee employee = new Employee();
         employee.setDepartment(department);
         employee.setPosition(position);
+        employee.setCompanyEmail(employeeForm.getEmail());
+        employee.setPhone(employeeForm.getPhone());
+        employee.setNote(employeeForm.getNote());
+        employee.setStartDate(employeeForm.getStartDate());
+        employee.setAddress(employeeForm.getAddress());
+        employee.setBirthDate(employeeForm.getBirthDate());
+        employee.setName(employeeForm.getName());
+        employee.setStatus(EmployeeStatus.WORKING);
 
-        User user = employee.getUser();
+        //
+        // Init user account info
+        User user = new User();
         if (userService.checkUsername(user.getUserName())){
-            throw new DuplicateKeyException("Duplicate username");
+            throw new DuplicateKeyException("Tên đăng nhập đã được sử dụng");
         }
+        user.setUserName(employeeForm.getUsername());
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        user.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getEncryptedPassword()));
+        user.setEncryptedPassword(bCryptPasswordEncoder.encode(employeeForm.getRawPassword()));
         user.setEnabled(true);
         user.setEmployee(employee);
-        employee.setIdentification(null);
-        employee.setStatus(EmployeeStatus.WORKING);
+        //
         employee.setUser(user);
         employee = employeeRepository.save(employee);
+        this.saveAvatar(avatar, employee);
         return employee != null;
     }
 
@@ -199,6 +219,18 @@ public class EmployeeServiceImpl implements EmployeeService{
         Employee employee = (id != null) ? employeeRepository.findEmployeeByCompanyEmailAndIdNot(email, id)
                 : employeeRepository.findEmployeeByCompanyEmail(email);
         return employee != null;
+    }
+
+    private void saveAvatar(MultipartFile multipartFile, Employee employee){
+        String filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        String uploadDir = "avatar/" + employee.getId();
+        try {
+            FileUploadUtils.saveFile(uploadDir, filename, multipartFile);
+            employee.setAvatar(filename);
+            employeeRepository.save(employee);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
