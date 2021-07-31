@@ -230,12 +230,12 @@ public class EmployeeController {
             redirectAttributes.addAttribute("error", "Không tìm thấy nhân viên được chọn");
             return "redirect:/employee/home";
         }
-        System.out.println(employee.getAvatar());
+        CreateEmployeeForm employeeForm = new CreateEmployeeForm(employee);
         List<Department> departments = departmentService.findAllDepartments();
         List<Position> positions = positionService.findAllPositions();
         model.addAttribute("departments", departments);
         model.addAttribute("positions", positions);
-        model.addAttribute("employee", employee);
+        model.addAttribute("employeeForm", employeeForm);
         return "employee/edit-employee-page-V2";
     }
 

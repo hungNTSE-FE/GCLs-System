@@ -59,7 +59,7 @@
                                 <!-- Profile picture image-->
                                 <img
                                         class="img-account-profile rounded-circle mb-2"
-                                        th:src="@{/{path}(path=${employee.avatar})}"
+                                        th:src="@{/{path}(path=${employeeForm.avatar})}"
                                         alt=""
                                 />
                                 <!-- Profile picture help block-->
@@ -67,9 +67,7 @@
                                     JPG or PNG no larger than 5 MB
                                 </div>
                                 <!-- Profile picture upload button-->
-                                <button class="btn btn-primary" type="button">
-                                    Tải hình ảnh lên
-                                </button>
+                                <input type="file" name="avatar" form="edit-form" accept="image/jpg, image/png" />
                             </div>
                         </div>
                     </div>
@@ -78,8 +76,9 @@
                         <div class="card mb-4">
                             <div class="card-header">Thông tin nhân viên</div>
                             <div class="card-body">
-                                <form method="POST" th:action="@{/employee/edit}" th:object="${employee}">
-                                    <input type="hidden" th:field="*{id}" />
+                                <form method="POST" th:action="@{/employee/edit}" th:object="${employeeForm}" id="edit-form"
+                                      enctype="multipart/form-data" >
+                                    <input type="hidden" th:field="*{employeeId}" />
                                     <!-- Form Row-->
                                     <div class="row gx-3 mb-3">
                                         <!-- Form Group (first name)-->
@@ -88,7 +87,7 @@
                                                 Tên đăng nhập
                                                 <span style="color: red">*</span>
                                             </label>
-                                            <input th:value="${employee.user?.userName}" disabled
+                                            <input th:field="*{username}" disabled
                                                    class="form-control"
                                                    id="inputUsername"
                                                    type="text" name="user-name"
@@ -100,7 +99,7 @@
                                             <label class="small mb-1"
                                             >Mã số cá nhân</label
                                             >
-                                            <input th:field="*{id}" disabled
+                                            <input th:field="*{employeeCode}" disabled
                                                     class="form-control"
                                                     type="text"
                                                     placeholder="Nhập mã số"
@@ -114,7 +113,7 @@
                                             <label class="small mb-1" for="inputPassword"
                                             >Mật khẩu <span style="color: red">*</span></label
                                             >
-                                            <input name="password"
+                                            <input th:field="*{rawPassword}"
                                                     class="form-control"
                                                     id="inputPassword"
                                                     type="password"
@@ -182,7 +181,7 @@
                                             <label class="small mb-1" for="inputEmail"
                                             >Email</label
                                             >
-                                            <input th:field="*{companyEmail}"
+                                            <input th:field="*{email}"
                                                     class="form-control"
                                                     id="inputEmail"
                                                     type="text"
@@ -197,9 +196,9 @@
                                             <label class="small mb-1"
                                             >Chức vụ</label
                                             >
-                                            <select name="pid" class="form-select" disabled>
+                                            <select th:field="*{positionId}" class="form-select" disabled>
                                                 <option th:each="position : ${positions}" th:text="${position.name}"
-                                                        th:value="${position.id}" th:selected="${position.equals(employee.position)}"></option>
+                                                        th:value="${position.id}" th:selected="${position.id.equals(employeeForm.positionId)}"></option>
                                             </select>
                                         </div>
                                         <!-- Form Group (birthday)-->
@@ -207,11 +206,11 @@
                                             <label class="small mb-1"
                                             >Phòng ban</label
                                             >
-                                            <select name="did"
+                                            <select th:field="*{departmentId}"
                                                     class="form-select"
                                             >
                                                 <option th:each="department : ${departments}"
-                                                        th:selected="${department.equals(employee.department)}"
+                                                        th:selected="${department.id.equals(employeeForm.departmentId)}"
                                                         th:text="${department.name}" th:value="${department.id}"></option>
                                             </select>
                                         </div>
@@ -307,7 +306,7 @@
                                         Ngừng hoạt động
                                     </button>
                                 </form>
-                                <form id="delete-form" method="POST" th:action="@{/employee/delete(eid=${employee.id})}"></form>
+                                <form id="delete-form" method="POST" th:action="@{/employee/delete(eid=${employeeForm.employeeId})}"></form>
                             </div>
                         </div>
                     </div>
