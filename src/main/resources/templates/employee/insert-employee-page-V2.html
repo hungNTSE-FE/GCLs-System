@@ -62,15 +62,15 @@
                 <img
                         class="img-account-profile rounded-circle mb-2"
                         th:src="@{/assets/img/illustrations/profiles/profile-1.png}"
-                        alt=""
+                        alt="" id="profileImg"
                 />
                 <!-- Profile picture help block-->
                 <div class="small font-italic text-muted mb-4">
                   JPG or PNG no larger than 5 MB
                 </div>
                 <!-- Profile picture upload button-->
-                <input type="file" name="profile-img" form="create-form"
-                       accept="image/jpg, image/png" required />
+                <input type="file" name="profile-img" form="create-form" id="avatarInput"
+                       accept="image/*" />
               </div>
             </div>
           </div>
@@ -285,6 +285,18 @@
 <script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
 <script type="text/javascript" th:src="@{/js/sweetalert.js}"></script>
 <script th:inline="javascript">
+  avatarInput.onchange = evt => {
+    let target = evt.target || evt.srcElement;
+    if (target.value.length == 0){
+      profileImg.src = "/assets/img/illustrations/profiles/profile-1.png";
+    } else {
+      const [file] = avatarInput.files;
+      if (file){
+        profileImg.src = URL.createObjectURL(file)
+      }
+    }
+  }
+
   const picker = new Litepicker({
     element: document.getElementById("litepicker"),
   });
