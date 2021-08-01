@@ -15,7 +15,7 @@ public interface EmployeeService {
     List<Employee> getEmployeesByIdList(List<Long> aidList);
     boolean createEmployee(CreateEmployeeForm employeeForm, User currentUser, MultipartFile avatar) throws DuplicateKeyException;
     Employee getEmployeeById(Long id);
-    boolean updateEmployee(Employee employee, Long pid, Long did, String userName, String password);
+    boolean updateEmployee(CreateEmployeeForm employeeForm, MultipartFile avatar);
     boolean deleteEmployee(Long eid);
     List<Employee> getAllNotGroupedEmployees();
     List<Employee> getAllGroupedEmployees(String id);

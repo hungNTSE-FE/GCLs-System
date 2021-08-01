@@ -115,29 +115,32 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public boolean updateEmployee(Employee employee, Long pid, Long did, String userName, String password) {
-        Employee employee2 = this.getEmployeeById(employee.getId());
-        if (employee2 == null){
+    public boolean updateEmployee(CreateEmployeeForm employeeForm, MultipartFile avatar) {
+        Employee employee = this.getEmployeeById(employeeForm.getEmployeeId());
+        if (employee == null){
             return false;
         }
-        User user = userService.getUserByEmployeeId(employee.getId());
+        User user = userService.getUserByEmployeeId(employeeForm.getEmployeeId());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.setEncryptedPassword(encoder.encode(password));
+        user.setEncryptedPassword(encoder.encode(employeeForm.getRawPassword()));
         user = userRepository.save(user);
 
-        Position position = positionService.findPositionById(pid);
-        Department department = departmentService.findDepartmentById(did.toString());
-        employee2.setPosition(position);
-        employee2.setDepartment(department);
-        employee2.setAddress(employee.getAddress());
-        employee2.setBirthDate(employee.getBirthDate());
-        employee2.setStartDate(employee.getStartDate());
-        employee2.setName(employee.getName());
-        employee2.setNote(employee.getNote());
-        employee2.setPhone(employee.getPhone());
-        employee2.setCompanyEmail(employee.getCompanyEmail());
-        employee2.setUser(user);
-        employeeRepository.save(employee2);
+        Position position = positionService.findPositionById(employeeForm.getPositionId());
+        Department department = departmentService.findDepartmentById(employeeForm.getDepartmentId().toString());
+        employee.setPosition(position);
+        employee.setDepartment(department);
+        employee.setAddress(employeeForm.getAddress());
+        employee.setBirthDate(employeeForm.getBirthDate());
+        employee.setStartDate(employeeForm.getStartDate());
+        employee.setName(employeeForm.getName());
+        employee.setNote(employeeForm.getNote());
+        employee.setPhone(employeeForm.getPhone());
+        employee.setCompanyEmail(employeeForm.getEmail());
+        employee.setUser(user);
+        employee = employeeRepository.save(employee);
+        if (avatar != null){
+            this.saveAvatar(avatar, employee);
+        }
         return true;
     }
 

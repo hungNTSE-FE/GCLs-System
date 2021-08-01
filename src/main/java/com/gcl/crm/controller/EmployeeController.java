@@ -189,7 +189,7 @@ public class EmployeeController {
 
     @PostMapping({"/create"})
     public String create(Model model, @Nullable @ModelAttribute("employeeForm") CreateEmployeeForm employeeForm,
-                         @RequestParam("avatar") MultipartFile avatar,
+                         @RequestParam("profile-img") MultipartFile avatar,
                          RedirectAttributes redirectAttributes, Principal principal){
         boolean error = false;
         if (employeeService.isPhoneExisted(employeeForm.getPhone(), null)) {
@@ -245,28 +245,25 @@ public class EmployeeController {
     }
 
     @PostMapping({"/edit"})
-    public String edit(Model model, @Nullable @ModelAttribute("employee") Employee employee,
-                       @Nullable @RequestParam("pid") Long pid,
-                       @Nullable @RequestParam("did") Long did,
-                       @Nullable @RequestParam("user-name") String username,
-                       @Nullable @RequestParam("password") String password,
+    public String edit(Model model, @Nullable @ModelAttribute("employeeForm") CreateEmployeeForm employeeForm,
+                       @Nullable @RequestParam("profile-img") MultipartFile avatar,
                        RedirectAttributes redirectAttributes){
         boolean error = false;
-        if (employee == null){
+        if (employeeForm == null){
             return "redirect:/employee/home";
         }
-        if (employeeService.isPhoneExisted(employee.getPhone(), employee.getId())) {
+        if (employeeService.isPhoneExisted(employeeForm.getPhone(), employeeForm.getEmployeeId())) {
             redirectAttributes.addFlashAttribute("flag", "duplicatePhone");
             error = true;
         }
-        if (employeeService.isEmailExisted(employee.getCompanyEmail(), employee.getId())) {
+        if (employeeService.isEmailExisted(employeeForm.getEmail(), employeeForm.getEmployeeId())) {
             redirectAttributes.addFlashAttribute("flag", "duplicateEmail");
             error = true;
         }
         if (error) {
             return "redirect:/employee/home";
         }
-        boolean done = employeeService.updateEmployee(employee, pid, did, username, password);
+        boolean done = employeeService.updateEmployee(employeeForm, avatar);
         if (done){
             redirectAttributes.addFlashAttribute("flag", "successEdit");
         } else {

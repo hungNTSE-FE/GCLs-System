@@ -69,7 +69,8 @@
                   JPG or PNG no larger than 5 MB
                 </div>
                 <!-- Profile picture upload button-->
-                <input type="file" name="avatar" form="create-form" accept="image/jpg, image/png" />
+                <input type="file" name="profile-img" form="create-form"
+                       accept="image/jpg, image/png" required />
               </div>
             </div>
           </div>
@@ -172,7 +173,7 @@
                             <span class="input-group-text">
                               <i data-feather="calendar"></i>
                             </span>
-                        <input th:field="*{birthDate}"
+                        <input th:field="*{birthDate}" required
                                 class="form-control ps-0"
                                 id="litepicker"
                                 placeholder="Chọn ngày sinh"
@@ -220,7 +221,7 @@
                               <i data-feather="calendar"></i>
                             </span>
                         <input class="form-control ps-0" th:field="*{startDate}"
-                                id="litepicker-1"
+                                id="litepicker-1" required
                                 placeholder="Chọn ngày vào công ty" />
                       </div>
                     </div>

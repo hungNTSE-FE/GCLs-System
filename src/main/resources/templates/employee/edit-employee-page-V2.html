@@ -67,7 +67,7 @@
                                     JPG or PNG no larger than 5 MB
                                 </div>
                                 <!-- Profile picture upload button-->
-                                <input type="file" name="avatar" form="edit-form" accept="image/jpg, image/png" />
+                                <input type="file" name="profile-img" form="edit-form" accept="image/jpg, image/png" />
                             </div>
                         </div>
                     </div>
@@ -196,7 +196,7 @@
                                             <label class="small mb-1"
                                             >Chức vụ</label
                                             >
-                                            <select th:field="*{positionId}" class="form-select" disabled>
+                                            <select th:field="*{positionId}" class="form-select">
                                                 <option th:each="position : ${positions}" th:text="${position.name}"
                                                         th:value="${position.id}" th:selected="${position.id.equals(employeeForm.positionId)}"></option>
                                             </select>
@@ -235,7 +235,7 @@
                                         </div>
                                         <!-- Form Group (birthday)-->
                                         <div class="col-md-6">
-                                            <label class="small mb-1" for="inputBirthday"
+                                            <label class="small mb-1"
                                             >Ngày chính thức</label
                                             >
                                             <div class="input-group input-group-joined">
@@ -251,9 +251,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="small mb-1" for="inputUsername"
-                                        >Mô tả <span style="color: red">*</span></label
-                                        >
+                                        <label class="small mb-1" for="inputUsername">Mô tả</label>
                                         <textarea th:field="*{note}"
                                                 class="form-control"
                                                 id="exampleFormControlTextarea1"
