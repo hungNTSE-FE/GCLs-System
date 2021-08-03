@@ -84,11 +84,9 @@ public class Employee {
     @JoinColumn(name = "position_id")
     private Position position;
 
-    @ManyToMany(mappedBy = "employees", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<MarketingGroup> marketingGroups;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "employee")
-    private List<CustomerDistribution> customerDistributionList;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "mkt_id")
+    private MarketingGroup marketingGroup;
 
     @ManyToMany(mappedBy = "employees", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Task> tasks;
@@ -249,19 +247,11 @@ public class Employee {
         this.position = position;
     }
 
-    public List<MarketingGroup> getMarketingGroups() {
-        return marketingGroups;
+    public MarketingGroup getMarketingGroup() {
+        return marketingGroup;
     }
 
-    public void setMarketingGroups(List<MarketingGroup> marketingGroups) {
-        this.marketingGroups = marketingGroups;
-    }
-
-    public List<CustomerDistribution> getCustomerDistributionList() {
-        return customerDistributionList;
-    }
-
-    public void setCustomerDistributionList(List<CustomerDistribution> customerDistributionList) {
-        this.customerDistributionList = customerDistributionList;
+    public void setMarketingGroup(MarketingGroup marketingGroup) {
+        this.marketingGroup = marketingGroup;
     }
 }

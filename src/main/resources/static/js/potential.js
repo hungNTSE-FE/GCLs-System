@@ -5,12 +5,12 @@ $('#sharingLeads').on('click', function(){
         alert("Vui lòng chọn nhân viên để chia");
         return;
     }
-    var listSelectedEmployeId = [];
+    var listSelectedMktId = [];
 
     $.each(optsListBox2, function(){
-        listSelectedEmployeId.push(Number($(this).val()));
+        listSelectedMktId.push(Number($(this).val()));
     })
-    $('#empIdList').val(listSelectedEmployeId.join());
+    $('#mktIdList').val(listSelectedMktId.join());
     $('#customerDistributionForm').submit();
 })
 
@@ -19,6 +19,11 @@ $('#modalPotentailSharing').on('click', function () {
     $('input[name="potential-id"]:checked').each(function() {
         listSelectedPotentailId.push(Number(this.value));
     });
+
+    if (listSelectedPotentailId.length === 0) {
+        $('#btnErrorModal').click();
+        return;
+    }
 
     $.ajax({
         type: "POST",
@@ -29,8 +34,12 @@ $('#modalPotentailSharing').on('click', function () {
         cache: false,
         timeout: 600000,
         success: function (data) {
-            render_data_potential_sharing(data);
-            $('#hdnModalPotentailSharing').click();
+            if (data.potentialSearchFormList.length === 0) {
+                $('#btnErrorModal').click();
+            } else {
+                render_data_potential_sharing(data);
+                $('#hdnModalPotentailSharing').click();
+            }
         },
         error: function (e) {
             console.log("ERROR : ", e);
@@ -38,25 +47,6 @@ $('#modalPotentailSharing').on('click', function () {
     });
 
 
-})
-
-$('#selectDepartment').on('change', function(){
-    $('#lstBox1').empty();
-    $.ajax({
-        type: "POST",
-        contentType: "application/json",
-        url: "/potential/getEmployeeByDepartmentId",
-        dataType: 'json',
-        data: $(this).val(),
-        cache: false,
-        timeout: 600000,
-        success: function (data) {
-            render_data_potential_sharing_combobox(data);
-        },
-        error: function (e) {
-            // window.location.href = "http://localhost:8081/error/error-400.html";
-        },
-    });
 })
 
 function render_data_potential_sharing(data) {
@@ -89,9 +79,3 @@ $('#modalShareLead').on('hide.bs.modal', function () {
     });
 
 })
-
-function render_data_potential_sharing_combobox(data) {
-    $.each(data, function (index, emp){
-        $('#lstBox1').append(`<option value="${emp.id}">${emp.name}</option>`);
-    })
-}

@@ -42,6 +42,9 @@ public class CustomerService {
     @Autowired
     PotentialService potentialService;
 
+    @Autowired
+    MarketingGroupService marketingGroupService;
+
     public ComboboxForm initComboboxData() {
         ComboboxForm comboboxForm = new ComboboxForm();
         List<SelectItem> sourceList = sourceRepository.getAll()
@@ -62,8 +65,8 @@ public class CustomerService {
 
     public CustomerForm initForm(Long potentialId) {
         CustomerForm form = new CustomerForm();
-        List<Employee> employeeList = employeeService.getAllWorkingEmployees();
-        form.setEmployeeList(employeeList);
+        List<MarketingGroup> marketingGroupList = marketingGroupService.getAllMktByStatus();
+        form.setMarketingGroupList(marketingGroupList);
         form.setComboboxForm(initComboboxData());
         if (Objects.nonNull(potentialId)) {
             Potential potential = potentialService.getPotentialById(potentialId);
@@ -154,7 +157,7 @@ public class CustomerService {
     public List<ErrorInFo> checkBussinessBeforeRegistCustomer(CustomerForm customerForm) {
         List<ErrorInFo> errorInFoList = new ArrayList<>();
         if (Objects.nonNull(bankRepository.findObjectByPrimaryKey(customerForm.getBankNumber()))){
-            errorInFoList.add(new ErrorInFo("bank_number", "Số tài khoản đã tồn tại"));
+            errorInFoList.add(new ErrorInFo("bank_number", "Số tài khoản ngân hàng đã tồn tại"));
         }
         if (identificationRepository.findById(customerForm.getIdentifyNumber()).isPresent()){
             errorInFoList.add(new ErrorInFo("identity_number", "Số căn cước công dân đã tồn tại"));

@@ -24,10 +24,11 @@ public class MarketingGroup {
     @Enumerated(EnumType.ORDINAL)
     private Status status;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "group_employee", joinColumns = @JoinColumn(name = "group_id"),
-            inverseJoinColumns = @JoinColumn(name = "employee_id"))
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "marketingGroup")
     private List<Employee> employees;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "marketingGroup")
+    private List<CustomerDistribution> customerDistributionList;
 
     private Date createDate;
 
