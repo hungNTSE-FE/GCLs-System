@@ -73,7 +73,9 @@ if (document.getElementById("datatablesStatisticPotential") != null) {
     });
 } else if (document.getElementById("datatablesPermission") != null) {
     const datatablesPermission = new simpleDatatables.DataTable("#datatablesPermission", {
+        searchable: false,
         fixedHeight: true,
+        perPageSelect: false,
         labels: {
             placeholder: "Tìm kiếm nhóm quyền...",
             perPage: "Show {select} per page",
@@ -95,6 +97,15 @@ if (document.getElementById("datatablesStatisticPotential") != null) {
     });
 } else if (document.getElementById("datatablesDeal") != null) {
     const datatablesDeal = new simpleDatatables.DataTable("#datatablesDeal", {
+        fixedHeight: true,
+        labels: {
+            placeholder: "Tìm kiếm...",
+            perPage: "Show {select} per page",
+            noRows: "Không có dữ liệu",
+        },
+    });
+} else if (document.getElementById("dataTableEmp") != null) {
+    const datatablesDeal = new simpleDatatables.DataTable("#dataTableEmp", {
         fixedHeight: true,
         labels: {
             placeholder: "Tìm kiếm...",

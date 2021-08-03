@@ -1,9 +1,7 @@
 package com.gcl.crm.security;
 
 import com.gcl.crm.entity.Privilege;
-import com.gcl.crm.entity.Role;
 import com.gcl.crm.entity.User;
-import com.gcl.crm.entity.UserRole;
 import com.gcl.crm.repository.UserRepository;
 import com.gcl.crm.service.PrivilegeService;
 import org.springframework.beans.factory.annotation.Autowired;

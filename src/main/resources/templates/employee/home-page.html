@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <title>Quản lý nhân sự</title>
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+  <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
+  <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
+</head>
+<body class="nav-fixed">
+<th:block th:include="/common/nav-fixed.html"></th:block>
+<div id="layoutSidenav">
+  <th:block th:include="/common/layoutSidenav.html"></th:block>
+  <div id="layoutSidenav_content">
+    <main>
+      <header class="
+              page-header page-header-compact page-header-light
+              border-bottom
+              bg-white
+              mb-4
+            "
+      >
+        <div class="container-fluid px-4">
+          <div class="page-header-content">
+            <div class="row align-items-center justify-content-between pt-3">
+              <div class="col-auto mb-3">
+                <nav class="rounded" aria-label="breadcrumb">
+                  <ol class="breadcrumb px-3 py-2 rounded mb-0">
+                    <li class="breadcrumb-item">
+                      <a class="text-primary" href="#">Quản lý nhân sự</a>
+                    </li>
+                  </ol>
+                </nav>
+              </div>
+              <div class="col-12 col-xl-auto mb-3">
+                  <a class="btn btn-primary" th:href="@{/employee/create}">Thêm nhân viên</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <!-- Main page content-->
+      <div class="container-fluid px-4">
+        <div style="height: 100%; position: relative">
+          <div class="row">
+            <div class="col-lg-3 mb-4">
+              <div class="card card-header-actions mb-4">
+                <div class="card-header">
+                  TRA CỨU
+                </div>
+                <div class="card-body">
+                  <form>
+                    <div class="mb-3">
+                      <label class="text-sm">Mã nhân viên</label>
+                      <input class="form-control" type="text" placeholder="Nhập mã nhân viên..."/>
+                    </div>
+                    <div class="mb-3">
+                      <label class="text-sm">Tên nhân viên</label>
+                      <input class="form-control" type="text" placeholder="Nhập tên nhân viên..."/>
+                    </div>
+                    <div class="mb-3">
+                      <label class="text-sm">Số điện thoại</label>
+                      <input class="form-control" type="text" placeholder="Nhập số điện thoại..."/>
+                    </div>
+                    <div class="mb-3">
+                      <label class="text-sm">Email</label>
+                      <input class="form-control" type="text" placeholder="Nhập email..."/>
+                    </div>
+                    <div class="mb-3">
+                      <label class="text-sm">Phòng ban</label>
+                      <select class="form-select" id="selectDepartment">
+                        <option selected value="" >Tất cả</option>
+                        <option th:each="department : ${departments}" th:value="${department.id}"
+                                th:text="${department.name}"></option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label class="text-sm">Chức vụ</label>
+                      <select class="form-select" id="selectPosition">
+                        <option value="" >Tất cả</option>
+                        <option th:each="position : ${positions}" th:text="${position.name}"
+                                th:value="${position.id}"></option>
+                      </select>
+                    </div>
+
+                    <div class="d-flex align-center">
+                      <button type="submit"
+                              class="btn btn-primary"
+                              style="margin-right: 10px">
+                        Tìm kiếm
+                      </button>
+                      <button type="reset" class="btn btn-outline-dark">Mặc định</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-9 mb-4">
+              <!-- Area chart example-->
+              <div class="card mb-4">
+                <div class="card-body">
+                    <table id="dataTableEmp">
+                      <thead>
+                      <tr>
+                        <th>Tên đầy đủ</th>
+                        <th>Số điện thoại</th>
+                        <th>Email</th>
+                        <th>Phòng ban</th>
+                        <th>Vai trò</th>
+                        <th>Giới tính</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr th:each="employee : ${employees}">
+                        <td th:text="${employee.name}"></td>
+                        <td th:text="${employee.phone}"></td>
+                        <td th:text="${employee.companyEmail}"></td>
+                        <td th:text="${employee.department.name}"></td>
+                        <td th:text="${employee?.position?.name}"></td>
+                        <td th:text="${employee.gender}"></td>
+                        <td th:text="${employee.status}"></td>
+                        <td>
+                          <div class="d-flex">
+                            <a th:href="@{/employee/edit(eid=${employee.id})}" class="text-primary me-2">
+                              <i class="fas fa-pen"></i>
+                            </a>
+                            <!-- Button trigger modal -->
+                            <a class="text-danger" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                              <i class="far fa-trash-alt"></i>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <th:block th:include="/common/footer.html"></th:block>
+    <!-- Modal Remove-->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">Bạn có chắc chắn muốn khóa tài khoản này?</h5>
+            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" type="submit" form="delete-form" >
+              Đồng ý
+            </button>
+
+            <button class="btn btn-outline-blue" type="button">
+              Huỷ bỏ
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
+<script type="text/javascript" th:src="@{/js/datatables/datatables-custom.js}"></script>
+<script type="text/javascript" th:src="@{/js/semantic/main.js}"></script>
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  var stompClient = null;
+  var userName = /*[[${userName}]]*/ "";
+
+  function connect() {
+    var socket = new SockJS('/hello');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({ username: userName, }, function() {
+      console.log('Web Socket is connected');
+      stompClient.subscribe('/users/queue/messages', function(message) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'success',
+          title: message.body,
+        })
+      });
+    });
+  }
+
+  window.onload = connect;
+
+  $(document).ready(function() {
+    var showtext = /*[[${flag}]]*/ "";
+    if (showtext === 'successEdit') {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 5000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: 'success',
+        title: 'Cập nhật nhân viên thành công',
+      })
+    } else if (showtext === "duplicatePhone") {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 5000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: 'error',
+        title: 'Cập nhật thất bại',
+        text: 'Số điện thoại này đã tồn tại',
+      })
+    } else if (showtext === "duplicateEmail") {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 5000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: 'error',
+        title: 'Cập nhật thất bại',
+        text: 'Email này đã tồn tại',
+      })
+    } else if (showtext === "successCreate") {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 5000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: 'success',
+        title: 'Thêm nhân viên thành công',
+      })
+    }
+  });
+  /*]]>*/
+</script>
+</body>
+</html>

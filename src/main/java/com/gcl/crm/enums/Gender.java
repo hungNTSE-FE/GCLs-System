@@ -3,8 +3,8 @@ package com.gcl.crm.enums;
 import java.util.Arrays;
 
 public enum Gender {
-    MALE("0")
-    , FEMALE("1");
+    Nam("0")
+    , Nữ("1");
 
     private String value;
 
@@ -22,6 +22,6 @@ public enum Gender {
                 .stream()
                 .filter(gender -> gender.getValue().equals(option))
                 .findFirst()
-                .orElse(MALE); // Default Male
+                .orElse(Nam); // Default Male
     }
 }

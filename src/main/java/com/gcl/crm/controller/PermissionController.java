@@ -17,7 +17,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/permission")
 public class PermissionController {
-    private static final String HOME_PAGE = "permission/home-permission-page-v2";
+    private static final String HOME_PAGE = "permission/home-page";
     private static final String CREATE_PAGE = "permission/create-permission-page-v2";
     private static final String EDIT_PAGE = "permission/edit-permission-page-v2";
     private static final String DECENENTRALIZE_PAGE = "permission/decentralization-permission-page-v2";
@@ -39,25 +39,30 @@ public class PermissionController {
 
     @GetMapping({"/home"})
     public String home(Model model, Principal principal) {
+        User currentUser = userService.getUserByUsername(principal.getName());
         List<Role> roles = roleService.getAllRoles();
         model.addAttribute("roles", roles);
         model.addAttribute("userName", principal.getName());
+        model.addAttribute("userInfo", currentUser);
         return HOME_PAGE;
     }
 
     @GetMapping({"/create"})
     public String goCreatePage(Model model, Principal principal){
+        User currentUser = userService.getUserByUsername(principal.getName());
         Role role = new Role();
         List<Module> modules = this.getModules();
         model.addAttribute("role", role);
         model.addAttribute("modules", modules);
         model.addAttribute("userName", principal.getName());
+        model.addAttribute("userInfo", currentUser);
         return CREATE_PAGE;
     }
 
     @GetMapping({"/edit"})
     public String goEditPage(Model model, @Nullable @RequestParam("rid") Long roleId, Principal principal){
         Role role = roleService.getRoleById(roleId);
+        User currentUser = userService.getUserByUsername(principal.getName());
         if (role == null){
             model.addAttribute("error", "Không tìm thấy nhóm quyền thích hợp");
             return "redirect:/permission/home";
@@ -66,6 +71,7 @@ public class PermissionController {
         model.addAttribute("modules", modules);
         model.addAttribute("role", role);
         model.addAttribute("userName", principal.getName());
+        model.addAttribute("userInfo", currentUser);
         return EDIT_PAGE;
     }
 

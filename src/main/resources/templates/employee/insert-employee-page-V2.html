@@ -9,6 +9,7 @@
   <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
   <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
 </head>
 <body class="nav-fixed">
 <th:block th:include="/common/nav-fixed.html"></th:block>
@@ -16,26 +17,30 @@
   <th:block th:include="/common/layoutSidenav.html"></th:block>
   <div id="layoutSidenav_content">
     <main>
-      <header
-              class="
+      <header class="
               page-header page-header-compact page-header-light
               border-bottom
               bg-white
               mb-4
             "
       >
-        <div class="container-xl px-4">
+        <div class="container-fluid px-4">
           <div class="page-header-content">
             <div
                     class="row align-items-center justify-content-between pt-3"
             >
               <div class="col-auto mb-3">
-                <h1 class="page-header-title">
-                  <div class="page-header-icon">
-                    <i data-feather="user"></i>
-                  </div>
-                  Nhân viên - Thêm mới
-                </h1>
+                <nav class="rounded" aria-label="breadcrumb">
+                  <ol class="breadcrumb px-3 py-2 rounded mb-0">
+                    <li class="breadcrumb-item">
+                      <a class="text-primary" th:href="@{/employee/home}">Quản lý nhân sự</a>
+                    </li>
+                    <li class="breadcrumb-item active">Thêm mới</li>
+                  </ol>
+                </nav>
+              </div>
+              <div class="col-12 col-xl-auto mb-3">
+                <button class="btn btn-primary" form="create-form" type="submit">Thêm nhân viên</button>
               </div>
             </div>
           </div>
@@ -43,13 +48,6 @@
       </header>
       <!-- Main page content-->
       <div class="container-xl px-4 mt-4">
-        <!-- Account page navigation-->
-        <nav class="nav nav-borders">
-          <a class="nav-link" th:href="@{/employee/home}">Hiển thị</a>
-          <a class="nav-link active" th:href="@{employee/insert}">Thêm mới</a>
-          <a class="nav-link" href="#">Đặt chỉ tiêu cho nhân viên</a>
-        </nav>
-        <hr class="mt-0 mb-4" />
         <div class="row">
           <div class="col-xl-4">
             <!-- Profile picture card-->
@@ -77,39 +75,39 @@
             <div class="card mb-4">
               <div class="card-header">Thông tin nhân viên</div>
               <div class="card-body">
-                <form id="create-form" method="POST" th:action="@{/employee/create}" th:object="${employeeForm}"
+                <form id="create-form" class="ui form" method="POST" th:action="@{/employee/create}" th:object="${employeeForm}"
                       enctype="multipart/form-data">
                   <!-- Form Row-->
-                  <div class="row gx-3 mb-3">
+                  <div class="row gx-3 mb-2">
                     <!-- Form Group (first name)-->
-                    <div class="col-md-6">
+                    <div class="col-md-6 field description">
                       <label class="small mb-1" for="input-username">
                         Tên đăng nhập
-                        <span style="color: red">*</span>
+                        <span class="text-danger">*</span>
                       </label>
                       <input th:field="*{username}"
                               class="form-control"
                               id="input-username"
                               type="text"
                               placeholder="Nhập tên đăng nhập"
-                             required
+                              name="userName"
                       />
                       <span th:if="${duplicateUsername}" th:text="${duplicateUsername}" style="color:red"></span>
                     </div>
                     <!-- Form Group (last name)-->
-                    <div class="col-md-6">
-                      <label class="small mb-1">Mã số cá nhân</label>
-                      <input th:field="*{employeeCode}"
+                    <div class="col-md-6 field description">
+                      <label class="small mb-1">Mã số cá nhân  <span class="text-danger">*</span></label>
+                      <input  th:field="*{employeeCode}"
                               class="form-control"
                               type="text"
                               placeholder="Nhập mã số"
+                              name="code"
                       />
                     </div>
                   </div>
                   <!-- Form Row-->
-                  <div class="row gx-3 mb-3">
-                    <!-- Form Group (first name)-->
-                    <div class="col-md-6">
+                  <div class="row gx-3 mb-2">
+                    <div class="col-md-6 field description">
                       <label class="small mb-1" >
                         Mật khẩu
                         <span style="color: red">*</span>
@@ -119,7 +117,7 @@
                               id="inputPassword"
                               type="password"
                               placeholder="Nhập mật khẩu"
-                             required
+                              name="encrytedPassword"
                       />
                     </div>
                     <!-- Form Group (last name)-->
@@ -133,126 +131,103 @@
                       />
                     </div>
                   </div>
-                  <!-- Form Row        -->
-                  <div class="row gx-3 mb-3">
-                    <!-- Form Group (organization name)-->
-                    <div class="col-md-6">
+                  <div class="row gx-3 mb-2">
+                    <div class="col-md-6 field description">
                       <label class="small mb-1">
                         Tên người dùng
-                        <span style="color: red">*</span>
+                        <span class="text-danger">*</span>
                       </label>
                       <input th:field="*{name}"
                               class="form-control"
                               id="inputFullName"
                               type="text"
                               placeholder="Nhập tên người dùng"
-                             required
+                              name="name"
                       />
                     </div>
-                    <!-- Form Group (location)-->
-                    <div class="col-md-6">
-                      <label class="small mb-1">Điện thoại</label>
+                    <div class="col-md-6 field description">
+                      <label class="small mb-1">Điện thoại  <span class="text-danger">*</span></label>
                       <input th:field="*{phone}"
                               class="form-control"
                               id="inputPhone"
-                              type="tel"
+                              type="text"
                               placeholder="Nhập số điện thoại"
+                              name="phone"
                       />
                       <!--Tạo error ở đây-->
                       <span th:if="${duplicatePhone}" th:text="${duplicatePhone}" style="color:red"></span>
                     </div>
                   </div>
-                  <!-- Form Row        -->
-                  <div class="row gx-3 mb-3">
-                    <!-- Form Group (organization name)-->
-                    <div class="col-md-6">
-                      <label class="small mb-1">Ngày sinh</label>
-                      <div class="input-group input-group-joined">
-                            <span class="input-group-text">
-                              <i data-feather="calendar"></i>
-                            </span>
-                        <input th:field="*{birthDate}" required
-                                class="form-control ps-0"
-                                id="litepickerBirthdate"
-                                placeholder="Chọn ngày sinh"
-                        />
-                      </div>
+                  <div class="row gx-3 mb-2">
+                    <div class="col-md-6 field description">
+                      <label class="small mb-1">Ngày sinh <span class="text-danger">*</span></label>
+                      <input th:field="*{birthDate}"
+                             class="form-control"
+                             id="litepickerBirthdate"
+                             placeholder="Chọn ngày sinh"
+                             name="birthDate"
+                      />
                     </div>
-                    <!-- Form Group (location)-->
-                    <div class="col-md-6">
-                      <label class="small mb-1">Email</label>
+                    <div class="col-md-6 field description">
+                      <label class="small mb-1" >Email <span class="text-danger">*</span></label>
                       <input th:field="*{email}" class="form-control"
-                              id="inputEmail"
                               type="email"
                               placeholder="Nhập Email"
+                              name="companyEmail"
                       />
                       <!--Tạo error ở đây-->
                       <span th:if="${duplicateEmail}" th:text="${duplicateEmail}" style="color:red"></span>
                     </div>
                   </div>
-                  <!-- Form Row-->
-                  <div class="row gx-3 mb-3">
-                    <!-- Form Group (phone number)-->
-                    <div class="col-md-6">
-                      <label class="small mb-1">Chức vụ</label>
-                      <select class="form-select" th:field="*{positionId}">
+                  <div class="row gx-3 mb-2">
+                    <div class="col-md-6 field description">
+                      <label class="small mb-1">Chức vụ <span class="text-danger">*</span></label>
+                      <select class="form-select" id="selectPosition" name="position">
+                        <option value="">Lựa chọn</option>
                         <option th:each="position : ${positions}" th:text="${position.name}"
                                 th:value="${position.id}" ></option>
                       </select>
                     </div>
-                    <!-- Form Group (birthday)-->
-                    <div class="col-md-6">
-                      <label class="small mb-1">Phòng ban</label>
-                      <select class="form-select" id="exampleFormControlSelect1" th:field="*{departmentId}">
+                    <div class="col-md-6 field description">
+                      <label class="small mb-1">Phòng ban <span class="text-danger">*</span></label>
+                      <select class="form-select" id="selectDepartment" name="department">
+                        <option value="">Lựa chọn</option>
                         <option th:each="department : ${departments}" th:text="${department.name}"
                                 th:value="${department.id}"></option>
                       </select>
                     </div>
                   </div>
-                  <!-- Form Row-->
-                  <div class="row gx-3 mb-3">
+                  <div class="row gx-3 mb-2">
                     <!-- Form Group (phone number)-->
-                    <div class="col-md-6">
-                      <label class="small mb-1" for="inputPhone">Ngày vào công ty</label>
-                      <div class="input-group input-group-joined">
-                            <span class="input-group-text">
-                              <i data-feather="calendar"></i>
-                            </span>
-                        <input class="form-control ps-0" th:field="*{startDate}"
-                                id="litepickerDateEnteringCompany" required
-                                placeholder="Chọn ngày vào công ty" />
-                      </div>
+                    <div class="col-md-6 field description">
+                      <label class="small mb-1" for="inputPhone">Ngày vào công ty <span class="text-danger">*</span></label>
+                      <input class="form-control" th:field="*{startDate}"
+                             id="litepickerDateEnteringCompany"
+                             placeholder="Chọn ngày vào công ty"
+                             name="startDate"
+                      />
                     </div>
                     <!-- Form Group (birthday)-->
-                    <div class="col-md-6">
-                      <label class="small mb-1">Ngày chính thức</label>
-                      <div class="input-group input-group-joined">
-                            <span class="input-group-text">
-                              <i data-feather="calendar"></i>
-                            </span>
-                        <input
-                                class="form-control ps-0"
-                                id="litepickerOfficeEntryDate"
-                                placeholder="Chọn ngày chính thức"
-                        />
-                      </div>
+                    <div class="col-md-6 field description">
+                      <label class="small mb-1">Ngày chính thức <span class="text-danger">*</span></label>
+                      <input
+                              class="form-control"
+                              id="litepickerOfficeEntryDate"
+                              placeholder="Chọn ngày chính thức"
+                              name="EntryDate"
+                      />
                     </div>
                   </div>
                   <div class="mb-3">
                     <label class="small mb-1">
                       Mô tả
-                      <span style="color: red">*</span>
                     </label>
                     <textarea class="form-control" th:field="*{note}"
                             id="exampleFormControlTextarea1"
                             rows="3"
                             placeholder="Nhập mô tả"></textarea>
                   </div>
-
-                  <!-- Save changes button -->
-                  <button class="btn btn-primary" form="create-form"
-                          type="submit"
-                          >Lưu</button> <!-- id="insert1"-->
+                  <div class="ui error message"></div>
                 </form>
               </div>
             </div>
@@ -260,31 +235,23 @@
         </div>
       </div>
     </main>
-    <footer class="footer-admin mt-auto footer-light">
-      <div class="container-xl px-4">
-        <div class="row">
-          <div class="col-md-6 small">
-            Copyright &copy; Your Website 2021
-          </div>
-          <div class="col-md-6 text-md-end small">
-            <a href="#!">Privacy Policy</a>
-            &middot;
-            <a href="#!">Terms &amp; Conditions</a>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <th:block th:include="/common/footer.html"></th:block>
   </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>\
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+<script src="https://semantic-ui.com/dist/components/form.js"></script>
+<script src="https://semantic-ui.com/javascript/validate-form.js"></script>
+<script src="https://semantic-ui.com/dist/components/popup.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
 <script type="text/javascript" th:src="@{/js/sweetalert.js}"></script>
 <script type="text/javascript" th:src="@{/js/litepicker.js}"></script>
+<script type="text/javascript" th:src="@{/js/semantic/main.js}"></script>
 <script th:inline = "javascript">
   avatarInput.onchange = evt => {
     let target = evt.target || evt.srcElement;
@@ -330,6 +297,124 @@
 
   window.onload = connect;
   /*]]>*/
+
+  //VALIDATION
+  var DEPARTMENT_DROPDOWN = "#selectDepartment";
+  var POSITION_DROPDOWN = "#selectPosition";
+  $(POSITION_DROPDOWN).dropdown();
+  $(DEPARTMENT_DROPDOWN).dropdown();
+
+  $("#create-form").form({
+    fields: {
+      userName: {
+        identifier: "userName",
+        rules: [
+          {
+            type: "empty",
+            prompt: "Không bỏ trống tên đăng nhập.",
+          },
+        ],
+      },
+      code: {
+        identifier: "code",
+        rules: [
+          {
+            type: "empty",
+            prompt: "Không bỏ trống mã số cá nhân",
+          },
+        ],
+      },
+      encrytedPassword: {
+        identifier: "encrytedPassword",
+        rules: [
+          {
+            type: "empty",
+            prompt: "Không bỏ trống mật khẩu",
+          },
+        ],
+      },
+      name: {
+        identifier: "name",
+        rules: [
+          {
+            type: "empty",
+            prompt: "Không bỏ trống tên.",
+          },
+        ],
+      },
+      phone: {
+        identifier: "phone",
+        rules: [
+          {
+            type   : 'integer',
+            prompt : 'Vui lòng nhập số điện thoại.'
+          },
+          {
+            type   : 'empty',
+            prompt : 'Không bỏ trống số điện thoại.'
+          },
+          {
+            type   : 'minLength[10]',
+            prompt : 'Vui lòng nhập số điện thoại ít nhất 10 ký tự.'
+          },
+        ]
+      },
+      birthDate: {
+        identifier: "birthDate",
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Vui lòng lựa chọn ngày sinh.'
+          }
+        ]
+      },
+      companyEmail: {
+        identifier  : 'companyEmail',
+        rules: [
+          {
+            type   : 'email',
+            prompt : 'Vui lòng nhập email hợp lệ.'
+          }
+        ]
+      },
+      position: {
+        identifier  : 'position',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Vui lòng lựa chọn chức vụ.'
+          }
+        ]
+      },
+      department: {
+        identifier  : 'department',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Vui lòng lựa chọn phòng ban.'
+          }
+        ]
+      },
+      startDate: {
+        identifier: "startDate",
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Vui lòng lựa chọn ngày vào công ty.'
+          }
+        ]
+      },
+      EntryDate: {
+        identifier: "EntryDate",
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Vui lòng lựa chọn ngày chính thức.'
+          }
+        ]
+      },
+    },
+  });
 </script>
 </body>
 </html>

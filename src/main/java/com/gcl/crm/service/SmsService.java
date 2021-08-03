@@ -11,7 +11,7 @@ import com.twilio.type.PhoneNumber;
 @Component
 public class SmsService {
     private final String ACCOUNT_SID = "ACafff2717e3385d802c79c856337c4339";
-    private final String AUTH_TOKEN = "073039b9c747bfcdaff718ecd8cf1817";
+    private final String AUTH_TOKEN = "104134761004a9619b19ca9d7ccc8819";
     private final String FROM_NUMBER = "+16303608942";
 
     public void send(SmsPojo sms) {
@@ -20,7 +20,6 @@ public class SmsService {
         Message message = Message.creator(new PhoneNumber(sms.getTo()), new PhoneNumber(FROM_NUMBER), sms.getMessage())
                 .create();
         System.out.println("here is my id:"+ message.getSid());// Unique resource ID created to manage this transaction
-
     }
 
     public void receive(MultiValueMap<String, String> smscallback) {

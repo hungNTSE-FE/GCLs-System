@@ -124,7 +124,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="employee : ${employees}" class="content">
+                            <tr th:each="employee : ${employees}">
                                 <td>
                                     <div class="dropdown no-caret">
                                         <button
@@ -162,45 +162,6 @@
             </div>
         </main>
         <th:block th:include="/common/footer.html"></th:block>
-    </div>
-</div>
-<!-- Modal -->
-<div
-        class="modal fade"
-        id="exampleModalCenter"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true"
->
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">
-                    Thay đổi mật khẩu
-                </h5>
-                <button
-                        class="btn-close"
-                        type="button"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                ></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1">Mật khẩu mới</label
-                    ><input
-                        class="form-control"
-                        id="exampleFormControlInput1"
-                        type="email"
-                        placeholder="Nhập mật khẩu mới"
-                />
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" type="button">Lưu</button>
-            </div>
-        </div>
     </div>
 </div>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

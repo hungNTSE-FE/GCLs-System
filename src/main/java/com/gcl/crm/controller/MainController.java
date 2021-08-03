@@ -8,9 +8,7 @@ import com.gcl.crm.service.EmployeeService;
 import com.gcl.crm.service.UserService;
 import com.gcl.crm.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import com.gcl.crm.constants.MyConstants;
-import com.gcl.crm.service.UserService;
 import org.springframework.lang.Nullable;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -41,8 +39,7 @@ public class MainController {
     private JavaMailSender javaMailSender;
 
     @Autowired
-    private UserService userService;
-
+    UserService userService;
 
     @RequestMapping(value = {"/welcome", "/"}, method = RequestMethod.GET)
     public String welcomePage(Model model, Principal principal) {
@@ -61,6 +58,7 @@ public class MainController {
         model.addAttribute("userInfo", currentUser);
         return DEPARTMENT_PAGE;
     }
+
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
     public String getLoginPage(Model model) {

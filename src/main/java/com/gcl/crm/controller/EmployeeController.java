@@ -23,12 +23,11 @@ import java.util.stream.Stream;
 @Controller
 @RequestMapping("/employee")
 public class EmployeeController {
-    private static final String HOME_EMP_PAGE = "employee/home-employee-page-V2";
+    private static final String HOME_EMP_PAGE = "employee/home-page";
     private static final String INSERT_EMP_PAGE = "employee/insert-employee-page-V2";
     private static final String EDIT_EMP_PAGE = "employee/edit-employee-page-V2";
     private static final String HOME_GROUP_PAGE = "employee/group-employee-page-V2";
     private static final String UPDATE_GROUP_PAGE = "employee/edit-group-employee-page-V2";
-    private static final String ERROR_400 = "error/error-400";
 
     @Autowired
     EmployeeService employeeService;
@@ -193,8 +192,11 @@ public class EmployeeController {
 
     @PostMapping({"/create"})
     public String create(Model model, @Nullable @ModelAttribute("employeeForm") CreateEmployeeForm employeeForm,
+                         @Nullable @RequestParam("position") Long pid,
+                         @Nullable @RequestParam("department") Long did,
                          @RequestParam("profile-img") MultipartFile avatar,
-                         RedirectAttributes redirectAttributes, Principal principal){
+                         RedirectAttributes redirectAttributes,
+                         Principal principal){
         boolean error = false;
         if (employeeService.isPhoneExisted(employeeForm.getPhone(), null)) {
             model.addAttribute("duplicatePhone", "Số điện thoại này đã tồn tại");
@@ -214,7 +216,7 @@ public class EmployeeController {
             model.addAttribute("employeeForm", employeeForm);
             model.addAttribute("departments", departments);
             model.addAttribute("positions", positions);
-            return "employee/insert-employee-page-V2";
+            return "employee/home-page";
         }
         User currentUser = userService.getUserByUsername(principal.getName());
         boolean done = employeeService.createEmployee(employeeForm, currentUser, avatar);
