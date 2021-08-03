@@ -1,6 +1,7 @@
 package com.gcl.crm.utils;
 
 import com.gcl.crm.entity.Potential;
+import com.gcl.crm.entity.TransactionHistory;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import org.apache.poi.ss.usermodel.*;
@@ -24,6 +25,17 @@ public class ExcelReader {
     public static final int COLUMN_INDEX_EMAIL = 4;
     public static final int COLUMN_INDEX_SOURCE = 5;
     public static final int COLUMN_INDEX_ADDRESS = 6;
+    public static final int COLUMN_INDEX_ID = 9 ;
+    public static final int COLUMN_INDEX_ACCOUNT_NUMBER =4;
+    public static final int COLUMN_INDEX_ACCOUNT_NAME = 6 ;
+
+    public static final int COLUMN_INDEX_TYPE = 17 ;
+    public static final int COLUMN_INDEX_LOT = 20 ;
+    public static final int COLUMN_INDEX_INSERT_DATE = 26;
+    public static final int COLUMN_INDEX_MONEY = 22 ;
+
+
+
 
     private Workbook getWorkbook(InputStream stream, String filename) throws IOException, NotOfficeXmlFileException {
         Workbook workbook = null;
@@ -114,6 +126,95 @@ public class ExcelReader {
             }
         }
         return potentialData;
+    }
+    public List<TransactionHistory> getTransactionData(InputStream stream, String filename) throws IOException, IllegalStateException {
+        List<TransactionHistory> transactionData = new ArrayList<>();
+        Workbook workbook = this.getWorkbook(stream, filename);
+        if (workbook == null) throw new IllegalStateException("Tập tin đã chọn không đúng định dạng");
+        Sheet sheet = workbook.getSheetAt(0);
+        Iterator<Row> rowIterator = sheet.rowIterator();
+        while (rowIterator.hasNext()) {
+            Row row = rowIterator.next();
+            if (row.getRowNum() < 7) {
+                continue;
+            }
+            if (row.getLastCellNum() != 28){
+                continue;
+            }
+            Iterator<Cell> cellIterator = row.cellIterator();
+            TransactionHistory item = new TransactionHistory();
+            while (cellIterator.hasNext()) {
+                Cell cell = cellIterator.next();
+                Object cellValue = this.getCellValue(cell);
+                if (cellValue == null) {
+                    continue;
+                }
+                int columnIndex = cell.getColumnIndex();
+                System.out.println("index " + columnIndex);
+                System.out.println("value " + cellValue);
+
+                switch (columnIndex) {
+                    case COLUMN_INDEX_INSERT_DATE:
+                        Date date;
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        if (cellValue instanceof Double) {
+                            date = DateUtil.getJavaDate((Double) cellValue);
+                        } else {
+                            try {
+                                date = simpleDateFormat.parse((String) cellValue);
+                            } catch (ParseException e) {
+                                item.setCreateDate(null);
+                                    break;
+                            }
+                        }
+                        item.setCreateDate(date);
+                        break;
+                    case COLUMN_INDEX_ACCOUNT_NAME:
+                        String name = cellValue.toString();
+                        item.setAccountName(name);
+                        System.out.println("name " + name );
+                        break;
+
+                    case COLUMN_INDEX_ACCOUNT_NUMBER:
+                        String number = cellValue.toString();
+                        item.setAccountNumber(number);
+                        break;
+                    case  COLUMN_INDEX_ID:
+                        String id = cellValue.toString();
+                        item.setTransactionID(id);
+                        break;
+                    case COLUMN_INDEX_TYPE:
+                        String type = cellValue.toString();
+                        item.setTransactionType(type);
+                        break;
+                    case COLUMN_INDEX_LOT:
+                        if(!cellValue.toString().isEmpty()){
+                            String lot = cellValue.toString();
+                            item.setLot((int) Math.round(Double.parseDouble(lot)));
+
+
+                        }else{
+                            return transactionData;
+                        }
+
+
+                        break;
+                    case COLUMN_INDEX_MONEY:
+                        String money = cellValue.toString();
+                        item.setMoney(money);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if(item.getTransactionID() != null){
+                transactionData.add(item);
+                System.out.println(item.toString());
+            }
+        }
+
+        System.out.println(transactionData.get(transactionData.size()-1).getTransactionID());
+        return transactionData;
     }
 
     private Object getCellValue(Cell cell) {
