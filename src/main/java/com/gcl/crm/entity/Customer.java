@@ -7,6 +7,7 @@ import com.gcl.crm.form.CustomerStatusEvaluationForm;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import lombok.Data;
 
 @Entity
 @Table(name = "CUSTOMER")
@@ -119,6 +120,38 @@ public class Customer {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "SOURCE_ID")
     private Source source;
+
+    private String birthDate ;
+    private String issueDate ;
+
+    public Customer() {
+    }
+
+    public Customer(Integer customerId, String customerName, String phoneNumber, String email, String number, String contractNumber, Source source) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.number = number;
+        this.contractNumber = contractNumber;
+        this.source = source;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getIssueDate() {
+        return issueDate;
+    }
+
+    public void setIssueDate(String issueDate) {
+        this.issueDate = issueDate;
+    }
 
     public Integer getCustomerId() {
         return customerId;

@@ -38,9 +38,10 @@ public class TaskController {
     @Autowired
     private PotentialService potentialService;
     @GetMapping({"/viewAllTask"})
-    public  String viewTaskPage(Model model){
+    public  String viewTaskPage(Model model, Principal principal){
+        User currentUser = userService.getUserByUsername(principal.getName());
         model.addAttribute("listTasks",taskService.getAllTask());
-
+        model.addAttribute("userInfo", currentUser);
 
         return "task/task-home";
     }
@@ -50,14 +51,15 @@ public class TaskController {
 
         Employee employee = employeeService.getEmployeeById(currentUser.getEmployee().getId());
         model.addAttribute("listTasks",employee.getTasks());
-
+        model.addAttribute("userInfo", currentUser);
 
         return "task/view-employee-task";
     }
 
 
     @GetMapping({"/showCreateForm"})
-    public String showTaskCreatePage(Model model){
+    public String showTaskCreatePage(Model model, Principal principal){
+        User currentUser = userService.getUserByUsername(principal.getName());
         Task task = new Task();
         model.addAttribute("task",task);
 
@@ -67,6 +69,7 @@ public class TaskController {
 
         model.addAttribute("departments", departments);
         model.addAttribute("employees",employees);
+        model.addAttribute("userInfo", currentUser);
         return "task/create-task-page";
     }
     @PostMapping(value = "/getEmployeeByDepartmentId")
@@ -89,15 +92,21 @@ public class TaskController {
         taskService.createTask(task);
         return "redirect:/task/viewAllTask";
 
+
     }
     @PostMapping({"/updateTask"})
     public String updateTask(@ModelAttribute("task") Task task){
+        Task tmp = taskService.findTaskByID(task.getTask_id());
         task.setActive(Status.ACTIVE);
+        task.setCreateDate((Date) tmp.getCreateDate());
+        task.setSubmitStatus(tmp.getSubmitStatus());
         task.setDepartmentName(task.getEmployees().get(0).getDepartment().getName());
-        taskService.createTask(task);
+        task.setUpdateDate(Date.valueOf(LocalDate.now()));
         return "redirect:/task/viewAllTask";
 
+
     }
+
 
 
     @GetMapping({"/showUpdateTaskForm/{id}"})
