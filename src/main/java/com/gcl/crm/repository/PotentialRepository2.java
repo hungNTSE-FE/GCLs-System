@@ -49,7 +49,7 @@ public class PotentialRepository2 {
                 "inner join (\n" +
                 "    select potential_id\n" +
                 "    from customer_distribution\n" +
-                "    where id = :mkt_id\n" +
+                "    where mkt_id = :mkt_id\n" +
                 "    ) tmp\n" +
                 "on tmp.potential_id = potential.id";
 

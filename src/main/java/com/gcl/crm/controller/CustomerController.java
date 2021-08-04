@@ -67,6 +67,7 @@ public class CustomerController {
     }
     @GetMapping({"/managePotentialCustomer"})
     public  String viewPotentialCustomer(Model model, Principal principal){
+        User user = userService.getUserByUsername(principal.getName());
         List<Source> sources = sourceRepository.getAll();
         List<Level> levels = levelService.getAll();
         List<Customer> potentials = customerProcessService.getAllContractCustomer();
@@ -83,20 +84,26 @@ public class CustomerController {
         model.addAttribute("employees", employees);
         model.addAttribute("customerDistributionForm", customerDistributionForm);
         model.addAttribute("userName", principal.getName());
+        model.addAttribute("userInfo", user);
 
         return "customer/view-potential-customer-page";
     }
     @GetMapping({"/showUpdateForm/{id}"})
-    public String showContractCreatePage(@PathVariable(name="id") int id ,Model model){
+    public String showContractCreatePage(@PathVariable(name="id") int id ,Model model, Principal principal){
         Customer customer = customerProcessService.findCustomerByID(id);
+        User user = userService.getUserByUsername(principal.getName());
         model.addAttribute("customer",customer);
         model.addAttribute("bankAccountList",customer.getBankAccounts());
+        model.addAttribute("userInfo", user);
         return "customer/update-customer-page";
     }
     @RequestMapping(value = "/addCustomer", method = RequestMethod.GET)
-    public String addCustomerPage(Model model, @Nullable @RequestParam("potentialId") Long potentialId) {
+    public String addCustomerPage(Model model, @Nullable @RequestParam("potentialId") Long potentialId
+            , Principal principal) {
+        User user = userService.getUserByUsername(principal.getName());
         CustomerForm customerForm = customerService.initForm(potentialId);
         model.addAttribute(CUSTOMER_FORM, customerForm);
+        model.addAttribute("userInfo", user);
         return ADD_CUSTOMER_PAGE;
     }
     @PostMapping({"/updateCustomer"})
@@ -131,6 +138,7 @@ public class CustomerController {
             customerForm.setComboboxForm(comboboxForm);
             customerForm.setMarketingGroupList(marketingGroupList);
             model.addAttribute(CUSTOMER_FORM, customerForm);
+            model.addAttribute("userInfo", user);
             model.addAttribute("errorInfo", errorInFoList);
             return ADD_CUSTOMER_PAGE;
         }
