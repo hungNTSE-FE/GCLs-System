@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface TradingAccountRepository  extends JpaRepository<TradingAccount,String> {
+    TradingAccount getTradingAccountByAccountNumber(String accountNumber);
 }
