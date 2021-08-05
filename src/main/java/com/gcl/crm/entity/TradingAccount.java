@@ -51,6 +51,12 @@ public class TradingAccount {
 
     }
 
+    public TradingAccount(String accountNumber, double balance, String accountName) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+        this.accountName = accountName;
+    }
+
     public TradingAccount(String accountNumber) {
         this.accountNumber = accountNumber;
     }

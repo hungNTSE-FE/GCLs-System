@@ -30,6 +30,7 @@ public class DealController {
     UserService userService;
     @Autowired
     TransactionHistoryService transactionHistoryService;
+
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String goHomePage(Model model, Principal principal) {
         User currentUser = userService.getUserByUsername(principal.getName());
