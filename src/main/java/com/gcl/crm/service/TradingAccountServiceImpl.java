@@ -38,29 +38,8 @@ public class TradingAccountServiceImpl implements TradingAccountService{
     }
 
     @Override
-    public TradingAccount findTradingAccountByID(String id) {
-        List<TradingAccount> tradingAccountList =tradingAccountRepository.findAll();
-        for(int i = 0 ; i <tradingAccountList.size();i++){
-            if(tradingAccountList.get(i).getAccountNumber().equals("id")){
-                return tradingAccountList.get(i);
-            }
-        }
-        return null ;
-    }
-
-    @Override
-    public void exportTradingAccountByMonth(List<TradingAccount> tradingAccountList) {
-
-    }
-
-    @Override
     public List<TradingAccount> findAll() {
         return tradingAccountRepository.findAll();
-    }
-
-    @Override
-    public List<TradingAccount> findAllByActive() {
-        return tradingAccountRepository.findAllByActive("Block");
     }
 
     @Override

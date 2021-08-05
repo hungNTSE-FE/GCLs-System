@@ -108,7 +108,6 @@ public class TradingAccountController {
         numberFormat.setGroupingUsed(true);
         model.addAttribute("numberFormat", numberFormat);
         model.addAttribute("tradingAccountList",tradingAccountService.findAccountStopDeal());
-
         model.addAttribute("tradingAccountStopList",tradingAccountService.findAccountStopDeal());
         model.addAttribute("userInfo", currentUser);
         return "tradingAccount/manage-account-page";

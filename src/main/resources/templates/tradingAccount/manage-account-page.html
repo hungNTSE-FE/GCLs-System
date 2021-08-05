@@ -124,11 +124,7 @@
                                             <tr th:each="tradingAcount : ${tradingAccountStopList}">
                                                 <td th:text="${tradingAcount.accountNumber}"></td>
                                                 <td  th:text="${tradingAcount.accountName}"></td>
-
-                                               <td th:text="${numberFormat.format(tradingAcount.balance)}"></td>
-
-
-
+                                                <td th:text="${numberFormat.format(tradingAcount.balance)}"></td>
                                             </tr>
                                             </tbody>
                                         </table>
