@@ -41,6 +41,18 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     }
 
+    const litepickerRangePluginOnlyMonth = document.getElementById('litepickerRangePluginOnlyMonth');
+    if (litepickerRangePluginOnlyMonth) {
+        new Litepicker({
+            element: litepickerRangePluginOnlyMonth,
+            singleMode: false,
+            numberOfMonths: 2,
+            numberOfColumns: 2,
+            format: 'MM/YYYY',
+            plugins: ['ranges']
+        });
+    }
+
     const litepickerBirthdate = document.getElementById('litepickerBirthdate');
     if (litepickerBirthdate) {
         new Litepicker({

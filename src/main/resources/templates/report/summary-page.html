@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-  <title>Báo cáo đầu mối</title>
+  <title>Báo cáo đánh giá nguồn</title>
   <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
   <link href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" rel="stylesheet"/>
   <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
@@ -14,7 +14,6 @@
 </head>
 <body class="nav-fixed">
 <th:block th:include="/common/nav-fixed.html"></th:block>
-
 <div id="layoutSidenav">
   <th:block th:include="/common/layoutSidenav.html"></th:block>
   <div id="layoutSidenav_content">
@@ -30,13 +29,7 @@
               "
         >
           <div class="me-4 mb-3 mb-sm-0">
-            <h1 class="mb-0">Báo cáo môi giới</h1>
-            <div class="small">
-              <span class="fw-600">Từ ngày</span>
-              <span class="text-danger">17/10/2020</span>
-              <span class="fw-600">Đến</span>
-              <span class="text-danger">02/04/2021</span>
-            </div>
+            <h1 class="mb-0">Tổng kết MKT tháng 3</h1>
           </div>
           <form>
             <div class="d-flex">
@@ -49,11 +42,11 @@
                     </span>
                 <input
                         class="form-control ps-0 pointer"
-                        id="litepickerRangePlugin"
+                        id="litepickerRangePluginOnlyMonth"
                         placeholder="Select date range..."
                 />
               </div>
-              <button class="btn btn-outline-primary">
+              <button class="btn btn-outline-primary me-2">
                 <div class="nav-link-icon">
                   <i class="fas fa-search me-1"></i>
                 </div>
@@ -64,83 +57,106 @@
         </div>
 
         <div class="row">
-          <div class="col-xl-3 mb-4">
+          <div class="col-xl-6 mb-4">
             <div class="card card-header-actions h-100">
               <div class="card-header">
-                Thông tin chi tiết
+                Bảng tổng kết quản lý khách hàng
               </div>
               <div class="card-body">
-                <div class="row mb-3">
-                  <div class="col-md-4">
-                    <label class="text-sm fw-600">Tên: </label>
-                  </div>
-                  <div class="col-md-8">
-                    <label class="text-sm">Môi giới</label>
-                  </div>
-                </div>
-
-                <div class="row mb-2">
-                  <div class="col-md-4">
-                    <label class="text-sm fw-600">Ngày cập nhật: </label>
-                  </div>
-                  <div class="col-md-8">
-                    <label class="text-sm">Jul 07, 2020</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-9 mb-4">
-            <div class="card">
-              <div class="card-header">Bảng thống kê</div>
-              <div class="card-body">
-                <table id="datatablesReportAgency">
+                <table id="dataTableReportSummaryCustomerManagement">
                   <thead>
                   <tr class="table-primary fw-600">
-                    <th>ID</th>
-                    <th>Môi giới</th>
-                    <th>Số lượng Data</th>
-                    <th>Chăm khách lần 1</th>
-                    <th>Chăm khách lần 2</th>
-                    <th>Chăm khách lần 3</th>
-                    <th>Mở tk giao dịch</th>
-                    <th>Kỹ quỹ</th>
-                    <th>Doanh số</th>
+                    <th>Tháng</th>
+                    <th>Số lượng đăng ký</th>
+                    <th>Số lượng giao dịch</th>
                   </tr>
                   </thead>
                   <tbody>
                   <tr>
-                    <td>00355</td>
-                    <td>Team Binh Duong</td>
-                    <td>99</td>
-                    <td>69</td>
-                    <td>57</td>
-                    <td>10</td>
-                    <td>17</td>
-                    <td>7</td>
-                    <td>346</td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td class="table-danger">36%</td>
-                    <td class="table-warning">70%</td>
-                    <td class="table-warning">58%</td>
-                    <td class="table-warning">10%</td>
-                    <td class="table-warning">10%</td>
-                    <td class="table-warning">7%</td>
-                    <td class="table-danger">14%</td>
+                    <td>Tháng 10/2020</td>
+                    <td>34</td>
+                    <td>2</td>
                   </tr>
                   <tr class="table-primary fw-600">
-                    <td></td>
-                    <td></td>
-                    <td>272</td>
-                    <td>197</td>
-                    <td>80</td>
-                    <td>28</td>
-                    <td>41</td>
-                    <td>15</td>
-                    <td>2556</td>
+                    <td>Tổng</td>
+                    <td>100</td>
+                    <td>2</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-footer small text-muted">
+                Updated yesterday at 11:59 PM
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 mb-4">
+            <div class="card">
+              <div class="card-header">
+                Bảng tổng kết nhân viên kinh doanh - MKT
+              </div>
+              <div class="card-body">
+                <table id="dataTableReportSummarySalesAndMKT">
+                  <thead>
+                  <tr class="table-primary fw-600">
+                    <th>STT</th>
+                    <th>Nội dung</th>
+                    <th>Phụ trách</th>
+                    <th>Số lượng</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Nhân viên tổng mở tài khoản nhiều nhất</td>
+                    <td class="table-success">Trần Bình Dượng</td>
+                    <td class="text-danger">53</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Nhân viên có số lot nhiều nhất trong THÁNG 3</td>
+                    <td class="table-success">Trần Mạnh Nam</td>
+                    <td class="text-danger">212</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-footer small text-muted">
+                Updated yesterday at 11:59 PM
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                Bảng tổng kết nhân viên kinh doanh - MKT
+              </div>
+              <div class="card-body">
+                <table id="dataTablesReportSummarize3">
+                  <thead>
+                  <tr class="table-primary fw-600">
+                    <th>STT</th>
+                    <th>Nội dung</th>
+                    <th>Phụ trách</th>
+                    <th>Số lượng</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Nhân viên tổng mở tài khoản nhiều nhất</td>
+                    <td class="table-success">Trần Bình Dượng</td>
+                    <td class="text-danger">53</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Nhân viên có số lot nhiều nhất trong THÁNG 3</td>
+                    <td class="table-success">Trần Mạnh Nam</td>
+                    <td class="text-danger">212</td>
                   </tr>
                   </tbody>
                 </table>
@@ -161,7 +177,6 @@
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-<script src="assets/demo/chart-bar-demo.js"></script>
 <script th:src="@{/js/litepicker.js}"></script>
 <script th:src="@{/js/mainTH.js}"></script>
 <script th:src="@{/js/datatables/datatables-custom.js}"></script>

@@ -131,4 +131,49 @@ if (document.getElementById("datatablesStatisticPotential") != null) {
             info: "",
         },
     });
+
+} else if (document.getElementById("dataTablesPersonInCharge") != null) {
+    const dataTablesPersonInCharge = new simpleDatatables.DataTable("#dataTablesPersonInCharge", {
+        searchable: false,
+        fixedHeight: true,
+        perPageSelect: false,
+        labels: {
+            info: "",
+        },
+    });
+
+    const dataTableReportCustomerStatus = new simpleDatatables.DataTable("#dataTableReportCustomerStatus", {
+        searchable: false,
+        fixedHeight: true,
+        perPageSelect: false,
+        labels: {
+            info: "",
+        },
+    });
+} else if (document.getElementById("dataTableReportSummaryCustomerManagement") != null) {
+    const dataTableReportSummaryCustomerManagement = new simpleDatatables.DataTable("#dataTableReportSummaryCustomerManagement", {
+        searchable: false,
+        fixedHeight: true,
+        perPageSelect: false,
+        labels: {
+            info: "",
+        },
+    });
+    const dataTableReportSummarySalesAndMKT = new simpleDatatables.DataTable("#dataTableReportSummarySalesAndMKT", {
+        searchable: false,
+        fixedHeight: true,
+        perPageSelect: false,
+        labels: {
+            info: "",
+        },
+    });
+    const dataTablesReportSummarize3 = new simpleDatatables.DataTable("#dataTablesReportSummarize3", {
+        searchable: false,
+        fixedHeight: true,
+        perPageSelect: false,
+        labels: {
+            info: "",
+        },
+    });
+
 }

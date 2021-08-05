@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-  <title>Báo cáo đầu mối</title>
+  <title>Báo cáo đánh giá nguồn</title>
   <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
   <link href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" rel="stylesheet"/>
   <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
@@ -14,7 +14,6 @@
 </head>
 <body class="nav-fixed">
 <th:block th:include="/common/nav-fixed.html"></th:block>
-
 <div id="layoutSidenav">
   <th:block th:include="/common/layoutSidenav.html"></th:block>
   <div id="layoutSidenav_content">
@@ -30,7 +29,7 @@
               "
         >
           <div class="me-4 mb-3 mb-sm-0">
-            <h1 class="mb-0">Báo cáo môi giới</h1>
+            <h1 class="mb-0">Báo cáo đánh giá tình trạng khách hàng</h1>
             <div class="small">
               <span class="fw-600">Từ ngày</span>
               <span class="text-danger">17/10/2020</span>
@@ -53,94 +52,92 @@
                         placeholder="Select date range..."
                 />
               </div>
-              <button class="btn btn-outline-primary">
+              <button class="btn btn-outline-primary me-2">
                 <div class="nav-link-icon">
                   <i class="fas fa-search me-1"></i>
                 </div>
                 Tra cứu
               </button>
+              <a class="btn btn-primary" th:href="@{/report/summary}">Tổng kết MKT</a>
             </div>
           </form>
         </div>
 
         <div class="row">
-          <div class="col-xl-3 mb-4">
+          <div class="col-xl-5 mb-4">
             <div class="card card-header-actions h-100">
-              <div class="card-header">
-                Thông tin chi tiết
-              </div>
+              <div class="card-header">Bảng thống kê phụ trách</div>
               <div class="card-body">
-                <div class="row mb-3">
-                  <div class="col-md-4">
-                    <label class="text-sm fw-600">Tên: </label>
-                  </div>
-                  <div class="col-md-8">
-                    <label class="text-sm">Môi giới</label>
-                  </div>
-                </div>
-
-                <div class="row mb-2">
-                  <div class="col-md-4">
-                    <label class="text-sm fw-600">Ngày cập nhật: </label>
-                  </div>
-                  <div class="col-md-8">
-                    <label class="text-sm">Jul 07, 2020</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-9 mb-4">
-            <div class="card">
-              <div class="card-header">Bảng thống kê</div>
-              <div class="card-body">
-                <table id="datatablesReportAgency">
+                <table id="dataTablesPersonInCharge">
                   <thead>
                   <tr class="table-primary fw-600">
-                    <th>ID</th>
-                    <th>Môi giới</th>
-                    <th>Số lượng Data</th>
-                    <th>Chăm khách lần 1</th>
-                    <th>Chăm khách lần 2</th>
-                    <th>Chăm khách lần 3</th>
-                    <th>Mở tk giao dịch</th>
-                    <th>Kỹ quỹ</th>
-                    <th>Doanh số</th>
+                    <th>STT</th>
+                    <th>Phụ trách</th>
+                    <th>Số lượng mở tài khoản</th>
+                    <th>Số lượng nạp tiền</th>
+                    <th>Số lot tháng 3</th>
                   </tr>
                   </thead>
                   <tbody>
                   <tr>
-                    <td>00355</td>
-                    <td>Team Binh Duong</td>
-                    <td>99</td>
-                    <td>69</td>
-                    <td>57</td>
-                    <td>10</td>
-                    <td>17</td>
-                    <td>7</td>
-                    <td>346</td>
-                  </tr>
-                  <tr>
+                    <td>1</td>
+                    <td>Bùi Huyền Trang</td>
+                    <td>5</td>
                     <td></td>
                     <td></td>
-                    <td class="table-danger">36%</td>
-                    <td class="table-warning">70%</td>
-                    <td class="table-warning">58%</td>
-                    <td class="table-warning">10%</td>
-                    <td class="table-warning">10%</td>
-                    <td class="table-warning">7%</td>
-                    <td class="table-danger">14%</td>
                   </tr>
                   <tr class="table-primary fw-600">
                     <td></td>
+                    <td>Tổng cộng</td>
+                    <td>5</td>
                     <td></td>
-                    <td>272</td>
-                    <td>197</td>
-                    <td>80</td>
-                    <td>28</td>
-                    <td>41</td>
-                    <td>15</td>
-                    <td>2556</td>
+                    <td></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-footer small text-muted">
+                Updated yesterday at 11:59 PM
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-7 mb-4">
+            <div class="card">
+              <div class="card-header">
+                Bảng thống kê tình trạng khách hàng
+              </div>
+              <div class="card-body">
+                <table id="dataTableReportCustomerStatus">
+                  <thead>
+                  <tr class="table-primary fw-600">
+                    <th>Phụ trách</th>
+                    <th>Level 1</th>
+                    <th>Level 2</th>
+                    <th>Level 3</th>
+                    <th>Level 4</th>
+                    <th>Level 5</th>
+                    <th>Tổng</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>Bùi Huyền Trang</td>
+                    <td>2</td>
+                    <td></td>
+                    <td>2</td>
+                    <td>2</td>
+                    <td></td>
+                    <td>11</td>
+                  </tr>
+                  <tr class="table-primary fw-600">
+                    <td>Tổng</td>
+                    <td>2</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                   </tr>
                   </tbody>
                 </table>
@@ -161,7 +158,6 @@
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-<script src="assets/demo/chart-bar-demo.js"></script>
 <script th:src="@{/js/litepicker.js}"></script>
 <script th:src="@{/js/mainTH.js}"></script>
 <script th:src="@{/js/datatables/datatables-custom.js}"></script>

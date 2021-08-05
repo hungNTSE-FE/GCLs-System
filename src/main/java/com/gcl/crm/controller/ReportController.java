@@ -15,6 +15,8 @@ import java.security.Principal;
 public class ReportController {
     private final String SOURCE_PAGE = "/report/source-page";
     private final String AGENCY_PAGE = "/report/agency-page";
+    private final String CUSTOMERSTATUS_PAGE = "/report/customerStatus-page";
+    private final String SUMMARIZE_PAGE = "/report/summary-page";
 
     @Autowired
     UserService userService;
@@ -33,5 +35,21 @@ public class ReportController {
         model.addAttribute("userName", principal.getName());
         model.addAttribute("userInfo", currentUser);
         return AGENCY_PAGE;
+    }
+
+    @RequestMapping(value = "/customerStatus", method = RequestMethod.GET)
+    public String goReportCustomerStatusPage(Model model, Principal principal) {
+        User currentUser = userService.getUserByUsername(principal.getName());
+        model.addAttribute("userName", principal.getName());
+        model.addAttribute("userInfo", currentUser);
+        return CUSTOMERSTATUS_PAGE;
+    }
+
+    @RequestMapping(value = "/summary", method = RequestMethod.GET)
+    public String goReportSummaryPage(Model model, Principal principal) {
+        User currentUser = userService.getUserByUsername(principal.getName());
+        model.addAttribute("userName", principal.getName());
+        model.addAttribute("userInfo", currentUser);
+        return SUMMARIZE_PAGE;
     }
 }
