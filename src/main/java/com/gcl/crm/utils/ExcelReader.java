@@ -1,6 +1,7 @@
 package com.gcl.crm.utils;
 
 import com.gcl.crm.entity.Potential;
+import com.gcl.crm.entity.TradingAccount;
 import com.gcl.crm.entity.TransactionHistory;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
@@ -12,10 +13,7 @@ import java.io.InputStream;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class ExcelReader {
 
@@ -27,13 +25,12 @@ public class ExcelReader {
     public static final int COLUMN_INDEX_ADDRESS = 6;
     public static final int COLUMN_INDEX_ID = 9 ;
     public static final int COLUMN_INDEX_ACCOUNT_NUMBER =4;
-    public static final int COLUMN_INDEX_ACCOUNT_NAME = 6 ;
 
     public static final int COLUMN_INDEX_TYPE = 17 ;
     public static final int COLUMN_INDEX_LOT = 20 ;
     public static final int COLUMN_INDEX_INSERT_DATE = 26;
     public static final int COLUMN_INDEX_MONEY = 22 ;
-
+    public static final int COLUMN_INDEX_BROKER_CODE = 3 ;
 
 
 
@@ -163,25 +160,22 @@ public class ExcelReader {
                             try {
                                 date = simpleDateFormat.parse((String) cellValue);
                             } catch (ParseException e) {
-                                item.setCreateDate(null);
+                                item.setTransactionDate(null);
                                     break;
                             }
                         }
-                        item.setCreateDate(date);
-                        break;
-                    case COLUMN_INDEX_ACCOUNT_NAME:
-                        String name = cellValue.toString();
-                        item.setAccountName(name);
-                        System.out.println("name " + name );
+                        item.setTransactionDate(date);
                         break;
 
                     case COLUMN_INDEX_ACCOUNT_NUMBER:
-                        String number = cellValue.toString();
-                        item.setAccountNumber(number);
+                        String account_number = cellValue.toString();
+                        item.setTradingAccount(new TradingAccount(account_number));
                         break;
                     case  COLUMN_INDEX_ID:
                         String id = cellValue.toString();
-                        item.setTransactionID(id);
+                        if(Objects.nonNull(id) && !id.isEmpty()) {
+                            item.setTransactionID(Long.parseLong(id));
+                        }
                         break;
                     case COLUMN_INDEX_TYPE:
                         String type = cellValue.toString();
@@ -196,13 +190,16 @@ public class ExcelReader {
                         }else{
                             return transactionData;
                         }
-
-
                         break;
                     case COLUMN_INDEX_MONEY:
                         String money = cellValue.toString();
                         item.setMoney(money);
                         break;
+
+                    case COLUMN_INDEX_BROKER_CODE:
+                        item.setBroker_code(cellValue.toString());
+                        break;
+
                     default:
                         break;
                 }

@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -45,9 +46,14 @@ public class TradingAccount {
 
     @OneToOne(mappedBy = "tradingAccount", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Customer customer;
+
     public TradingAccount(){
 
-    };
+    }
+
+    public TradingAccount(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
 
     public int getCustomerID() {
         return customerID;

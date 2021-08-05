@@ -132,7 +132,7 @@
                                         <table id="datatablesDeal">
                                             <thead>
                                             <tr>
-                                                <th></th>
+                                                <th>STT</th>
                                                 <th>MÃ GIAO DỊCH</th>
                                                 <th>MÃ TÀI KHOẢN</th>
                                                 <th>TÊN TÀI KHOẢN</th>
@@ -142,6 +142,16 @@
                                             </tr>
                                             </thead>
                                             <tbody>
+                                                <tr th:each="transactionHistory, iter : ${transactionHistoryList}">
+                                                    <td th:text="${iter.index}"></td>
+                                                    <td th:text="${transactionHistory.transactionID}"></td>
+                                                    <td th:text="${transactionHistory.tradingAccount.accountNumber}"></td>
+                                                    <td th:text="${transactionHistory.tradingAccount.accountName}"></td>
+                                                    <td th:text="${transactionHistory.transactionType}"></td>
+                                                    <td th:text="${transactionHistory.lot}"></td>
+                                                    <td th:text="${transactionHistory.transactionDate}"></td>
+                                                    <td></td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </form>
@@ -166,7 +176,7 @@
         >
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <form>
+                    <form th:action="@{/deal/import}" method="POST" enctype="multipart/form-data">
                         <div class="modal-header">
                             <h5 class="modal-title">Nhập dữ liệu từ file Excel</h5>
                             <button

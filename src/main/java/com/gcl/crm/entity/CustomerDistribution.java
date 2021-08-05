@@ -17,7 +17,7 @@ public class CustomerDistribution {
     private Customer customer;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "MKT_ID", nullable = false)
     private MarketingGroup marketingGroup;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

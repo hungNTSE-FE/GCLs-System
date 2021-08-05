@@ -32,9 +32,11 @@ public class DealController {
     TransactionHistoryService transactionHistoryService;
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String goHomePage(Model model, Principal principal) {
+        User currentUser = userService.getUserByUsername(principal.getName());
         model.addAttribute("userName", principal.getName());
         List<TransactionHistory> transactionHistoryList = transactionHistoryService.getAllTransactionHistory();
         model.addAttribute("transactionHistoryList",transactionHistoryList);
+        model.addAttribute("userInfo", currentUser);
         return HOME_PAGE;
     }
     @RequestMapping(value = "/import", method = RequestMethod.POST)
