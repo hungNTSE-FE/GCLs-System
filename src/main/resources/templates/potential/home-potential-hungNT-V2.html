@@ -176,20 +176,20 @@
                     </div>
                     <div class="mb-3">
                       <label class="text-sm">Đánh giá</label>
-                      <select class="form-select" id="selectRanking">
+                      <select class="form-select" id="selectRanking" th:field="*{potentialRating}">
                         <option selected value="" >Tất cả</option>
-                        <option value="1" >HIGH</option>
-                        <option value="2" >MEDIUM</option>
-                        <option value="3" >LOW</option>
+                        <option value="2" >HIGH</option>
+                        <option value="1" >MEDIUM</option>
+                        <option value="0" >LOW</option>
                       </select>
                     </div>
 
                     <div class="mb-3">
                       <label class="text-sm">Sinh nhật sắp tới</label>
-                      <select class="form-select" id="selectUpcomingBirthdate">
+                      <select class="form-select" id="selectUpcomingBirthdate" th:field="*{nextBirthdate}">
                         <option selected value="" >Tất cả</option>
-                        <option value="1" >1 tuần</option>
-                        <option value="2" >1 tháng</option>
+                        <option value="week" >1 tuần</option>
+                        <option value="month" >1 tháng</option>
                       </select>
                     </div>
 

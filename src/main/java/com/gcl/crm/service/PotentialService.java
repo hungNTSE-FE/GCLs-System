@@ -19,6 +19,9 @@ import java.util.stream.Collectors;
 @Service
 public class PotentialService {
 
+    private static final long ONE_WEEK_MS = 1 * 7 * 24 * 60 * 60 * 1000;
+    private static final long ONE_MONTH_MS = 1 * 30 * 24 * 60 * 60 * 1000;
+
     @Autowired
     DiaryService diaryService;
 
@@ -180,15 +183,18 @@ public class PotentialService {
         return potentials;
     }
 
-    public List<Potential> search(PotentialSearchForm searchForm){
+    public List<Potential> search(PotentialSearchForm searchForm, User currentUser){
         Level level = null;
         if (searchForm.getLevel() != null){
             level = levelService.getLevelById(searchForm.getLevel());
         }
+        System.out.println(searchForm.getPotentialRating());
+        System.out.println(searchForm.getNextBirthdate());
         Source source = sourceService.getSourceByName(searchForm.getSource());
         List<Potential> potentials = potentialRepository
-                .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndStatus
-                        (searchForm.getName(), searchForm.getPhone(), searchForm.getEmail(), Status.ACTIVE);
+                .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndStatusAndMaker
+                        (searchForm.getName(), searchForm.getPhone(), searchForm.getEmail(),
+                                Status.ACTIVE, currentUser.getEmployee().getId());
         if (searchForm.getTime() ==  null || searchForm.getTime().isEmpty()) {
             return potentials;
         }
@@ -205,6 +211,8 @@ public class PotentialService {
         List<Potential> result = new ArrayList<>();
         for (int i = 0; i < potentials.size(); i++) {
             Potential potential = potentials.get(i);
+
+
             boolean flag = true;
             Date date = null;
             try {
