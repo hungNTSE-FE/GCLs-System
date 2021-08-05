@@ -67,6 +67,12 @@ public class PotentialService {
         return true;
     }
 
+    public List<Potential> getPotentialByMakerId(Long makerId){
+        List<Potential> potentials = potentialRepository.findAllByMaker(makerId);
+        Collections.sort(potentials);
+        return potentials;
+    }
+
     public boolean editPotential(Potential newPotential, User currentUser){
         Potential potential = potentialRepository.findPotentialByIdAndStatus(newPotential.getId(), Status.ACTIVE);
         if (potential == null){

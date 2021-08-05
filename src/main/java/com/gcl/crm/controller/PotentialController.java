@@ -74,7 +74,7 @@ public class PotentialController {
         List<Source> sources = sourceRepository.getAll();
         List<Level> levels = levelService.getAll();
         PotentialSearchForm searchForm = new PotentialSearchForm();
-        List<Potential> potentials = potentialService.getAllPotentials();
+        List<Potential> potentials = potentialService.getPotentialByMakerId(user.getEmployee().getId());
         List<MarketingGroup> marketingGroups = marketingGroupService.getAllMktByStatus();
         CustomerDistributionForm customerDistributionForm = new CustomerDistributionForm();
 

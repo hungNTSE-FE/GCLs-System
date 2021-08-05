@@ -25,4 +25,5 @@ public interface PotentialRepository extends JpaRepository<Potential, Long> {
     List<Potential> findAllByDateContaining(String date);
     List<Potential> findAllByDate(String date);
     List<Potential> findAllByPhoneNumberOrEmail(String phone, String email);
+    List<Potential> findAllByMaker(Long maker);
 }
