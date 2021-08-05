@@ -14,6 +14,7 @@ import java.security.Principal;
 @RequestMapping("/report")
 public class ReportController {
     private final String SOURCE_PAGE = "/report/source-page";
+    private final String AGENCY_PAGE = "/report/agency-page";
 
     @Autowired
     UserService userService;
@@ -24,5 +25,13 @@ public class ReportController {
         model.addAttribute("userName", principal.getName());
         model.addAttribute("userInfo", currentUser);
         return SOURCE_PAGE;
+    }
+
+    @RequestMapping(value = "/agency", method = RequestMethod.GET)
+    public String goReportAgency(Model model, Principal principal) {
+        User currentUser = userService.getUserByUsername(principal.getName());
+        model.addAttribute("userName", principal.getName());
+        model.addAttribute("userInfo", currentUser);
+        return AGENCY_PAGE;
     }
 }

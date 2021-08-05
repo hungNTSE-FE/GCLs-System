@@ -122,4 +122,13 @@ if (document.getElementById("datatablesStatisticPotential") != null) {
             info: "",
         },
     });
+} else if (document.getElementById("datatablesReportAgency") != null) {
+    const datatablesReportAgency = new simpleDatatables.DataTable("#datatablesReportAgency", {
+        searchable: false,
+        fixedHeight: true,
+        perPageSelect: false,
+        labels: {
+            info: "",
+        },
+    });
 }
