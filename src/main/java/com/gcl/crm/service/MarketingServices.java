@@ -48,19 +48,56 @@ public class MarketingServices {
     public void initScreen() {
     }
 
-    public CustomerStatusReportForm getCustomerStatusReport(String fromDate, String toDate) {
-        List<CustomerStatusForm> customerStatusList = marketingRepository.getCustomerStatusList(fromDate, toDate);
+    public CustomerStatusReportForm getCustomerStatusReport(CustomerStatusReportForm customerStatusReportForm) {
+        int sumLv1 = 0;
+        int sumLv2 = 0;
+        int sumLv3 = 0;
+        int sumLv4 = 0;
+        int sumLv5 = 0;
+        int sumLv6 = 0;
+        int sumLv7 = 0;
+        int sumTotal = 0;
+        int sumRegisteredAcc = 0;
+        int sumTopUp = 0;
+        int sumLot = 0;
+        String[] dateRange = customerStatusReportForm.getDateRange().split("-");
+
+        List<CustomerStatusForm> customerStatusList = marketingRepository.getCustomerStatusList(dateRange[0].trim(), dateRange[1].trim());
+        for (CustomerStatusForm cs : customerStatusList) {
+            sumLv1 += Integer.parseInt(cs.getLevel_1());
+            sumLv2 += Integer.parseInt(cs.getLevel_2());
+            sumLv3 += Integer.parseInt(cs.getLevel_3());
+            sumLv4 += Integer.parseInt(cs.getLevel_4());
+            sumLv5 += Integer.parseInt(cs.getLevel_5());
+            sumLv6 += Integer.parseInt(cs.getLevel_6());
+            sumLv7 += Integer.parseInt(cs.getLevel_7());
+            sumTotal += Integer.parseInt(cs.getTotal());
+        }
+
+        customerStatusReportForm.setSumLevel1(sumLv1);
+        customerStatusReportForm.setSumLevel2(sumLv2);
+        customerStatusReportForm.setSumLevel3(sumLv3);
+        customerStatusReportForm.setSumLevel4(sumLv4);
+        customerStatusReportForm.setSumLevel5(sumLv5);
+        customerStatusReportForm.setSumLevel6(sumLv6);
+        customerStatusReportForm.setSumLevel7(sumLv7);
+        customerStatusReportForm.setSumLevelTotal(sumTotal);
 
         List<CustomerStatusEvaluationForm> customerStatusEvaluationList = marketingRepository
-                                                                    .getCustomerStatusEvaluationList(fromDate, toDate);
+                                                                    .getCustomerStatusEvaluationList(dateRange[0].trim(), dateRange[1].trim());
 
-        for (int i = 0; i < customerStatusList.size(); i++) {
-            customerStatusList.get(i).setStt(i + 1);
+        for(CustomerStatusEvaluationForm cs : customerStatusEvaluationList) {
+            sumRegisteredAcc += cs.getNum_of_registered_account();
+            sumTopUp += cs.getNum_of_top_up_account();
+            sumLot += cs.getNum_of_lot();
         }
-        for (int i = 0; i < customerStatusEvaluationList.size(); i++) {
-            customerStatusEvaluationList.get(i).setStt(i + 1);
-        }
-        return new CustomerStatusReportForm(customerStatusEvaluationList, customerStatusList);
+        customerStatusReportForm.setSumRegisteredAccount(sumRegisteredAcc);
+        customerStatusReportForm.setSumTopUp(sumTopUp);
+        customerStatusReportForm.setSumLot(sumLot);
+
+        customerStatusReportForm.setCustomerStatusFormList(customerStatusList);
+        customerStatusReportForm.setCustomerStatusEvaluationFormList(customerStatusEvaluationList);
+        return customerStatusReportForm;
     }
 
     public Boolean validateDate(Date fromDate, Date toDate) {

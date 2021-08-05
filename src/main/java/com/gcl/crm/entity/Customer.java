@@ -16,7 +16,7 @@ import lombok.Data;
         classes = @ConstructorResult(
                 targetClass = CustomerStatusForm.class
                 , columns = {
-                @ColumnResult(name = "employee_name", type = String.class),
+                @ColumnResult(name = "marketing_name", type = String.class),
                 @ColumnResult(name = "level_0", type = String.class),
                 @ColumnResult(name = "level_1", type = String.class),
                 @ColumnResult(name = "level_2", type = String.class),
@@ -25,6 +25,7 @@ import lombok.Data;
                 @ColumnResult(name = "level_5", type = String.class),
                 @ColumnResult(name = "level_6", type = String.class),
                 @ColumnResult(name = "level_7", type = String.class),
+                @ColumnResult(name = "total", type = String.class),
         }
         )
 )
@@ -33,9 +34,10 @@ import lombok.Data;
         classes = @ConstructorResult(
                 targetClass = CustomerStatusEvaluationForm.class
                 , columns = {
-                @ColumnResult(name = "employee_name", type = String.class),
+                @ColumnResult(name = "marketing_name", type = String.class),
                 @ColumnResult(name = "level_6", type = Integer.class),
-                @ColumnResult(name = "level_7", type = Integer.class)
+                @ColumnResult(name = "level_7", type = Integer.class),
+                @ColumnResult(name = "LOT", type = Integer.class),
             }
         )
 )

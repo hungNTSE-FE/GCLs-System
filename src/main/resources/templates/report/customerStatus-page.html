@@ -30,14 +30,12 @@
         >
           <div class="me-4 mb-3 mb-sm-0">
             <h1 class="mb-0">Báo cáo đánh giá tình trạng khách hàng</h1>
-            <div class="small">
-              <span class="fw-600">Từ ngày</span>
-              <span class="text-danger">17/10/2020</span>
-              <span class="fw-600">Đến</span>
-              <span class="text-danger">02/04/2021</span>
+            <div class="small" th:if="${customerStatusReportForm.dateRange}">
+              <span class="fw-600">Khoảng thời gian: </span>
+              <span class="text-danger" th:text="${customerStatusReportForm.dateRange}"></span>
             </div>
           </div>
-          <form>
+          <form method="post" th:action="@{/marketing/getListCustomerStatusReport}" th:object="${customerStatusReportForm}">
             <div class="d-flex">
               <div
                       class="input-group input-group-joined border-0 shadow me-2"
@@ -47,6 +45,7 @@
                       <i data-feather="calendar"></i>
                     </span>
                 <input
+                        th:field="${customerStatusReportForm.dateRange}"
                         class="form-control ps-0 pointer"
                         id="litepickerRangePlugin"
                         placeholder="Select date range..."
@@ -79,25 +78,21 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Bùi Huyền Trang</td>
-                    <td>5</td>
-                    <td></td>
-                    <td></td>
+                  <tr th:each="customerStatusEvaluation, iter : ${customerStatusReportForm.customerStatusEvaluationFormList}">
+                    <td th:text="${iter.index + 1}"></td>
+                    <td th:text="${customerStatusEvaluation.marketing_name}"></td>
+                    <td th:text="${customerStatusEvaluation.num_of_registered_account}"></td>
+                    <td th:text="${customerStatusEvaluation.num_of_top_up_account}"></td>
+                    <td th:text="${customerStatusEvaluation.num_of_lot}"></td>
                   </tr>
                   <tr class="table-primary fw-600">
-                    <td></td>
-                    <td>Tổng cộng</td>
-                    <td>5</td>
-                    <td></td>
-                    <td></td>
+                    <td th:colspan="2">Tổng cộng</td>
+                    <td th:text="${customerStatusReportForm.sumRegisteredAccount}"></td>
+                    <td th:text="${customerStatusReportForm.sumTopUp}"></td>
+                    <td th:text="${customerStatusReportForm.sumLot}"></td>
                   </tr>
                   </tbody>
                 </table>
-              </div>
-              <div class="card-footer small text-muted">
-                Updated yesterday at 11:59 PM
               </div>
             </div>
           </div>
@@ -117,33 +112,36 @@
                     <th>Level 3</th>
                     <th>Level 4</th>
                     <th>Level 5</th>
+                    <th>Level 6</th>
+                    <th>Level 7</th>
                     <th>Tổng</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>Bùi Huyền Trang</td>
-                    <td>2</td>
-                    <td></td>
-                    <td>2</td>
-                    <td>2</td>
-                    <td></td>
-                    <td>11</td>
+                  <tr th:each="customerStatusRp : ${customerStatusReportForm.customerStatusFormList}">
+                    <td th:text="${customerStatusRp.marketing_name}"></td>
+                    <td th:text="${customerStatusRp.level_1}"></td>
+                    <td th:text="${customerStatusRp.level_2}"></td>
+                    <td th:text="${customerStatusRp.level_3}"></td>
+                    <td th:text="${customerStatusRp.level_4}"></td>
+                    <td th:text="${customerStatusRp.level_5}"></td>
+                    <td th:text="${customerStatusRp.level_6}"></td>
+                    <td th:text="${customerStatusRp.level_7}"></td>
+                    <td th:text="${customerStatusRp.total}"></td>
                   </tr>
                   <tr class="table-primary fw-600">
                     <td>Tổng</td>
-                    <td>2</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td th:text="${customerStatusReportForm.sumLevel1}"></td>
+                    <td th:text="${customerStatusReportForm.sumLevel2}"></td>
+                    <td th:text="${customerStatusReportForm.sumLevel3}"></td>
+                    <td th:text="${customerStatusReportForm.sumLevel4}"></td>
+                    <td th:text="${customerStatusReportForm.sumLevel5}"></td>
+                    <td th:text="${customerStatusReportForm.sumLevel6}"></td>
+                    <td th:text="${customerStatusReportForm.sumLevel7}"></td>
+                    <td th:text="${customerStatusReportForm.sumLevelTotal}"></td>
                   </tr>
                   </tbody>
                 </table>
-              </div>
-              <div class="card-footer small text-muted">
-                Updated yesterday at 11:59 PM
               </div>
             </div>
           </div>

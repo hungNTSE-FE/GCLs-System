@@ -24,6 +24,7 @@ public class MarketingController {
     public static final String MAIN_PAGE = "marketing/marketing.html";
     public static final String CUSTOMER_REPORT_PAGE = "marketing/customerStatusReport.html";
     public static final String EMPLOYEE_KPI_EVALUATION_REPORT_PAGE = "marketing/employeeKPIReport.html";
+    public static final String CUSTOMERSTATUS_PAGE = "/report/customerStatus-page";
     public static final String APP_USER = "users";
 
     @Autowired
@@ -43,13 +44,14 @@ public class MarketingController {
         return CUSTOMER_REPORT_PAGE;
     }
 
-    @GetMapping(value = "/getListCustomerStatusReport")
-    @ResponseBody
-    public ResponseEntity<CustomerStatusReportForm> getCustomerStatusReport(@RequestParam String fromDate,
-                                                                            @RequestParam String toDate) {
-        CustomerStatusReportForm customerStatusReportForm = maketingServices.
-                getCustomerStatusReport(fromDate, toDate);
-        return new ResponseEntity<>(customerStatusReportForm, HttpStatus.OK);
+    @PostMapping(value = "/getListCustomerStatusReport")
+    public String getCustomerStatusReport(@ModelAttribute CustomerStatusReportForm customerStatusReportForm, Model model
+                    , Principal principal) {
+        User currentUser = userService.getUserByUsername(principal.getName());
+        CustomerStatusReportForm customerNewForm = maketingServices.getCustomerStatusReport(customerStatusReportForm);
+        model.addAttribute("customerStatusReportForm", customerNewForm);
+        model.addAttribute("userInfo", currentUser);
+        return CUSTOMERSTATUS_PAGE;
     }
 
     @GetMapping(value = "/employeeKPIEvaluation")

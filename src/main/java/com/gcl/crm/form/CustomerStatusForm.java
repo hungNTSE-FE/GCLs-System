@@ -1,8 +1,7 @@
 package com.gcl.crm.form;
 
 public class CustomerStatusForm {
-    private Integer stt;
-    private String emp_name;
+    private String marketing_name;
     private String level_0;
     private String level_1;
     private String level_2;
@@ -11,14 +10,15 @@ public class CustomerStatusForm {
     private String level_5;
     private String level_6;
     private String level_7;
+    private String total;
 
     public CustomerStatusForm() {
     }
 
-    public CustomerStatusForm(String emp_name, String level_0, String level_1, String level_2,
+    public CustomerStatusForm(String marketing_name, String level_0, String level_1, String level_2,
                               String level_3, String level_4, String level_5, String level_6,
-                              String level_7) {
-        this.emp_name = emp_name;
+                              String level_7, String total) {
+        this.marketing_name = marketing_name;
         this.level_0 = level_0;
         this.level_1 = level_1;
         this.level_2 = level_2;
@@ -27,14 +27,15 @@ public class CustomerStatusForm {
         this.level_5 = level_5;
         this.level_6 = level_6;
         this.level_7 = level_7;
+        this.total = total;
     }
 
-    public String getEmp_name() {
-        return emp_name;
+    public String getMarketing_name() {
+        return marketing_name;
     }
 
-    public void setEmp_name(String emp_name) {
-        this.emp_name = emp_name;
+    public void setMarketing_name(String marketing_name) {
+        this.marketing_name = marketing_name;
     }
 
     public String getLevel_1() {
@@ -101,11 +102,11 @@ public class CustomerStatusForm {
         this.level_0 = level_0;
     }
 
-    public Integer getStt() {
-        return stt;
+    public String getTotal() {
+        return total;
     }
 
-    public void setStt(Integer stt) {
-        this.stt = stt;
+    public void setTotal(String total) {
+        this.total = total;
     }
 }
