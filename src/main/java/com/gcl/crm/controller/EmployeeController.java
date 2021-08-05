@@ -43,9 +43,7 @@ public class EmployeeController {
 
     @Autowired
     MarketingGroupService marketingGroupService;
-
-
-
+    
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String getHomePage(Model model, Principal principal) {
         User currentUser = userService.getUserByUsername(principal.getName());
