@@ -122,10 +122,13 @@ public class EmployeeServiceImpl implements EmployeeService{
         if (employee == null){
             return false;
         }
-        User user = userService.getUserByEmployeeId(employeeForm.getEmployeeId());
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.setEncryptedPassword(encoder.encode(employeeForm.getRawPassword()));
-        user = userRepository.save(user);
+        if (employeeForm.getRawPassword() != null){
+            User user = userService.getUserByEmployeeId(employeeForm.getEmployeeId());
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            user.setEncryptedPassword(encoder.encode(employeeForm.getRawPassword()));
+            user = userRepository.save(user);
+            employee.setUser(user);
+        }
 
         Position position = positionService.findPositionById(employeeForm.getPositionId());
         Department department = departmentService.findDepartmentById(employeeForm.getDepartmentId().toString());
@@ -138,7 +141,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         employee.setNote(employeeForm.getNote());
         employee.setPhone(employeeForm.getPhone());
         employee.setCompanyEmail(employeeForm.getEmail());
-        employee.setUser(user);
+
         employee = employeeRepository.save(employee);
         if (avatar != null){
             this.saveAvatar(avatar, employee);
