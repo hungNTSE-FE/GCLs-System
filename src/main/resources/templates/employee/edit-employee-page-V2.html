@@ -176,7 +176,6 @@
                                                     id="inputEmail"
                                                     type="text"
                                                     placeholder="Nhập Email"
-                                                    name="companyEmail"
                                             />
                                         </div>
                                     </div>
@@ -185,7 +184,8 @@
                                         <!-- Form Group (phone number)-->
                                         <div class="col-md-6 field description">
                                             <label class="small mb-1">Chức vụ <span class="text-danger">*</span></label>
-                                            <select name="position" class="form-select" id="selectPosition">
+                                            <select class="form-select" id="selectPosition"
+                                                    th:field="*{positionId}" >
                                                 <option value="">Lựa chọn</option>
                                                 <option th:each="position : ${positions}" th:text="${position.name}"
                                                         th:value="${position.id}" th:selected="${position.id.equals(employeeForm.positionId)}"></option>
@@ -194,7 +194,8 @@
                                         <!-- Form Group (birthday)-->
                                         <div class="col-md-6 field description">
                                             <label class="small mb-1">Phòng ban</label>
-                                            <select name="department" class="form-select" id="selectDepartment">
+                                            <select class="form-select" id="selectDepartment"
+                                                    th:field="*{departmentId}">
                                                 <option value="">Lựa chọn</option>
                                                 <option th:each="department : ${departments}"
                                                         th:selected="${department.id.equals(employeeForm.departmentId)}"
@@ -234,7 +235,7 @@
                                         ></textarea>
                                     </div>
                                 </form>
-                                <form id="delete-form" method="POST" th:action="@{/employee/delete(eid=${employee.id})}"></form>
+                                <form id="delete-form" method="POST" th:action="@{/employee/delete(eid=${employeeForm.employeeId})}"></form>
                             </div>
                         </div>
                     </div>
