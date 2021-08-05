@@ -1,6 +1,8 @@
 package com.gcl.crm.controller;
 
 import com.gcl.crm.entity.User;
+import com.gcl.crm.form.CustomerStatusForm;
+import com.gcl.crm.form.CustomerStatusReportForm;
 import com.gcl.crm.form.SourceEvaluationForm;
 import com.gcl.crm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,10 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/report")
 public class ReportController {
-    private final String SOURCE_PAGE = "/report/source-page";
-    private final String AGENCY_PAGE = "/report/agency-page";
-    private final String CUSTOMERSTATUS_PAGE = "/report/customerStatus-page";
-    private final String SUMMARIZE_PAGE = "/report/summary-page";
+    private static final String SOURCE_PAGE = "/report/source-page";
+    private static final String AGENCY_PAGE = "/report/agency-page";
+    private static final String CUSTOMER_STATUS_PAGE = "/report/customerStatus-page";
+    private static final String SUMMARIZE_PAGE = "/report/summary-page";
 
     @Autowired
     UserService userService;
@@ -44,7 +46,8 @@ public class ReportController {
         User currentUser = userService.getUserByUsername(principal.getName());
         model.addAttribute("userName", principal.getName());
         model.addAttribute("userInfo", currentUser);
-        return CUSTOMERSTATUS_PAGE;
+        model.addAttribute("customerStatusReportForm", new CustomerStatusReportForm());
+        return CUSTOMER_STATUS_PAGE;
     }
 
     @RequestMapping(value = "/summary", method = RequestMethod.GET)
