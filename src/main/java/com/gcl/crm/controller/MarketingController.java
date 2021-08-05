@@ -1,10 +1,12 @@
 package com.gcl.crm.controller;
 
+import com.gcl.crm.dto.SourceEvaluationDto;
 import com.gcl.crm.entity.TMP_KPI_EMPLOYEE;
 import com.gcl.crm.entity.User;
 import com.gcl.crm.form.*;
 import com.gcl.crm.service.MarketingServices;
 import com.gcl.crm.service.UserService;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,6 +68,18 @@ public class MarketingController {
         User user = userService.getUserByUsername(principal.getName());
         maketingServices.distributeCustomerData(customerDistributionForm, user);
         return "redirect:/potential/home";
+    }
+
+    @PostMapping(value = "/getSourceEvaluation")
+    public String getSourceEvaluation(@ModelAttribute SourceEvaluationForm sourceEvaluationForm, Model model, Principal principal) {
+        User currentUser = userService.getUserByUsername(principal.getName());
+        List<SourceEvaluationDto> sourceEvaluationDtoList = maketingServices.getSourceEvaluation(sourceEvaluationForm);
+        sourceEvaluationForm.setSourceEvaluationDtoList(sourceEvaluationDtoList);
+        sourceEvaluationForm.setTotal(sourceEvaluationDtoList.get(0).getSumOfPotential());
+        model.addAttribute("sourceEvaluationFormJSON", new Gson().toJson(sourceEvaluationForm));
+        model.addAttribute("userInfo", currentUser);
+        model.addAttribute("sourceEvaluationForm", sourceEvaluationForm);
+        return "report/source-page.html";
     }
 
 }

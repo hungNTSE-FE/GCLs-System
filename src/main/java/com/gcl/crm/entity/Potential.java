@@ -1,5 +1,6 @@
 package com.gcl.crm.entity;
 
+import com.gcl.crm.dto.SourceEvaluationDto;
 import com.gcl.crm.enums.PotentialRating;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.form.CustomerStatusEvaluationForm;
@@ -23,6 +24,18 @@ import java.util.List;
                 @ColumnResult(name = "email", type = String.class),
                 @ColumnResult(name = "source_name", type = String.class),
                 @ColumnResult(name = "time", type = String.class),
+        }
+        )
+)
+@SqlResultSetMapping(
+        name = "getSourceEvaluation",
+        classes = @ConstructorResult(
+                targetClass = SourceEvaluationDto.class
+                , columns = {
+                @ColumnResult(name = "source_name", type = String.class),
+                @ColumnResult(name = "num_of_potential", type = Integer.class),
+                @ColumnResult(name = "source_percent", type = Double.class),
+                @ColumnResult(name = "sum_of_source", type = Integer.class),
         }
         )
 )

@@ -1,6 +1,7 @@
 package com.gcl.crm.service;
 
 import com.gcl.crm.dto.SelectItem;
+import com.gcl.crm.dto.SourceEvaluationDto;
 import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.form.*;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -115,6 +118,11 @@ public class MarketingServices {
             e.printStackTrace();
         }
 
+    }
+
+    public List<SourceEvaluationDto> getSourceEvaluation(SourceEvaluationForm sourceEvaluationForm) {
+        String[] dateRange = sourceEvaluationForm.getDateRange().split("-");
+        return potentialRepository2.getSourceEvaluation(dateRange[0].trim(), dateRange[1].trim());
     }
 
 }

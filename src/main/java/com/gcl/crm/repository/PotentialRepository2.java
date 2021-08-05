@@ -1,5 +1,6 @@
 package com.gcl.crm.repository;
 
+import com.gcl.crm.dto.SourceEvaluationDto;
 import com.gcl.crm.entity.Potential;
 import com.gcl.crm.form.PotentialSearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +62,25 @@ public class PotentialRepository2 {
     public void ratingPotential() {
         StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("PROC_RATING_POTENTIAL");
         storedProcedureQuery.execute();
+    }
+
+    public List<SourceEvaluationDto> getSourceEvaluation(String start_date, String end_date) {
+        String sql = "select s.source_name,\n" +
+                "       count(1) as num_of_potential,\n" +
+                "       round((count(1) / poten_1.sum_of_source) * 100, 2) as source_percent,\n" +
+                "       poten_1.sum_of_source\n" +
+                "from potential\n" +
+                "    inner join source s on potential.source_id = s.source_id\n" +
+                "         cross join (\n" +
+                "    select count(1) as sum_of_source\n" +
+                "    from potential\n" +
+                "    where str_to_date(date, '%d/%m/%Y') between STR_TO_DATE(:start_date, '%d/%m/%Y') and STR_TO_DATE(:end_date, '%d/%m/%Y')\n" +
+                ") poten_1\n" +
+                "where str_to_date(date, '%d/%m/%Y') between STR_TO_DATE(:start_date, '%d/%m/%Y') and STR_TO_DATE(:end_date, '%d/%m/%Y')\n" +
+                "group by potential.source_id;";
+        Query query = entityManager.createNativeQuery(sql, "getSourceEvaluation");
+        query.setParameter("start_date", start_date);
+        query.setParameter("end_date", end_date);
+        return query.getResultList();
     }
 }

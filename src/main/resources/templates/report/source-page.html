@@ -37,7 +37,7 @@
               <span class="text-danger">02/04/2021</span>
             </div>
           </div>
-          <form>
+          <form method="post" th:action="@{/marketing/getSourceEvaluation}" th:object="${sourceEvaluationForm}">
             <div class="d-flex">
               <div
                       class="input-group input-group-joined border-0 shadow me-2"
@@ -47,6 +47,7 @@
                       <i data-feather="calendar"></i>
                     </span>
                 <input
+                        th:field="${sourceEvaluationForm.dateRange}"
                         class="form-control ps-0 pointer"
                         id="litepickerRangePlugin"
                         placeholder="Select date range..."
@@ -140,20 +141,20 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr>
-                        <td>Subiz</td>
-                        <td>24</td>
-                        <td>7,0%</td>
+                      <tr th:each="sourceForm : ${sourceEvaluationForm.sourceEvaluationDtoList}">
+                        <td th:text="${sourceForm.sourceName}"></td>
+                        <td th:text="${sourceForm.numOfPotential}"></td>
+                        <td th:text="${sourceForm.sourcePercent + '%'}"></td>
                       </tr>
                       <tr class="table-primary fw-600">
-                        <td>Tổng</td>
-                        <td>24</td>
-                        <td>100,0%</td>
+                        <th>Tổng</th>
+                        <td th:text="${sourceEvaluationForm.total != null ? sourceEvaluationForm.total : '0'}"></td>
+                        <td th:text="${sourceEvaluationForm.total != null ? '100%' : '0%'}"></td>
                       </tr>
                       </tbody>
                       <tfoot>
                       <th>Tổng</th>
-                      <td>24</td>
+                      <td th:text="${sourceEvaluationForm.total}"></td>
                       <th>100,0%</th>
                       </tfoot>
                     </table>
