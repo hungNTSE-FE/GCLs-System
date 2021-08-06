@@ -1,5 +1,6 @@
 package com.gcl.crm.service;
 
+import com.gcl.crm.dto.KPIMktGroup;
 import com.gcl.crm.dto.SelectItem;
 import com.gcl.crm.dto.SourceEvaluationDto;
 import com.gcl.crm.entity.*;
@@ -126,9 +127,11 @@ public class MarketingServices {
         return comboboxForm;
     }
 
-    @Transactional
-    public List<TMP_KPI_EMPLOYEE> getKPIEmployeeReport(String fromDate, String toDate) {
-        return marketingRepository.getKPIEmployeeReport(fromDate, toDate);
+    public KPIMktGroupForm getKPIMktGroup(KPIMktGroupForm kpiMktGroupForm) {
+        String[] dateRange = kpiMktGroupForm.getDateRange().split("-");
+        List<KPIMktGroup> kpiMktGroupList = marketingRepository.getKPIMktGroup(dateRange[0].trim(), dateRange[1].trim());
+        kpiMktGroupForm.setKpiMktGroupList(kpiMktGroupList);
+        return kpiMktGroupForm;
     }
 
     @Transactional

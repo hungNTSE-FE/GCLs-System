@@ -31,14 +31,12 @@
         >
           <div class="me-4 mb-3 mb-sm-0">
             <h1 class="mb-0">Báo cáo môi giới</h1>
-            <div class="small">
-              <span class="fw-600">Từ ngày</span>
-              <span class="text-danger">17/10/2020</span>
-              <span class="fw-600">Đến</span>
-              <span class="text-danger">02/04/2021</span>
+            <div class="small" th:if="${KPI_MKT_GROUP_FORM.dateRange}">
+              <span class="fw-600">Khoảng thời gian: </span>
+              <span class="text-danger" th:text="${KPI_MKT_GROUP_FORM.dateRange}"></span>
             </div>
           </div>
-          <form>
+          <form method="post" th:action="@{/marketing/getKPIMktGroup}" th:object="${KPI_MKT_GROUP_FORM}">
             <div class="d-flex">
               <div
                       class="input-group input-group-joined border-0 shadow me-2"
@@ -48,6 +46,7 @@
                       <i data-feather="calendar"></i>
                     </span>
                 <input
+                        th:field="${KPI_MKT_GROUP_FORM.dateRange}"
                         class="form-control ps-0 pointer"
                         id="litepickerRangePlugin"
                         placeholder="Select date range..."
@@ -64,33 +63,33 @@
         </div>
 
         <div class="row">
-          <div class="col-xl-3 mb-4">
-            <div class="card card-header-actions h-100">
-              <div class="card-header">
-                Thông tin chi tiết
-              </div>
-              <div class="card-body">
-                <div class="row mb-3">
-                  <div class="col-md-4">
-                    <label class="text-sm fw-600">Tên: </label>
-                  </div>
-                  <div class="col-md-8">
-                    <label class="text-sm">Môi giới</label>
-                  </div>
-                </div>
+<!--          <div class="col-xl-3 mb-4">-->
+<!--            <div class="card card-header-actions h-100">-->
+<!--              <div class="card-header">-->
+<!--                Thông tin chi tiết-->
+<!--              </div>-->
+<!--              <div class="card-body">-->
+<!--                <div class="row mb-3">-->
+<!--                  <div class="col-md-4">-->
+<!--                    <label class="text-sm fw-600">Tên: </label>-->
+<!--                  </div>-->
+<!--                  <div class="col-md-8">-->
+<!--                    <label class="text-sm">Môi giới</label>-->
+<!--                  </div>-->
+<!--                </div>-->
 
-                <div class="row mb-2">
-                  <div class="col-md-4">
-                    <label class="text-sm fw-600">Ngày cập nhật: </label>
-                  </div>
-                  <div class="col-md-8">
-                    <label class="text-sm">Jul 07, 2020</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-9 mb-4">
+<!--                <div class="row mb-2">-->
+<!--                  <div class="col-md-4">-->
+<!--                    <label class="text-sm fw-600">Ngày cập nhật: </label>-->
+<!--                  </div>-->
+<!--                  <div class="col-md-8">-->
+<!--                    <label class="text-sm">Jul 07, 2020</label>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+          <div class="col-xl-12 mb-4">
             <div class="card">
               <div class="card-header">Bảng thống kê</div>
               <div class="card-body">
@@ -100,48 +99,45 @@
                     <th>ID</th>
                     <th>Môi giới</th>
                     <th>Số lượng Data</th>
-                    <th>Chăm khách lần 1</th>
-                    <th>Chăm khách lần 2</th>
-                    <th>Chăm khách lần 3</th>
-                    <th>Mở tk giao dịch</th>
+<!--                    <th>Chăm khách lần 1</th>-->
+<!--                    <th>Chăm khách lần 2</th>-->
+<!--                    <th>Chăm khách lần 3</th>-->
+                    <th>Mở tài khoản giao dịch</th>
                     <th>Kỹ quỹ</th>
                     <th>Doanh số</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>00355</td>
-                    <td>Team Binh Duong</td>
-                    <td>99</td>
-                    <td>69</td>
-                    <td>57</td>
-                    <td>10</td>
-                    <td>17</td>
-                    <td>7</td>
-                    <td>346</td>
+                  <tr th:each="kpiMktGroup : ${KPI_MKT_GROUP_FORM.kpiMktGroupList}">
+                    <td th:text="${kpiMktGroup.mktID}"></td>
+                    <td th:text="${kpiMktGroup.mktName}"></td>
+                    <td th:text="${kpiMktGroup.numPot}"></td>
+                    <td th:text="${kpiMktGroup.numRegisteredAcc}"></td>
+                    <td th:text="${kpiMktGroup.numTopUp}"></td>
+                    <td th:text="${kpiMktGroup.numLot}"></td>
                   </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td class="table-danger">36%</td>
-                    <td class="table-warning">70%</td>
-                    <td class="table-warning">58%</td>
-                    <td class="table-warning">10%</td>
-                    <td class="table-warning">10%</td>
-                    <td class="table-warning">7%</td>
-                    <td class="table-danger">14%</td>
-                  </tr>
-                  <tr class="table-primary fw-600">
-                    <td></td>
-                    <td></td>
-                    <td>272</td>
-                    <td>197</td>
-                    <td>80</td>
-                    <td>28</td>
-                    <td>41</td>
-                    <td>15</td>
-                    <td>2556</td>
-                  </tr>
+<!--                  <tr>-->
+<!--                    <td></td>-->
+<!--                    <td></td>-->
+<!--                    <td class="table-danger">36%</td>-->
+<!--                    <td class="table-warning">70%</td>-->
+<!--                    <td class="table-warning">58%</td>-->
+<!--                    <td class="table-warning">10%</td>-->
+<!--                    <td class="table-warning">10%</td>-->
+<!--                    <td class="table-warning">7%</td>-->
+<!--                    <td class="table-danger">14%</td>-->
+<!--                  </tr>-->
+<!--                  <tr class="table-primary fw-600">-->
+<!--                    <td></td>-->
+<!--                    <td></td>-->
+<!--                    <td>272</td>-->
+<!--                    <td>197</td>-->
+<!--                    <td>80</td>-->
+<!--                    <td>28</td>-->
+<!--                    <td>41</td>-->
+<!--                    <td>15</td>-->
+<!--                    <td>2556</td>-->
+<!--                  </tr>-->
                   </tbody>
                 </table>
               </div>

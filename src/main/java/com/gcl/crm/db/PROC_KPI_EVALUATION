@@ -1,62 +1,88 @@
 DELIMITER $$
 DROP PROCEDURE IF EXISTS PROC_KPI_EVALUATION;
-CREATE PROCEDURE PROC_KPI_EVALUATION(IN START_DATE DATETIME, IN END_DATE DATETIME)
+CREATE PROCEDURE PROC_KPI_EVALUATION(IN START_DATE VARCHAR(50), IN END_DATE VARCHAR(50))
 BEGIN
     DECLARE SUM_DATA DOUBLE;
-    DECLARE SUM_KPI DOUBLE;
-#Tổng Data được phân bổ
-SELECT COUNT(customer_id)
+SELECT COUNT(1)
 INTO SUM_DATA
 FROM customer_distribution
-WHERE date_distribution BETWEEN START_DATE AND END_DATE
+WHERE date_distribution BETWEEN STR_TO_DATE(START_DATE, '%d/%m/%Y') AND STR_TO_DATE(END_DATE, '%d/%m/%Y')
 ;
 
 DROP TEMPORARY TABLE IF EXISTS TMP_SUM_KPI;
 CREATE TEMPORARY TABLE TMP_SUM_KPI
-SELECT emp.id
-     ,  emp.full_name
+SELECT mkt_group.id
+     ,  mkt_group.name
+     , count(customer.customer_id)
      , case
-           when tmp.SUM_DATA_CUS is null then 0
-           else (sum(COALESCE(T.amount, 0))) / (tmp.SUM_DATA_CUS/SUM_DATA)
-    end as KPI # convert sang cùng 1 đơn vị đo lường
-    , sum(COALESCE(T.amount, 0)) as SUM_LOT
-    , coalesce(tmp.SUM_DATA_CUS, 0) as SUM_DATA_CUS
-FROM employee emp
-         LEFT JOIN customer_distribution cd on emp.id = cd.id
-         LEFT JOIN customer ON cd.customer_id = customer.customer_id
-         LEFT JOIN trading_account ta on customer.customer_id = ta.customerid
-         LEFT JOIN transaction t on ta.account_number = t.trading_account_number
+           when tmp.SUM_DATA_POT is null then 0
+           else (sum(COALESCE(th.LOT, 0))) / (tmp.SUM_DATA_POT/SUM_DATA)
+    end as KPI
+    , sum(COALESCE(th.LOT, 0)) as SUM_LOT
+    , coalesce(tmp.SUM_DATA_POT, 0) as SUM_DATA_POT
+FROM marketing_group mkt_group
+         INNER JOIN customer_distribution cd on mkt_group.id = cd.mkt_id
+         INNER JOIN customer ON cd.customer_id = customer.customer_id
+         INNER JOIN level lv on customer.level_id = lv.level_id
+         INNER JOIN trading_account ta on customer.account_number = ta.account_number
+         INNER join (
+                    select sum(lot) as LOT, account_number
+                    from transaction_history
+                    group by account_number
+                ) th on ta.account_number = th.account_number
          LEFT JOIN
      (
-         SELECT id, count(customer_id) as SUM_DATA_CUS # Tổng data được phân bổ của từng sales
+         SELECT mkt_id, count(1) as SUM_DATA_POT
          FROM customer_distribution
-         WHERE date_distribution BETWEEN START_DATE AND END_DATE
-         GROUP BY id
+         WHERE date_distribution BETWEEN STR_TO_DATE(START_DATE, '%d/%m/%Y') AND STR_TO_DATE(END_DATE, '%d/%m/%Y')
+         GROUP BY mkt_id
      ) tmp
-     ON tmp.id = emp.id
-WHERE cd.date_distribution BETWEEN START_DATE AND END_DATE
-GROUP BY emp.id
+     ON tmp.mkt_id = mkt_group.id
+WHERE cd.date_distribution BETWEEN STR_TO_DATE(START_DATE, '%d/%m/%Y') AND STR_TO_DATE(END_DATE, '%d/%m/%Y')
+GROUP BY mkt_group.id
 ;
 
-#Tính tổng của đơn vị sau khi đã convert
-SELECT SUM(KPI) INTO SUM_KPI
-FROM TMP_SUM_KPI
-;
+DROP  TEMPORARY TABLE IF EXISTS TMP_KPI_EMPLOYEE;
+            CREATE TEMPORARY TABLE TMP_KPI_EMPLOYEE (
+              MKT_GROUP_ID INT NOT NULL,
+              MKT_GROUP_NAME VARCHAR(50) NULL,
+              SUM_POT_DATA INT DEFAULT 0,
+              SUM_LOT INT DEFAULT 0,
+              KPI DOUBLE DEFAULT 0,
+              NUM_LEVEL_6 INT DEFAULT 0,
+              NUM_LEVEL_7 INT DEFAULT 0,
+              PRIMARY KEY (MKT_GROUP_ID)
+            );
+DROP TEMPORARY TABLE IF EXISTS TMP_NUM_LEVEL;
+    CREATE TEMPORARY TABLE TMP_NUM_LEVEL
+    SELECT mkt_group.id as mkt_id
+        , count(if(level_name = 'Level 6', 1, null)) level_6
+        , count(if(level_name = 'Level 7', 1, null)) level_7
+    FROM marketing_group mkt_group
+    inner join customer_distribution cus_dis on mkt_group.id = cus_dis.mkt_id
+         inner join customer cus on cus.customer_id = cus_dis.customer_id
+         inner join level lv on cus.level_id = lv.level_id
+    where cus_dis.date_distribution BETWEEN STR_TO_DATE(START_DATE, '%d/%m/%Y') AND STR_TO_DATE(END_DATE, '%d/%m/%Y')
+    GROUP BY mkt_group.id
+    ;
 
-CALL PROC_CREATE_TMP_TABLE('TMP_KPI_EMPLOYEE');
-#Tính KPI
 INSERT
 INTO TMP_KPI_EMPLOYEE
-    (EMPLOYEE_ID
-    , EMPLOYEE_NAME
-    , SUM_CUS_DATA
+    (MKT_GROUP_ID
+    , MKT_GROUP_NAME
+    , SUM_POT_DATA
     , SUM_LOT
-    , KPI)
-SELECT id
-     , full_name
-     , SUM_DATA_CUS
+    , KPI
+    , NUM_LEVEL_6
+    , NUM_LEVEL_7)
+SELECT id AS MKT_GROUP_ID
+     , name AS MKT_GROUP_NAME
+     , SUM_DATA_POT
      , SUM_LOT
-     , round(KPI / SUM_KPI, 2) AS KPI
-FROM TMP_SUM_KPI;
+     , round(KPI / (SUM(KPI) OVER()), 4) * 100 AS KPI
+     , COALESCE(level_6, 0) as NUM_LEVEL_6
+     , COALESCE(level_7, 0) as NUM_LEVEL_7
+FROM TMP_SUM_KPI
+    LEFT JOIN TMP_NUM_LEVEL on TMP_SUM_KPI.id = TMP_NUM_LEVEL.mkt_id;
 END $$ DELIMITER
 ;
