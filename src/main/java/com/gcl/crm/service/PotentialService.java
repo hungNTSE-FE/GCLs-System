@@ -188,8 +188,6 @@ public class PotentialService {
         if (searchForm.getLevel() != null){
             level = levelService.getLevelById(searchForm.getLevel());
         }
-        System.out.println(searchForm.getPotentialRating());
-        System.out.println(searchForm.getNextBirthdate());
         Source source = sourceService.getSourceByName(searchForm.getSource());
         List<Potential> potentials = potentialRepository
                 .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndStatusAndMaker
