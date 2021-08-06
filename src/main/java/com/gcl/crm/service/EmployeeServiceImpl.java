@@ -184,6 +184,9 @@ public class EmployeeServiceImpl implements EmployeeService{
             if (employee.getUser() == null){
                 continue;
             }
+            if (!employee.getUser().isEnabled()){
+                continue;
+            }
             result.add(employee);
         }
         return result;
