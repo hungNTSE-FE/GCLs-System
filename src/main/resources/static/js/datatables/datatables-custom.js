@@ -180,7 +180,14 @@ if (document.getElementById("datatablesStatisticPotential") != null) {
     const datatablesReportAgency = new simpleDatatables.DataTable("#datatablesTradingAccount", {
         searchable: true,
         fixedHeight: true,
-        perPageSelect: false,
+        labels: {
+            info: "",
+        },
+    });
+
+    const datatables2 = new simpleDatatables.DataTable("#datatables2", {
+        searchable: true,
+        fixedHeight: true,
         labels: {
             info: "",
         },
