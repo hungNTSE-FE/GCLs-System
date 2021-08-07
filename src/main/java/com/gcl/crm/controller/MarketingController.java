@@ -23,7 +23,7 @@ public class MarketingController {
 
     public static final String MAIN_PAGE = "marketing/marketing.html";
     public static final String CUSTOMER_REPORT_PAGE = "marketing/customerStatusReport.html";
-    public static final String EMPLOYEE_KPI_EVALUATION_REPORT_PAGE = "marketing/employeeKPIReport.html";
+    public static final String MKT_KPI_EVALUATION_REPORT_PAGE = "/report/agency-page";
     public static final String CUSTOMERSTATUS_PAGE = "/report/customerStatus-page";
     public static final String APP_USER = "users";
 
@@ -54,14 +54,14 @@ public class MarketingController {
         return CUSTOMERSTATUS_PAGE;
     }
 
-    @GetMapping(value = "/employeeKPIEvaluation")
-    public String initEmployeeKPIEvaluation(Model model, @ModelAttribute KPIEmployeeForm kpiEmployeeForm) {
-        String startDate = kpiEmployeeForm.getStartDate();
-        String endDate = kpiEmployeeForm.getEndDate();
-        List<TMP_KPI_EMPLOYEE> tmp_kpi_employeeList = maketingServices.getKPIEmployeeReport(startDate, endDate);
-        kpiEmployeeForm.setTmpKpiEmployeeList(tmp_kpi_employeeList);
-        model.addAttribute("KPI_EMPLOYEE_EVALUATION" , kpiEmployeeForm);
-        return EMPLOYEE_KPI_EVALUATION_REPORT_PAGE;
+    @PostMapping(value = "/getKPIMktGroup")
+    public String getKPIMktGroup(Model model, @ModelAttribute KPIMktGroupForm kpiMktGroupForm
+                                                                            , Principal principal) {
+        User currentUser = userService.getUserByUsername(principal.getName());
+        KPIMktGroupForm newForm = maketingServices.getKPIMktGroup(kpiMktGroupForm);
+        model.addAttribute("KPI_MKT_GROUP_FORM" , newForm);
+        model.addAttribute("userInfo", currentUser);
+        return MKT_KPI_EVALUATION_REPORT_PAGE;
     }
 
     @PostMapping(value = "/distributionPotential")

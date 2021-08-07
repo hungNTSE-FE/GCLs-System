@@ -74,7 +74,7 @@ public class PotentialController {
         List<Source> sources = sourceRepository.getAll();
         List<Level> levels = levelService.getAll();
         PotentialSearchForm searchForm = new PotentialSearchForm();
-        List<Potential> potentials = potentialService.getPotentialByMakerId(user.getEmployee().getId());
+        List<Potential> potentials = potentialService.getAllPotentials();
         List<MarketingGroup> marketingGroups = marketingGroupService.getAllMktByStatus();
         CustomerDistributionForm customerDistributionForm = new CustomerDistributionForm();
 
@@ -168,7 +168,7 @@ public class PotentialController {
         CustomerDistributionForm customerDistributionForm = new CustomerDistributionForm();
         List<Source> sources = sourceRepository.getAll();
         List<Level> levels = levelService.getAll();
-        List<Potential> potentials = potentialService.search(searchForm, currentUser);
+        List<Potential> potentials = potentialService.search(searchForm);
         model.addAttribute("userInfo", currentUser);
         model.addAttribute("sources", sources);
         model.addAttribute("levels", levels);

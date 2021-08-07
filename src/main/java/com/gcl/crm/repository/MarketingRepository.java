@@ -1,5 +1,6 @@
 package com.gcl.crm.repository;
 
+import com.gcl.crm.dto.KPIMktGroup;
 import com.gcl.crm.entity.TMP_KPI_EMPLOYEE;
 import com.gcl.crm.form.CustomerStatusForm;
 import com.gcl.crm.form.CustomerStatusEvaluationForm;
@@ -102,7 +103,7 @@ public class MarketingRepository {
         return query.getResultList();
     }
 
-    public List<TMP_KPI_EMPLOYEE> getKPIEmployeeReport(String fromDate, String toDate) {
+    public List<KPIMktGroup> getKPIMktGroup(String fromDate, String toDate) {
         StoredProcedureQuery storedProcedureQuery = entityManager.createStoredProcedureQuery("PROC_KPI_EVALUATION");
         storedProcedureQuery.registerStoredProcedureParameter("START_DATE", String.class, ParameterMode.IN);
         storedProcedureQuery.registerStoredProcedureParameter("END_DATE", String.class, ParameterMode.IN);
@@ -111,14 +112,16 @@ public class MarketingRepository {
         storedProcedureQuery.execute();
 
         String sql = "select\n" +
-                    "EMPLOYEE_ID\n" +
-                    ", EMPLOYEE_NAME\n" +
-                    ", SUM_CUS_DATA\n" +
+                    "MKT_GROUP_ID\n" +
+                    ", MKT_GROUP_NAME\n" +
+                    ", SUM_POT_DATA\n" +
                     ", SUM_LOT\n" +
                     ", KPI\n" +
+                    ", NUM_LEVEL_6\n" +
+                    ", NUM_LEVEL_7\n" +
                     "FROM tmp_kpi_employee\n" +
                     "ORDER BY KPI desc";
-        Query query = entityManager.createNativeQuery(sql, TMP_KPI_EMPLOYEE.class);
+        Query query = entityManager.createNativeQuery(sql, "employeeKPIEvaluation");
         return query.getResultList();
     }
 

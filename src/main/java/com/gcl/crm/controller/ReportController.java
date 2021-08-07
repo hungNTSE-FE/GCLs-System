@@ -3,6 +3,7 @@ package com.gcl.crm.controller;
 import com.gcl.crm.entity.User;
 import com.gcl.crm.form.CustomerStatusForm;
 import com.gcl.crm.form.CustomerStatusReportForm;
+import com.gcl.crm.form.KPIMktGroupForm;
 import com.gcl.crm.form.SourceEvaluationForm;
 import com.gcl.crm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class ReportController {
         User currentUser = userService.getUserByUsername(principal.getName());
         model.addAttribute("userName", principal.getName());
         model.addAttribute("userInfo", currentUser);
+        model.addAttribute("KPI_MKT_GROUP_FORM" , new KPIMktGroupForm());
         return AGENCY_PAGE;
     }
 

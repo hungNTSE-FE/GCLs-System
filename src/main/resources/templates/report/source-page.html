@@ -30,11 +30,9 @@
         >
           <div class="me-4 mb-3 mb-sm-0">
             <h1 class="mb-0">Báo cáo đánh giá nguồn</h1>
-            <div class="small">
-              <span class="fw-600">Từ ngày</span>
-              <span class="text-danger">17/10/2020</span>
-              <span class="fw-600">Đến</span>
-              <span class="text-danger">02/04/2021</span>
+            <div class="small" th:if="${sourceEvaluationForm.dateRange}">
+              <span class="fw-600">Khoảng thời gian: </span>
+              <span class="text-danger" th:text="${sourceEvaluationForm.dateRange}"></span>
             </div>
           </div>
           <form method="post" th:action="@{/marketing/getSourceEvaluation}" th:object="${sourceEvaluationForm}">
@@ -64,33 +62,33 @@
         </div>
 
         <div class="row">
-          <div class="col-xl-4 mb-4">
-            <div class="card card-header-actions h-100">
-              <div class="card-header">
-                Thông tin chi tiết
-              </div>
-              <div class="card-body">
-                <div class="row mb-3">
-                  <div class="col-md-4">
-                    <label class="text-sm fw-600">Tên: </label>
-                  </div>
-                  <div class="col-md-8">
-                    <label class="text-sm">Đánh giá nguồn</label>
-                  </div>
-                </div>
+<!--          <div class="col-xl-4 mb-4">-->
+<!--            <div class="card card-header-actions h-100">-->
+<!--              <div class="card-header">-->
+<!--                Thông tin chi tiết-->
+<!--              </div>-->
+<!--              <div class="card-body">-->
+<!--                <div class="row mb-3">-->
+<!--                  <div class="col-md-4">-->
+<!--                    <label class="text-sm fw-600">Tên: </label>-->
+<!--                  </div>-->
+<!--                  <div class="col-md-8">-->
+<!--                    <label class="text-sm">Đánh giá nguồn</label>-->
+<!--                  </div>-->
+<!--                </div>-->
 
-                <div class="row mb-2">
-                  <div class="text-sm col-md-4">
-                    <label class="fw-600">Ngày cập nhật: </label>
-                  </div>
-                  <div class="col-md-8">
-                    <label class="text-sm">Jul 07, 2020</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-8 mb-4">
+<!--                <div class="row mb-2">-->
+<!--                  <div class="text-sm col-md-4">-->
+<!--                    <label class="fw-600">Ngày cập nhật: </label>-->
+<!--                  </div>-->
+<!--                  <div class="col-md-8">-->
+<!--                    <label class="text-sm">Jul 07, 2020</label>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+          <div class="col-xl-12 mb-4">
             <div class="card">
               <div class="card-header">
                 <ul

@@ -80,6 +80,7 @@ public class PermissionController {
         if (roleId == null){
             return "redirect:/permission/home";
         }
+        User currentUser = userService.getUserByUsername(principal.getName());
         List<Employee> employees = employeeService.getAllWorkingEmployeesWithUserNotNull();
         Role role = roleService.getRoleById(roleId);
         List<Long> employeesOfRole = new ArrayList<>();
@@ -90,6 +91,7 @@ public class PermissionController {
         model.addAttribute("employees", employees);
         model.addAttribute("role", role);
         model.addAttribute("userName", principal.getName());
+        model.addAttribute("userInfo", currentUser);
         return DECENENTRALIZE_PAGE;
     }
 
@@ -129,7 +131,8 @@ public class PermissionController {
     }
 
     @PostMapping({"/delete"})
-    public String delete(RedirectAttributes redirectAttributes, @Nullable @RequestParam("role-id") Long roleId, Principal principal){
+    public String delete(RedirectAttributes redirectAttributes, @Nullable @RequestParam("role-id") Long roleId,
+                         Principal principal){
         if (roleId == null){
             return "redirect:/permission/home";
         }
@@ -144,7 +147,8 @@ public class PermissionController {
     }
 
     @PostMapping({"/decentralize"})
-    public String decentralize(RedirectAttributes redirectAttributes,  @Nullable @RequestParam("role-id") Long roleId,
+    public String decentralize(RedirectAttributes redirectAttributes,
+                               @Nullable @RequestParam("role-id") Long roleId,
                                @Nullable @RequestParam("user-id") List<Long> userIdList,
                                Principal principal){
         if (roleId == null){
