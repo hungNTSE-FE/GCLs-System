@@ -51,43 +51,24 @@
                         placeholder="Select date range..."
                 />
               </div>
-              <button class="btn btn-outline-primary">
+              <button class="btn btn-outline-primary me-2">
                 <div class="nav-link-icon">
                   <i class="fas fa-search me-1"></i>
                 </div>
                 Tra cứu
+              </button>
+              <!--Button Export Excel-->
+              <button class="btn btn-primary" id="export-csv">
+                <div class="nav-link-icon me-1">
+                  <i class="fas fa-file-export"></i>
+                </div>
+                Export
               </button>
             </div>
           </form>
         </div>
 
         <div class="row">
-<!--          <div class="col-xl-4 mb-4">-->
-<!--            <div class="card card-header-actions h-100">-->
-<!--              <div class="card-header">-->
-<!--                Thông tin chi tiết-->
-<!--              </div>-->
-<!--              <div class="card-body">-->
-<!--                <div class="row mb-3">-->
-<!--                  <div class="col-md-4">-->
-<!--                    <label class="text-sm fw-600">Tên: </label>-->
-<!--                  </div>-->
-<!--                  <div class="col-md-8">-->
-<!--                    <label class="text-sm">Đánh giá nguồn</label>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                <div class="row mb-2">-->
-<!--                  <div class="text-sm col-md-4">-->
-<!--                    <label class="fw-600">Ngày cập nhật: </label>-->
-<!--                  </div>-->
-<!--                  <div class="col-md-8">-->
-<!--                    <label class="text-sm">Jul 07, 2020</label>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
           <div class="col-xl-12 mb-4">
             <div class="card">
               <div class="card-header">
@@ -135,26 +116,21 @@
                       <tr class="table-primary fw-600">
                         <th>Nguồn</th>
                         <th>Số lượng</th>
-                        <th>Tỷ trọng</th>
+                        <th>Tỷ trọng (%)</th>
                       </tr>
                       </thead>
                       <tbody>
                       <tr th:each="sourceForm : ${sourceEvaluationForm.sourceEvaluationDtoList}">
                         <td th:text="${sourceForm.sourceName}"></td>
                         <td th:text="${sourceForm.numOfPotential}"></td>
-                        <td th:text="${sourceForm.sourcePercent + '%'}"></td>
+                        <td th:text="${sourceForm.sourcePercent}"></td>
                       </tr>
                       <tr class="table-primary fw-600">
                         <th>Tổng</th>
                         <td th:text="${sourceEvaluationForm.total != null ? sourceEvaluationForm.total : '0'}"></td>
-                        <td th:text="${sourceEvaluationForm.total != null ? '100%' : '0%'}"></td>
+                        <td th:text="${sourceEvaluationForm.total != null ? '100' : '0'}"></td>
                       </tr>
                       </tbody>
-                      <tfoot>
-                      <th>Tổng</th>
-                      <td th:text="${sourceEvaluationForm.total}"></td>
-                      <th>100,0%</th>
-                      </tfoot>
                     </table>
                   </div>
                   <div
@@ -190,6 +166,13 @@
 <script th:src="@{/js/litepicker.js}"></script>
 <script th:src="@{/js/mainTH.js}"></script>
 <script th:src="@{/js/datatables/datatables-custom.js}"></script>
-<script type="text/javascript" th:src="@{/assets/demo/chart-bar-source.js}"></script>
+<script th:src="@{/js/export/main.js}"></script>
+<script th:src="@{/assets/demo/chart-bar-source.js}"></script>
+<script th:inline="javascript">
+  document.getElementById("export-csv").addEventListener("click", function () {
+    var table2excel = new Table2Excel();
+    table2excel.export(document.querySelectorAll("#datatablesReportSource"));
+  });
+</script>
 </body>
 </html>

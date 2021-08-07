@@ -52,6 +52,14 @@
                 </div>
                 Tra cứu
               </button>
+              <!--Button Export Excel-->
+              <button class="btn btn-primary me-2" onclick="tablesToExcel(['dataTableReportSummaryCustomerManagement' , 'dataTableReportSummarySalesAndMKT', 'dataTablesReportSummarize3'],
+              ['Tổng kết 1', 'Tổng kết 2', 'Tổng kết 3'], 'export.xls', 'Excel')">
+                <div class="nav-link-icon me-1">
+                  <i class="fas fa-file-export"></i>
+                </div>
+                Export
+              </button>
             </div>
           </form>
         </div>
@@ -180,5 +188,6 @@
 <script th:src="@{/js/litepicker.js}"></script>
 <script th:src="@{/js/mainTH.js}"></script>
 <script th:src="@{/js/datatables/datatables-custom.js}"></script>
+<script th:src="@{/js/export/multitable/main.js}"></script>
 </body>
 </html>

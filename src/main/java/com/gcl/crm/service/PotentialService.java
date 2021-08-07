@@ -183,18 +183,15 @@ public class PotentialService {
         return potentials;
     }
 
-    public List<Potential> search(PotentialSearchForm searchForm, User currentUser){
+    public List<Potential> search(PotentialSearchForm searchForm){
         Level level = null;
         if (searchForm.getLevel() != null){
             level = levelService.getLevelById(searchForm.getLevel());
         }
-        System.out.println(searchForm.getPotentialRating());
-        System.out.println(searchForm.getNextBirthdate());
         Source source = sourceService.getSourceByName(searchForm.getSource());
         List<Potential> potentials = potentialRepository
-                .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndStatusAndMaker
-                        (searchForm.getName(), searchForm.getPhone(), searchForm.getEmail(),
-                                Status.ACTIVE, currentUser.getEmployee().getId());
+                .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndStatus
+                        (searchForm.getName(), searchForm.getPhone(), searchForm.getEmail(), Status.ACTIVE);
         if (searchForm.getTime() ==  null || searchForm.getTime().isEmpty()) {
             return potentials;
         }
@@ -211,8 +208,6 @@ public class PotentialService {
         List<Potential> result = new ArrayList<>();
         for (int i = 0; i < potentials.size(); i++) {
             Potential potential = potentials.get(i);
-
-
             boolean flag = true;
             Date date = null;
             try {
