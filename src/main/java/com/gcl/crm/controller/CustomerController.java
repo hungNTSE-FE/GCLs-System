@@ -60,9 +60,10 @@ public class CustomerController {
     EmployeeService employeeService;
 
     @GetMapping({"/manageCustomer"})
-    public  String viewCustomer(Model model){
+    public  String viewCustomer(Model model, Principal principal){
+        User user = userService.getUserByUsername(principal.getName());
         model.addAttribute("listCustomers",customerProcessService.getAllCustomer());
-
+        model.addAttribute("userInfo", user);
         return "customer/view-customer-page";
     }
     @GetMapping({"/managePotentialCustomer"})
