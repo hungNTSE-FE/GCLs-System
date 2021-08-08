@@ -14,18 +14,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.mail.MessagingException;
+import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.TreeMap;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.web.bind.annotation.RequestMapping;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 @Controller
 @RequestMapping("/potential")
@@ -61,6 +67,9 @@ public class PotentialController {
 
     @Autowired
     MarketingGroupService marketingGroupService;
+
+    @Autowired
+    public JavaMailSender emailSender;
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String goHomePage(Model model, Principal principal) {
@@ -415,4 +424,35 @@ public class PotentialController {
         return "/potential/sale/detail-potential-takecare-page";
     }
     //END SALE
+
+    @RequestMapping(value = "/detail/sendEmail", method = RequestMethod.POST)
+    public String sendEmail(RedirectAttributes redirectAttributes,
+                            @Nullable @RequestParam("id") String id,
+                            @Nullable @RequestParam("emailForCustomer") String email,
+                            @Nullable @RequestParam("description") String description,
+                            @Nullable @RequestParam("subject") String subject) throws MessagingException {
+        MimeMessage message = emailSender.createMimeMessage();
+
+        boolean multipart = true;
+        if (email == null) {
+
+        }
+        MimeMessageHelper helper = new MimeMessageHelper(message, multipart);
+
+        helper.setTo(email);
+        helper.setSubject(subject);
+        helper.setText(description);
+
+//        // Attachment 1
+//        FileSystemResource file1 = new FileSystemResource(new File(path1));
+//        helper.addAttachment("File1", file1);
+//
+//        // Attachment 2
+//        FileSystemResource file2 = new FileSystemResource(new File(path2));
+//        helper.addAttachment("Readme", file2);
+
+        emailSender.send(message);
+
+        return "redirect:/potential/detail/" + id;
+    }
 }

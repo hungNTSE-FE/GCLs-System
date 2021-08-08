@@ -11,7 +11,7 @@ import com.twilio.type.PhoneNumber;
 @Component
 public class SmsService {
     private final String ACCOUNT_SID = "ACafff2717e3385d802c79c856337c4339";
-    private final String AUTH_TOKEN = "104134761004a9619b19ca9d7ccc8819";
+    private final String AUTH_TOKEN = "c9f8d4d1d1e4fc5a2f729ac0353f02bb";
     private final String FROM_NUMBER = "+16303608942";
 
     public void send(SmsPojo sms) {
