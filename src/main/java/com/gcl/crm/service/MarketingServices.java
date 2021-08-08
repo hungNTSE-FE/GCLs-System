@@ -1,8 +1,6 @@
 package com.gcl.crm.service;
 
-import com.gcl.crm.dto.KPIMktGroup;
-import com.gcl.crm.dto.SelectItem;
-import com.gcl.crm.dto.SourceEvaluationDto;
+import com.gcl.crm.dto.*;
 import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.form.*;
@@ -12,11 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -165,4 +159,41 @@ public class MarketingServices {
         return potentialRepository2.getSourceEvaluation(dateRange[0].trim(), dateRange[1].trim());
     }
 
+    @Transactional
+    public MarketingSummaryReportForm getSummaryMKTReport(MarketingSummaryReportForm marketingSummaryReportForm) {
+        String[] dateRange = marketingSummaryReportForm.getDateRange().split("-");
+        int numTotalRegisteredMonth = 0;
+        int numTotalTopUpMonth = 0;
+        int numTotalLotMonth = 0;
+
+        MarketingSummaryReportForm newForm = new MarketingSummaryReportForm();
+        Map<String, SummaryMKTReport> summaryMKTGroupReport = new HashMap<>();
+        Map<String, SummaryMKTReport> summarySourceReport = new HashMap<>();
+        List<SummaryCustomerManagement> summaryCustomerManagementList = marketingRepository.getSummaryCustomerManagement(dateRange[0].trim(), dateRange[1].trim());
+
+        marketingRepository.createTempMKTKPITable(dateRange[0].trim(), dateRange[1].trim());
+        summaryMKTGroupReport.put("MAX_REGISTERED_ACC_MKT", marketingRepository.getMaxRegisteredAccountMKT());
+        summaryMKTGroupReport.put("MAX_TOP_UP_ACC_MKT", marketingRepository.getMaxTopUpAccountMKT());
+        summaryMKTGroupReport.put("MAX_LOT_MKT", marketingRepository.getMaxLOTMKT());
+
+        marketingRepository.createTempSourceKPI(dateRange[0].trim(), dateRange[1].trim());
+        summarySourceReport.put("MAX_REGISTERED_ACC_SOURCE", marketingRepository.getMaxRegisteredAccountSource());
+        summarySourceReport.put("MAX_TOP_UP_ACC_SOURCE", marketingRepository.getMaxTopUpAccountSource());
+        summarySourceReport.put("MAX_LOT_SOURCE", marketingRepository.getMaxLOTSource());
+
+        for(SummaryCustomerManagement summaryCustomer : summaryCustomerManagementList) {
+            numTotalRegisteredMonth += summaryCustomer.getNumRegisteredAcc();
+            numTotalTopUpMonth += summaryCustomer.getNumTopUpAcc();
+            numTotalLotMonth += summaryCustomer.getNumLot();
+        }
+
+        newForm.setDateRange(marketingSummaryReportForm.getDateRange());
+        newForm.setNumTotalRegisteredMonth(numTotalRegisteredMonth);
+        newForm.setNumTotalTopUpMonth(numTotalTopUpMonth);
+        newForm.setNumTotalLotMonth(numTotalLotMonth);
+        newForm.setSummaryMKTGroupReport(summaryMKTGroupReport);
+        newForm.setSummarySourceReport(summarySourceReport);
+        newForm.setSummaryCustomerManagementList(summaryCustomerManagementList);
+        return newForm;
+    }
 }
