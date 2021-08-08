@@ -33,6 +33,9 @@ public class Employee {
     @JoinColumn(name = "identity_number", referencedColumnName = "identity_number")
     private Identification identification;
 
+    @Column(name = "employee_code")
+    private String codename;
+
     @Column(name = "full_name")
     private String name;
 

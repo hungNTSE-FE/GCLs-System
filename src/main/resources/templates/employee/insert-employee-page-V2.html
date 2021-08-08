@@ -85,7 +85,7 @@
                         Tên đăng nhập
                         <span class="text-danger">*</span>
                       </label>
-                      <input th:field="*{username}"
+                      <input th:field="*{username}" pattern="[0-9A-Za-z]*"
                               class="form-control"
                               id="input-username"
                               type="text"
@@ -97,7 +97,7 @@
                     <!-- Form Group (last name)-->
                     <div class="col-md-6 field description">
                       <label class="small mb-1">Mã số cá nhân  <span class="text-danger">*</span></label>
-                      <input  th:field="*{employeeCode}"
+                      <input  th:field="*{employeeCode}" pattern="GCL[0-9]{4}"
                               class="form-control"
                               type="text"
                               placeholder="Nhập mã số"
@@ -182,7 +182,7 @@
                   <div class="row gx-3 mb-2">
                     <div class="col-md-6 field description">
                       <label class="small mb-1">Chức vụ <span class="text-danger">*</span></label>
-                      <select class="form-select" id="selectPosition" name="position">
+                      <select class="form-select" id="selectPosition" th:field="*{positionId}">
                         <option value="">Lựa chọn</option>
                         <option th:each="position : ${positions}" th:text="${position.name}"
                                 th:value="${position.id}" ></option>
@@ -190,7 +190,7 @@
                     </div>
                     <div class="col-md-6 field description">
                       <label class="small mb-1">Phòng ban <span class="text-danger">*</span></label>
-                      <select class="form-select" id="selectDepartment" name="department">
+                      <select th:field="*{departmentId}" class="form-select" id="selectDepartment" name="department">
                         <option value="">Lựa chọn</option>
                         <option th:each="department : ${departments}" th:text="${department.name}"
                                 th:value="${department.id}"></option>

@@ -135,6 +135,9 @@
                             <a class="text-danger" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                               <i class="far fa-trash-alt"></i>
                             </a>
+                            <form action="/employee/delete" method="POST" id="delete-form">
+                              <input type="hidden" name="eid" th:value="${employee.id}" />
+                            </form>
                           </div>
                         </td>
                       </tr>
@@ -156,6 +159,7 @@
             <h5 class="modal-title" id="exampleModalCenterTitle">Bạn có chắc chắn muốn khóa tài khoản này?</h5>
             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
+
           <div class="modal-footer">
             <button class="btn btn-primary" type="submit" form="delete-form" >
               Đồng ý
@@ -165,6 +169,7 @@
               Huỷ bỏ
             </button>
           </div>
+
         </div>
       </div>
     </div>

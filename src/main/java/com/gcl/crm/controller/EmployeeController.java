@@ -28,6 +28,7 @@ public class EmployeeController {
     private static final String EDIT_EMP_PAGE = "employee/edit-employee-page-V2";
     private static final String HOME_GROUP_PAGE = "employee/group-employee-page-V2";
     private static final String UPDATE_GROUP_PAGE = "employee/edit-group-employee-page-V2";
+    private static final String HOME_EMP_PAGE_V2 = "employee/home-employee-page-V2";
 
     @Autowired
     EmployeeService employeeService;
@@ -190,8 +191,6 @@ public class EmployeeController {
 
     @PostMapping({"/create"})
     public String create(Model model, @Nullable @ModelAttribute("employeeForm") CreateEmployeeForm employeeForm,
-                         @Nullable @RequestParam("position") Long pid,
-                         @Nullable @RequestParam("department") Long did,
                          @RequestParam("profile-img") MultipartFile avatar,
                          RedirectAttributes redirectAttributes,
                          Principal principal){
@@ -209,12 +208,15 @@ public class EmployeeController {
             error = true;
         }
         if (error) {
+            User currentUser = userService.getUserByUsername(principal.getName());
             List<Department> departments = departmentService.findAllDepartments();
             List<Position> positions = positionService.findAllPositions();
             model.addAttribute("employeeForm", employeeForm);
             model.addAttribute("departments", departments);
             model.addAttribute("positions", positions);
-            return "employee/home-page";
+            model.addAttribute("userName", principal.getName());
+            model.addAttribute("userInfo", currentUser);
+            return INSERT_EMP_PAGE;
         }
         User currentUser = userService.getUserByUsername(principal.getName());
         boolean done = employeeService.createEmployee(employeeForm, currentUser, avatar);
@@ -268,7 +270,7 @@ public class EmployeeController {
             error = true;
         }
         if (error) {
-            return "redirect:/employee/home";
+            return "redirect:/employee/edit?eid=" + employeeForm.getEmployeeId();
         }
         boolean done = employeeService.updateEmployee(employeeForm, avatar);
         if (done){

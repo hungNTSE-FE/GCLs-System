@@ -80,6 +80,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         Employee employee = new Employee();
         employee.setDepartment(department);
         employee.setPosition(position);
+        employee.setCodename(employeeForm.getEmployeeCode());
         employee.setCompanyEmail(employeeForm.getEmail());
         employee.setPhone(employeeForm.getPhone());
         employee.setNote(employeeForm.getNote());
@@ -103,7 +104,9 @@ public class EmployeeServiceImpl implements EmployeeService{
         //
         employee.setUser(user);
         employee = employeeRepository.save(employee);
-        this.saveAvatar(avatar, employee);
+        if (avatar != null && !avatar.isEmpty()){
+            this.saveAvatar(avatar, employee);
+        }
         return employee != null;
     }
 
@@ -142,7 +145,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         employee.setCompanyEmail(employeeForm.getEmail());
         employee.setUser(user);
         employee = employeeRepository.save(employee);
-        if (avatar != null){
+        if (avatar != null && !avatar.isEmpty()){
             this.saveAvatar(avatar, employee);
         }
         return true;

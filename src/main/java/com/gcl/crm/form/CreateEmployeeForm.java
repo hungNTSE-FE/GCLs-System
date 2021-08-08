@@ -44,5 +44,6 @@ public class CreateEmployeeForm {
         this.birthDate = employee.getBirthDate();
         this.email = employee.getCompanyEmail();
         this.avatar = employee.getAvatar();
+        this.employeeCode = employee.getCodename();
     }
 }
