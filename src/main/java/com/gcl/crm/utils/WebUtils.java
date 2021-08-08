@@ -39,7 +39,7 @@ public class WebUtils {
         return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(dtf.format(now));
     }
 
-    public static String generateRandomPassword(int length) {
+    public static String generateRandomString(int length) {
         String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
                 "0123456789" +
                 "abcdefghijklmnopqrstuvxyz";
