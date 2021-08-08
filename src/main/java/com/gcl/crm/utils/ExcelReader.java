@@ -31,6 +31,9 @@ public class ExcelReader {
     public static final int COLUMN_INDEX_INSERT_DATE = 26;
     public static final int COLUMN_INDEX_MONEY = 22 ;
     public static final int COLUMN_INDEX_BROKER_CODE = 3 ;
+    public static final int COLUMN_ACCOUNT_NUMBER = 1 ;
+    public static final int COLUMN_BALANCE = 7 ;
+
 
 
 
@@ -212,6 +215,58 @@ public class ExcelReader {
 
         System.out.println(transactionData.get(transactionData.size()-1).getTransactionID());
         return transactionData;
+    }
+
+    public List<TradingAccount> getTradingAccountsBalance(InputStream stream, String filename) throws IOException, IllegalStateException {
+        List<TradingAccount> accountData = new ArrayList<>();
+        Workbook workbook = this.getWorkbook(stream, filename);
+        if (workbook == null) throw new IllegalStateException("Tập tin đã chọn không đúng định dạng");
+        Sheet sheet = workbook.getSheetAt(0);
+        Iterator<Row> rowIterator = sheet.rowIterator();
+        while (rowIterator.hasNext()) {
+            Row row = rowIterator.next();
+            if (row.getRowNum() < 1) {
+                continue;
+            }
+            if (row.getLastCellNum() != 20){
+                continue;
+            }
+            Iterator<Cell> cellIterator = row.cellIterator();
+            TradingAccount item = new TradingAccount();
+            while (cellIterator.hasNext()) {
+                Cell cell = cellIterator.next();
+                Object cellValue = this.getCellValue(cell);
+                if (cellValue == null) {
+                    continue;
+                }
+                int columnIndex = cell.getColumnIndex();
+                System.out.println("index " + columnIndex);
+                System.out.println("value " + cellValue);
+
+                switch (columnIndex) {
+
+                    case COLUMN_ACCOUNT_NUMBER:
+                        String account_number = cellValue.toString();
+                        item.setAccountNumber(account_number);
+                        break;
+                    case COLUMN_BALANCE:
+                        String account_balance = cellValue.toString();
+                        item.setBalance(Double.parseDouble(account_balance));
+                        break;
+
+
+                    default:
+                        break;
+                }
+            }
+            if(item.getAccountNumber() != null){
+                accountData.add(item);
+            }
+
+        }
+
+
+        return accountData;
     }
 
     private Object getCellValue(Cell cell) {

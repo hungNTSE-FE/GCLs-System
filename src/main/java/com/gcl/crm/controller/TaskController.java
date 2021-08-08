@@ -7,9 +7,7 @@ import com.gcl.crm.entity.Task;
 import com.gcl.crm.entity.User;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.form.EmployeeSearchForm;
-import com.gcl.crm.form.PotentialSearchForm;
 import com.gcl.crm.service.*;
-import com.gcl.crm.utils.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,13 +35,19 @@ public class TaskController {
     private UserService userService;
     @Autowired
     private PotentialService potentialService;
+    private static final String DASHBOARD_PAGE = "/task/task-home";
+    private static final String EMPLOYEE_TASK_PAGE = "/task/view-employee-task";
+    private static final String CREATE_TASK_PAGE = "/task/create-task-page";
+    private static final String UPDATE_TASK_PAGE = "/task/update-task-page";
+    private static final String EMPLOYEE_DETAIL_TASK_PAGE = "/task/view-detail-employee-task";
+
     @GetMapping({"/viewAllTask"})
     public  String viewTaskPage(Model model, Principal principal){
         User currentUser = userService.getUserByUsername(principal.getName());
-        model.addAttribute("listTasks",taskService.getAllTask());
-        model.addAttribute("userInfo", currentUser);
 
-        return "task/task-home";
+        model.addAttribute("userInfo", currentUser);
+        model.addAttribute("listTasks",taskService.getAllTask());
+        return DASHBOARD_PAGE;
     }
     @GetMapping({"/viewEmployeeTask"})
     public  String viewEmployeeTaskPage(Model model, Principal principal){
@@ -53,7 +57,7 @@ public class TaskController {
         model.addAttribute("listTasks",employee.getTasks());
         model.addAttribute("userInfo", currentUser);
 
-        return "task/view-employee-task";
+        return EMPLOYEE_TASK_PAGE;
     }
 
 
@@ -62,15 +66,10 @@ public class TaskController {
         User currentUser = userService.getUserByUsername(principal.getName());
         Task task = new Task();
         model.addAttribute("task",task);
-
-        List<Employee> employees  = departmentService.findDepartmentById("1").getEmployees();
         List<Department> departments = departmentService.findAllDepartments();
-
-
         model.addAttribute("departments", departments);
-        model.addAttribute("employees",employees);
         model.addAttribute("userInfo", currentUser);
-        return "task/create-task-page";
+        return CREATE_TASK_PAGE;
     }
     @PostMapping(value = "/getEmployeeByDepartmentId")
     public ResponseEntity<List<EmployeeSearchForm>> getEmployeeByDepartmentId(@RequestBody String id) throws JsonProcessingException {
@@ -85,6 +84,9 @@ public class TaskController {
 
     @PostMapping({"/saveTask"})
     public String saveTask(@ModelAttribute("task") Task task) throws ParseException {
+        if(task == null){
+            return "redirect:/task/viewAllTask";
+        }
         task.setActive(Status.ACTIVE);
         task.setCreateDate(Date.valueOf(LocalDate.now()));
         task.setSubmitStatus("Đang tiến hành");
@@ -96,13 +98,19 @@ public class TaskController {
     }
     @PostMapping({"/updateTask"})
     public String updateTask(@ModelAttribute("task") Task task){
-        Task tmp = taskService.findTaskByID(task.getTask_id());
-        task.setActive(Status.ACTIVE);
-        task.setCreateDate((Date) tmp.getCreateDate());
-        task.setSubmitStatus(tmp.getSubmitStatus());
-        task.setDepartmentName(task.getEmployees().get(0).getDepartment().getName());
-        task.setUpdateDate(Date.valueOf(LocalDate.now()));
-        return "redirect:/task/viewAllTask";
+        if(task == null){
+            return "redirect:/task/viewAllTask";
+        }else {
+            Task tmp = taskService.findTaskByID(task.getTask_id());
+            task.setActive(Status.ACTIVE);
+            task.setCreateDate((Date) tmp.getCreateDate());
+            task.setSubmitStatus(tmp.getSubmitStatus());
+            task.setDepartmentName(task.getEmployees().get(0).getDepartment().getName());
+            task.setUpdateDate(Date.valueOf(LocalDate.now()));
+            taskService.createTask(task);
+            return "redirect:/task/viewAllTask";
+
+        }
 
 
     }
@@ -110,20 +118,28 @@ public class TaskController {
 
 
     @GetMapping({"/showUpdateTaskForm/{id}"})
-    public String showTaskUpdateForm(@PathVariable(name = "id") String id, Model model){
+    public String showTaskUpdateForm(@PathVariable(name = "id") String id, Model model,Principal principal){
         Task task = taskService.findTaskByID(Long.parseLong(id));
+        if(task == null){
+            return "redirect:/task/viewAllTask";
 
-        List<Employee> employeeList = new ArrayList<>();
-        long departmentID = task.getEmployees().get(0).getDepartment().getId();
-        List<Department> departments = departmentService.findDepartmentsByTask(departmentID,task.getEmployees());
-        List<Employee> employees = departments.get(0).getEmployees();
-        List<Employee> employees1 = task.getEmployees();
-        task.setEmployees(employeeList);
-        model.addAttribute("employeeHaveTask",employees1);
-        model.addAttribute("task",task);
-        model.addAttribute("employees",employees);
-        model.addAttribute("departments", departments);
-        return "task/update-task-page";
+        }else {
+            List<Employee> employeeList = new ArrayList<>();
+            long departmentID = task.getEmployees().get(0).getDepartment().getId();
+            List<Department> departments = departmentService.findDepartmentsByTask(departmentID,task.getEmployees());
+            List<Employee> employees = departments.get(0).getEmployees();
+            List<Employee> employees1 = task.getEmployees();
+            task.setEmployees(employeeList);
+            User currentUser = userService.getUserByUsername(principal.getName());
+
+            model.addAttribute("userInfo", currentUser);
+            model.addAttribute("employeeHaveTask",employees1);
+            model.addAttribute("task",task);
+            model.addAttribute("employees",employees);
+            model.addAttribute("departments", departments);
+            return UPDATE_TASK_PAGE;
+        }
+
     }
     @GetMapping({"/submitTask/{id}"})
     public String submitFinishTask(@PathVariable(name = "id") String id,Principal principal){
@@ -145,20 +161,28 @@ public class TaskController {
     }
 
     @GetMapping({"/showTaskDetail/{id}"})
-    public String showTaskDetail(@PathVariable(name = "id") String id, Model model){
+    public String showTaskDetail(@PathVariable(name = "id") String id, Model model,Principal principal){
         Task task = taskService.findTaskByID(Long.parseLong(id));
+        if(task == null){
+            return "redirect:/task/viewAllTask";
 
-        List<Employee> employeeList = new ArrayList<>();
-        long departmentID = task.getEmployees().get(0).getDepartment().getId();
-        List<Department> departments = departmentService.findDepartmentsByTask(departmentID,task.getEmployees());
-        List<Employee> employees = departments.get(0).getEmployees();
-        List<Employee> employees1 = task.getEmployees();
-        task.setEmployees(employeeList);
-        model.addAttribute("employeeHaveTask",employees1);
-        model.addAttribute("task",task);
-        model.addAttribute("employees",employees);
-        model.addAttribute("departments", departments);
-        return "task/view-detail-employee-task";
+        }else{
+            User currentUser = userService.getUserByUsername(principal.getName());
+            List<Employee> employeeList = new ArrayList<>();
+            long departmentID = task.getEmployees().get(0).getDepartment().getId();
+            List<Department> departments = departmentService.findDepartmentsByTask(departmentID,task.getEmployees());
+            List<Employee> employees = departments.get(0).getEmployees();
+            List<Employee> employees1 = task.getEmployees();
+            task.setEmployees(employeeList);
+            model.addAttribute("employeeHaveTask",employees1);
+            model.addAttribute("task",task);
+            model.addAttribute("employees",employees);
+            model.addAttribute("departments", departments);
+            model.addAttribute("userInfo", currentUser);
+
+            return EMPLOYEE_DETAIL_TASK_PAGE;
+        }
+
     }
 
     @GetMapping({"/deleteTask/{id}"})

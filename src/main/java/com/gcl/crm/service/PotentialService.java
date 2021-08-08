@@ -19,6 +19,9 @@ import java.util.stream.Collectors;
 @Service
 public class PotentialService {
 
+    private static final long ONE_WEEK_MS = 1 * 7 * 24 * 60 * 60 * 1000;
+    private static final long ONE_MONTH_MS = 1 * 30 * 24 * 60 * 60 * 1000;
+
     @Autowired
     DiaryService diaryService;
 

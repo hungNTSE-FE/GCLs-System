@@ -176,4 +176,29 @@ if (document.getElementById("datatablesStatisticPotential") != null) {
         },
     });
 
+} else if (document.getElementById("datatablesTradingAccount") != null) {
+    const datatablesReportAgency = new simpleDatatables.DataTable("#datatablesTradingAccount", {
+        searchable: true,
+        fixedHeight: true,
+        labels: {
+            info: "",
+        },
+    });
+
+    const datatables2 = new simpleDatatables.DataTable("#datatables2", {
+        searchable: true,
+        fixedHeight: true,
+        labels: {
+            info: "",
+        },
+    });
+} else if (document.getElementById("datatablesTradingAccountBalance") != null) {
+    const datatablesReportAgency = new simpleDatatables.DataTable("#datatablesTradingAccount", {
+        searchable: true,
+        fixedHeight: true,
+        perPageSelect: false,
+        labels: {
+            info: "",
+        },
+    });
 }

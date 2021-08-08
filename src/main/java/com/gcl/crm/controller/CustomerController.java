@@ -60,9 +60,11 @@ public class CustomerController {
     EmployeeService employeeService;
 
     @GetMapping({"/manageCustomer"})
-    public  String viewCustomer(Model model){
+    public  String viewCustomer(Model model, Principal principal){
+        User user = userService.getUserByUsername(principal.getName());
         model.addAttribute("listCustomers",customerProcessService.getAllCustomer());
-
+        model.addAttribute("userName", principal.getName());
+        model.addAttribute("userInfo", user);
         return "customer/view-customer-page";
     }
     @GetMapping({"/managePotentialCustomer"})
@@ -106,6 +108,7 @@ public class CustomerController {
         model.addAttribute("userInfo", user);
         return ADD_CUSTOMER_PAGE;
     }
+
     @PostMapping({"/updateCustomer"})
     public String updateCustomer(@ModelAttribute("customer") Customer customer,    @RequestParam(required=false,value="bankName") String bankName,@RequestParam(required=false,value="bankNumber") String bankNumber,
                                  @RequestParam(required = false,value="gender") String gender,

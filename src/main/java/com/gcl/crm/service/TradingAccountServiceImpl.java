@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class TradingAccountServiceImpl implements TradingAccountService{
 
@@ -36,25 +38,25 @@ public class TradingAccountServiceImpl implements TradingAccountService{
     }
 
     @Override
-    public TradingAccount findTradingAccountByID(String id) {
-        List<TradingAccount> tradingAccountList =tradingAccountRepository.findAll();
-        for(int i = 0 ; i <tradingAccountList.size();i++){
-            if(tradingAccountList.get(i).getAccountNumber().equals("id")){
-                return tradingAccountList.get(i);
-            }
-        }
-        return null ;
-    }
-
-    @Override
-    public void exportTradingAccountByMonth(List<TradingAccount> tradingAccountList) {
-
-    }
-
-    @Override
     public List<TradingAccount> findAll() {
         return tradingAccountRepository.findAll();
     }
+
+    @Override
+    public List<TradingAccount> findAccountStopDeal() {
+        return tradingAccountRepository.findAllByBalance(5000000,0);
+    }
+
+    @Override
+    public void updateAccountBalance(String accountNumber, double balance) {
+    Optional<TradingAccount> tradingAccount = tradingAccountRepository.findById(accountNumber);
+
+    if(tradingAccount.isPresent()){
+        tradingAccount.get().setBalance(balance);
+        tradingAccountRepository.save(tradingAccount.get());
+    }
+    }
+
 
     @Override
     public List<TradingAccount> findTradingAccountByMonthAndStatus(String month,String status) {
@@ -86,4 +88,5 @@ public class TradingAccountServiceImpl implements TradingAccountService{
 
         return result;
     }
+
 }
