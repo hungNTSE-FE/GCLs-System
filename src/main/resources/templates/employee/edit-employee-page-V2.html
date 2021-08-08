@@ -60,7 +60,7 @@
                                 <!-- Profile picture image-->
                                 <img
                                         class="img-account-profile rounded-circle mb-2"
-                                        th:src="@{/{path}(path=${employeeForm.avatar})}"
+                                        th:src="@{/{path}(path=${employeeForm.avatar.endsWith('/') ? 'assets/img/illustrations/profiles/profile-1.png' : employeeForm.avatar})}"
                                         alt="" id="profileImg"
                                 />
                                 <!-- Profile picture help block-->
