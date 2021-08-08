@@ -28,16 +28,21 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 
 // Bar Chart Example
 var ctx = document.getElementById("myBarChart");
+var sourceDataLableList = $('#sourceDataLable').val().split(',');
+var sourceData = [];
+$.each(sourceDataLableList, function(){
+    sourceData.push(Number(this));
+})
 var myBarChart = new Chart(ctx, {
     type: "bar",
     data: {
-        labels: ["Subiz", "Youtube", "Facebook", "Webiste", "Dien dan", "Email"],
+        labels: $('#sourceNameLable').val().split(','),
         datasets: [{
             label: "Revenue",
             backgroundColor: "rgba(0, 97, 242, 1)",
             hoverBackgroundColor: "rgba(0, 97, 242, 0.9)",
             borderColor: "#4e73df",
-            data: [4215, 5312, 6251, 7841, 9821, 14984],
+            data: sourceData,
             maxBarThickness: 25
         }]
     },
@@ -67,7 +72,7 @@ var myBarChart = new Chart(ctx, {
             yAxes: [{
                 ticks: {
                     min: 0,
-                    max: 15000,
+                    max: Math.max(...sourceData),
                     maxTicksLimit: 5,
                     padding: 10,
                     callback: function(value, index, values) {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/marketing")
@@ -78,6 +79,18 @@ public class MarketingController {
         model.addAttribute("sourceEvaluationFormJSON", new Gson().toJson(sourceEvaluationForm));
         model.addAttribute("userInfo", currentUser);
         model.addAttribute("sourceEvaluationForm", sourceEvaluationForm);
+        String sourceLabel = sourceEvaluationForm.getSourceEvaluationDtoList()
+                                                .stream()
+                                                .map(source -> source.getSourceName())
+                                                .collect(Collectors.toList())
+                                                .toString().replace("[", "").replace("]", "");
+        String sourceData = sourceEvaluationForm.getSourceEvaluationDtoList()
+                            .stream()
+                            .map(SourceEvaluationDto::getNumOfPotential)
+                            .collect(Collectors.toList())
+                            .toString().replace("[", "").replace("]", "");
+        model.addAttribute("sourceLabel", sourceLabel);
+        model.addAttribute("sourceData", sourceData);
         return "report/source-page.html";
     }
 
