@@ -11,38 +11,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"/>
   <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
-  <style>
-    .user-info {
-      transform: translateX(0px);
-      right: 0 !important;
-      left: auto;
-      flex: 0 0 auto;
-      right: auto;
-      z-index: 1000 !important;
-      align-self: auto !important;
-      overflow: hidden;
-      position: fixed;
-      width: 0;
-      margin: 0;
-      padding: 0;
-      border: 0;
-      font-size: 100%;
-      height: 100%;
-      vertical-align: baseline;
-      outline: none;
-      background-color: #fff;
-    }
-    .user-info-in {
-      background-color: #fff;
-      width: 0;
-      top: 0;
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      right: 0;
-    }
-  </style>
 </head>
 <body class="nav-fixed">
 <th:block th:include="/common/nav-fixed.html"></th:block>
@@ -97,11 +65,10 @@
           <div class="card-header">
             Hiển Thị Phòng Ban
             <div>
-              <button class="btn btn-primary clickshowinfo" data-id="100">
+              <button class="btn btn-primary" data-id="100" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
                 Thêm mới
               </button>
               <button form="go-update-form" class="btn btn-outline-dark" type="submit">Sửa</button>
-              <button class="btn btn-outline-dark">Chi tiết</button>
             </div>
           </div>
           <div class="card-body">
@@ -145,19 +112,17 @@
     </main>
     <th:block th:include="/common/footer.html"></th:block>
   </div>
-  <div class="user-info">
-    <div
-            class="user-info-in card card-header-actions mx-auto"
-            style="padding-top: 55px"
-    >
-      <div class="card-header">
-        Thêm mới
-        <a href="#" class="cc">
-          <i class="fas fa-times"></i>
-        </a>
-      </div>
-      <div class="card-body">
-        <form th:action="@{/department/create}" method="POST" th:object="${departmentForm}">
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Thêm mới phòng ban</h5>
+          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formDepartment" th:action="@{/department/create}" method="POST" th:object="${departmentForm}">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label"><strong>
               Phòng ban
@@ -171,14 +136,19 @@
             </strong></label>
             <textarea th:field="*{note}" class="form-control form-control-solid" id="textAreaExample" rows="4"></textarea>
           </div>
-          <div class="mb-3">
+          <div class="mb-1">
             <label class="form-label">  Bắt buộc <span style="color: red">*</span></label>
           </div>
-          <button type="submit" class="btn btn-primary">LƯU</button>
         </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" form="formDepartment">LƯU</button>
+        </div>
       </div>
     </div>
   </div>
+
+
 </div>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
