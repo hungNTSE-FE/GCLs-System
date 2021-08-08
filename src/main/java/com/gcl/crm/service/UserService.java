@@ -11,7 +11,5 @@ public interface UserService {
     void disableUserByEmployeeId(Long employeeId);
     boolean checkUsername(String userName);
     User getUserByUsername(String userName);
-    List<User> getUserByEnabled();
-    List<User> getUsersByRole(Role role);
     boolean changePassword(User modifiedUser, String newPassword);
 }

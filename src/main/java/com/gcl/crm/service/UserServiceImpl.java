@@ -65,23 +65,6 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<User> getUserByEnabled() {
-        return userRepository.findAllByEnabled(true);
-    }
-
-    @Override
-    public List<User> getUsersByRole(Role role) {
-        List<UserRole> userRoles = userRoleRepository.findAllByRoleAndStatus(role, Status.ACTIVE);
-        List<User> users = new ArrayList<>();
-        for (   UserRole userRole : userRoles){
-            if (userRole.getStatus().equals(Status.ACTIVE)){
-                users.add(userRole.getUser());
-            }
-        }
-        return users;
-    }
-
-    @Override
     public boolean changePassword(User modifiedUser, String newPassword) {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         modifiedUser.setEncryptedPassword(encoder.encode(newPassword));
@@ -94,7 +77,4 @@ public class UserServiceImpl implements UserService{
         return userRepository.existsUserByUserName(userName);
     }
 
-    private Date getCurrentDate(){
-        return new Date(System.currentTimeMillis());
-    }
 }
