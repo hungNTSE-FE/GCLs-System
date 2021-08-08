@@ -29,9 +29,14 @@
               "
         >
           <div class="me-4 mb-3 mb-sm-0">
-            <h1 class="mb-0">Tổng kết MKT tháng 3</h1>
+            <h1 class="mb-0">Tổng kết Marketing</h1>
+            <div class="small" th:if="${marketingSummaryReportForm.dateRange}">
+              <span class="fw-600">Khoảng thời gian: </span>
+              <span class="text-danger" th:text="${marketingSummaryReportForm.dateRange}"></span>
+            </div>
           </div>
-          <form>
+
+          <form method="post" th:action="@{/marketing/getSummaryMKTReport}" th:object="${marketingSummaryReportForm}">
             <div class="d-flex">
               <div
                       class="input-group input-group-joined border-0 shadow me-2"
@@ -41,8 +46,9 @@
                       <i data-feather="calendar"></i>
                     </span>
                 <input
+                        th:field="${marketingSummaryReportForm.dateRange}"
                         class="form-control ps-0 pointer"
-                        id="litepickerRangePluginOnlyMonth"
+                        id="litepickerRangePlugin"
                         placeholder="Select date range..."
                 />
               </div>
@@ -69,24 +75,24 @@
                     <th>Tháng</th>
                     <th>Số lượng đăng ký</th>
                     <th>Số lượng giao dịch</th>
+                    <th>Số LOT</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>Tháng 10/2020</td>
-                    <td>34</td>
-                    <td>2</td>
+                  <tr th:each="summaryCustomer : ${marketingSummaryReportForm.summaryCustomerManagementList}">
+                    <td th:text="${summaryCustomer.monthRange}"></td>
+                    <td th:text="${summaryCustomer.numRegisteredAcc}"></td>
+                    <td th:text="${summaryCustomer.numTopUpAcc}"></td>
+                    <td th:text="${summaryCustomer.numLot}"></td>
                   </tr>
                   <tr class="table-primary fw-600">
                     <td>Tổng</td>
-                    <td>100</td>
-                    <td>2</td>
+                    <td th:text="${marketingSummaryReportForm.numTotalRegisteredMonth}"></td>
+                    <td th:text="${marketingSummaryReportForm.numTotalTopUpMonth}"></td>
+                    <td th:text="${marketingSummaryReportForm.numTotalLotMonth}"></td>
                   </tr>
                   </tbody>
                 </table>
-              </div>
-              <div class="card-footer small text-muted">
-                Updated yesterday at 11:59 PM
               </div>
             </div>
           </div>
@@ -110,20 +116,41 @@
                   <tr>
                     <td>1</td>
                     <td>Nhân viên tổng mở tài khoản nhiều nhất</td>
-                    <td class="table-success">Trần Bình Dượng</td>
-                    <td class="text-danger">53</td>
+                    <td class="table-success"
+                        th:text="${marketingSummaryReportForm.summaryMKTGroupReport != null
+                        ? marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_REGISTERED_ACC_MKT').name
+                        : ''}">
+                    </td>
+                    <td class="text-danger" th:text="${marketingSummaryReportForm.summaryMKTGroupReport != null
+                        ? marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_REGISTERED_ACC_MKT').value
+                        : ''}"></td>
                   </tr>
                   <tr>
                     <td>2</td>
-                    <td>Nhân viên có số lot nhiều nhất trong THÁNG 3</td>
-                    <td class="table-success">Trần Mạnh Nam</td>
-                    <td class="text-danger">212</td>
+                    <td>Nhân viên có khách nạp tiền nhiều nhất</td>
+                    <td class="table-success"
+                        th:text="${marketingSummaryReportForm.summaryMKTGroupReport != null
+                        ? marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_TOP_UP_ACC_MKT').name
+                        : ''}">
+                    </td>
+                    <td class="text-danger" th:text="${marketingSummaryReportForm.summaryMKTGroupReport != null
+                        ? marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_TOP_UP_ACC_MKT').value
+                        : ''}"></td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Nhân viên có số LOT nhiều nhất</td>
+                    <td class="table-success"
+                        th:text="${marketingSummaryReportForm.summaryMKTGroupReport != null
+                        ? marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_LOT_MKT').name
+                        : ''}">
+                    </td>
+                    <td class="text-danger" th:text="${marketingSummaryReportForm.summaryMKTGroupReport != null
+                        ? marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_LOT_MKT').value
+                        : ''}"></td>
                   </tr>
                   </tbody>
                 </table>
-              </div>
-              <div class="card-footer small text-muted">
-                Updated yesterday at 11:59 PM
               </div>
             </div>
           </div>
@@ -133,7 +160,7 @@
           <div class="col-md-6">
             <div class="card">
               <div class="card-header">
-                Bảng tổng kết nhân viên kinh doanh - MKT
+                Bảng tổng kết kênh truyền thông marketing
               </div>
               <div class="card-body">
                 <table id="dataTablesReportSummarize3">
@@ -141,28 +168,52 @@
                   <tr class="table-primary fw-600">
                     <th>STT</th>
                     <th>Nội dung</th>
-                    <th>Phụ trách</th>
+                    <th>Nguồn</th>
                     <th>Số lượng</th>
                   </tr>
                   </thead>
                   <tbody>
                   <tr>
                     <td>1</td>
-                    <td>Nhân viên tổng mở tài khoản nhiều nhất</td>
-                    <td class="table-success">Trần Bình Dượng</td>
-                    <td class="text-danger">53</td>
+                    <td>Nguồn có tổng mở tài khoản nhiều nhất</td>
+                    <td class="table-success"
+                        th:text="${marketingSummaryReportForm.summarySourceReport != null
+                        ? marketingSummaryReportForm.summarySourceReport.get('MAX_REGISTERED_ACC_SOURCE').name
+                        : ''}">
+                    </td>
+                    <td class="text-danger" th:text="${marketingSummaryReportForm.summarySourceReport != null
+                        ? marketingSummaryReportForm.summarySourceReport.get('MAX_REGISTERED_ACC_SOURCE').value
+                        : ''}">
+                    </td>
                   </tr>
                   <tr>
                     <td>2</td>
-                    <td>Nhân viên có số lot nhiều nhất trong THÁNG 3</td>
-                    <td class="table-success">Trần Mạnh Nam</td>
-                    <td class="text-danger">212</td>
+                    <td>Nguồn có khách nạp tiền nhiều nhất</td>
+                    <td class="table-success"
+                        th:text="${marketingSummaryReportForm.summarySourceReport != null
+                        ? marketingSummaryReportForm.summarySourceReport.get('MAX_TOP_UP_ACC_SOURCE').name
+                        : ''}">
+                    </td>
+                    <td class="text-danger" th:text="${marketingSummaryReportForm.summarySourceReport != null
+                        ? marketingSummaryReportForm.summarySourceReport.get('MAX_TOP_UP_ACC_SOURCE').value
+                        : ''}">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Nguồn có số LOT nhiều nhất</td>
+                    <td class="table-success"
+                        th:text="${marketingSummaryReportForm.summarySourceReport != null
+                        ? marketingSummaryReportForm.summarySourceReport.get('MAX_LOT_SOURCE').name
+                        : ''}">
+                    </td>
+                    <td class="text-danger" th:text="${marketingSummaryReportForm.summarySourceReport != null
+                        ? marketingSummaryReportForm.summarySourceReport.get('MAX_LOT_SOURCE').value
+                        : ''}">
+                    </td>
                   </tr>
                   </tbody>
                 </table>
-              </div>
-              <div class="card-footer small text-muted">
-                Updated yesterday at 11:59 PM
               </div>
             </div>
           </div>

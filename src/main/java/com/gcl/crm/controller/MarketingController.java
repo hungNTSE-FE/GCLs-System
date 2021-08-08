@@ -1,15 +1,12 @@
 package com.gcl.crm.controller;
 
 import com.gcl.crm.dto.SourceEvaluationDto;
-import com.gcl.crm.entity.TMP_KPI_EMPLOYEE;
 import com.gcl.crm.entity.User;
 import com.gcl.crm.form.*;
 import com.gcl.crm.service.MarketingServices;
 import com.gcl.crm.service.UserService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -82,6 +79,17 @@ public class MarketingController {
         model.addAttribute("userInfo", currentUser);
         model.addAttribute("sourceEvaluationForm", sourceEvaluationForm);
         return "report/source-page.html";
+    }
+
+    @PostMapping(value = "getSummaryMKTReport")
+    public String getSummaryMKTReport(@ModelAttribute MarketingSummaryReportForm marketingSummaryReportForm, Model model
+    , Principal principal) {
+        User currentUser = userService.getUserByUsername(principal.getName());
+        MarketingSummaryReportForm newForm = maketingServices.getSummaryMKTReport(marketingSummaryReportForm);
+
+        model.addAttribute("userInfo", currentUser);
+        model.addAttribute("marketingSummaryReportForm", newForm);
+        return "report/summary-page";
     }
 
 }

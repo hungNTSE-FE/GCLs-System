@@ -1,16 +1,14 @@
 package com.gcl.crm.repository;
 
 import com.gcl.crm.dto.KPIMktGroup;
-import com.gcl.crm.entity.TMP_KPI_EMPLOYEE;
+import com.gcl.crm.dto.SummaryCustomerManagement;
+import com.gcl.crm.dto.SummaryMKTReport;
 import com.gcl.crm.form.CustomerStatusForm;
 import com.gcl.crm.form.CustomerStatusEvaluationForm;
-import com.gcl.crm.form.KPIEmployeeForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
-import java.io.Serializable;
 import java.util.List;
 
 @Repository
@@ -123,6 +121,148 @@ public class MarketingRepository {
                     "ORDER BY KPI desc";
         Query query = entityManager.createNativeQuery(sql, "employeeKPIEvaluation");
         return query.getResultList();
+    }
+
+    public void createTempMKTKPITable(String startDate, String endDate) {
+        String sql = "CREATE TEMPORARY TABLE TMP_MKT_KPI\n" +
+                "select mkt_group.name      as                     marketing_name\n" +
+                "                     , count(if(level_name = 'Level 6', 1, null)) level_6\n" +
+                "                     , count(if(level_name = 'Level 7', 1, null)) level_7\n" +
+                "                     , coalesce(sum(th.LOT), 0) as                     LOT\n" +
+                "                     , mkt_group.id\n" +
+                "                from marketing_group mkt_group\n" +
+                "                         inner join customer_distribution cus_dis on mkt_group.id = cus_dis.mkt_id\n" +
+                "                         inner join customer cus on cus.customer_id = cus_dis.customer_id\n" +
+                "                         inner join level lv on cus.level_id = lv.level_id\n" +
+                "                         left join trading_account ta on cus.account_number = ta.account_number\n" +
+                "                         left join (\n" +
+                "                                    select sum(lot) as LOT, account_number\n" +
+                "                                    from transaction_history\n" +
+                "                                    group by account_number\n" +
+                "                                ) th on ta.account_number = th.account_number\n" +
+                "                where cus_dis.date_distribution between\n" +
+                "                          str_to_date(:start_date, '%d/%m/%Y') and str_to_date(:end_date, '%d/%m/%Y')\n" +
+                "                and cus.account_number is not null\n" +
+                "                group by mkt_group.id";
+
+        entityManager.createNativeQuery("DROP TEMPORARY TABLE IF EXISTS TMP_MKT_KPI").executeUpdate();
+
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter("start_date", startDate);
+        query.setParameter("end_date", endDate);
+        query.executeUpdate();
+
+        entityManager.createNativeQuery("DROP TEMPORARY TABLE IF EXISTS TMP_MKT_KPI_1").executeUpdate();
+        entityManager.createNativeQuery("CREATE TEMPORARY TABLE TMP_MKT_KPI_1 SELECT * FROM TMP_MKT_KPI").executeUpdate();
+    }
+
+    public SummaryMKTReport getMaxRegisteredAccountMKT() {
+        String sql = "select marketing_name as name, level_6 as value\n" +
+                "from TMP_MKT_KPI\n" +
+                "where level_6 = (select MAX(level_6) from TMP_MKT_KPI_1)\n" +
+                "limit 1";
+        return (SummaryMKTReport) entityManager.createNativeQuery(sql, "getSummaryMKTReport").getSingleResult();
+    }
+
+    public SummaryMKTReport getMaxTopUpAccountMKT() {
+        String sql = "select marketing_name as name, level_7 as value\n" +
+                "from TMP_MKT_KPI\n" +
+                "where level_7 = (select MAX(level_7) from TMP_MKT_KPI_1)\n" +
+                "limit 1";
+        return (SummaryMKTReport) entityManager.createNativeQuery(sql, "getSummaryMKTReport").getSingleResult();
+    }
+
+    public SummaryMKTReport getMaxLOTMKT() {
+        String sql = "select marketing_name as name, lot as value\n" +
+                "from TMP_MKT_KPI\n" +
+                "where lot = (select MAX(lot) from TMP_MKT_KPI_1)\n" +
+                "limit 1";
+        return (SummaryMKTReport) entityManager.createNativeQuery(sql, "getSummaryMKTReport").getSingleResult();
+    }
+
+    public List<SummaryCustomerManagement> getSummaryCustomerManagement(String startDate, String endDate) {
+        String sql = "select\n" +
+                "  CONCAT('Tháng ', MONTH(cus_dis.date_distribution), '/', YEAR(cus_dis.date_distribution)) as MONTH_RANGE\n" +
+                "                     , count(if(level_name = 'Level 6', 1, null)) level_6\n" +
+                "                     , count(if(level_name = 'Level 7', 1, null)) level_7\n" +
+                "                     , coalesce(sum(th.LOT), 0) as                     LOT\n" +
+                "                         from customer_distribution cus_dis\n" +
+                "                         inner join customer cus on cus.customer_id = cus_dis.customer_id\n" +
+                "                         inner join level lv on cus.level_id = lv.level_id\n" +
+                "                         left join trading_account ta on cus.account_number = ta.account_number\n" +
+                "                         left join (\n" +
+                "                                    select sum(lot) as LOT, account_number\n" +
+                "                                    from transaction_history\n" +
+                "                                    group by account_number\n" +
+                "                                ) th on ta.account_number = th.account_number\n" +
+                "                where cus_dis.date_distribution between\n" +
+                "                          str_to_date(:start_date, '%d/%m/%Y') and str_to_date(:end_date, '%d/%m/%Y')\n" +
+                "                and cus.account_number is not null\n" +
+                "group by YEAR(cus_dis.date_distribution), MONTH(cus_dis.date_distribution)";
+
+        Query query = entityManager.createNativeQuery(sql, "getSummaryCustomerManagement");
+        query.setParameter("start_date", startDate);
+        query.setParameter("end_date", endDate);
+        return query.getResultList();
+    }
+
+    public void createTempSourceKPI(String startDate, String endDate) {
+        entityManager.createNativeQuery("DROP TEMPORARY TABLE IF EXISTS TMP_SOURCE_KPI").executeUpdate();
+
+        String sql = "CREATE TEMPORARY TABLE TMP_SOURCE_KPI\n" +
+                "select s.source_name\n" +
+                "                     , count(if(level_name = 'Level 6', 1, null)) level_6\n" +
+                "                     , count(if(level_name = 'Level 7', 1, null)) level_7\n" +
+                "                     , coalesce(sum(th.LOT), 0) as                     LOT\n" +
+                "                from marketing_group mkt_group\n" +
+                "                         inner join customer_distribution cus_dis on mkt_group.id = cus_dis.mkt_id\n" +
+                "                         inner join customer cus on cus.customer_id = cus_dis.customer_id\n" +
+                "                         inner join level lv on cus.level_id = lv.level_id\n" +
+                "                         inner join source s on cus.source_id = s.source_id\n" +
+                "                         left join trading_account ta on cus.account_number = ta.account_number\n" +
+                "                         left join (\n" +
+                "                                    select sum(lot) as LOT, account_number\n" +
+                "                                    from transaction_history\n" +
+                "                                    group by account_number\n" +
+                "                                ) th on ta.account_number = th.account_number\n" +
+                "                where cus_dis.date_distribution between\n" +
+                "                          str_to_date(:start_date, '%d/%m/%Y') and str_to_date(:end_date, '%d/%m/%Y')\n" +
+                "                and cus.account_number is not null\n" +
+                "                group by cus.source_id";
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter("start_date", startDate);
+        query.setParameter("end_date", endDate);
+        query.executeUpdate();
+
+        entityManager.createNativeQuery("DROP TEMPORARY TABLE IF EXISTS TMP_SOURCE_KPI_1").executeUpdate();
+        entityManager.createNativeQuery("CREATE TEMPORARY TABLE TMP_SOURCE_KPI_1 SELECT * FROM TMP_SOURCE_KPI").executeUpdate();
+    }
+
+    public SummaryMKTReport getMaxRegisteredAccountSource() {
+        String sql = "select source_name as name\n" +
+                "     , level_6 as value\n" +
+                "from TMP_SOURCE_KPI\n" +
+                "where level_6 = (select MAX(level_6) from TMP_SOURCE_KPI_1)\n" +
+                "limit 1";
+        return (SummaryMKTReport) entityManager.createNativeQuery(sql, "getSummaryMKTReport").getSingleResult();
+    }
+
+    public SummaryMKTReport getMaxTopUpAccountSource() {
+        String sql = "select source_name as name\n" +
+                "     , level_7 as value\n" +
+                "from TMP_SOURCE_KPI\n" +
+                "where level_7 = (select MAX(level_7) from TMP_SOURCE_KPI_1)\n" +
+                "limit 1";
+        return (SummaryMKTReport) entityManager.createNativeQuery(sql, "getSummaryMKTReport").getSingleResult();
+    }
+
+    public SummaryMKTReport getMaxLOTSource() {
+        String sql = "select source_name as name\n" +
+                "     , lot as value\n" +
+                "from TMP_SOURCE_KPI\n" +
+                "where lot = (select MAX(lot) from TMP_SOURCE_KPI_1)\n" +
+                "limit 1";
+        return (SummaryMKTReport) entityManager.createNativeQuery(sql, "getSummaryMKTReport").getSingleResult();
     }
 
 }
