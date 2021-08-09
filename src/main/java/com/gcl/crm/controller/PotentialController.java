@@ -313,6 +313,7 @@ public class PotentialController {
             List<Potential> potentialData = excelReader.getPotentialData(file.getInputStream(), file.getOriginalFilename());
             User currentUser = userService.getUserByUsername(principal.getName());
             potentialService.importPotential(potentialData, currentUser);
+            redirectAttributes.addFlashAttribute("flag", "showAlertImportSuccess");
             redirectAttributes.addFlashAttribute("message", "Dữ liệu mới đã được lưu vào hệ thống");
         } catch (IOException e) {
             redirectAttributes.addFlashAttribute("error", "Không thể mở tệp đã chọn");

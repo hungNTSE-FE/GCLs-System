@@ -1,5 +1,5 @@
 var xmlHttp = new XMLHttpRequest();
-var url = "http://localhost:8085/statistic/potential/level?date=05/2021";
+var url = "/statistic/potential/level?date=05/2021";
 xmlHttp.open("GET", url, true);
 xmlHttp.send();
 xmlHttp.onreadystatechange = function() {

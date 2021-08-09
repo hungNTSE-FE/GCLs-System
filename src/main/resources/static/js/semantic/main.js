@@ -40,16 +40,12 @@ $(".ui.form").form({
             identifier: "phoneNumber",
             rules: [
                 {
-                    type   : 'integer',
-                    prompt : 'Vui lòng nhập số điện thoại.'
-                },
-                {
                     type   : 'empty',
                     prompt : 'Không bỏ trống số điện thoại.'
                 },
                 {
-                    type   : 'minLength[10]',
-                    prompt : 'Vui lòng nhập số điện thoại ít nhất 10 ký tự.'
+                    type   : 'minLength[9]',
+                    prompt : 'Vui lòng nhập số điện thoại ít nhất 9 ký tự.'
                 },
             ]
         },

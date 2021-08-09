@@ -1,4 +1,4 @@
-let urlNewStatistic = 'http://localhost:8085/statistic/potential/today';
+let urlNewStatistic = '/statistic/potential/today';
 
 if (document.getElementById("datatablesStatisticPotential") != null) {
     let dataTableStatisticPotential = new simpleDatatables.DataTable("#datatablesStatisticPotential", {
