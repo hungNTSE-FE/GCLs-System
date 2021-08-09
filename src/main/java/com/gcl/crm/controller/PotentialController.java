@@ -452,7 +452,28 @@ public class PotentialController {
 //        helper.addAttachment("Readme", file2);
 
         emailSender.send(message);
-
+        redirectAttributes.addFlashAttribute("flag", "showAlertSendEmail");
         return "redirect:/potential/detail/" + id;
     }
+
+    @RequestMapping(value = "/detail/salesman/sendEmail", method = RequestMethod.POST)
+    public String sendEmailForSale(RedirectAttributes redirectAttributes,
+                            @Nullable @RequestParam("id") String id,
+                            @Nullable @RequestParam("emailForCustomer") String email,
+                            @Nullable @RequestParam("description") String description,
+                            @Nullable @RequestParam("subject") String subject) throws MessagingException {
+        MimeMessage message = emailSender.createMimeMessage();
+
+        boolean multipart = true;
+        MimeMessageHelper helper = new MimeMessageHelper(message, multipart);
+
+        helper.setTo(email);
+        helper.setSubject(subject);
+        helper.setText(description);
+        emailSender.send(message);
+        redirectAttributes.addFlashAttribute("flag", "showAlertSendEmail");
+        return "redirect:/potential/detail/sale/" + id;
+    }
+
+
 }

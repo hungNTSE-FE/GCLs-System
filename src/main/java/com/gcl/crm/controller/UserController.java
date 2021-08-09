@@ -82,7 +82,7 @@ public class UserController {
     }
 
     @PostMapping("/forgot-password")
-    public String sendNewPasswordEmail(Model model,@Nullable @RequestParam("email") String email){
+    public String sendNewPasswordEmail(Model model,@Nullable @RequestParam("email") String email, RedirectAttributes redirectAttributes){
         Employee employee = employeeService.getEmployeeByEmail(email);
         if (employee == null){
             model.addAttribute("email", email);
@@ -104,7 +104,8 @@ public class UserController {
             message.setText(content.toString());
             try {
                 javaMailSender.send(message);
-                model.addAttribute("message", "Mật khẩu mới đã được gửi đến " + email);
+                model.addAttribute("flag", "showAlert");
+                //model.addAttribute("message", "Mật khẩu mới đã được gửi đến " + email);
             } catch (Exception ex){
                 System.out.println(ex.getMessage());
             }

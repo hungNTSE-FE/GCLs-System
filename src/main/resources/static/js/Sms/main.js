@@ -61,7 +61,6 @@ $(function () {
     let form = document.getElementById('smsForm');
     if (form.attachEvent) {
         form.attachEvent("submit", processForm);
-
     } else {
         form.addEventListener("submit", processForm);
     }
