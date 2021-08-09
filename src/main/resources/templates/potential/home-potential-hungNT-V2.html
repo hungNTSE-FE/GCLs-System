@@ -538,6 +538,23 @@
         icon: 'success',
         title: 'Dữ liệu mới đã được thêm vào hệ thống',
       })
+    } else if (showtext === 'showAlertShareSuccess') {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: 'success',
+        title: 'Gửi dữ liệu thành công',
+      })
     }
   });
 
