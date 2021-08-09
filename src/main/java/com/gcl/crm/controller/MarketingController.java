@@ -6,6 +6,7 @@ import com.gcl.crm.form.*;
 import com.gcl.crm.service.MarketingServices;
 import com.gcl.crm.service.UserService;
 import com.google.gson.Gson;
+import io.jsonwebtoken.lang.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -75,6 +76,11 @@ public class MarketingController {
         User currentUser = userService.getUserByUsername(principal.getName());
         List<SourceEvaluationDto> sourceEvaluationDtoList = maketingServices.getSourceEvaluation(sourceEvaluationForm);
         sourceEvaluationForm.setSourceEvaluationDtoList(sourceEvaluationDtoList);
+        if (Collections.isEmpty(sourceEvaluationDtoList)) {
+            model.addAttribute("userInfo", currentUser);
+            model.addAttribute("sourceEvaluationForm", sourceEvaluationForm);
+            return "report/source-page.html";
+        }
         sourceEvaluationForm.setTotal(sourceEvaluationDtoList.get(0).getSumOfPotential());
         model.addAttribute("sourceEvaluationFormJSON", new Gson().toJson(sourceEvaluationForm));
         model.addAttribute("userInfo", currentUser);
