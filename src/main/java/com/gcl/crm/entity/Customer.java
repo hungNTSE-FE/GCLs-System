@@ -140,8 +140,9 @@ public class Customer {
     @JoinColumn(name = "contract_id", referencedColumnName = "contract_id")
     private Contract contract;
 
-    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CustomerDistribution> customerDistributionList;
+    @OneToOne
+    @JoinColumn(name = "CUSTOMER_ID")
+    private CustomerDistribution customerDistribution;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "SOURCE_ID")
@@ -355,12 +356,12 @@ public class Customer {
         this.description = description;
     }
 
-    public List<CustomerDistribution> getCustomerDistributionList() {
-        return customerDistributionList;
+    public CustomerDistribution getCustomerDistribution() {
+        return customerDistribution;
     }
 
-    public void setCustomerDistributionList(List<CustomerDistribution> customerDistributionList) {
-        this.customerDistributionList = customerDistributionList;
+    public void setCustomerDistribution(CustomerDistribution customerDistribution) {
+        this.customerDistribution = customerDistribution;
     }
 
     public Source getSource() {
