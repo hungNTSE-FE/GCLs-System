@@ -1,15 +1,24 @@
 package com.gcl.crm.controller;
 
 import com.gcl.crm.entity.*;
+import com.gcl.crm.enums.LevelEnum;
+import com.gcl.crm.form.CustomerDistributionForm;
+import com.gcl.crm.form.CustomerForm;
+import com.gcl.crm.form.CustomerSearchForm;
+import com.gcl.crm.form.PotentialSearchForm;
 import com.gcl.crm.service.*;
 import com.gcl.crm.utils.WebUtils;
 
 import org.apache.poi.ss.usermodel.PrintCellComments;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.sql.Date;
 import java.text.ParseException;
@@ -31,30 +40,110 @@ public class ContractController {
     CustomerProcessService customerProcessService;
     @Autowired
     UserService userService;
-    private static final String VIEW_CUSTOMER_PAGE = "/contract/view-customer-page";
+    @Autowired
+    TradingAccountService tradingAccountService;
+    private static final String VIEW_CUSTOMER_PAGE = "/contract/view-customer-page-v2";
     private static final String VIEW_TRADING_ACCOUNT_PAGE = "/contract/view-tradingAccount-page";
     private static final String OPEN_ACCOUNT_PAGE = "/contract/open-account-page";
     private static final String CREATE_CONTRACT_PAGE = "/contract/create-contract-page";
-
+    private static final String  WAIT_CUSTOMER_PAGE="/contract/view-waiting-customer-page";
     @Autowired
     private TransactionService transactionService;
     @GetMapping({"/manageCustomer"})
     public  String viewCustomer(Model model, Principal principal){
         User currentUser = userService.getUserByUsername(principal.getName());
+        CustomerSearchForm customerSearchForm = new CustomerSearchForm();
+
         model.addAttribute("userInfo", currentUser);
-        model.addAttribute("listCustomers",customerProcessService.getAllCustomer());
+        model.addAttribute("listCustomers",customerProcessService.getCustomerNotContract());
+        model.addAttribute("searchForm",customerSearchForm);
         return VIEW_CUSTOMER_PAGE;
+    }
+    @GetMapping({"/waitingCustomer"})
+    public  String waitingCustomer(Model model, Principal principal){
+        User currentUser = userService.getUserByUsername(principal.getName());
+        CustomerSearchForm customerSearchForm = new CustomerSearchForm();
+        model.addAttribute("searchForm",customerSearchForm);
+        model.addAttribute("userInfo", currentUser);
+        model.addAttribute("listCustomers",customerProcessService.getWaitingCustomer());
+        return WAIT_CUSTOMER_PAGE;
+    }
+
+    @RequestMapping(value = "/searchWaitingContract", method = RequestMethod.GET)
+    public String searchWaitingContractCustomer(Model model, @Nullable @ModelAttribute("searchForm") CustomerSearchForm searchForm, Principal principal){
+        if (searchForm == null){
+            return "redirect:/contract/manageTradingAccount";
+        }
+        System.out.println(searchForm.getEmail());
+        User currentUser = userService.getUserByUsername(principal.getName());
+        model.addAttribute("userInfo", currentUser);
+        model.addAttribute("listCustomers",customerProcessService.findWaitingContractCustomer(searchForm));
+        return VIEW_CUSTOMER_PAGE;
+
+
+    }
+    @RequestMapping(value = "/searchWaitingCustomer", method = RequestMethod.GET)
+    public String searchWaitingCustomer(Model model, @Nullable @ModelAttribute("searchForm") CustomerSearchForm searchForm, Principal principal){
+        if (searchForm == null){
+            return "redirect:/contract/manageTradingAccount";
+        }
+        List<Customer> customerList = customerProcessService.findWaitingCustomer(searchForm);
+        User currentUser = userService.getUserByUsername(principal.getName());
+        model.addAttribute("userInfo", currentUser);
+        model.addAttribute("listCustomers",customerProcessService.findWaitingCustomer(searchForm));
+        return WAIT_CUSTOMER_PAGE;
+
+    }
+    @GetMapping({"/manageOpenAccountPage"})
+    public  String viewOpenAccountPage(Model model, Principal principal){
+        User currentUser = userService.getUserByUsername(principal.getName());
+        model.addAttribute("userInfo", currentUser);
+        model.addAttribute("userName",principal.getName());
+        model.addAttribute("listCustomers",customerProcessService.getAllCustomer());
+        return "contract/view-open-account-page";
     }
     @GetMapping({"/manageTradingAccount"})
     public  String viewTradingAccount(Model model,Principal principal){
         User currentUser = userService.getUserByUsername(principal.getName());
+        CustomerSearchForm customerForm = new CustomerSearchForm();
+        model.addAttribute("customerForm",customerForm);
         model.addAttribute("userInfo", currentUser);
+
         model.addAttribute("listCustomers",customerProcessService.getCustomerHaveTradingAccount());
 
         return VIEW_TRADING_ACCOUNT_PAGE;
     }
 
+    @RequestMapping(value = "/searchAllAccount", method = RequestMethod.GET)
+    public String search(Model model, @Nullable @ModelAttribute("customerForm") CustomerSearchForm searchForm, Principal principal){
+        if (searchForm == null){
+            return "redirect:/contract/manageTradingAccount";
+        }
+        if(searchForm.getStatus().equals("All")){
+            CustomerSearchForm form = new CustomerSearchForm();
+            if(searchForm.getAccountNumber()!=null){
+                form.setAccountNumber(searchForm.getAccountNumber());
+            }
+            if(searchForm.getCustomerName()!=null){
+                form.setCustomerName(searchForm.getCustomerName());
+            }
+            if(searchForm.getPhone() !=null){
+                form.setPhone(searchForm.getPhone());
+            }
+            User currentUser = userService.getUserByUsername(principal.getName());
+            model.addAttribute("listCustomers",customerProcessService.findCustomerByNumberPhoneStatus(form));
 
+            model.addAttribute("userInfo", currentUser);
+            return VIEW_TRADING_ACCOUNT_PAGE;
+        }else {
+            User currentUser = userService.getUserByUsername(principal.getName());
+            model.addAttribute("listCustomers",customerProcessService.findCustomerByNumberPhoneStatus(searchForm));
+
+            model.addAttribute("userInfo", currentUser);
+            return VIEW_TRADING_ACCOUNT_PAGE;
+        }
+
+    }
     @GetMapping({"/openAccount/{id}"})
     public String showOpenAccountPage(@PathVariable(name="id") int id ,Model model,Principal principal) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
@@ -105,33 +194,71 @@ public class ContractController {
     }
 
     @PostMapping({"/createAccount"})
-    public String createTradingAccount(@ModelAttribute("tradingAccount") TradingAccount tradingAccount,Model model,Principal principal)  {
+    public String createTradingAccount(@Valid @ModelAttribute("tradingAccount") TradingAccount tradingAccount,
+                                       Model model,
+                                       Principal principal,
+                                       RedirectAttributes redirectAttributes)  {
         Customer customer =customerProcessService.findCustomerByID(tradingAccount.getCustomerID());
         User currentUser = userService.getUserByUsername(principal.getName());
         model.addAttribute("userInfo", currentUser);
+        tradingAccount.setBrokerName(customer.getEmployee().getName());
+        tradingAccount.setBrokerCode(customer.getEmployee().getId()+"");
         if(customer == null){
-            return "redirect:/contract/manageTradingAccount";
+            return "redirect:/contract/waitingCustomer";
 
         }else{
-            customerProcessService.createTradingAccount(tradingAccount,customer);
-            return "redirect:/contract/manageCustomer";
+            if(tradingAccount.getAccountNumber().length()<4){
+
+                String url ="redirect:/contract/openAccount/"+customer.getCustomerId();
+                redirectAttributes.addFlashAttribute("length","Mã tài khoản gồm 4 số ");
+                model.addAttribute("tradingAccount",tradingAccount);
+                return  url ;
+            }else if(!tradingAccount.getAccountNumber().matches("[0-9]{4}")){
+                String url ="redirect:/contract/openAccount/"+customer.getCustomerId();
+                redirectAttributes.addFlashAttribute("number","Mã tài khoản là số  ");
+                model.addAttribute("tradingAccount",tradingAccount);
+                return  url ;
+            }else if(tradingAccountService.findTradingAccountByID("003C"+tradingAccount.getBrokerCode()+tradingAccount.getAccountNumber()) != null){
+                String url ="redirect:/contract/openAccount/"+customer.getCustomerId();
+                redirectAttributes.addFlashAttribute("duplicate","Mã tài khoản này đã tồn tại");
+                model.addAttribute("tradingAccount",tradingAccount);
+                return  url ;
+            }
+            else{
+
+
+                tradingAccount.setAccountNumber("003C"+tradingAccount.getBrokerCode()+tradingAccount.getAccountNumber());
+                customer.setLevel(new Level(LevelEnum.LEVEL_6.getValue()));
+                redirectAttributes.addFlashAttribute("flag","showAlert");
+
+                customerProcessService.createTradingAccount(tradingAccount,customer);
+                return "redirect:/contract/waitingCustomer";
+            }
+
         }
 
     }
     @GetMapping({"/active/{id}"})
-    public String activateAccount(@PathVariable(name="id") int id) throws ParseException {
+    public String activateAccount(@PathVariable(name="id") int id,RedirectAttributes redirectAttributes) throws ParseException {
         Customer customer = customerProcessService.findCustomerByID(id);
         customerProcessService.activateTradingAccount(customer);
+        redirectAttributes.addFlashAttribute("flag","showAlert");
+
         return "redirect:/contract/manageTradingAccount";
     }
     @PostMapping({"/createContract"})
-    public String createContract(@ModelAttribute("contract") Contract contract) throws ParseException {
+    public String createContract(RedirectAttributes redirectAttributes,@ModelAttribute("contract") Contract contract) throws ParseException {
         Customer customer = customerProcessService.findCustomerByID(contract.getCustomer().getCustomerId());
 
         if(customer == null){
             return "redirect:/contract/manageCustomer";
         }else {
+            contract.setId(contractService.getContractID());
+
             customerProcessService.createContract(contract,customer);
+
+            redirectAttributes.addFlashAttribute("flag","showAlert");
+
             return "redirect:/contract/manageCustomer";
 
         }
@@ -154,7 +281,7 @@ public class ContractController {
     }
 
     @PostMapping({"/updateAccount"})
-    public String updateTradingAccount(@ModelAttribute("tradingAccount") TradingAccount tradingAccount) throws ParseException {
+    public String updateTradingAccount(RedirectAttributes redirectAttributes,@ModelAttribute("tradingAccount") TradingAccount tradingAccount) throws ParseException {
         Customer customer =customerProcessService.findCustomerByID(tradingAccount.getCustomerID());
         if(customer == null){
            return "redirect:/contract/manageTradingAccount";
@@ -168,6 +295,7 @@ public class ContractController {
             tradingAccount.setCustomer(customer);
             customer.setTradingAccount(tradingAccount);
 
+            redirectAttributes.addFlashAttribute("flag","showAlert");
 
             customerProcessService.saveCustomer(customer);
             return "redirect:/contract/manageTradingAccount";
@@ -176,3 +304,4 @@ public class ContractController {
     }
 
 }
+

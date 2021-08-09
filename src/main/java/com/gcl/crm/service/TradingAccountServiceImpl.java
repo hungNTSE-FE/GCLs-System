@@ -1,6 +1,7 @@
 package com.gcl.crm.service;
 
 import com.gcl.crm.entity.TradingAccount;
+import com.gcl.crm.form.TradingAccountSearchForm;
 import com.gcl.crm.repository.TradingAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,13 +39,34 @@ public class TradingAccountServiceImpl implements TradingAccountService{
     }
 
     @Override
+    public TradingAccount findTradingAccountByID(String id) {
+        List<TradingAccount> tradingAccountList =tradingAccountRepository.findAll();
+        for(int i = 0 ; i <tradingAccountList.size();i++){
+            if(tradingAccountList.get(i).getAccountNumber().equals(id)){
+                return tradingAccountList.get(i);
+            }
+        }
+        return null ;
+    }
+
+    @Override
+    public void exportTradingAccountByMonth(List<TradingAccount> tradingAccountList) {
+
+    }
+
+    @Override
     public List<TradingAccount> findAll() {
         return tradingAccountRepository.findAll();
     }
 
     @Override
+    public List<TradingAccount> findAllByActive() {
+        return tradingAccountRepository.findAllByActive("Block");
+    }
+
+    @Override
     public List<TradingAccount> findAccountStopDeal() {
-        return tradingAccountRepository.findAllByBalance(5000000,0);
+        return tradingAccountRepository.findAllByBalance(5000000,-1);
     }
 
     @Override
@@ -87,6 +109,45 @@ public class TradingAccountServiceImpl implements TradingAccountService{
         }
 
         return result;
+    }
+
+    @Override
+    public List<TradingAccount> findAllByNameNumberBalance(TradingAccountSearchForm tradingAccountSearchForm) {
+        List<TradingAccount> result = new ArrayList<>();
+        List<TradingAccount> tradingAccounts =  tradingAccountRepository.findAllByNameNumberBalance(tradingAccountSearchForm.getName().trim(),tradingAccountSearchForm.getNumber().trim());
+        if(!tradingAccountSearchForm.getMin().equals("")  & !tradingAccountSearchForm.getMax().equals("")){
+            double min = Double.parseDouble(tradingAccountSearchForm.getMin());
+            double max = Double.parseDouble(tradingAccountSearchForm.getMax());
+            for(TradingAccount tradingAccount : tradingAccounts){
+                if(tradingAccount.getBalance() >= min && tradingAccount.getBalance()<= max){
+                    result.add(tradingAccount);
+                }
+            }
+            return result ;
+        }else if(tradingAccountSearchForm.getMin().equals("") && tradingAccountSearchForm.getMax().equals("")){
+            return tradingAccounts ;
+        }else if(!tradingAccountSearchForm.getMin().equals("") && tradingAccountSearchForm.getMax().equals("") ){
+            double min = Double.parseDouble(tradingAccountSearchForm.getMin());
+
+            for(TradingAccount tradingAccount : tradingAccounts){
+                if(tradingAccount.getBalance() >= min ){
+                    result.add(tradingAccount);
+                }
+            }
+            return result ;
+        }else if(tradingAccountSearchForm.getMin().equals("") && !tradingAccountSearchForm.getMax().equals("") ){
+            double max = Double.parseDouble(tradingAccountSearchForm.getMax());
+
+            for(TradingAccount tradingAccount : tradingAccounts){
+                if(tradingAccount.getBalance() <= max ){
+                    result.add(tradingAccount);
+                }
+            }
+            return result ;
+        }
+
+        return  result;
+
     }
 
 }

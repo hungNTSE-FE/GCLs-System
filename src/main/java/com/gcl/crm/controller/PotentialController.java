@@ -179,6 +179,7 @@ public class PotentialController {
         List<Level> levels = levelService.getAll();
         List<Potential> potentials = potentialService.search(searchForm);
         model.addAttribute("userInfo", currentUser);
+        model.addAttribute("userName", principal.getName());
         model.addAttribute("sources", sources);
         model.addAttribute("levels", levels);
         model.addAttribute("potentials", potentials);

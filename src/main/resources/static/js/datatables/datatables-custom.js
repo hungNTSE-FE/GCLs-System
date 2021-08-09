@@ -201,4 +201,13 @@ if (document.getElementById("datatablesStatisticPotential") != null) {
             info: "",
         },
     });
+}else if (document.getElementById("datatablesAllTradingAccount") != null) {
+    const datatablesReportAgency = new simpleDatatables.DataTable("#datatablesAllTradingAccount", {
+        searchable: true,
+        fixedHeight: true,
+        perPageSelect: false,
+        labels: {
+            info: "",
+        },
+    });
 }

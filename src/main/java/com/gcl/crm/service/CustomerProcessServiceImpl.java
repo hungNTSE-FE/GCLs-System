@@ -1,13 +1,16 @@
 package com.gcl.crm.service;
 
-import com.gcl.crm.entity.Contract;
-import com.gcl.crm.entity.Customer;
-import com.gcl.crm.entity.Task;
-import com.gcl.crm.entity.TradingAccount;
+import com.gcl.crm.entity.*;
+import com.gcl.crm.form.CustomerForm;
+import com.gcl.crm.form.CustomerSearchForm;
 import com.gcl.crm.repository.CustomerProcessRepository;
+import com.gcl.crm.utils.FileUploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -42,14 +45,7 @@ public class CustomerProcessServiceImpl implements CustomerProcessService{
 
     @Override
     public List<Customer> getCustomerHaveTradingAccount() {
-        List<Customer> customerList = getAllCustomer();
-        List<Customer> result = new ArrayList<>();
-        for(int i = 0 ; i < customerList.size();i++){
-            if(!customerList.get(i).getNumber().equals("none")){
-                result.add(customerList.get(i));
-            }
-        }
-        return  result;
+       return customerProcessRepository.getAllAccount("none");
     }
 
     @Override
@@ -58,8 +54,6 @@ public class CustomerProcessServiceImpl implements CustomerProcessService{
         customer.setCustomerCode(tradingAccount.getAccountNumber());
         tradingAccount.setCreateDate(Date.valueOf(LocalDate.now()));
         tradingAccount.setUpdateDate(Date.valueOf(LocalDate.now()));
-        tradingAccount.setBrokerName(customer.getEmployee().getName());
-        tradingAccount.setBrokerCode(customer.getEmployee().getId()+"");
         tradingAccount.setUpdateType("Inactive");
         tradingAccount.setAccountNumber(customer.getNumber());
         tradingAccount.setAccountName(customer.getCustomerName());
@@ -102,6 +96,44 @@ public class CustomerProcessServiceImpl implements CustomerProcessService{
     public List<Customer> getAllContractCustomer() {
         return customerProcessRepository.getAllPotentialCustomer("GCL");
 
+    }
+
+    @Override
+    public void saveAvatar(MultipartFile multipartFile, Customer customer) {
+        String filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        String uploadDir = "customerIdentification/"+customer.getCustomerId();
+        try {
+            FileUploadUtils.saveFile(uploadDir, filename, multipartFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<Customer> getWaitingCustomer() {
+        return customerProcessRepository.getWaitingCustomer("none");
+    }
+
+    @Override
+    public List<Customer> getCustomerNotContract() {
+        return  customerProcessRepository.getCustomerNotContract("none","none");
+    }
+
+    @Override
+    public List<Customer> findCustomerByNumberPhoneStatus(CustomerSearchForm customerSearchForm) {
+        return customerProcessRepository.searchAccountByNumberNamePhoneStatus(customerSearchForm.getStatus(),customerSearchForm.getPhone(),customerSearchForm.getAccountNumber(),customerSearchForm.getCustomerName());
+    }
+
+    @Override
+    public List<Customer> findWaitingCustomer(CustomerSearchForm customerSearchForm) {
+        return customerProcessRepository.searchWaitingCustomer(customerSearchForm.getCustomerName(),customerSearchForm.getPhone(),customerSearchForm.getEmail());
+    }
+
+    @Override
+    public List<Customer> findWaitingContractCustomer(CustomerSearchForm customerForm) {
+        return customerProcessRepository.searchCustomerNotContract(customerForm.getCustomerName()
+                ,customerForm.getEmail(),customerForm.getPhone(),
+                customerForm.getAccountNumber(),"none","none");
     }
 
 
