@@ -55,6 +55,11 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
+    public List<Employee> getWorkingEmployeeByDepartment(Department department) {
+        return employeeRepository.getEmployeesByStatusAndDepartmentId(EmployeeStatus.WORKING, department.getId());
+    }
+
+    @Override
     public List<Employee> getEmployeesByIdList(List<Long> aidList) {
         if (aidList == null) {
             return null;

@@ -19,11 +19,27 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Autowired
     DepartmentRepository departmentRepository;
+
+    @Autowired
+    EmployeeService employeeService;
+
     @Autowired
     TaskRepository taskRepository;
+
     @Override
     public List<Department> findAllDepartments() {
         return departmentRepository.findAllByStatus(Status.ACTIVE);
+    }
+
+    @Override
+    public List<Department> findAllDepartmentsWithEmployees() {
+        List<Department> departments = departmentRepository.findAllByStatus(Status.ACTIVE);
+
+        departments.forEach(department -> {
+            List<Employee> employees = employeeService.getWorkingEmployeeByDepartment(department);
+            department.setEmployees(employees);
+        });
+        return departments;
     }
 
     @Override

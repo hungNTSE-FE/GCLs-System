@@ -1,5 +1,6 @@
 package com.gcl.crm.service;
 
+import com.gcl.crm.entity.Department;
 import com.gcl.crm.entity.Employee;
 import com.gcl.crm.entity.MarketingGroup;
 import com.gcl.crm.entity.User;
@@ -12,6 +13,7 @@ import java.util.List;
 public interface EmployeeService {
     List<Employee> getAllEmployees();
     List<Employee> getAllWorkingEmployees();
+    List<Employee> getWorkingEmployeeByDepartment(Department department);
     List<Employee> getEmployeesByIdList(List<Long> aidList);
     boolean createEmployee(CreateEmployeeForm employeeForm, User currentUser, MultipartFile avatar) throws DuplicateKeyException;
     Employee getEmployeeById(Long id);

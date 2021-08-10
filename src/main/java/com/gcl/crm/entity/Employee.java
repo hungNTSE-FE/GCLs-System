@@ -95,7 +95,7 @@ public class Employee {
     private List<Task> tasks;
 
     public String getAvatar() {
-        return "avatar/" + id + "/" + avatar;
+        return "avatar/" + id + "/" + (avatar != null ? avatar : "");
     }
 
     public Employee() {

@@ -39,7 +39,7 @@ public class DepartmentController {
         User currentUser = userService.getUserByUsername(principal.getName());
         Department departmentForm = new Department();
         List<Department> departments = departmentService.findAllDepartments();
-        List<Employee> employees = employeeService.getAllEmployees();
+        List<Employee> employees = employeeService.getAllWorkingEmployees();
         model.addAttribute("employees", employees);
         model.addAttribute("departments", departments);
         model.addAttribute("departmentForm", departmentForm);

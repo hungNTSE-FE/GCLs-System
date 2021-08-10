@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface DepartmentService {
     List<Department> findAllDepartments();
+    List<Department> findAllDepartmentsWithEmployees();
     Department findDepartmentById(String id);
     boolean createDepartment(Department department);
     boolean updateDepartment(Department department);

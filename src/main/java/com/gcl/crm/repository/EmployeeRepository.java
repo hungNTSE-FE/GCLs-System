@@ -6,6 +6,7 @@ import com.gcl.crm.entity.MarketingGroup;
 import com.gcl.crm.entity.User;
 import com.gcl.crm.enums.EmployeeStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,4 +23,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Employee findEmployeeByPhone(String phone);
     Employee findEmployeeByCompanyEmail(String email);
     Employee findEmployeeById(Long id);
+
+    @Query("SELECT e FROM Employee AS e WHERE e.status = ?1 AND e.department.id = ?2")
+    List<Employee> getEmployeesByStatusAndDepartmentId(EmployeeStatus status, Long departmentId);
 }
