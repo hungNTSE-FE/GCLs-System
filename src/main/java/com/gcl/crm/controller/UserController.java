@@ -82,7 +82,7 @@ public class UserController {
     }
 
     @PostMapping("/forgot-password")
-    public String sendNewPasswordEmail(Model model,@Nullable @RequestParam("email") String email, RedirectAttributes redirectAttributes){
+    public String sendNewPasswordEmail(Model model,@Nullable @RequestParam("email") String email){
         Employee employee = employeeService.getEmployeeByEmail(email);
         if (employee == null){
             model.addAttribute("email", email);

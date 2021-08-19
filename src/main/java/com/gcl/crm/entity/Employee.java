@@ -2,7 +2,6 @@ package com.gcl.crm.entity;
 
 import com.gcl.crm.enums.EmployeeStatus;
 import com.gcl.crm.enums.Gender;
-import com.gcl.crm.form.CustomerStatusEvaluationForm;
 import com.gcl.crm.form.EmployeeSearchForm;
 import lombok.Data;
 
@@ -29,10 +28,6 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "identity_number", referencedColumnName = "identity_number")
-    private Identification identification;
-
     @Column(name = "employee_code")
     private String codename;
 
@@ -49,25 +44,16 @@ public class Employee {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "personal_email")
-    private String personalEmail;
-
     @Column(name = "company_email", unique = true)
     private String companyEmail;
 
     @Column(name = "date_of_birth")
     private Date birthDate;
 
-    @Column(name = "major")
-    private String major;
-
     private String avatar;
 
     @Column(name = "start_date")
     private Date startDate;
-
-    @Column(name = "broker_code")
-    private Long brokerCode;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
@@ -95,7 +81,9 @@ public class Employee {
     private List<Task> tasks;
 
     public String getAvatar() {
-        return "avatar/" + id + "/" + (avatar != null ? avatar : "");
+        if (avatar != null && !avatar.isEmpty())
+            return "avatar/" + id + "/" + avatar;
+        return null;
     }
 
     public Employee() {
@@ -120,14 +108,6 @@ public class Employee {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Identification getIdentification() {
-        return identification;
-    }
-
-    public void setIdentification(Identification identification) {
-        this.identification = identification;
     }
 
     public String getName() {
@@ -162,14 +142,6 @@ public class Employee {
         this.address = address;
     }
 
-    public String getPersonalEmail() {
-        return personalEmail;
-    }
-
-    public void setPersonalEmail(String personalEmail) {
-        this.personalEmail = personalEmail;
-    }
-
     public String getCompanyEmail() {
         return companyEmail;
     }
@@ -186,28 +158,12 @@ public class Employee {
         this.birthDate = birthDate;
     }
 
-    public String getMajor() {
-        return major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major;
-    }
-
     public Date getStartDate() {
         return startDate;
     }
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
-    }
-
-    public Long getBrokerCode() {
-        return brokerCode;
-    }
-
-    public void setBrokerCode(Long brokerCode) {
-        this.brokerCode = brokerCode;
     }
 
     public EmployeeStatus getStatus() {

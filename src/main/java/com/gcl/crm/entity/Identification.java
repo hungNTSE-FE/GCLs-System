@@ -45,8 +45,6 @@ public class Identification {
     }
 
     @OneToOne(mappedBy = "identification", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Employee employee;
-    @OneToOne(mappedBy = "identification", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Customer customer;
 
     public Identification() {
@@ -115,14 +113,6 @@ public class Identification {
 
     public void setPermanentPlace(String permanentPlace) {
         this.permanentPlace = permanentPlace;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
     }
 
     public Customer getCustomer() {
