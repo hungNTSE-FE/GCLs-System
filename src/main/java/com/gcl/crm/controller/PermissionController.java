@@ -45,7 +45,7 @@ public class PermissionController {
         model.addAttribute("roles", roles);
         model.addAttribute("userName", principal.getName());
         model.addAttribute("userInfo", currentUser);
-        return HOME_PAGE_V2;
+        return HOME_PAGE;
     }
 
     @GetMapping({"/create"})
