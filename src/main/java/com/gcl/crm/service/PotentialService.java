@@ -142,20 +142,6 @@ public class PotentialService {
         return potential1 != null;
     }
 
-    public List<Potential> getPotentialsByIdList(List<Long> aidList) {
-        if (aidList == null) {
-            return null;
-        }
-        List<Potential> potentials = new ArrayList<>();
-        for (int i=0; i < aidList.size(); i++) {
-            Optional<Potential> potential = potentialRepository.findById(aidList.get(i));
-            if (potential.isPresent()) {
-                potentials.add(potential.get());
-            }
-        }
-        return potentials;
-    }
-
     public boolean resetAllPotential(List<Long> checkedPotential, User currentUser) {
         for (int i = 0; i < checkedPotential.size(); i++) {
             Potential potential = potentialRepository.findPotentialByIdAndStatus(checkedPotential.get(i), Status.INACTIVE);

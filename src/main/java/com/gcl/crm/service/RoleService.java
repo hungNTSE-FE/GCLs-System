@@ -36,6 +36,7 @@ public class RoleService {
         return null;
     }
 
+
     public boolean createRole(Role role, List<Long> privilegeIdList, User user){
         List<Privilege> privileges = privilegeService.getPrivilegesByIdList(privilegeIdList);
         role.setPrivileges(privileges);

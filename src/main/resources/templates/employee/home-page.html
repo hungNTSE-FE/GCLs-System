@@ -128,7 +128,7 @@
                         <td th:text="${employee.status}"></td>
                         <td>
                           <div class="d-flex">
-                            <a th:href="@{/employee/edit(eid=${employee.id})}" class="text-primary me-2">
+                            <a th:href="@{/employee/edit(eid=${employee.id})}" class="text-primary me-2" data-bs-toggle="tooltip" data-bs-placement="left" title="Cập nhật">
                               <i class="fas fa-pen"></i>
                             </a>
                             <!-- Button trigger modal -->

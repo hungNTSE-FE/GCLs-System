@@ -131,9 +131,6 @@ public class CustomerService {
 
     }
 
-    public Employee getEmployeeByUser(User user) {
-        return employeeRepository.findEmployeeByUser(user);
-    }
 
     private Customer convertToCustomerEntity(CustomerForm customerForm, User user) throws ParseException {
         Customer customer = new Customer();

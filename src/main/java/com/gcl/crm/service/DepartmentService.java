@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface DepartmentService {
     List<Department> findAllDepartments();
-    List<Department> findAllDepartmentsWithEmployees();
     Department findDepartmentById(String id);
     boolean createDepartment(Department department);
     boolean updateDepartment(Department department);
@@ -17,4 +16,5 @@ public interface DepartmentService {
     List<Department> findDepartmentsByCompany(Company company);
     List<Department> findDepartmentsByIdList(List<Long> idList);
     List<Department> findDepartmentsByTask(Long departmentID, List<Employee> employees);
+    List<Department> findAllDepartmentsWithEmployees();
 }

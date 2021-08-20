@@ -28,7 +28,6 @@ public class EmployeeController {
     private static final String EDIT_EMP_PAGE = "employee/edit-employee-page-V2";
     private static final String HOME_GROUP_PAGE = "employee/group-employee-page-V2";
     private static final String UPDATE_GROUP_PAGE = "employee/edit-group-employee-page-V2";
-    private static final String HOME_EMP_PAGE_V2 = "employee/home-employee-page-V2";
 
     @Autowired
     EmployeeService employeeService;

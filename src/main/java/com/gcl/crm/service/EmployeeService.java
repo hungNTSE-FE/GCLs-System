@@ -20,9 +20,9 @@ public interface EmployeeService {
     boolean updateEmployee(CreateEmployeeForm employeeForm, MultipartFile avatar);
     boolean deleteEmployee(Long eid);
     List<Employee> getAllNotGroupedEmployees();
-    List<Employee> getAllGroupedEmployees(String id);
     boolean isPhoneExisted(String phone, Long id);
     boolean isEmailExisted(String email, Long id);
     List<Employee> getAllWorkingEmployeesWithUserNotNull();
     Employee getEmployeeByEmail(String email);
+    List<Employee> getAllGroupedEmployees(String id);
 }

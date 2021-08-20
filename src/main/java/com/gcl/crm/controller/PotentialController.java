@@ -20,17 +20,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.mail.MessagingException;
-import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.TreeMap;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.RequestMapping;
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 @Controller
@@ -43,7 +39,6 @@ public class PotentialController {
     private static final String DETAIL_OVERVIEW_PAGE = "/potential/details/detail-potential-overview-page-V2";
     private static final String DETAIL_INFORMATION_PAGE = "/potential/details/detail-potential-information-page-V2";
     private static final String DETAIL_ACTION_PAGE = "/potential/details/detail-potential-action-page-V2";
-    private static final String DETAIL_TAKECARE_PAGE = "/potential/details/detail-potential-takecare-page";
     private static final String DETAIL_TAKECARE_MKTPAGE = "/potential/details/marketing/detail-potential-takecare-MKTpage";
     private static final String DETAIL_DIARY_PAGE = "/potential/details/detail-potential-diary-page";
 
@@ -101,16 +96,6 @@ public class PotentialController {
         }
 
         return ERROR_400;
-    }
-
-    @RequestMapping(value = "/detail/overview/{id}", method = RequestMethod.GET)
-    public String goPotentialDetail(Model model, @PathVariable("id") Long id) {
-        Potential potential = potentialService.getPotentialById(id);
-        if (potential == null) {
-            return "redirect:/potential/home";
-        }
-        model.addAttribute("potentialDetail", potential);
-        return DETAIL_OVERVIEW_PAGE;
     }
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
@@ -239,9 +224,11 @@ public class PotentialController {
             model.addAttribute("sources", sources);
             return CREATE_PAGE;
         }
+        User user = userService.getUserByUsername(principal.getName());
         User currentUser = userService.getUserByUsername(principal.getName());
         boolean done = potentialService.createPotential(potential, currentUser);
         redirectAttributes.addFlashAttribute("flag","showAlert");
+        redirectAttributes.addFlashAttribute("userInfo", user);
         return "redirect:/potential/create";
     }
 

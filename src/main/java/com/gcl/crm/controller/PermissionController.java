@@ -18,6 +18,7 @@ import java.util.Map;
 @RequestMapping("/permission")
 public class PermissionController {
     private static final String HOME_PAGE = "permission/home-page";
+    private static final String HOME_PAGE_V2 = "permission/home-permission-page-V2";
     private static final String CREATE_PAGE = "permission/create-permission-page-v2";
     private static final String EDIT_PAGE = "permission/edit-permission-page-v2";
     private static final String DECENENTRALIZE_PAGE = "permission/decentralization-permission-page-v2";
@@ -44,7 +45,7 @@ public class PermissionController {
         model.addAttribute("roles", roles);
         model.addAttribute("userName", principal.getName());
         model.addAttribute("userInfo", currentUser);
-        return HOME_PAGE;
+        return HOME_PAGE_V2;
     }
 
     @GetMapping({"/create"})
