@@ -97,7 +97,7 @@ public class CustomerService {
              bankAccountList.add(bankAccount);
             customer.setIdentification(registerIdentification(customerForm));
             customer.setBankAccounts(bankAccountList);
-            customerRepository.register(customer);
+            Customer newCustomer = customerRepository.register(customer);
             customerProcessService.saveAvatar(after,customer);
             customerProcessService.saveAvatar(before,customer);
         } catch (Exception e) {
@@ -135,7 +135,6 @@ public class CustomerService {
     private Customer convertToCustomerEntity(CustomerForm customerForm, User user) throws ParseException {
         Customer customer = new Customer();
         customer.setEmployee(new Employee(customerForm.getHdnEmployeeId()));
-        customer.setCustomerCode(customerForm.getCustomerName());
         customer.setCustomerCode(null);
         customer.setCustomerName(customerForm.getCustomerName());
         customer.setAddress(customerForm.getAddress());

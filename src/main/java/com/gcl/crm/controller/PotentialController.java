@@ -211,6 +211,7 @@ public class PotentialController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(Model model, @ModelAttribute("potentialForm") Potential potential, RedirectAttributes redirectAttributes, Principal principal) {
         boolean error = false;
+        User currentUser = userService.getUserByUsername(principal.getName());
         if (potentialService.isPhoneExisted(potential.getPhoneNumber(), potential.getId())){
             model.addAttribute("duplicatePhone", "Số điện thoại này đã tồn tại");
             error = true;
@@ -222,13 +223,12 @@ public class PotentialController {
         if (error){
             List<Source> sources = sourceRepository.getAll();
             model.addAttribute("sources", sources);
+            model.addAttribute("userInfo",currentUser);
             return CREATE_PAGE;
         }
-        User user = userService.getUserByUsername(principal.getName());
-        User currentUser = userService.getUserByUsername(principal.getName());
         boolean done = potentialService.createPotential(potential, currentUser);
         redirectAttributes.addFlashAttribute("flag","showAlert");
-        redirectAttributes.addFlashAttribute("userInfo", user);
+        redirectAttributes.addFlashAttribute("userInfo", currentUser);
         return "redirect:/potential/create";
     }
 
