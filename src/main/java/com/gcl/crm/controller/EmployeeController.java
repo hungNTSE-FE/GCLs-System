@@ -189,7 +189,7 @@ public class EmployeeController {
 
     @PostMapping({"/create"})
     public String create(Model model, @Nullable @ModelAttribute("employeeForm") CreateEmployeeForm employeeForm,
-                         @RequestParam("profile-img") MultipartFile avatar,
+                         @Nullable @RequestParam("profile-img") MultipartFile avatar,
                          RedirectAttributes redirectAttributes,
                          Principal principal){
         boolean error = false;
@@ -218,7 +218,11 @@ public class EmployeeController {
         }
         User currentUser = userService.getUserByUsername(principal.getName());
         boolean done = employeeService.createEmployee(employeeForm, currentUser, avatar);
-        redirectAttributes.addFlashAttribute("flag", "successCreate");
+        if (done) {
+            redirectAttributes.addFlashAttribute("flag", "successCreate");
+        } else if (!done) {
+            redirectAttributes.addFlashAttribute("flag", "createError");
+        }
         return "redirect:/employee/home";
     }
 
