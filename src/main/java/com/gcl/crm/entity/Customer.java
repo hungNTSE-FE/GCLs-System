@@ -81,22 +81,6 @@ public class Customer {
         this.number = number;
     }
 
-    public String getBrokerCode() {
-        return brokerCode;
-    }
-
-    public void setBrokerCode(String brokerCode) {
-        this.brokerCode = brokerCode;
-    }
-
-    public String getBrokerName() {
-        return brokerName;
-    }
-
-    public void setBrokerName(String brokerName) {
-        this.brokerName = brokerName;
-    }
-
     @Column(name = "GENDER")
     private Gender gender;
 

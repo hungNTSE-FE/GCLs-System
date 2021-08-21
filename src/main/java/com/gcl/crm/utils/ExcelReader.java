@@ -80,7 +80,9 @@ public class ExcelReader {
                             numberFormat.setMaximumFractionDigits(20);
                             numberFormat.setGroupingUsed(false);
                             if (phone != null) {
-                                item.setPhoneNumber(numberFormat.format(phone));
+                                item.setPhoneNumber((phone.toString().startsWith("0") || phone.toString().startsWith("+84"))
+                                        ? numberFormat.format(phone)
+                                        : "+84" + numberFormat.format(phone));
                             }
                         }
                         break;
