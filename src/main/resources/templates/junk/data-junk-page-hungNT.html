@@ -178,20 +178,38 @@
     var showtext = /*[[${flag}]]*/ "";
     console.log(showtext);
     if (showtext === 'showAlert') {
-      swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Khôi phục thành công",
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
         showConfirmButton: false,
-        timer: 5000,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: "success",
+        title: "Khôi phục dữ liệu thành công",
       });
     } else if (showtext === 'showAlertError') {
-      swal.fire({
-        position: "top-end",
-        icon: "error",
-        title: "Khôi phục thất bại",
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
         showConfirmButton: false,
-        timer: 5000,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: "error",
+        title: "Khôi phục dữ liệu thất bại",
       });
     }
   });
