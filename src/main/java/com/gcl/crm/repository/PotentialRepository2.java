@@ -96,14 +96,15 @@ public class PotentialRepository2 {
     }
 
     @Transactional
-    public boolean updateLevelPotentialByCusId(Integer customerId, Integer levelId) {
+    public boolean updateLevelPotentialByAccountnumber(String accountNumber, Integer levelId) {
         String sql = "update potential pot\n" +
-                "inner join customer_distribution cd on pot.id = cd.potential_id\n" +
+                "    inner join customer_distribution cd on pot.id = cd.potential_id\n" +
+                "    inner join customer c on cd.customer_id = c.customer_id\n" +
                 "set pot.level_id = :level_id\n" +
-                "where cd.customer_id = :customer_id";
+                "where c.account_number = :account_number";
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("level_id", levelId);
-        query.setParameter("customer_id", customerId);
+        query.setParameter("account_number", accountNumber);
         return query.executeUpdate() > 0;
     }
 }

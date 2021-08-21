@@ -339,7 +339,6 @@ public class CustomerController {
                 contract.setContractFile(contractFile);
                 System.out.println("contract file : " + contractFile.toString());
                 customer.setLevel(new Level(LevelEnum.LEVEL_7.getValue()));
-                potentialService.updateLevelPotentialByCusId(customer.getCustomerId(), LevelEnum.LEVEL_7.getValue());
                 customerProcessService.createContract(contract, customer);
 
                 redirectAttributes.addFlashAttribute("flag", "showAlert");

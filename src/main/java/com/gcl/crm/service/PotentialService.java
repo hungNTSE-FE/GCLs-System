@@ -288,10 +288,6 @@ public class PotentialService {
         potentialRepository2.updateLevelPotential(potentialId, LevelEnum.LEVEL_6.getValue());
     }
 
-    public void updateLevelPotentialByCusId(Integer customerId, Integer levelId) {
-        potentialRepository2.updateLevelPotentialByCusId(customerId, levelId);
-    }
-
     private Date getCurrentDate() {
         return new Date(System.currentTimeMillis());
     }
