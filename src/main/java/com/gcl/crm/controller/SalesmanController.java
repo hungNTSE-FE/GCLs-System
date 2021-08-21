@@ -72,6 +72,7 @@ public class SalesmanController {
         model.addAttribute("selectedLevel", potentialDetail.getLevel());
         model.addAttribute("potentialEntity", potentialEntity);
         model.addAttribute("userInfo", currentUser);
+        model.addAttribute("selectedLevel", potentialDetail.getLevel());
         return DETAIL_INFORMATION_PAGE;
     }
 }
