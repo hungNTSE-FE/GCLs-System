@@ -6,6 +6,7 @@ import com.gcl.crm.entity.*;
 import com.gcl.crm.form.CustomerDistributionForm;
 import com.gcl.crm.form.EmployeeSearchForm;
 import com.gcl.crm.form.PotentialSearchForm;
+import com.gcl.crm.repository.CustomerDistributionRepository;
 import com.gcl.crm.repository.SourceRepository;
 import com.gcl.crm.service.*;
 import com.gcl.crm.utils.ExcelReader;
@@ -23,11 +24,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import javax.mail.internet.MimeMessage;
+import javax.swing.text.html.Option;
 
 @Controller
 @RequestMapping("/potential")
@@ -64,6 +67,9 @@ public class PotentialController {
     MarketingGroupService marketingGroupService;
 
     @Autowired
+    CustomerDistributionRepository customerDistributionRepository;
+
+    @Autowired
     public JavaMailSender emailSender;
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
@@ -81,7 +87,15 @@ public class PotentialController {
         List<Potential> potentials = potentialService.getAllPotentials();
         List<MarketingGroup> marketingGroups = marketingGroupService.getAllMktByStatus();
         CustomerDistributionForm customerDistributionForm = new CustomerDistributionForm();
-
+        Map<Long, String > marketingGroupsMap = Optional.ofNullable(marketingGroups)
+                                                        .orElse(Collections.emptyList())
+                                                        .stream()
+                                                        .collect(Collectors.toMap(MarketingGroup::getId, MarketingGroup::getName));
+        Map<Long, String> potentialMap = new HashMap<>();
+        for (CustomerDistribution customerDistribution : customerDistributionRepository.getAll()) {
+            potentialMap.put(customerDistribution.getPotential().getId(),
+                    marketingGroupsMap.get(customerDistribution.getMarketingGroup().getId()));
+        };
         model.addAttribute("potentials", potentials);
         model.addAttribute("marketingGroups", marketingGroups);
         model.addAttribute("customerDistributionForm", customerDistributionForm);
@@ -90,6 +104,7 @@ public class PotentialController {
         model.addAttribute("levels", levels);
         model.addAttribute("userName", principal.getName());
         model.addAttribute("userInfo", user);
+        model.addAttribute("potentialMap", potentialMap);
 
         if ("MARKETING".equals(roleEmployee)) {
             return DASHBOARD_PAGE;

@@ -275,7 +275,7 @@
                         <td>
                           <span th:if="${potential.level}" th:text="${potential.level.levelName}"></span>
                         </td>
-                        <td th:text="${potential.sale}"></td>
+                        <td th:text="${potentialMap.get(potential.id)}"></td>
                         <td th:text="${potential.potentialRating}"></td>
                       </tr>
                       </tbody>
