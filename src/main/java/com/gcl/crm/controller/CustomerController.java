@@ -76,6 +76,9 @@ public class CustomerController {
     @Autowired
     EmployeeService employeeService;
 
+    @Autowired
+    PotentialService potentialService;
+
 ///
     @GetMapping({"/manageCustomer"})
     public  String viewCustomer(Model model, Principal principal){
@@ -335,6 +338,8 @@ public class CustomerController {
                 contractFile.setActive(Status.ACTIVE);
                 contract.setContractFile(contractFile);
                 System.out.println("contract file : " + contractFile.toString());
+                customer.setLevel(new Level(LevelEnum.LEVEL_7.getValue()));
+                potentialService.updateLevelPotentialByCusId(customer.getCustomerId(), LevelEnum.LEVEL_7.getValue());
                 customerProcessService.createContract(contract, customer);
 
                 redirectAttributes.addFlashAttribute("flag", "showAlert");

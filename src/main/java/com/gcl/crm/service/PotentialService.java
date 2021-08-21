@@ -1,6 +1,7 @@
 package com.gcl.crm.service;
 
 import com.gcl.crm.entity.*;
+import com.gcl.crm.enums.LevelEnum;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.form.EmployeeSearchForm;
 import com.gcl.crm.form.PotentialSearchForm;
@@ -281,6 +282,14 @@ public class PotentialService {
 
     public List<Potential> getAllPotentialsOfSale(User user){
         return potentialRepository2.getListPotentialOfSale(user.getEmployee().getMarketingGroup().getId());
+    }
+
+    public void updateLevelPotentialAfterRegistCus(Long potentialId) {
+        potentialRepository2.updateLevelPotential(potentialId, LevelEnum.LEVEL_6.getValue());
+    }
+
+    public void updateLevelPotentialByCusId(Integer customerId, Integer levelId) {
+        potentialRepository2.updateLevelPotentialByCusId(customerId, levelId);
     }
 
     private Date getCurrentDate() {

@@ -10,6 +10,7 @@ import org.springframework.util.CollectionUtils;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -82,5 +83,27 @@ public class PotentialRepository2 {
         query.setParameter("start_date", start_date);
         query.setParameter("end_date", end_date);
         return query.getResultList();
+    }
+
+    public boolean updateLevelPotential(Long potentialId, Integer levelId) {
+        String sql ="update potential\n" +
+                "set level_id = :level_id\n" +
+                "where id = :potential_id";
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter("level_id", levelId);
+        query.setParameter("potential_id", potentialId);
+        return query.executeUpdate() > 0;
+    }
+
+    @Transactional
+    public boolean updateLevelPotentialByCusId(Integer customerId, Integer levelId) {
+        String sql = "update potential pot\n" +
+                "inner join customer_distribution cd on pot.id = cd.potential_id\n" +
+                "set pot.level_id = :level_id\n" +
+                "where cd.customer_id = :customer_id";
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter("level_id", levelId);
+        query.setParameter("customer_id", customerId);
+        return query.executeUpdate() > 0;
     }
 }

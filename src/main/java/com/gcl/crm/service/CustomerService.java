@@ -47,6 +47,9 @@ public class CustomerService {
     @Autowired
     MarketingGroupService marketingGroupService;
 
+    @Autowired
+    CustomerDistributionRepository customerDistributionRepository;
+
     public ComboboxForm initComboboxData() {
         ComboboxForm comboboxForm = new ComboboxForm();
         List<SelectItem> sourceList = sourceRepository.getAll()
@@ -76,7 +79,7 @@ public class CustomerService {
             form.setEmail(potential.getEmail());
             form.setPhoneNumber(potential.getPhoneNumber());
             form.setHdnSourceId(potential.getSource().getSourceId());
-
+            form.setHdmPotentialId(potentialId);
         }
         return form;
     }
@@ -86,7 +89,7 @@ public class CustomerService {
         try {
             Customer customer = convertToCustomerEntity(customerForm, user);
             // Set level 6 as default of customer when register customer successfully
-            customer.setLevel(new Level(LevelEnum.LEVEL_5.getValue()));
+            customer.setLevel(new Level(LevelEnum.LEVEL_6.getValue()));
             //Identification
             //kh-ng depar-docu
             customer.setNumber("none");
@@ -98,6 +101,8 @@ public class CustomerService {
             customer.setIdentification(registerIdentification(customerForm));
             customer.setBankAccounts(bankAccountList);
             Customer newCustomer = customerRepository.register(customer);
+            customerDistributionRepository.updateCusDisAfterRegistCus(customerForm.getHdmPotentialId(), newCustomer.getCustomerId());
+            potentialService.updateLevelPotentialAfterRegistCus(customerForm.getHdmPotentialId());
             customerProcessService.saveAvatar(after,customer);
             customerProcessService.saveAvatar(before,customer);
         } catch (Exception e) {

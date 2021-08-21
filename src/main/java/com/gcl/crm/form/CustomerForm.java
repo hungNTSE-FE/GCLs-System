@@ -98,6 +98,8 @@ public class CustomerForm {
 
     private Long hdnEmployeeId;
 
+    private Long hdmPotentialId;
+
     private Date updDate;
 
     private String updUser;
@@ -328,5 +330,13 @@ public class CustomerForm {
 
     public void setMarketingGroupList(List<MarketingGroup> marketingGroupList) {
         this.marketingGroupList = marketingGroupList;
+    }
+
+    public Long getHdmPotentialId() {
+        return hdmPotentialId;
+    }
+
+    public void setHdmPotentialId(Long hdmPotentialId) {
+        this.hdmPotentialId = hdmPotentialId;
     }
 }
