@@ -183,16 +183,6 @@
                         <option value="0" >LOW</option>
                       </select>
                     </div>
-
-                    <div class="mb-3">
-                      <label class="text-sm">Sinh nhật sắp tới</label>
-                      <select class="form-select" id="selectUpcomingBirthdate">
-                        <option selected value="" >Tất cả</option>
-                        <option value="week" >1 tuần</option>
-                        <option value="month" >1 tháng</option>
-                      </select>
-                    </div>
-
                     <div class="mb-3">
                       <label class="text-sm">
                         Thời gian
@@ -465,7 +455,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="removeModalCenterTitle">Bạn có muốn xoá bản ghi đã chọn?</h5>
+            <h5 class="modal-title" id="removeModalCenterTitle">Bạn có muốn xoá khách hàng đã chọn?</h5>
             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-footer">
@@ -503,20 +493,39 @@
     var showtext = /*[[${flag}]]*/ "";
     console.log(showtext);
     if (showtext === 'showAlert') {
-      swal.fire({
-        position: "top-end",
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
         icon: "success",
-        title: "Xoá thành công",
-        showConfirmButton: false,
-        timer: 5000,
+        title: "Xoá khách hàng thành công",
       });
+
     } else if (showtext === 'showAlertError') {
-      swal.fire({
-        position: "top-end",
-        icon: "error",
-        title: "Xoá thất bại",
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
         showConfirmButton: false,
-        timer: 5000,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: 'error',
+        title: "Xoá khách khàng thất bại",
       });
     } else if (showtext === 'showAlertImportSuccess') {
       const Toast = Swal.mixin({

@@ -29,41 +29,10 @@
           >Updated</span
           >
         </a>
-        <!-- Sidenav Accordion (Dashboard)-->
-        <a
-                class="nav-link collapsed"
-                href="javascript:void(0);"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseDashboards"
-                aria-expanded="false"
-                aria-controls="collapseDashboards"
-        >
-          <div class="nav-link-icon"><i data-feather="activity"></i></div>
-          Marketing
-          <div class="sidenav-collapse-arrow">
-            <i class="fas fa-angle-down"></i>
-          </div>
+        <a class="nav-link" th:href="@{/potential/home}">
+          <div class="nav-link-icon"><i class="fas fa-users"></i></div>
+          Khách hàng
         </a>
-        <div
-                class="collapse"
-                id="collapseDashboards"
-                data-bs-parent="#accordionSidenav"
-        >
-          <nav
-                  class="sidenav-menu-nested nav accordion"
-                  id="accordionSidenavPages"
-          >
-            <a class="nav-link" th:href="@{/customer/home}">
-              Khách hàng
-              <span class="badge bg-primary-soft text-primary ms-auto"
-              >Updated</span
-              >
-            </a>
-            <a class="nav-link" id="connect1" th:href="@{/potential/home}">Đầu mối</a>
-            <a class="nav-link" href="#">List Khách Hàng</a>
-          </nav>
-        </div>
-
         <!-- Sidenav Accordion (Flows)-->
         <a
                 class="nav-link collapsed"
@@ -105,42 +74,11 @@
             >
               <nav class="sidenav-menu-nested nav">
                 <a class="nav-link" th:href="@{/statistic/potential}">Khách hàng tiềm năng</a>
-                <a class="nav-link" href="#">Báo cáo KPI cho nhân viên</a>
               </nav>
             </div>
             <a class="nav-link" th:href="@{/report/source}">Nguồn</a>
             <a class="nav-link" th:href="@{/report/agency}">Môi giới</a>
-            <a class="nav-link" th:href="@{/report/customerStatus}">Đánh giá tình trạng khách hàng</a>
-            <a
-                    class="nav-link collapsed"
-                    href="javascript:void(0);"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#pagesCollapseCustomer"
-                    aria-expanded="false"
-                    aria-controls="pagesCollapseCustomer"
-            >
-              Khách Hàng
-              <div class="sidenav-collapse-arrow">
-                <i class="fas fa-angle-down"></i>
-              </div>
-            </a>
-            <div
-                    class="collapse"
-                    id="pagesCollapseCustomer"
-                    data-bs-parent="#accordionSidenavPagesMenu"
-            >
-              <nav class="sidenav-menu-nested nav">
-                <a class="nav-link" href="#"
-                >Báo cáo tình trạng khách hàng</a
-                >
-                <a class="nav-link" href="#"
-                >Báo cáo chăm sóc khách hàng</a
-                >
-                <a class="nav-link" href="#"
-                >Báo cáo giao dịch khách hàng</a
-                >
-              </nav>
-            </div>
+            <a class="nav-link" th:href="@{/report/customerStatus}">Tình trạng khách hàng</a>
           </nav>
         </div>
         <!-- Sidenav Trading Account (Flows)-->
@@ -222,40 +160,15 @@
                   class="sidenav-menu-nested nav accordion"
                   id="accordionSidenavPages"
           >
-            <a class="nav-link" th:href="@{/welcome}">
+            <a class="nav-link" th:href="@{/department/home}">
               Phòng Ban
               <span class="badge bg-primary-soft text-primary ms-auto">Updated</span>
             </a>
             <a class="nav-link" th:href="@{/employee/home}">Nhân Viên</a>
+            <a class="nav-link" th:href="@{/employee/marketing-group}">
+              Nhóm nhân viên
+            </a>
             <a class="nav-link" th:href="@{/permission/home}">Nhóm Quyền</a>
-            <a class="nav-link" href="#">Thông Tin Công Ty</a>
-          </nav>
-        </div>
-        <a
-                class="nav-link collapsed"
-                href="javascript:void(0);"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapsePages2"
-                aria-expanded="false"
-                aria-controls="collapsePages2"
-        >
-          <div class="nav-link-icon"><i data-feather="bell"></i></div>
-          Thông báo, Công văn
-          <div class="sidenav-collapse-arrow">
-            <i class="fas fa-angle-down"></i>
-          </div>
-        </a>
-        <div
-                class="collapse"
-                id="collapsePages2"
-                data-bs-parent="#accordionSidenav"
-        >
-          <nav
-                  class="sidenav-menu-nested nav accordion"
-                  id="accordionSidenavPages"
-          >
-            <a class="nav-link" th:href="@{/notification/create}">Thông báo</a>
-            <a class="nav-link" th:href="@{/messagechat}">Trò chuyện</a>
           </nav>
         </div>
         <a
@@ -284,10 +197,6 @@
             <a class="nav-link" th:href="@{/junk/home}">
               <div class="nav-link-icon"> <i class="fas fa-trash"></i></div>
               Thùng rác
-            </a>
-            <a class="nav-link" th:href="@{/employee/marketing-group}">
-              <div class="nav-link-icon"><i class="fas fa-users"></i></div>
-              Nhóm nhân viên
             </a>
           </nav>
         </div>

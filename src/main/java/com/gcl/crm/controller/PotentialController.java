@@ -269,6 +269,8 @@ public class PotentialController {
         if (error){
             List<Source> sources = sourceRepository.getAll();
             model.addAttribute("sources", sources);
+            model.addAttribute("userInfo", user);
+            model.addAttribute("flag", "showAlertError");
             return UPDATE_PAGE;
         }
         boolean done = potentialService.editPotential(potential, user);
