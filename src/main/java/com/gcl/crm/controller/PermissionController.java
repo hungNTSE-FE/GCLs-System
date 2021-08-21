@@ -39,13 +39,25 @@ public class PermissionController {
     EmployeeService employeeService;
 
     @GetMapping({"/home"})
-    public String home(Model model, Principal principal) {
+    public String home(Model model, Principal principal,
+                       @Nullable @RequestParam("k") String keyword) {
+        if (keyword == null){
+            List<Role> roles = roleService.getAllRoles();
+            model.addAttribute("roles", roles);
+        }
         User currentUser = userService.getUserByUsername(principal.getName());
-        List<Role> roles = roleService.getAllRoles();
-        model.addAttribute("roles", roles);
         model.addAttribute("userName", principal.getName());
         model.addAttribute("userInfo", currentUser);
         return HOME_PAGE;
+    }
+
+    @GetMapping("/search")
+    public String search(RedirectAttributes redirectAttributes,
+                         @Nullable @RequestParam("k") String keyword){
+        List<Role> roles = roleService.search(keyword);
+        redirectAttributes.addFlashAttribute("roles", roles);
+        redirectAttributes.addAttribute("k", keyword);
+        return "redirect:/permission/home";
     }
 
     @GetMapping({"/create"})
@@ -107,7 +119,7 @@ public class PermissionController {
         User currentUser = userService.getUserByUsername(principal.getName());
         boolean done = roleService.updateRole(role, privilegeIdList, currentUser);
         if (done){
-            redirectAttributes.addFlashAttribute("flag","showAlert");
+            redirectAttributes.addFlashAttribute("flag","showAlertSuccess");
         } else {
             redirectAttributes.addFlashAttribute("flag","showAlertError");
         }
@@ -131,20 +143,36 @@ public class PermissionController {
         return "redirect:/permission/create";
     }
 
-    @PostMapping({"/delete"})
-    public String delete(RedirectAttributes redirectAttributes, @Nullable @RequestParam("role-id") Long roleId,
+    @PostMapping({"/enable"})
+    public String enable(RedirectAttributes redirectAttributes, @Nullable @RequestParam("role-id") Long roleId,
                          Principal principal){
         if (roleId == null){
             return "redirect:/permission/home";
         }
         User currentUser = userService.getUserByUsername(principal.getName());
-        boolean done = roleService.deleteRole(roleId, currentUser);
+        boolean done = roleService.enableRole(roleId, currentUser);
         if (done){
-            redirectAttributes.addFlashAttribute("flag","showAlertDeleteSuccess");
+            redirectAttributes.addFlashAttribute("flag","showAlertSuccess");
         } else {
-            redirectAttributes.addFlashAttribute("flag","showAlertDeleteError");
+            redirectAttributes.addFlashAttribute("flag","showAlertError");
         }
-        return "redirect:/permission/home";
+        return "redirect:/permission/edit?rid=" + roleId;
+    }
+
+    @PostMapping({"/disable"})
+    public String disable(RedirectAttributes redirectAttributes, @Nullable @RequestParam("role-id") Long roleId,
+                         Principal principal){
+        if (roleId == null){
+            return "redirect:/permission/home";
+        }
+        User currentUser = userService.getUserByUsername(principal.getName());
+        boolean done = roleService.disableRole(roleId, currentUser);
+        if (done){
+            redirectAttributes.addFlashAttribute("flag","showAlertSuccess");
+        } else {
+            redirectAttributes.addFlashAttribute("flag","showAlertError");
+        }
+        return "redirect:/permission/edit?rid=" + roleId;
     }
 
     @PostMapping({"/decentralize"})
@@ -154,6 +182,9 @@ public class PermissionController {
                                Principal principal){
         if (roleId == null){
             return "redirect:/permission/home";
+        }
+        if (userIdList == null){
+            return "redirect:/permission/decentralize?rid=" + roleId;
         }
         User currentUser = userService.getUserByUsername(principal.getName());
         boolean done = roleService.decentralizeRole(roleId, userIdList, currentUser);

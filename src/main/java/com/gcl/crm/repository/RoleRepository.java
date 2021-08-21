@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface RoleRepository extends JpaRepository<Role, Long> {
     List<Role> findAllByStatus(Status status);
     Optional<Role> findByIdAndStatus(Long id, Status status);
+    List<Role> findAllByNameContaining(String keyword);
 }

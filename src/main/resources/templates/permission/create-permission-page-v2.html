@@ -88,12 +88,12 @@
           </div>
           <div class="card-body">
             <div id="treeview_container" class="hummingbird-treeview">
-              <ul id="treeview" class="hummingbird-base d-grid gap-3 d-md-flex justify-content-between mh-100" style="list-style-type:none">
+              <ul style="list-style-type: none" id="treeview" class="hummingbird-base d-grid gap-3 d-md-flex justify-content-between mh-100">
                 <li th:each="module : ${modules}">
                   <i class="fa fa-minus"></i>
                   <input th:id="${'module-' + module.id}" data-id="custom-0" type="checkbox" />
                   <label th:for="${'module-' + module.id}" th:text="${module.name}"></label>
-                  <ul style="display: block">
+                  <ul style="display: block; list-style-type: none">
                     <li th:each="privilege : ${module.privileges}">
                       <input th:id="${'privilege-' + privilege.id}" name="privilege-id"
                              th:value="${privilege.id}" id="node-0-1" data-id="custom-1"

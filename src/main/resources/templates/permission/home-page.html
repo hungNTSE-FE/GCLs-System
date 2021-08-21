@@ -30,6 +30,7 @@
           <div class="me-4 mb-3 mb-sm-0">
             <h1 class="mb-0 text-primary">Quản lý nhân sự</h1>
           </div>
+          <form th:action="@{/permission/search}" id="search-permission"></form>
           <!-- Date range picker example-->
           <div class="d-flex">
             <div
@@ -39,13 +40,13 @@
                   <span class="input-group-text"
                   ><i data-feather="search"></i
                   ></span>
-              <input
+              <input name="k" form="search-permission" th:value="${param.k}"
                       class="form-control ps-0 pointer"
                       type="text"
                       placeholder="Nhập tên nhóm quyền..."
               />
             </div>
-            <button class="btn btn-outline-primary me-2">Tìm kiếm</button>
+            <button form="search-permission" class="btn btn-outline-primary me-2">Tìm kiếm</button>
             <a class="btn btn-primary" th:href="@{/permission/create}">
               <div class="nav-link-icon"><i class="fas fa-plus"></i></div>
               Thêm nhóm quyền
@@ -59,15 +60,17 @@
           <div class="card-body">
             <table id="datatablesPermission">
               <colgroup>
-                <col width="13%">
-                <col width="47%">
+                <col width="10%">
+                <col width="35%">
                 <col width="40%">
+                <col width="15%">
               </colgroup>
               <thead>
               <tr>
                 <th>HÀNH ĐỘNG</th>
                 <th>NHÓM QUYỀN</th>
                 <th>MÔ TẢ</th>
+                <th>TRẠNG THÁI</th>
               </tr>
               </thead>
               <tbody>
@@ -82,6 +85,10 @@
                 </td>
                 <td th:text="${role.name}"></td>
                 <td th:text="${role.description}"></td>
+                <td>
+                  <span th:if="${role.status.getValue().equals('0')}" th:text="${role.status}" style="color: red"></span>
+                  <span th:if="${role.status.getValue().equals('1')}" th:text="${role.status}" style="color: green"></span>
+                </td>
               </tr>
               </tbody>
             </table>

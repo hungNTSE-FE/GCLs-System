@@ -30,7 +30,7 @@ public class User implements Principal {
     @JoinColumn(name ="employee_id")
     private Employee employee;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private List<UserRole> userRoles;
 
     public User(String userName) {

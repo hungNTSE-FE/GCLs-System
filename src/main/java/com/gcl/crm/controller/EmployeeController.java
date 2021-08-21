@@ -180,7 +180,6 @@ public class EmployeeController {
         if (id == null) {
             return "redirect:/employee/marketing-group";
         }
-
         marketingGroupUseDelete.setLastModifier(user.getUserId());
         boolean done = marketingGroupService.deleteMarketingGroup(marketingGroupUseDelete);
         redirectAttributes.addFlashAttribute("flag","showAlertDeleteSuccess");
@@ -300,11 +299,15 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/marketing-group/search", method = RequestMethod.POST)
-    public String search(Model model, @Nullable @ModelAttribute("marketingGroup") MarketingGroup searchForm) {
+    public String search(Model model, @Nullable @ModelAttribute("marketingGroup") MarketingGroup searchForm,
+                         Principal principal) {
+        User currentUser = userService.getUserByUsername(principal.getName());
         List<Employee> employees = employeeService.getAllNotGroupedEmployees();
         List<MarketingGroup> marketingGroups = marketingGroupService.searchAllGroupMktByCode(searchForm);
         model.addAttribute("employees", employees);
         model.addAttribute("marketingGroups", marketingGroups);
+        model.addAttribute("userName", principal.getName());
+        model.addAttribute("userInfo", currentUser);
         return HOME_GROUP_PAGE;
     }
 }

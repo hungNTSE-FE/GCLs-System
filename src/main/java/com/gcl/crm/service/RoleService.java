@@ -24,12 +24,20 @@ public class RoleService {
     @Autowired
     UserRoleService userRoleService;
 
-    public List<Role> getAllRoles(){
+    public List<Role> getAllActiveRoles(){
         return roleRepository.findAllByStatus(Status.ACTIVE);
     }
 
+    public List<Role> getAllRoles(){
+        return roleRepository.findAll();
+    }
+
+    public List<Role> search(String keyword){
+        return roleRepository.findAllByNameContaining(keyword);
+    }
+
     public Role getRoleById(Long roleId){
-        Optional<Role> role = roleRepository.findByIdAndStatus(roleId, Status.ACTIVE);
+        Optional<Role> role = roleRepository.findById(roleId);
         if (role.isPresent()){
             return role.get();
         }
@@ -62,7 +70,19 @@ public class RoleService {
         return true;
     }
 
-    public boolean deleteRole(Long roleId, User user){
+    public boolean enableRole(Long roleId, User user){
+        Optional<Role> role = roleRepository.findByIdAndStatus(roleId, Status.INACTIVE);
+        if (!role.isPresent()){
+            return false;
+        }
+        role.get().setStatus(Status.ACTIVE);
+        role.get().setLastModifier(user.getEmployee().getId());
+        role.get().setLastModified(this.getCurrentDate());
+        roleRepository.save(role.get());
+        return true;
+    }
+
+    public boolean disableRole(Long roleId, User user){
         Optional<Role> role = roleRepository.findByIdAndStatus(roleId, Status.ACTIVE);
         if (!role.isPresent()){
             return false;
@@ -70,13 +90,6 @@ public class RoleService {
         role.get().setStatus(Status.INACTIVE);
         role.get().setLastModifier(user.getEmployee().getId());
         role.get().setLastModified(this.getCurrentDate());
-        List<UserRole> userRoleList = role.get().getUserRoles();
-        userRoleList.forEach(userRole -> {
-            userRole.setStatus(Status.INACTIVE);
-            userRole.setLastModified(this.getCurrentDate());
-            userRole.setLastModifier(user.getEmployee().getId());
-        });
-        role.get().setUserRoles(userRoleList);
         roleRepository.save(role.get());
         return true;
     }

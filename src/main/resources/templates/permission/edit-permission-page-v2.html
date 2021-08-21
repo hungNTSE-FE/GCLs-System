@@ -42,6 +42,10 @@
           </div>
         </div>
       </header>
+      <form th:if="${role.status.getValue().equals('0')}" th:action="@{/permission/enable}"
+            method="POST" id="enable-role">
+        <input type="hidden" name="role-id" th:value="${role.id}" />
+      </form>
       <!-- Main page content-->
       <div class="container-xl px-4 mt-n10">
         <div class="card mb-4 card-header-actions mx-auto">
@@ -50,21 +54,23 @@
             <div>
               <button form="update-form" type="submit" class="btn btn-primary">Cập nhật</button>
               <!-- Button trigger modal -->
-              <button class="btn btn-outline-dark" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">XOÁ</button>
+              <button th:if="${role.status.getValue().equals('1')}" class="btn btn-outline-dark" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">Tắt</button>
+              <button th:if="${role.status.getValue().equals('0')}" class="btn btn-outline-dark"
+                      type="submit" form="enable-role">Bật</button>
 
               <!-- Modal -->
-              <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div th:if="${role.status.getValue().equals('1')}" class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalCenterTitle">Bạn có muốn xoá nhóm quyền này?</h5>
+                      <h5 class="modal-title" id="exampleModalCenterTitle">Bạn có muốn vô hiệu hóa nhóm quyền này?</h5>
                       <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-footer">
-                      <form th:action="@{/permission/delete}" method="POST">
+                      <form th:action="@{/permission/disable}" method="POST">
                         <input type="hidden" name="role-id" th:value="${role.id}" />
                         <button type="submit" class="btn btn-red" id="delete1">
-                          Xoá
+                          Có
                         </button>
                       </form>
                       <button class="btn btn-outline-dark" type="button" id>
@@ -92,6 +98,13 @@
                   <textarea th:field="*{description}" class="form-control form-control-solid" rows="3" placeholder="Nhập mô tả"></textarea>
                 </div>
               </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Trạng thái</label>
+                <div class="col-sm-10">
+                  <span th:if="${role.status.getValue().equals('0')}" th:text="${role.status}" style="color: red"></span>
+                  <span th:if="${role.status.getValue().equals('1')}" th:text="${role.status}" style="color: green"></span>
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -113,12 +126,13 @@
           </div>
           <div class="card-body">
             <div id="treeview_container" class="hummingbird-treeview">
-              <ul id="treeview" class="hummingbird-base d-grid gap-3 d-md-flex justify-content-between mh-100">
+              <ul class="hummingbird-base d-grid gap-3 d-md-flex justify-content-between mh-100"
+                  style="list-style-type: none" id="treeview">
                 <li th:each="module : ${modules}">
                   <i class="fa fa-minus"></i>
                   <input th:id="${'action-type-' + module.id}" data-id="custom-0" type="checkbox" />
                   <label th:for="${'action-type-' + module.id}" th:text="${module.name}"></label>
-                  <ul style="display: block">
+                  <ul style="display: block; list-style-type: none">
                     <li th:each="privilege : ${module.privileges}">
                       <input form="update-form" name="privilege-id" th:value="${privilege.id}"
                              th:id="${'privilege-' + privilege.id}" data-id="custom-1" type="checkbox"
@@ -150,7 +164,7 @@
   $(document).ready(function() {
     var showtext = /*[[${flag}]]*/ "";
     console.log(showtext);
-    if (showtext === 'showAlert') {
+    if (showtext === 'showAlertSuccess') {
       const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -167,7 +181,7 @@
         icon: "success",
         title: "Cập nhật nhóm quyền thành công",
       });
-    } else if (showtext === 'showAlertDeleteSuccess') {
+    } else if (showtext === 'showAlertError') {
       const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
