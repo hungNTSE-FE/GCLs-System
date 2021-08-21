@@ -178,12 +178,23 @@ public class PotentialController {
         List<Source> sources = sourceRepository.getAll();
         List<Level> levels = levelService.getAll();
         List<Potential> potentials = potentialService.search(searchForm);
+        List<MarketingGroup> marketingGroups = marketingGroupService.getAllMktByStatus();
+        Map<Long, String > marketingGroupsMap = Optional.ofNullable(marketingGroups)
+                .orElse(Collections.emptyList())
+                .stream()
+                .collect(Collectors.toMap(MarketingGroup::getId, MarketingGroup::getName));
+        Map<Long, String> potentialMap = new HashMap<>();
+        for (CustomerDistribution customerDistribution : customerDistributionRepository.getAll()) {
+            potentialMap.put(customerDistribution.getPotential().getId(),
+                    marketingGroupsMap.get(customerDistribution.getMarketingGroup().getId()));
+        }
         model.addAttribute("userInfo", currentUser);
         model.addAttribute("userName", principal.getName());
         model.addAttribute("sources", sources);
         model.addAttribute("levels", levels);
         model.addAttribute("potentials", potentials);
         model.addAttribute("customerDistributionForm", customerDistributionForm);
+        model.addAttribute("potentialMap", potentialMap);
         return DASHBOARD_PAGE;
     }
 
