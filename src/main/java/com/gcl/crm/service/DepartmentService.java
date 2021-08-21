@@ -13,6 +13,7 @@ public interface DepartmentService {
     boolean createDepartment(Department department);
     boolean updateDepartment(Department department);
     boolean deleteDepartment(String id);
+    boolean isNameExisted(String name, Long id);
     List<Department> findDepartmentsByCompany(Company company);
     List<Department> findDepartmentsByIdList(List<Long> idList);
     List<Department> findDepartmentsByTask(Long departmentID, List<Employee> employees);

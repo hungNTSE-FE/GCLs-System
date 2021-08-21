@@ -14,4 +14,6 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
     Department findByIdAndStatus(Long id, Status status);
     List<Department> findAllByStatus(Status status);
     List<Department> findAllByStatusAndCompany(Status status, Company company);
+    Department findDepartmentByNameAndIdNot(String name, Long id);
+    Department findDepartmentByName(String name);
 }

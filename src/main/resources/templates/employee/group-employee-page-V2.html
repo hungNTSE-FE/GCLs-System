@@ -126,9 +126,6 @@
                                                     <a th:href="@{/employee/marketing-group/update/{id}(id=${marketingGroupp.id})}" class="text-dark mx-1">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <a href="#" class="text-dark clickshowinfo">
-                                                        <i class="fas fa-info-circle"></i>
-                                                    </a>
                                                 </div>
                                             </td>
                                             <td th:text="${marketingGroupp.code}"></td>
@@ -205,8 +202,8 @@
                                         <select multiple="" id="multi-select" name="members">
                                             <option value="">Categories</option>
                                             <option th:each="employee : ${employees}"
-                                                    th:text="${employee.name} + '(' + ${employee.companyEmail} + ')'"
                                                     th:value="${employee.id}"
+                                                    th:text="${employee.name} + ' (' + ${employee.companyEmail} + ')'"
                                             ></option>
                                         </select>
                                     </div>
@@ -232,11 +229,7 @@
                             <button class="ui blue submit button" type="button">
                                 Lưu
                             </button>
-                            <button
-                                    class="ui reset button"
-                                    type="button"
-                                    data-bs-dismiss="modal"
-                            >
+                            <button class="ui reset button" type="button" data-bs-dismiss="modal">
                                 Huỷ
                             </button>
                         </div>
@@ -307,33 +300,58 @@
     /*<![CDATA[*/
     $(document).ready(function() {
         var showtext = /*[[${flag}]]*/ "";
-        console.log(showtext);
         if (showtext === 'showAlert') {
-            swal.fire({
-                position: "top-end",
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
                 icon: "success",
                 title: "Thêm nhóm thành công",
-                showConfirmButton: false,
-                timer: 5000,
-            });
+            })
         }
         else if (showtext === 'showAlertError') {
-            swal.fire({
-                position: "top-end",
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
                 icon: "error",
-                title: "Thêm nhóm thất bại",
-                text: 'Mã ID này đã tồn tại!',
-                showConfirmButton: false,
-                timer: 5000,
-            });
+                title: "Mã ID này đã tồn tại!",
+            })
         } else if (showtext === 'showAlertDeleteSuccess') {
-            swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Xoá thành công",
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
                 showConfirmButton: false,
                 timer: 5000,
-            });
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: "success",
+                title: "Xoá nhóm nhân viên thành công",
+            })
         }
     });
 

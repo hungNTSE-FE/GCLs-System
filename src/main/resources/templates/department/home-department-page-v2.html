@@ -103,18 +103,18 @@
   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">Thêm mới phòng ban</h5>
-          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="formDepartment" th:action="@{/department/create}" method="POST" th:object="${departmentForm}">
-            <div class="mb-3">
+        <form class="ui form segment" th:action="@{/department/create}" method="POST" th:object="${departmentForm}">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">Thêm mới phòng ban</h5>
+            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3 field description">
               <label for="exampleInputEmail1" class="form-label"><strong>
                 Phòng ban
               </strong>
               <span style="color: red">*</span></label>
-              <input type="text" th:field="*{name}" class="form-control form-control-solid" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <input type="text" name="name" th:field="*{name}" class="form-control form-control-solid" id="exampleInputEmail1" aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
               <label for="textAreaExample" class="form-label"> <strong>
@@ -125,11 +125,17 @@
             <div class="mb-1">
               <label class="form-label">  Bắt buộc <span style="color: red">*</span></label>
             </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" form="formDepartment">LƯU</button>
-        </div>
+          </div>
+          <div class="modal-footer">
+            <button class="ui blue submit button" type="button">
+              Lưu
+            </button>
+            <button class="ui reset button" type="button" data-bs-dismiss="modal">
+              Huỷ
+            </button>
+          </div>
+          <div class="ui error message"></div>
+        </form>
       </div>
     </div>
   </div>
@@ -151,25 +157,6 @@
   <script type="text/javascript" th:src="@{/js/semantic/main.js}"></script>
 
   <script th:inline = "javascript">
-    function filterText() {
-      var rex = new RegExp($("#selectDepartment").val());
-      if (rex == "/all/") {
-        clearFilter();
-      } else {
-        $(".content").hide();
-        $(".content")
-                .filter(function () {
-                  return rex.test($(this).text());
-                })
-                .show();
-      }
-    }
-
-    function clearFilter() {
-      $(".selectDepartment").val("");
-      $(".content").show();
-    }
-
     /*<![CDATA[*/
     $(document).ready(function() {
       var showtext = /*[[${flag}]]*/ "";
@@ -189,6 +176,40 @@
           title: "Cập nhật thành công",
           showConfirmButton: false,
           timer: 5000,
+        });
+      } else if (showtext === 'showAlertSuccess') {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: "success",
+          title: "Thêm phòng ban thành công",
+        });
+      } else if (showtext === 'showAlertDuplicateName') {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: "error",
+          title: "Phòng ban này đã tồn tại.",
         });
       }
     });

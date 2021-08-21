@@ -7,11 +7,9 @@
     <title>Khách hàng - Gia Cát Lợi</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.png"/>
-    <script data-search-pseudo-elements defer
-            src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
-            crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
+    <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
 </head>
 <body class="nav-fixed">
 <th:block th:include="/common/nav-fixed.html"></th:block>
@@ -41,7 +39,7 @@
                         <nav class="mt-4 rounded" aria-label="breadcrumb">
                             <ol class="breadcrumb px-3 py-2 rounded mb-0">
                                 <li class="breadcrumb-item">
-                                    <a href="dashboard-1.html">Trang chủ</a>
+                                    <a th:href="@{/potential/home}">Trang chủ</a>
                                 </li>
                                 <li class="breadcrumb-item active">Thêm mới khách hàng</li>
                             </ol>
@@ -425,9 +423,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex justify-content-center">
-                                    <button class="btn btn-primary" id ="saveCustomer" type="button" style="margin-right: 10px">
-                                        Lưu
-                                    </button>
+<!--                                    <button class="btn btn-primary" id ="saveCustomer" type="button" style="margin-right: 10px">-->
+<!--                                        Lưu-->
+<!--                                    </button>-->
                                     <button class="btn btn-primary" id="registerCustomer" type="button" style="margin-right: 10px">
                                         Đăng kí
                                     </button>

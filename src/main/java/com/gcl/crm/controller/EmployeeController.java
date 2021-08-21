@@ -147,7 +147,6 @@ public class EmployeeController {
                                RedirectAttributes redirectAttributes
                                ) {
         User user = userService.getUserByUsername(principal.getName());
-
         MarketingGroup marketingGroup1 = marketingGroupService.findMarketGroupById(id);
         boolean error = false;
         if (!error && marketingGroupService.isCodeExisted(code, Long.parseLong(id))) {
@@ -164,7 +163,7 @@ public class EmployeeController {
         marketingGroup1.setName(name);
         marketingGroup1.setMaker(user.getUserId());
         marketingGroup1.setNote(description);
-        boolean done = marketingGroupService.updateMarketingGroup(marketingGroup1, aidList);
+        marketingGroupService.updateMarketingGroup(marketingGroup1, aidList);
         redirectAttributes.addFlashAttribute("flag","showAlert");
         return "redirect:/employee/marketing-group/update/" + Long.parseLong(id);
     }

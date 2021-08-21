@@ -125,4 +125,11 @@ public class DepartmentServiceImpl implements DepartmentService{
 
         return  result ;
     }
+
+    @Override
+    public boolean isNameExisted(String name, Long id) {
+        Department department = (id != null) ? departmentRepository.findDepartmentByNameAndIdNot(name, id)
+                : departmentRepository.findDepartmentByName(name);
+        return department != null;
+    }
 }

@@ -47,14 +47,6 @@ public class DepartmentController {
         return HOME_PAGE;
     }
 
-    @GetMapping({"/create"})
-    public String goCreatePage(Model model){
-        Department department = new Department();
-        department.setCompany(new Company());
-        model.addAttribute("department", department);
-        return "department/create-department-page";
-    }
-
     @RequestMapping(value = "/edit-v2", method = RequestMethod.GET)
     public String goEditV2Page(Model model, @Nullable @RequestParam("did") String id, Principal principal) {
         User currentUser = userService.getUserByUsername(principal.getName());
@@ -70,8 +62,13 @@ public class DepartmentController {
     @PostMapping({"/edit-v2"})
     public String editV2(Model model, @Nullable @RequestParam("did") String id,
                          @Nullable @RequestParam("dname") String name,
-                         @Nullable @RequestParam("dnote") String note){
+                         @Nullable @RequestParam("dnote") String note,
+                         RedirectAttributes redirectAttributes){
         Department department = departmentService.findDepartmentById(id);
+        if (departmentService.isNameExisted(name, department.getId())) {
+            redirectAttributes.addFlashAttribute("flag", "showAlertDuplicateName");
+            return "redirect:/department/edit-v2?did=" + department.getId();
+        }
         if (department == null){
             model.addAttribute("error", "Không tìm thấy phòng ban đã chọn!");
             return "redirect:/department/home";
@@ -83,22 +80,23 @@ public class DepartmentController {
         department.setNote(note);
         boolean done = departmentService.updateDepartment(department);
         if (done){
-            model.addAttribute("message", "Cập nhật thông tin phòng ban thành công.");
+            redirectAttributes.addFlashAttribute("flag", "showAlertSuccess");
         } else {
-            model.addAttribute("error", "Đã có lỗi xảy ra! Cập nhật thông tin thất bại.");
+            redirectAttributes.addFlashAttribute("flag", "showAlertError");
+
         }
         return "redirect:/department/edit-v2?did=" + department.getId();
     }
 
-    @PostMapping({"/create"})
-    public String create(Model model, @ModelAttribute("departmentForm") Department department, RedirectAttributes redirectAttributes){
-        String message = "Phòng ban đã được tạo thành công!";
+    @RequestMapping(value ="/create", method = RequestMethod.POST)
+    public String create(Model model, @ModelAttribute("departmentForm") Department department,Principal principal, RedirectAttributes redirectAttributes){
+        if (departmentService.isNameExisted(department.getName(), department.getId())) {
+            redirectAttributes.addFlashAttribute("flag", "showAlertDuplicateName");
+            return "redirect:/department/home";
+        }
         department.setStatus(Status.ACTIVE);
         boolean done = departmentService.createDepartment(department);
-        if (!done) {
-            message = "Đã xảy ra lỗi! Tạo mới phòng ban thất bại.";
-        }
-        model.addAttribute("message", message);
+        redirectAttributes.addFlashAttribute("flag", "showAlertSuccess");
         return "redirect:/department/home";
     }
 
