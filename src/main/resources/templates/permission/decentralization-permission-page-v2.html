@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <title>Phân quyền</title>
   <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
   <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
   <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
   <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
@@ -46,18 +47,16 @@
       <div class="container-xl px-4 mt-n10">
         <div class="card mb-4 card-header-actions mx-auto">
           <div class="card-header">
-            Phòng ban (13)
+            Nhân viên
             <div>
               <button form="decentralize-form" type="submit" class="btn btn-primary">Cập nhật</button>
               <a class="btn btn-outline-dark" th:href="@{/permission/home}">Trở về</a>
             </div>
-
           </div>
           <form th:action="@{/permission/decentralize}" method="POST" id="decentralize-form">
             <input type="hidden" name="role-id" th:value="${role.id}" />
           </form>
           <div class="card-body">
-            <p><strong>Nhóm quyền:</strong> Chăm sóc khách hàng</p>
             <table id="datatableDecentralize">
               <colgroup>
                 <col width="15%">
@@ -102,10 +101,49 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script type="text/javascript" th:src="@{/js/datatables/datatables-custom.js}"></script>
-  <script type="text/javascript" th:src="@{/js/sweetalert.js}"></script>
   <script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
   <script th:inline = "javascript">
   /*<![CDATA[*/
+  $(document).ready(function() {
+    var showtext = /*[[${flag}]]*/ "";
+    console.log(showtext);
+    if (showtext === 'showAlert') {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: "success",
+        title: "Phân quyền thành công",
+      });
+    } else if (showtext === 'showAlertError') {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: "error",
+        title: "Phân quyền thất bại",
+      });
+    }
+  });
+
   var stompClient = null;
   var userName = /*[[${userName}]]*/ "";
 

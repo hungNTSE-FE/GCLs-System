@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <title>Cơ cấu công ty</title>
   <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
   <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
   <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
@@ -87,14 +88,13 @@
           </div>
           <div class="card-body">
             <div id="treeview_container" class="hummingbird-treeview">
-              <ul id="treeview" class="hummingbird-base d-grid gap-3 d-md-flex justify-content-between mh-100">
+              <ul id="treeview" class="hummingbird-base d-grid gap-3 d-md-flex justify-content-between mh-100" style="list-style-type:none">
                 <li th:each="module : ${modules}">
                   <i class="fa fa-minus"></i>
                   <input th:id="${'module-' + module.id}" data-id="custom-0" type="checkbox" />
                   <label th:for="${'module-' + module.id}" th:text="${module.name}"></label>
                   <ul style="display: block">
                     <li th:each="privilege : ${module.privileges}">
-<!--                      <i class="fa fa-plus"></i>-->
                       <input th:id="${'privilege-' + privilege.id}" name="privilege-id"
                              th:value="${privilege.id}" id="node-0-1" data-id="custom-1"
                              type="checkbox" form="insert-form" />
@@ -127,12 +127,21 @@
     var showtext = /*[[${flag}]]*/ "";
     console.log(showtext);
     if (showtext === 'showAlert') {
-      swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Lưu thành công",
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
         showConfirmButton: false,
         timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: "success",
+        title: "Thêm nhóm quyền thành công",
       });
     }
   });

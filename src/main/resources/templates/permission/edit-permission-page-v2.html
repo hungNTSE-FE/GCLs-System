@@ -9,8 +9,8 @@
   <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
   <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
-
 </head>
 <body class="nav-fixed">
 <th:block th:include="/common/nav-fixed.html"></th:block>
@@ -57,10 +57,9 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalCenterTitle">Xoá</h5>
+                      <h5 class="modal-title" id="exampleModalCenterTitle">Bạn có muốn xoá nhóm quyền này?</h5>
                       <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body text-dark">Bạn có muốn xoá nhóm quyền này ?</div>
                     <div class="modal-footer">
                       <form th:action="@{/permission/delete}" method="POST">
                         <input type="hidden" name="role-id" th:value="${role.id}" />
@@ -121,7 +120,6 @@
                   <label th:for="${'action-type-' + module.id}" th:text="${module.name}"></label>
                   <ul style="display: block">
                     <li th:each="privilege : ${module.privileges}">
-<!--                      <i class="fa fa-plus"></i>-->
                       <input form="update-form" name="privilege-id" th:value="${privilege.id}"
                              th:id="${'privilege-' + privilege.id}" data-id="custom-1" type="checkbox"
                              th:checked="${role.privileges != null ? role.privileges.contains(privilege) : false}" />
@@ -144,12 +142,50 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/hummingbird-dev/hummingbird-treeview@v2.1.7/hummingbird-treeview.min.js"></script>
 <script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
-<script type="text/javascript" th:src="@{/js/sweetalert.js}"></script>
 <script th:inline="javascript">
   $("#treeview").hummingbird();
 </script>
 <script th:inline = "javascript">
   /*<![CDATA[*/
+  $(document).ready(function() {
+    var showtext = /*[[${flag}]]*/ "";
+    console.log(showtext);
+    if (showtext === 'showAlert') {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: "success",
+        title: "Cập nhật nhóm quyền thành công",
+      });
+    } else if (showtext === 'showAlertDeleteSuccess') {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: "error",
+        title: "Cập nhật nhóm quyền thất bại",
+      });
+    }
+  });
   var stompClient = null;
   var userName = /*[[${userName}]]*/ "";
 

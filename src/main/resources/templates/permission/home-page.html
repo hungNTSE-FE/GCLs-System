@@ -73,7 +73,7 @@
               <tbody>
               <tr th:each="role : ${roles}">
                 <td>
-                  <a class="text-primary me-2" th:href="@{/permission/edit(rid=${role.id})}">
+                  <a class="text-primary me-2" th:href="@{/permission/edit(rid=${role.id})}" data-bs-toggle="tooltip" data-bs-placement="left" title="Cập nhật">
                     <i class="fas fa-pen"></i>
                   </a>
                   <a class="text-primary" th:href="@{/permission/decentralize(rid=${role.id})}" data-bs-toggle="tooltip" data-bs-placement="left" title="Phân quyền">
@@ -103,6 +103,29 @@
 <script type="text/javascript" th:src="@{/js/semantic/main.js}"></script>
 <script th:inline="javascript">
   /*<![CDATA[*/
+  $(document).ready(function() {
+    var showtext = /*[[${flag}]]*/ "";
+    console.log(showtext);
+    if (showtext === 'showAlertDeleteSuccess') {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: "success",
+        title: "Xoá nhóm quyền thành công",
+      });
+    }
+  });
+
   var stompClient = null;
   var userName = /*[[${userName}]]*/ "";
 

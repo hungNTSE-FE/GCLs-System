@@ -107,9 +107,9 @@ public class PermissionController {
         User currentUser = userService.getUserByUsername(principal.getName());
         boolean done = roleService.updateRole(role, privilegeIdList, currentUser);
         if (done){
-            redirectAttributes.addFlashAttribute("message", "Cập nhật nhóm quyền thành công!");
+            redirectAttributes.addFlashAttribute("flag","showAlert");
         } else {
-            redirectAttributes.addFlashAttribute("error", "Đã có lỗi xảy ra! Cập nhật thất bại.");
+            redirectAttributes.addFlashAttribute("flag","showAlertError");
         }
         return "redirect:/permission/edit?rid=" + role.getId();
     }
@@ -140,9 +140,9 @@ public class PermissionController {
         User currentUser = userService.getUserByUsername(principal.getName());
         boolean done = roleService.deleteRole(roleId, currentUser);
         if (done){
-            redirectAttributes.addFlashAttribute("message", "Xóa nhóm quyền thành công!");
+            redirectAttributes.addFlashAttribute("flag","showAlertDeleteSuccess");
         } else {
-            redirectAttributes.addFlashAttribute("error", "Đã có lỗi xảy ra! Xóa nhóm quyền thất bại.");
+            redirectAttributes.addFlashAttribute("flag","showAlertDeleteError");
         }
         return "redirect:/permission/home";
     }
@@ -158,9 +158,9 @@ public class PermissionController {
         User currentUser = userService.getUserByUsername(principal.getName());
         boolean done = roleService.decentralizeRole(roleId, userIdList, currentUser);
         if (done){
-            redirectAttributes.addFlashAttribute("message", "Phân quyền cho nhân viên thành công!");
+            redirectAttributes.addFlashAttribute("flag","showAlert");
         } else {
-            redirectAttributes.addFlashAttribute("error", "Có lỗi xảy ra! Phân quyền thất bại.");
+            redirectAttributes.addFlashAttribute("flag","showAlertError");
         }
         return "redirect:/permission/decentralize?rid=" + roleId;
     }
