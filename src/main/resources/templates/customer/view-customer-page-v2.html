@@ -12,17 +12,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
-    <style>
-        .fa-check-circle{
-            color: springgreen;
-        }
-        .fa-trash{
-            color: orangered;
-        }
-        .fa-unlock{
-            color : yellow;
-        }
-    </style>
 </head>
 
 <body class="nav-fixed">
@@ -251,13 +240,21 @@
         var showtext = /*[[${flag}]]*/ "";
         console.log(showtext);
         if (showtext === 'showAlert') {
-            swal.fire({
-                position: "top-end",
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            Toast.fire({
                 icon: "success",
                 title: " Hợp đồng đã được lưu",
-                showConfirmButton: false,
-                timer: 5000,
-            });
+            })
         }
     });
     /*]]>*/

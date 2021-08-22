@@ -262,7 +262,6 @@ public class CustomerController {
         tradingAccount.setBrokerCode(customer.getEmployee().getId()+"");
         if(customer == null){
             return "redirect:/customer/waitingCustomer";
-
         }else{
             if(tradingAccount.getAccountNumber().length()<4){
 
@@ -282,18 +281,13 @@ public class CustomerController {
                 return  url ;
             }
             else{
-
-
                 tradingAccount.setAccountNumber("003C"+tradingAccount.getBrokerCode()+tradingAccount.getAccountNumber());
                 customer.setLevel(new Level(LevelEnum.LEVEL_6.getValue()));
                 redirectAttributes.addFlashAttribute("flag","showAlert");
-
                 customerProcessService.createTradingAccount(tradingAccount,customer);
                 return "redirect:/customer/waitingCustomer";
             }
-
         }
-
     }
     @GetMapping({"/activeAccount/{id}"})
     public String activateAccount(@PathVariable(name="id") int id,RedirectAttributes redirectAttributes) throws ParseException {
@@ -326,10 +320,7 @@ public class CustomerController {
             long fileSzie = multipartFile.getSize();
             System.out.println(fileSzie);
             if(multipartFile.getSize()<10000000) {
-
-
                 contract.setId(contractService.getContractID());
-
                 ContractFile contractFile = new ContractFile();
                 contractFile.setName("HopDongKhachHang"+customer.getCustomerCode()+".pdf");
                 contractFile.setContent(multipartFile.getBytes());
@@ -339,15 +330,10 @@ public class CustomerController {
                 contract.setContractFile(contractFile);
                 System.out.println("contract file : " + contractFile.toString());
                 customerProcessService.createContract(contract, customer);
-
                 redirectAttributes.addFlashAttribute("flag", "showAlert");
-
                 return "redirect:/customer/manageCustomer";
             }else {
                 redirectAttributes.addFlashAttribute("overSize","Kích thước của file quá lớn");
-
-
-
                 return result;
             }
         }
