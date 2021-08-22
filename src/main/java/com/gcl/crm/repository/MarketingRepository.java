@@ -7,6 +7,7 @@ import com.gcl.crm.form.CustomerStatusForm;
 import com.gcl.crm.form.CustomerStatusEvaluationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.util.List;
@@ -161,7 +162,9 @@ public class MarketingRepository {
                 "from TMP_MKT_KPI\n" +
                 "where level_6 = (select MAX(level_6) from TMP_MKT_KPI_1)\n" +
                 "limit 1";
-        return (SummaryMKTReport) entityManager.createNativeQuery(sql, "getSummaryMKTReport").getSingleResult();
+        List result = entityManager.createNativeQuery(sql, "getSummaryMKTReport").getResultList();
+
+        return !CollectionUtils.isEmpty(result) ? (SummaryMKTReport) result.get(0) : null;
     }
 
     public SummaryMKTReport getMaxTopUpAccountMKT() {
@@ -169,7 +172,8 @@ public class MarketingRepository {
                 "from TMP_MKT_KPI\n" +
                 "where level_7 = (select MAX(level_7) from TMP_MKT_KPI_1)\n" +
                 "limit 1";
-        return (SummaryMKTReport) entityManager.createNativeQuery(sql, "getSummaryMKTReport").getSingleResult();
+        List result = entityManager.createNativeQuery(sql, "getSummaryMKTReport").getResultList();
+        return !CollectionUtils.isEmpty(result) ? (SummaryMKTReport) result.get(0) : null;
     }
 
     public SummaryMKTReport getMaxLOTMKT() {
@@ -177,7 +181,8 @@ public class MarketingRepository {
                 "from TMP_MKT_KPI\n" +
                 "where lot = (select MAX(lot) from TMP_MKT_KPI_1)\n" +
                 "limit 1";
-        return (SummaryMKTReport) entityManager.createNativeQuery(sql, "getSummaryMKTReport").getSingleResult();
+        List result = entityManager.createNativeQuery(sql, "getSummaryMKTReport").getResultList();
+        return !CollectionUtils.isEmpty(result) ? (SummaryMKTReport) result.get(0) : null;
     }
 
     public List<SummaryCustomerManagement> getSummaryCustomerManagement(String startDate, String endDate) {
@@ -244,7 +249,8 @@ public class MarketingRepository {
                 "from TMP_SOURCE_KPI\n" +
                 "where level_6 = (select MAX(level_6) from TMP_SOURCE_KPI_1)\n" +
                 "limit 1";
-        return (SummaryMKTReport) entityManager.createNativeQuery(sql, "getSummaryMKTReport").getSingleResult();
+        List result = entityManager.createNativeQuery(sql, "getSummaryMKTReport").getResultList();
+        return !CollectionUtils.isEmpty(result) ? (SummaryMKTReport) result.get(0) : null;
     }
 
     public SummaryMKTReport getMaxTopUpAccountSource() {
@@ -253,7 +259,8 @@ public class MarketingRepository {
                 "from TMP_SOURCE_KPI\n" +
                 "where level_7 = (select MAX(level_7) from TMP_SOURCE_KPI_1)\n" +
                 "limit 1";
-        return (SummaryMKTReport) entityManager.createNativeQuery(sql, "getSummaryMKTReport").getSingleResult();
+        List result = entityManager.createNativeQuery(sql, "getSummaryMKTReport").getResultList();
+        return !CollectionUtils.isEmpty(result) ? (SummaryMKTReport) result.get(0) : null;
     }
 
     public SummaryMKTReport getMaxLOTSource() {
@@ -262,7 +269,8 @@ public class MarketingRepository {
                 "from TMP_SOURCE_KPI\n" +
                 "where lot = (select MAX(lot) from TMP_SOURCE_KPI_1)\n" +
                 "limit 1";
-        return (SummaryMKTReport) entityManager.createNativeQuery(sql, "getSummaryMKTReport").getSingleResult();
+        List result = entityManager.createNativeQuery(sql, "getSummaryMKTReport").getResultList();
+        return !CollectionUtils.isEmpty(result) ? (SummaryMKTReport) result.get(0) : null;
     }
 
 }

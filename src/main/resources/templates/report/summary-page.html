@@ -127,11 +127,15 @@
                     <td>1</td>
                     <td>Nhân viên tổng mở tài khoản nhiều nhất</td>
                     <td class="table-success"
-                        th:text="${marketingSummaryReportForm.summaryMKTGroupReport != null
+                        th:text="${
+                        (marketingSummaryReportForm.summaryMKTGroupReport != null
+                          && marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_REGISTERED_ACC_MKT') != null )
                         ? marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_REGISTERED_ACC_MKT').name
                         : ''}">
                     </td>
-                    <td class="text-danger" th:text="${marketingSummaryReportForm.summaryMKTGroupReport != null
+                    <td class="text-danger" th:text="${
+                    (marketingSummaryReportForm.summaryMKTGroupReport != null
+                      && marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_REGISTERED_ACC_MKT') != null)
                         ? marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_REGISTERED_ACC_MKT').value
                         : ''}"></td>
                   </tr>
@@ -139,11 +143,15 @@
                     <td>2</td>
                     <td>Nhân viên có khách nạp tiền nhiều nhất</td>
                     <td class="table-success"
-                        th:text="${marketingSummaryReportForm.summaryMKTGroupReport != null
+                        th:text="${
+                        (marketingSummaryReportForm.summaryMKTGroupReport != null
+                        && marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_TOP_UP_ACC_MKT') != null )
                         ? marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_TOP_UP_ACC_MKT').name
                         : ''}">
                     </td>
-                    <td class="text-danger" th:text="${marketingSummaryReportForm.summaryMKTGroupReport != null
+                    <td class="text-danger" th:text="${
+                    (marketingSummaryReportForm.summaryMKTGroupReport != null
+                        && marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_TOP_UP_ACC_MKT') != null )
                         ? marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_TOP_UP_ACC_MKT').value
                         : ''}"></td>
                   </tr>
@@ -151,11 +159,15 @@
                     <td>3</td>
                     <td>Nhân viên có số LOT nhiều nhất</td>
                     <td class="table-success"
-                        th:text="${marketingSummaryReportForm.summaryMKTGroupReport != null
+                        th:text="${
+                        (marketingSummaryReportForm.summaryMKTGroupReport != null
+                          && marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_LOT_MKT') != null )
                         ? marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_LOT_MKT').name
                         : ''}">
                     </td>
-                    <td class="text-danger" th:text="${marketingSummaryReportForm.summaryMKTGroupReport != null
+                    <td class="text-danger" th:text="${
+                    (marketingSummaryReportForm.summaryMKTGroupReport != null
+                          && marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_LOT_MKT') != null )
                         ? marketingSummaryReportForm.summaryMKTGroupReport.get('MAX_LOT_MKT').value
                         : ''}"></td>
                   </tr>
@@ -187,11 +199,15 @@
                     <td>1</td>
                     <td>Nguồn có tổng mở tài khoản nhiều nhất</td>
                     <td class="table-success"
-                        th:text="${marketingSummaryReportForm.summarySourceReport != null
+                        th:text="${
+                        (marketingSummaryReportForm.summarySourceReport != null
+                          && marketingSummaryReportForm.summarySourceReport.get('MAX_REGISTERED_ACC_SOURCE') != null)
                         ? marketingSummaryReportForm.summarySourceReport.get('MAX_REGISTERED_ACC_SOURCE').name
                         : ''}">
                     </td>
-                    <td class="text-danger" th:text="${marketingSummaryReportForm.summarySourceReport != null
+                    <td class="text-danger" th:text="${
+                        (marketingSummaryReportForm.summarySourceReport != null
+                          && marketingSummaryReportForm.summarySourceReport.get('MAX_REGISTERED_ACC_SOURCE') != null)
                         ? marketingSummaryReportForm.summarySourceReport.get('MAX_REGISTERED_ACC_SOURCE').value
                         : ''}">
                     </td>
@@ -200,11 +216,15 @@
                     <td>2</td>
                     <td>Nguồn có khách nạp tiền nhiều nhất</td>
                     <td class="table-success"
-                        th:text="${marketingSummaryReportForm.summarySourceReport != null
+                        th:text="${
+                        (marketingSummaryReportForm.summarySourceReport != null
+                          && marketingSummaryReportForm.summarySourceReport.get('MAX_TOP_UP_ACC_SOURCE') != null)
                         ? marketingSummaryReportForm.summarySourceReport.get('MAX_TOP_UP_ACC_SOURCE').name
                         : ''}">
                     </td>
-                    <td class="text-danger" th:text="${marketingSummaryReportForm.summarySourceReport != null
+                    <td class="text-danger" th:text="${
+                        (marketingSummaryReportForm.summarySourceReport != null
+                          && marketingSummaryReportForm.summarySourceReport.get('MAX_TOP_UP_ACC_SOURCE') != null)
                         ? marketingSummaryReportForm.summarySourceReport.get('MAX_TOP_UP_ACC_SOURCE').value
                         : ''}">
                     </td>
@@ -213,11 +233,15 @@
                     <td>3</td>
                     <td>Nguồn có số LOT nhiều nhất</td>
                     <td class="table-success"
-                        th:text="${marketingSummaryReportForm.summarySourceReport != null
+                        th:text="${
+                        (marketingSummaryReportForm.summarySourceReport != null
+                        && marketingSummaryReportForm.summarySourceReport.get('MAX_LOT_SOURCE') != null)
                         ? marketingSummaryReportForm.summarySourceReport.get('MAX_LOT_SOURCE').name
                         : ''}">
                     </td>
-                    <td class="text-danger" th:text="${marketingSummaryReportForm.summarySourceReport != null
+                    <td class="text-danger" th:text="${
+                    (marketingSummaryReportForm.summarySourceReport != null
+                        && marketingSummaryReportForm.summarySourceReport.get('MAX_LOT_SOURCE') != null)
                         ? marketingSummaryReportForm.summarySourceReport.get('MAX_LOT_SOURCE').value
                         : ''}">
                     </td>
