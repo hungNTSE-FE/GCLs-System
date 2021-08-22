@@ -1,5 +1,6 @@
 package com.gcl.crm.service;
 
+import com.gcl.crm.entity.Employee;
 import com.gcl.crm.entity.MarketingGroup;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.repository.MarketingGroupRepository;

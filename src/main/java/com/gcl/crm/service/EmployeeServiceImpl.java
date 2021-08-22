@@ -94,8 +94,6 @@ public class EmployeeServiceImpl implements EmployeeService{
         employee.setBirthDate(employeeForm.getBirthDate());
         employee.setName(employeeForm.getName());
         employee.setStatus(EmployeeStatus.WORKING);
-
-        //
         // Init user account info
         User user = new User();
         if (userService.checkUsername(user.getUserName())){

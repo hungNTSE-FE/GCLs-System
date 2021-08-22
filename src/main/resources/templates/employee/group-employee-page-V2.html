@@ -291,6 +291,16 @@
         },
     });
 
+    $("#multi-select").change(function () {
+        var meals = $(this).val();
+        var selectedmeals = meals.join(", ");
+        console.log(selectedmeals);
+        $("input[name=listSelected]").val(selectedmeals);
+    });
+
+    $("#multi-select").dropdown("get value");
+
+
     $(".field.description").popup({
         popup: $(".description.popup"),
         on: "click",
