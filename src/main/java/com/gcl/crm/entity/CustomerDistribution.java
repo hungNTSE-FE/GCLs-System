@@ -12,7 +12,7 @@ public class CustomerDistribution {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer seq_no;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "CUSTOMER_ID")
     private Customer customer;
 
