@@ -25,4 +25,5 @@ public interface EmployeeService {
     List<Employee> getAllWorkingEmployeesWithUserNotNull();
     Employee getEmployeeByEmail(String email);
     List<Employee> getAllGroupedEmployees(String id);
+    void setGroupMkt(Long employeeId, MarketingGroup marketingGroup);
 }
