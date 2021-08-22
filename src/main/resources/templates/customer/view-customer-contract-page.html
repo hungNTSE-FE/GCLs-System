@@ -133,10 +133,7 @@
                                                 <th>Số điện thoại</th>
                                                 <th>Mã tài khoản</th>
                                                 <th>Mã hợp đồng</th>
-                                                <th>Cập nhật </th>
-                                                <th>Hợp đồng</th>
-
-
+                                                <th>Hành động</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -148,18 +145,13 @@
 
                                                 <td th:text="${customer.contractNumber}"></td>
                                                 <td>
-
-                                                    <a th:href="@{'/customer/showUpdateForm/'+${customer.customerId}}"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
-
+                                                    <a class="mx-1" th:href="@{'/customer/showUpdateForm/'+${customer.customerId}}" data-bs-toggle="tooltip" data-bs-placement="left" title="Thông tin chi tiết">
+                                                        <i class="fas fa-info-circle"></i>
+                                                    </a>
+                                                    <a th:href="@{'/customer/downloadContractFile/'+${customer.customerId}}" data-bs-toggle="tooltip" data-bs-placement="left" title="Tải về">
+                                                        <i class="fa fa-download" aria-hidden="true"></i>
+                                                    </a>
                                                 </td>
-                                                <td>
-
-                                                    <a th:href="@{'/customer/downloadContractFile/'+${customer.customerId}}"><i class="fa fa-download" aria-hidden="true"></i> Tải xuống</a>
-
-                                                </td>
-
-
-
                                             </tr>
 
                                             </tbody>
