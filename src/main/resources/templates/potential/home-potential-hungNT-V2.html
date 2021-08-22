@@ -266,7 +266,14 @@
                           <span th:if="${potential.level}" th:text="${potential.level.levelName}"></span>
                         </td>
                         <td th:text="${potentialMap.get(potential.id)}"></td>
-                        <td th:text="${potential.potentialRating}"></td>
+<!--                        <td th:text="${potential?.potentialRating}"></td>-->
+                        <td>
+                          <span th:if="${potential.potentialRating != null} ">
+                            <span th:if="${potential.potentialRating.getValue().equals('2')}" th:text="${potential?.potentialRating}" class="text-danger"></span>
+                            <span th:if="${potential.potentialRating.getValue().equals('1')}" th:text="${potential?.potentialRating}" class="text-primary"></span>
+                            <span th:if="${potential.potentialRating.getValue().equals('0')}" th:text="${potential?.potentialRating}" class="text-warning"></span>
+                          </span>
+                        </td>
                       </tr>
                       </tbody>
                     </table>
