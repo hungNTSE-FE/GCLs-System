@@ -6,12 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <title>Khách hàng - Gia Cát Lợi</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.png"/>
-    <script data-search-pseudo-elements defer
-            src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
-            crossorigin="anonymous"></script>
+    <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
     <style>
         form .button{
             height: 45px;
@@ -52,7 +50,6 @@
             background: linear-gradient(-135deg, #fff3e0,red);
         }
     </style>
-
 </head>
 <body class="nav-fixed">
 <th:block th:include="/common/nav-fixed.html"></th:block>
@@ -90,19 +87,10 @@
                     </div>
                 </div>
             </header>
-            <!-- Main page content-->
-
-
             <div class="container-xl px-4 mt-n10">
                 <div class="row">
                     <div class="col-lg-9">
-                        <form class="row g-3"
-                              id="contractForm"
-                              th:action="@{/customer/createContract}"
-                              th:object="${contract}"
-                              enctype="multipart/form-data"
-                              method="post"
-                        >
+                        <form class="row g-3" id="contractForm" th:action="@{/customer/createContract}" th:object="${contract}" enctype="multipart/form-data" method="post">
                             <input type="hidden"   th:field="${contract.customer.customerId}">
                             <div id="contractInfo">
                                 <div class="card mb-4">
@@ -114,12 +102,7 @@
                                                     Mã hợp đồng ( Hệ thống tự động cập nhật )
                                                     <span style="color: red">*</span>
                                                 </label>
-                                                <input type="text" class="form-control"
-                                                       id="contractID"
-
-                                                       th:field="${contract.id}"
-
-                                                />
+                                                <input type="text" class="form-control" id="contractID" th:field="${contract.id}"/>
                                                 <i class="fas fa-check-circle "></i>
                                                 <i class="fas fa-exclamation-circle"></i>
                                                 <small>Error Message</small>
@@ -129,56 +112,28 @@
                                                     Trạng thái
                                                     <span style="color: red">*</span>
                                                 </label>
-                                                <select th:field="${contract.status}"
-                                                        class="form-select"
-                                                        id="exampleFormControlSelect1"
-                                                >
+                                                <select th:field="${contract.status}" class="form-select" id="exampleFormControlSelect1">
                                                     <option value="Đã Lưu HĐKH">Đã Lưu HĐKH</option>
                                                     <option value="Chờ Lưu HĐKH">Chờ Lưu HĐKH</option>
-
                                                 </select>
-
                                             </div>
-
                                         </div>
                                         <div class="row gx-3 mb-3">
                                             <div class="col-md-6 form-validate">
                                                     <label class="small">Chọn file hợp đồng (.pdf)</label>
-                                                    <input accept=".pdf" required
-                                                           class="form-control form-control-sm"
-                                                           type="file"
-                                                           name="file"
-                                                           placeholder=""
-                                                           style="border: 1px solid #aaa"
-                                                    />
-
+                                                    <input accept=".pdf" required class="form-control form-control-sm" type="file" name="file" placeholder="" style="border: 1px solid #aaa"/>
                                             </div>
-
-
-
                                             </div>
-
-
                                         <div class="row gx-3 mb-3">
-
-
                                             <div class="button">
                                                 <input type="submit" value="Tạo hợp đồng">
                                             </div>
-
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                         </form>
-                        <!-- Default Bootstrap Toasts-->
-                        <form class="row g-3"
-                              id="customerForm"
-
-                              th:object="${customer}"
-                              method="post"
-                        >
+                        <form class="row g-3" id="customerForm" th:object="${customer}" method="post">
                             <div id="tradingAccountInfo">
                                 <div class="card mb-4">
                                     <div class="card-header">Thông tin tài khoản giao dịch</div>
@@ -189,55 +144,26 @@
                                                     Mã tài khoản giao dịch
                                                     <span style="color: red">*</span>
                                                 </label>
-                                                <input type="text" class="form-control"
-                                                       id="tradingCode"
-                                                       placeholder="Mã tài khoản giao dịch"
-                                                       th:field="${customer.number}"
-                                                       readonly
-
-                                                />
+                                                <input type="text" class="form-control" id="tradingCode" placeholder="Mã tài khoản giao dịch" th:field="${customer.number}" readonly/>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="small mb-1">
                                                     Mã môi giới
                                                     <span style="color: red">*</span>
                                                 </label>
-                                                <input type="text"
-                                                       class="form-control"
-                                                       id="brokerCode"
-                                                       placeholder="Mã môi giới"
-                                                       readonly
-                                                       th:field="${customer.tradingAccount.brokerCode}"
-                                                />
-
-
+                                                <input type="text" class="form-control" id="brokerCode" placeholder="Mã môi giới" readonly th:field="${customer.tradingAccount.brokerCode}"/>
                                             </div>
-
                                         </div>
-
                                         <div class="row gx-3 mb-3">
                                             <div class="col-md-6">
                                                 <label for="" class="small mb-1">
                                                     Tên tài khoản giao dịch
                                                 </label>
-                                                <input
-                                                        class="form-control "
-                                                        type="text"
-                                                        aria-label="Search"
-                                                        th:field="${customer.tradingAccount.accountName}"
-                                                        readonly
-                                                />
+                                                <input class="form-control " type="text" aria-label="Search" th:field="${customer.tradingAccount.accountName}" readonly/>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="small mb-1"> Tên môi giới </label>
-                                                <input
-                                                        class="form-control "
-                                                        type="text"
-                                                        aria-label="Search"
-                                                        th:field="${customer.tradingAccount.brokerName}"
-                                                        readonly
-
-                                                />
+                                                <input class="form-control " type="text" aria-label="Search" th:field="${customer.tradingAccount.brokerName}" readonly/>
                                             </div>
                                         </div>
                                         <div class="row gx-3 mb-3">
@@ -245,17 +171,7 @@
                                                 <label for="" class="small mb-1">
                                                     Trạng thái
                                                 </label>
-                                                <!-- Joined input group prepend example-->
-                                                <input
-                                                        class="form-control "
-                                                        type="text"
-                                                        aria-label="Search"
-                                                        th:field="${customer.tradingAccount.status}"
-
-                                                        readonly
-
-                                                />
-
+                                                <input class="form-control " type="text" aria-label="Search" th:field="${customer.tradingAccount.status}" readonly/>
                                             </div>
                                             <div class="col-md-6 ">
                                                 <label class="small mb-1">
@@ -268,27 +184,15 @@
                                                         <i data-feather="calendar"></i>
                                                     </span>
                                                     </div>
-                                                    <input
-                                                            th:field="*{createDate}"
-                                                            class="form-control "
-                                                            id="dateOfBirth"
-                                                            readonly
-                                                    />
+                                                    <input th:field="*{createDate}" class="form-control " id="dateOfBirth" readonly/>
                                                 </div>
-
                                             </div>
                                         </div>
                                         <div class="row gx-3 mb-3">
-
-
-
-
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
-
                             <input type="hidden" th:field="${customer.customerCode}"  >
                             <div id="customerInformation">
                                 <div class="card mb-4">
@@ -300,11 +204,7 @@
                                                     Tên
                                                     <span style="color: red">*</span>
                                                 </label>
-                                                <input readonly type="text" class="form-control"
-                                                       id="customerName"
-                                                       placeholder="Tên khách hàng"
-                                                       th:field="${customer.customerName}"
-                                                />
+                                                <input readonly type="text" class="form-control" id="customerName" placeholder="Tên khách hàng" th:field="${customer.customerName}"/>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="small mb-1" for="genderCmb">Giới tính</label>
@@ -313,75 +213,43 @@
                                                     <option value="1">Nữ</option>
                                                 </select>
                                             </div>
-
                                         </div>
-
                                         <div class="row gx-3 mb-3">
                                             <div class="col-md-6">
-                                                <label for="" class="small mb-1">
+                                                <label class="small mb-1">
                                                     Điện thoại
                                                 </label>
-                                                <!-- Joined input group prepend example-->
                                                 <div class="input-group input-group-joined">
-                              <span class="input-group-text">
-                                <i data-feather="phone"></i>
-                              </span>
-                                                    <input readonly type="text" class="form-control "
-                                                           id="phoneNumber"
-                                                           min="0" maxlength="10" pattern="\d*"
-                                                           th:field="${customer.phoneNumber}"
-                                                    />
+                                                    <span class="input-group-text">
+                                                        <i data-feather="phone"></i>
+                                                    </span>
+                                                    <input readonly type="text" class="form-control " id="phoneNumber" min="0" maxlength="10" pattern="\d*" th:field="${customer.phoneNumber}"/>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="small mb-1" > Tình trạng </label>
-
-                                                <input
-                                                        class="form-control "
-                                                        type="text"
-                                                        aria-label="Search"
-                                                        th:field="${customer.status}"
-                                                        readonly
-
-                                                />
+                                                <input class="form-control " type="text" aria-label="Search" th:field="${customer.status}" readonly/>
                                             </div>
                                         </div>
                                         <div class="row gx-3 mb-3">
                                             <div class="col-md-6">
-                                                <label for="" class="small mb-1"> Email </label>
-                                                <!-- Joined input group prepend example-->
+                                                <label class="small mb-1"> Email </label>
                                                 <div class="input-group input-group-joined">
-                              <span class="input-group-text">
-                                <i data-feather="mail"></i>
-                              </span>
-                                                    <input readonly
-                                                           class="form-control "
-                                                           type="text"
-                                                           aria-label="Search"
-                                                           th:field="${customer.email}"
-                                                    />
+                                                    <span class="input-group-text">
+                                                        <i data-feather="mail"></i>
+                                                    </span>
+                                                    <input readonly class="form-control " type="text" aria-label="Search" th:field="${customer.email}"/>
                                                 </div>
                                             </div>
 
                                         </div>
                                         <div class="mb-3">
-                                            <label class="small mb-1" for="customerDescription"
-                                            >Mô tả <!--<span style="color: red">*</span> --></label
-                                            >
-                                            <textarea
-                                                    readonly
-                                                    class="form-control"
-                                                    id="customerDescription"
-                                                    rows="3"
-                                                    placeholder="Nhập mô tả"
-                                                    th:field="${customer.description}"
-                                            ></textarea>
+                                            <label class="small mb-1" for="customerDescription">Mô tả</label>
+                                            <textarea readonly class="form-control" id="customerDescription" rows="3" placeholder="Nhập mô tả" th:field="${customer.description}"></textarea>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
                             <div id="identity">
                                 <div class="card mb-4">
                                     <div class="card-header">ThÔNG TIN CĂN CƯỚC CÔNG DÂN</div>
@@ -397,23 +265,16 @@
                                             <div class="col-md-6">
                                                 <label class="small mb-1">
                                                     Ngày sinh
-
                                                     <span style="color: red">*</span>
                                                 </label>
                                                 <div class="input-group input-group-joined">
-                              <span class="input-group-text">
-                                <i data-feather="calendar"></i>
-                              </span>
-                                                    <input
-                                                            readonly
-                                                            th:field="${customer.birthDate}"
-                                                            class="form-control "
-                                                            id="date1"
-                                                    />
+                                                    <span class="input-group-text">
+                                                         <i data-feather="calendar"></i>
+                                                    </span>
+                                                    <input readonly th:field="${customer.birthDate}" class="form-control " id="date1"/>
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="row gx-3 mb-3">
                                             <div class="col-md-6">
                                                 <label class="small mb-1">
@@ -424,30 +285,21 @@
                                                        class="form-control"
                                                        th:readonly="true"
                                                        th:field="${customer.identification.issuePlace}"
-
                                                 />
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="small mb-1"> Ngày cấp </label>
                                                 <div class="input-group input-group-joined">
-                              <span class="input-group-text">
-                                <i data-feather="calendar"></i>
-                              </span>
-                                                    <input
-                                                            readonly
-                                                            th:field="${customer.issueDate}"
-                                                            class="form-control "
-                                                            id="date2"
-                                                    />
+                                                    <span class="input-group-text">
+                                                         <i data-feather="calendar"></i>
+                                                    </span>
+                                                    <input readonly th:field="${customer.issueDate}" class="form-control " id="date2"/>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
-
                             </div>
-
                             <div id="bankingInformation">
                                 <div class="card mb-4">
                                     <div class="card-header">ThÔNG TIN TÀI KHOẢN NGÂN HÀNG</div>
@@ -469,19 +321,10 @@
                                                         th:text="${bankAccounts.bankName} +  ${bankAccounts.id}"></option>
                                             </select>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
-
-
                         </form>
-
-                        <!-- Sticky Navigation-->
-
-
-
                     </div>
                     <div class="col-lg-3">
                         <div class="nav-sticky">
@@ -519,35 +362,18 @@
                     </div>
                 </div>
                 <!-- Hidden field -->
-                <input type="hidden"
-                       id="gender"
-
-                />
-                <input type="hidden"
-                       id="hdnEmployeeId"
-
-                />
-                <input type="hidden"
-                       id="hdnSourceId"
-
-                />
-                <input type="hidden" class="form-control"
-                       id="customerStatus"
-
-                />
-
+                <input type="hidden" id="gender"/>
+                <input type="hidden" id="hdnEmployeeId"/>
+                <input type="hidden" id="hdnSourceId"/>
+                <input type="hidden" class="form-control" id="customerStatus"/>
         </main>
         <th:block th:include="/common/footer.html"></th:block>
     </div>
 </div>
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"
-></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.js"
-        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
 <script type="text/javascript" th:src="@{/js/customer.js}"></script>
 <script th:inline="javascript">
@@ -567,24 +393,16 @@
 <script>
     const form = document.getElementById('contractForm');
     const id = document.getElementById('contractID');
-
     const status = document.getElementById('status');
-
-
-
     form.addEventListener('submit',(e) => {
 
 
         const  idValue = id.value.trim();
         const statusValue  = status.value.trim();
-        //
-            const re = /^GCL[0-9]{4}^HCM[0-9]{4};
-
+        const re = /^GCL[0-9]{4}^HCM[0-9]{4};
         if(idValue ==''){
             setErrorFor(id,"Mã hợp đồng không thể trống");
             e.preventDefault();
-
-
         }else {
             setSuccessFor(id);
         }
@@ -598,26 +416,18 @@
         }else {
             setSuccessFor(status);
         }
-
-
     });
     //
     function setErrorFor(input,message) {
         const  inputBox=input.parentElement;
-
         const small = inputBox.querySelector('small');
         small.innerText = message;
         inputBox.className='col-md-6 form-validate error';
-
     }
     function setSuccessFor(input) {
         const  inputBox=input.parentElement;
-
-
         inputBox.className='col-md-6 form-validate success';
-
     }
 </script>
-
 </body>
 </html>

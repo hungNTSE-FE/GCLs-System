@@ -6,6 +6,8 @@ var TRANSACTION_DROPDOWN = "#selectTransaction";
 var POSITION_DROPDWOWN = "#selectPosition";
 var UPCOMING_BIRTHDATE_DROPDOWN = "#selectUpcomingBirthdate";
 var MULTI_SELECT = "#multi-select";
+var STATUS_SELECT = "#selectStatus";
+var GENDER_SELECT = "#selectGender";
 
 $(SOURCE_DROPDOWN).dropdown();
 $(LEVEL_DROPDOWN).dropdown();
@@ -15,6 +17,8 @@ $(MULTI_SELECT).dropdown();
 $(TRANSACTION_DROPDOWN).dropdown();
 $(POSITION_DROPDWOWN).dropdown();
 $(UPCOMING_BIRTHDATE_DROPDOWN).dropdown();
+$(STATUS_SELECT).dropdown();
+$(GENDER_SELECT).dropdown();
 
 //MULTI SELECT
 $(MULTI_SELECT).change(function () {
