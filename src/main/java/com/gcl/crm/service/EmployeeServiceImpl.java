@@ -182,6 +182,11 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
+    public void setGroupMkt(Long employeeId, MarketingGroup marketingGroup) {
+        employeeRepository.setGroupMkt(employeeId, marketingGroup);
+    }
+
+    @Override
     public List<Employee> getAllWorkingEmployeesWithUserNotNull() {
         List<Employee> employees = employeeRepository.findAllByStatusNot(EmployeeStatus.OFF_WORKING);
         List<Employee> result = new ArrayList<>();
