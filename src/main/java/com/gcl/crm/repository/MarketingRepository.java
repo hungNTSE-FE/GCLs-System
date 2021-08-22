@@ -273,4 +273,15 @@ public class MarketingRepository {
         return !CollectionUtils.isEmpty(result) ? (SummaryMKTReport) result.get(0) : null;
     }
 
+    public SummaryMKTReport getBrokerByUserId(Integer cusId) {
+        String sql = "select mg.name as name, mg.code as value\n" +
+                "from customer_distribution\n" +
+                "inner join marketing_group mg on customer_distribution.mkt_id = mg.id\n" +
+                "where customer_distribution.customer_id = :cus_id";
+        Query query = entityManager.createNativeQuery(sql, "getSummaryMKTReport");
+        query.setParameter("cus_id", cusId);
+        List result = query.getResultList();
+        return !CollectionUtils.isEmpty(result) ? (SummaryMKTReport) result.get(0) : null;
+    }
+
 }

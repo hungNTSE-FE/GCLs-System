@@ -1,11 +1,13 @@
 package com.gcl.crm.controller;
 
 import com.gcl.crm.dto.ErrorInFo;
+import com.gcl.crm.dto.SummaryMKTReport;
 import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.Gender;
 import com.gcl.crm.enums.LevelEnum;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.form.*;
+import com.gcl.crm.repository.MarketingRepository;
 import com.gcl.crm.service.CustomerProcessService;
 import com.gcl.crm.service.CustomerService;
 import com.gcl.crm.repository.SourceRepository;
@@ -78,6 +80,9 @@ public class CustomerController {
 
     @Autowired
     PotentialService potentialService;
+
+    @Autowired
+    MarketingRepository marketingRepository;
 
 ///
     @GetMapping({"/manageCustomer"})
@@ -201,9 +206,14 @@ public class CustomerController {
             if(!customer.getNumber().contains("003C")){
                 customer.setBirthDate(format.format(customer.getIdentification().getBirthDate()));
                 customer.setIssueDate(format.format(customer.getIdentification().getIssueDate()));
+                SummaryMKTReport summaryMKTReport = marketingRepository.getBrokerByUserId(customer.getCustomerId());
 
                 TradingAccount tradingAccount = new TradingAccount();
                 tradingAccount.setCustomerID(id);
+                if (summaryMKTReport != null) {
+                    tradingAccount.setBrokerCode(summaryMKTReport.getValue().toString());
+                    tradingAccount.setBrokerName(summaryMKTReport.getName());
+                }
                 model.addAttribute("tradingAccount",tradingAccount);
                 List<BankAccount> bankAccountList = customer.getBankAccounts();
                 User currentUser = userService.getUserByUsername(principal.getName());
@@ -233,6 +243,11 @@ public class CustomerController {
             String strDate = customer.getCreateDate()+"";
             String[] createDate = strDate.split(" ");
             model.addAttribute("createDate",createDate[0]);
+            SummaryMKTReport summaryMKTReport = marketingRepository.getBrokerByUserId(customer.getCustomerId());
+            if (summaryMKTReport != null) {
+                customer.getTradingAccount().setBrokerCode(summaryMKTReport.getValue().toString());
+                customer.getTradingAccount().setBrokerName(summaryMKTReport.getName());
+            }
             Contract contract = new Contract();
             contract.setCustomer(customer);
             contract.setId(contractService.getContractID());
