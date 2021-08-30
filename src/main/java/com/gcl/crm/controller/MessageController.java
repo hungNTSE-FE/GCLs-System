@@ -18,16 +18,10 @@ public class MessageController {
 
     @MessageMapping("/hello")
     public void sendToAdmin(SimpMessageHeaderAccessor sha, @Payload String username) {
-
         String message = "Thông báo bởi nhân viên " + sha.getUser().getName() ;
-
-
         if(username.equals("admin")){
              message = "Thông báo bởi nhân viên " + sha.getUser().getName() + " : Khách hàng cần mở tài khoản " ;
-
         }
-
-
         simpMessagingTemplate.convertAndSendToUser(username, "/queue/messages", message);
     }
 

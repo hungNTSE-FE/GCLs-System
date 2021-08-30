@@ -567,6 +567,23 @@
         icon: 'success',
         title: 'Gửi dữ liệu thành công',
       })
+    } else if (showtext === 'showAlertRegisterCustomerSuccess') {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: 'success',
+        title: 'Tạo thông tin khách hàng thành công',
+      })
     }
   });
 
