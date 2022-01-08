@@ -1,9 +1,9 @@
-package com.gcl.crm.service;
+package com.gcl.crm.service.impl;
 
 import com.gcl.crm.entity.Contract;
 
-import com.gcl.crm.entity.Task;
 import com.gcl.crm.repository.ContractRepository;
+import com.gcl.crm.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +12,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ContractServiceImpl implements ContractService{
+public class ContractServiceImpl implements ContractService {
+
     @Autowired
     private ContractRepository contractRepository;
+
     @Override
     public List<Contract> getAllContract() {
         return contractRepository.findAll();

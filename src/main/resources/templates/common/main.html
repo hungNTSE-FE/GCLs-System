@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <div th:fragment="myHeader">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
+    <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
+  </div>
+
+  <div th:fragment="myDateRangePicker">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+  </div>
+
+  <div th:fragment="mySimpleDatatables">
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
+  </div>
+
+  <div th:fragment="myScript">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/bundle.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
+    <script type="text/javascript" th:src="@{/js/datatables/datatables-custom.js}"></script>
+    <script type="text/javascript" th:src="@{/js/litepicker.js}"></script>
+    <script type="text/javascript" th:src="@{/js/semantic/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/listbox/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modules/checkbox/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/potential.js}"></script>
+  </div>
+
+  <div th:fragment="myScript_v2">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://semantic-ui.com/dist/components/form.js"></script>
+    <script src="https://semantic-ui.com/javascript/validate-form.js"></script>
+    <script src="https://semantic-ui.com/dist/components/popup.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
+    <script type="text/javascript" th:src="@{/js/semantic/main.js}"></script>
+  </div>
+
+  <div th:fragment="mySweetalert">
+    <script th:inline="javascript">
+      var showtext = [[${flag}]];
+    </script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" th:src="@{/js/sweetalert.js}"></script>
+  </div>
+</html>

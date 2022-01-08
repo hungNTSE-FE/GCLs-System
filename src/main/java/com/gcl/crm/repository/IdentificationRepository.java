@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface IdentificationRepository extends JpaRepository<Identification, String> {
     @Override
     Optional<Identification> findById(String s);
+
+    Identification findByIdentityNumber(String identityNumber);
 }

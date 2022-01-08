@@ -1,19 +1,21 @@
 package com.gcl.crm.controller;
 
+import com.gcl.crm.config.AppConst;
 import com.gcl.crm.dto.ErrorInFo;
 import com.gcl.crm.dto.SummaryMKTReport;
 import com.gcl.crm.entity.*;
-import com.gcl.crm.enums.Gender;
 import com.gcl.crm.enums.LevelEnum;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.form.*;
 import com.gcl.crm.repository.MarketingRepository;
 import com.gcl.crm.service.CustomerProcessService;
-import com.gcl.crm.service.CustomerService;
 import com.gcl.crm.repository.SourceRepository;
 import com.gcl.crm.utils.ExcelReader;
+import com.gcl.crm.utils.ValidateUtil;
 import com.gcl.crm.utils.WebUtils;
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
@@ -27,7 +29,6 @@ import com.gcl.crm.service.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -38,11 +39,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 
     private static final String ADD_CUSTOMER_PAGE = "/customer/create-customer-page-V2";
     private static final String CUSTOMER_FORM = "CustomerForm";
@@ -51,6 +53,7 @@ public class CustomerController {
     private static final String OPEN_ACCOUNT_PAGE = "/customer/open-account-page";
     private static final String CREATE_CONTRACT_PAGE = "/customer/create-contract-page";
     private static final String  WAIT_CUSTOMER_PAGE="/customer/view-waiting-customer-page";
+
     @Autowired
     CustomerProcessService customerProcessService;
 
@@ -71,6 +74,7 @@ public class CustomerController {
 
     @Autowired
     DepartmentService departmentService;
+
     @Autowired
     TradingAccountService tradingAccountService;
     @Autowired
@@ -84,7 +88,6 @@ public class CustomerController {
     @Autowired
     MarketingRepository marketingRepository;
 
-///
     @GetMapping({"/manageCustomer"})
     public  String viewCustomer(Model model, Principal principal){
         User currentUser = userService.getUserByUsername(principal.getName());
@@ -115,8 +118,6 @@ public class CustomerController {
         model.addAttribute("userInfo", currentUser);
         model.addAttribute("listCustomers",customerProcessService.findWaitingContractCustomer(searchForm));
         return VIEW_CUSTOMER_PAGE;
-
-
     }
 
     @RequestMapping(value = "/searchWaitingCustomer", method = RequestMethod.GET)
@@ -459,6 +460,7 @@ public class CustomerController {
         model.addAttribute("userInfo", currentUser);
         return "customer/update-account-balance-page";
     }
+
     @PostMapping({"/account/updateAccountBalance"})
     public String updateAccountBalance(RedirectAttributes redirectAttributes,@ModelAttribute("tradingAccount") TradingAccount tradingAccount) throws ParseException {
         if(tradingAccount == null){
@@ -471,30 +473,7 @@ public class CustomerController {
             return "redirect:/customer/manageAccountBalance";
 
         }
-
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @GetMapping({"/managePotentialCustomer"})
     public  String viewPotentialCustomer(Model model, Principal principal){
@@ -591,28 +570,15 @@ public class CustomerController {
         return "redirect:/potential/home";
     }
 
-    @RequestMapping(value = "/viewContractCustomer", method = RequestMethod.GET)
-    public String goHomePage(Model model, Principal principal) {
-        User user = userService.getUserByUsername(principal.getName());
-        model.addAttribute("userName", principal.getName());
-        List<Customer> customerList = customerProcessService.getAllContractCustomer();
-        model.addAttribute("listCustomers",customerList);
-        model.addAttribute("userInfo", user);
-        return "customer/view-customer-contract-page";
-    }
     @GetMapping({"/downloadContractFile/{id}"})
     public String downloadDocumentary(@PathVariable(name="id") int id, HttpServletResponse response) throws Exception {
         Customer customer = customerProcessService.findCustomerByID(id);
         ContractFile contractFile = customer.getContract().getContractFile();
         if(contractFile == null){
             return "redirect:/customer/viewContractCustomer";
-
         }else {
             customerProcessService.downloadContractFile(contractFile,response);
-
-
         }
         return "redirect:/documentary/home";
-
     }
 }

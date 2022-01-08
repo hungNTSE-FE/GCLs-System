@@ -38,7 +38,6 @@ public class MainController {
         }
         User user = userService.getUserByUsername(principal.getName());
         String roleEmployee = potentialService.getDepartmentByUserName(user);
-
         if ("SALE".equals(roleEmployee)) {
             return "redirect:/salesman/potential/home";
         } else if ("MARKETING".equals(roleEmployee)) {
@@ -47,13 +46,10 @@ public class MainController {
         return REDIRECT_DEPARTMENT_PAGE;
     }
 
-
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
     public String getLoginPage() {
         return LOGIN_PAGE;
     }
-
-
 
     @GetMapping(value = {"/403"})
     public String accessDenied() {

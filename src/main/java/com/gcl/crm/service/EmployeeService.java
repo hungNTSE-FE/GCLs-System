@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface EmployeeService {
-    List<Employee> getAllEmployees();
     List<Employee> getAllWorkingEmployees();
     List<Employee> getWorkingEmployeeByDepartment(Department department);
     List<Employee> getEmployeesByIdList(List<Long> aidList);

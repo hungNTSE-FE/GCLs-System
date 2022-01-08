@@ -5,14 +5,11 @@ import com.gcl.crm.entity.Department;
 import com.gcl.crm.entity.Employee;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.repository.DepartmentRepository;
-import com.gcl.crm.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService{
@@ -22,9 +19,6 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     @Autowired
     EmployeeService employeeService;
-
-    @Autowired
-    TaskRepository taskRepository;
 
     @Override
     public List<Department> findAllDepartments() {

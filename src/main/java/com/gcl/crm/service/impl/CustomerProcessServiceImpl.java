@@ -1,8 +1,12 @@
-package com.gcl.crm.service;
+package com.gcl.crm.service.impl;
 
 import com.gcl.crm.entity.*;
 import com.gcl.crm.form.CustomerSearchForm;
 import com.gcl.crm.repository.CustomerProcessRepository;
+import com.gcl.crm.service.ContractFileService;
+import com.gcl.crm.service.ContractService;
+import com.gcl.crm.service.CustomerProcessService;
+import com.gcl.crm.service.TradingAccountService;
 import com.gcl.crm.utils.FileUploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,22 +20,30 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
-public class CustomerProcessServiceImpl implements CustomerProcessService{
+public class CustomerProcessServiceImpl implements CustomerProcessService {
+
     @Autowired
     CustomerProcessRepository customerProcessRepository;
+
+    @Autowired
+    ContractService contractService;
+
+    @Autowired
+    ContractFileService contractFileService;
+
+    @Autowired
+    TradingAccountService tradingAccountService;
+
     @Override
     public List<Customer> getAllCustomer() {
         return customerProcessRepository.findAll();
     }
-    @Autowired ContractService contractService;
-    @Autowired ContractFileService contractFileService;
-    @Autowired TradingAccountService tradingAccountService;
+
     @Override
     public Customer findCustomerByID(int id) {
         List<Customer> customerList = getAllCustomer();
         for(int i = 0 ; i < customerList.size();i++){
             if(customerList.get(i).getCustomerId().equals(id)){
-
                 return customerList.get(i);
             }
         }
@@ -82,14 +94,12 @@ public class CustomerProcessServiceImpl implements CustomerProcessService{
         tradingAccountService.activateAccount(tradingAccount);
         tradingAccount.setCustomer(customer);
         customer.setTradingAccount(tradingAccount);
-
         customerProcessRepository.save(customer);
     }
 
     @Override
     public List<Customer> getAllContractCustomer() {
         return customerProcessRepository.getAllPotentialCustomer("GCL");
-
     }
 
     @Override

@@ -1,6 +1,5 @@
 
 window.addEventListener('DOMContentLoaded', event => {
-
     const litepickerSingleDate = document.getElementById('litepickerSingleDate');
     if (litepickerSingleDate) {
         new Litepicker({
@@ -73,5 +72,4 @@ window.addEventListener('DOMContentLoaded', event => {
             element: document.getElementById("litepickerOfficeEntryDate"),
         });
     }
-
 });

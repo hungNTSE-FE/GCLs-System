@@ -45,11 +45,6 @@ public class EmployeeServiceImpl implements EmployeeService{
     UserService userService;
 
     @Override
-    public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
-    }
-
-    @Override
     public List<Employee> getAllWorkingEmployees() {
         return employeeRepository.findAllByStatusNot(EmployeeStatus.OFF_WORKING);
     }

@@ -18,19 +18,10 @@
   <th:block th:include="/common/layoutSidenav.html"></th:block>
   <div id="layoutSidenav_content">
     <main>
-      <header
-              class="
-              page-header page-header-compact page-header-light
-              border-bottom
-              bg-white
-              mb-4
-            "
-      >
+      <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
         <div class="container-fluid px-4">
           <div class="page-header-content">
-            <div
-                    class="row align-items-center justify-content-between pt-3"
-            >
+            <div class="row align-items-center justify-content-between pt-3">
               <div class="col-auto mb-3">
                 <nav class="rounded" aria-label="breadcrumb">
                   <ol class="breadcrumb px-3 py-2 rounded mb-0">
@@ -48,12 +39,12 @@
 
       <div class="container-fluid px-4">
         <th:block th:include="/potential/sale/common/potential-card-header-hungNT.html"></th:block>
-
         <nav class="nav nav-borders">
           <a class="nav-link" th:href="@{/potential/detail/sale/{id}(id=${potentialDetail.id})}">Chi tiết</a>
           <a class="nav-link active ms-0" th:href="@{/potential/detail/takecare/{id}(id=${potentialDetail.id})}">
             Chăm sóc khách hàng
-            <span th:if="${potentialDetail.cares.size() > 0}" th:text="${potentialDetail.cares.size()}"
+            <span th:if="${potentialDetail.cares.size() > 0}"
+                  th:text="${potentialDetail.cares.size()}"
                   class="badge bg-hung-custom text-white-75 ms-auto"></span>
           </a>
           <a class="nav-link" th:href="@{/potential/detail/diary/sale/{id}(id=${potentialDetail.id})}">
@@ -97,16 +88,19 @@
                           data-bs-placement="top"
                           title="Gửi"
                           type="submit"
-                          id="send1"
-                  >
+                          id="send1">
                     <i data-feather="send"></i>
                   </button>
                 </td>
                 <td>CHĂM KHÁCH LẦN 1</td>
                 <td class="asset_value">
-                  <textarea th:disabled="${potentialDetail.cares.size() != 0}" name="description"
+                  <textarea th:disabled="${potentialDetail.cares.size() != 0}"
                             th:text="${potentialDetail.cares.size() > 0 ? potentialDetail.cares.get(0).description : ''}"
-                            class="form-control" rows="3" form="form-tk" required></textarea>
+                            name="description"
+                            class="form-control"
+                            rows="3"
+                            form="form-tk"
+                            required></textarea>
                 </td>
                 <td>
                   <div th:if="${potentialDetail.cares.size() > 0}">
@@ -121,14 +115,13 @@
               <tr>
                 <td>
                   <button class="btn btn-transparent-dark"
+                          id="send2"
                           form="form-tk"
                           th:disabled="${potentialDetail.cares.size() != 1}"
                           data-bs-toggle="tooltip"
                           data-bs-placement="top"
                           title="Gửi"
-                          type="submit"
-                          id="send2"
-                  >
+                          type="submit">
                     <i data-feather="send"></i>
                   </button>
                 </td>
@@ -157,8 +150,7 @@
                           data-bs-placement="top"
                           title="Gửi"
                           type="submit"
-                          id="send3"
-                  >
+                          id="send3">
                     <i data-feather="send"></i>
                   </button>
                 </td>
@@ -237,37 +229,6 @@
       });
     }
   });
-
-  var stompClient = null;
-  var userName = /*[[${userName}]]*/ "";
-
-  function connect() {
-    var socket = new SockJS('/hello');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({ username: userName, }, function() {
-      console.log('Web Socket is connected');
-      stompClient.subscribe('/users/queue/messages', function(message) {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        })
-
-        Toast.fire({
-          icon: 'info',
-          title: message.body,
-        })
-      });
-    });
-  }
-
-  window.onload = connect;
 
   $(function() {
     $("#send1").click(function() {

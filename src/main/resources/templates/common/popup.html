@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+  <!-- Modal Import -->
+  <div th:fragment="popupImport (id, urlAction)">
+    <div class="modal fade"
+         th:id="${id}"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="myExtraLargeModalLabel"
+         style="display: none"
+         aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <form th:action="${urlAction}" method="POST" enctype="multipart/form-data">
+            <div class="modal-header">
+              <h5 class="modal-title">Nhập dữ liệu từ file Excel</h5>
+              <button class="btn-close"
+                      type="button"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row gx-3 mb-2">
+                <div class="col-md-4">
+                  <label class="small">Chọn file Excel</label>
+                </div>
+                <div class="col-md-8">
+                  <input class="form-control form-control-sm"
+                         name="upload"
+                         type="file"
+                         placeholder=""
+                         accept=".xlsx, .xls"
+                         style="border: 1px solid #aaa"
+                         required/>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" type="submit">
+                Tiếp tục
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Share leads -->
+  <div th:fragment="popupShareCustomer">
+    <div class="modal fade"
+         id="modalShareLead"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="myExtraLargeModalLabel"
+         style="display: none"
+         aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Chia sẻ đầu mối</h5>
+            <button class="btn-close"
+                    type="button"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <table id="datatablesCheckedPotential">
+              <thead>
+              <tr>
+                <th>TÊN</th>
+                <th>DI ĐỘNG</th>
+                <th>EMAIL</th>
+                <th>NGUỒN</th>
+                <th>NGÀY TẠO</th>
+              </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+            <hr class="mt-0 mb-4" />
+            <div class="row">
+              <div class="col-xs-3" style="width: 25%">
+                <select id="lstBox1"
+                        multiple="multiple"
+                        class="form-control"
+                        size="10">
+                  <option th:each="marketingGroup : ${marketingGroups}"
+                          th:value="*{marketingGroup.id}"
+                          th:text="*{marketingGroup.name}"></option>
+                </select>
+              </div>
+              <div class="d-flex flex-column py-3" style="width: 10%">
+                <a id="btnRight" class="btn btn-block btn-sm btn-primary mb-1">Add</a>
+                <a id="btnLeft" class="btn btn-block btn-sm btn-primary mb-1">Remove</a>
+                <a id="btnRightall" class="btn btn-block btn-sm btn-primary mb-1">Add all</a>
+                <a id="btnLeftall" class="btn btn-block btn-sm btn-primary">Remove all</a>
+              </div>
+              <div class="col-xs-3" style="width: 25%">
+                <select id="lstBox2"
+                        class="form-control"
+                        multiple="multiple"
+                        size="10"></select>
+              </div>
+              <div class="col-xs-3" style="width: 40%">
+                <div class="form-check">
+                  <input class="form-check-input"
+                         id="flexCheckDefault"
+                         type="checkbox"
+                         value=""/>
+                  <label class="form-check-label" for="flexCheckDefault">
+                    Chia sẻ ngẫu nhiên toàn bộ đầu mối
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" id="sharingLeads" type="button">Chia sẻ</button>
+            <button class="btn btn-outline-dark" id="closeSharingLeads" type="button" data-bs-dismiss="modal">
+              Bỏ qua
+            </button>
+          </div>
+          <div>
+            <form id="customerDistributionForm"
+                  method="POST"
+                  action="#"
+                  th:action="@{/marketing/distributionPotential}"
+                  th:object="${customerDistributionForm}">
+              <input id="mktIdList" type="hidden" th:field="${customerDistributionForm.mktIdList}">
+              <input id="potentialIdList" type="hidden" th:field="${customerDistributionForm.potentialIdList}">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Modal Error Message-->
+  <div th:fragment="popupError">
+    <button data-bs-toggle="modal"
+            data-bs-target="#errorModal"
+            id = "btnErrorModal"
+            hidden></button>
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="removeModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Thông tin lỗi</h5>
+            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h5 class="modal-title" id="errorMessage">Vui lòng chọn ít nhất 1 đầu mối chưa được chia sẻ</h5>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-dark" data-bs-dismiss="modal" type="button">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Modal Remove-->
+  <div th:fragment="popupRemove">
+    <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="removeModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="removeModalCenterTitle">Bạn có muốn xoá khách hàng đã chọn?</h5>
+            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-footer">
+            <form th:action="@{/potential/remove}" method="POST" id="remove-form">
+              <button class="btn btn-primary" type="submit">
+                Xoá
+              </button>
+            </form>
+            <button class="btn btn-outline-dark" type="button">Huỷ bỏ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Mail-->
+  <div th:fragment="modalMail">
+    <div class="modal fade"
+         id="exampleModalEmail"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">
+              Gửi Email
+            </h5>
+            <button class="btn-close"
+                    type="button"
+                    data-bs-dismiss="modal"
+                    aria-label="Close">
+            </button>
+          </div>
+          <div class="modal-body">
+            <form th:action="@{/potential/detail/sendEmail}" method="POST" id="formSendEmail">
+              <input type="hidden" th:value="${potentialDetail.id}" name="id"/>
+              <div class="form-group row mb-3">
+                <label class="small col-sm-3">
+                  Email Khách hàng
+                </label>
+                <div class="col-sm-9">
+                  <input class="form-control form-control-solid" type="hidden" name="emailForCustomer" th:value="${potentialDetail.email}"/>
+                  <label class="text-sm" th:text="${potentialDetail.email}"></label>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="small col-sm-3">
+                  Tiêu đề
+                  <span style="color: red">*</span>
+                </label>
+                <div class="col-sm-9">
+                  <input type="text" name="subject"  class="form-control" />
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="small col-sm-3">
+                  Nội dung
+                  <span style="color: red">*</span>
+                </label>
+                <div class="col-sm-9">
+              <textarea class="form-control"
+                        id="exampleFormControlTextarea1"
+                        rows="3"
+                        name="description">
+              </textarea>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" type="submit" form="formSendEmail">Gửi</button>
+            <button class="btn btn-outline-dark"
+                    type="button"
+                    data-bs-dismiss="modal">
+              Huỷ
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

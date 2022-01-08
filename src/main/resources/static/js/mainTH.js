@@ -79,6 +79,7 @@ window.addEventListener('DOMContentLoaded', event => {
         targetAnchor.classList.add('active');
     });
 });
+
 function selectAllNone() {
     var tvNodes = document.getElementById("treeview");
     var chBoxes = tvNodes.getElementsByTagName("input");
@@ -123,6 +124,7 @@ $(".user-info").click(function () {
 $(".card-body").click(function (e) {
     e.stopPropagation();
 });
+
 document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
     const dropZoneElement = inputElement.closest(".drop-zone");
 
@@ -200,6 +202,20 @@ function updateThumbnail(dropZoneElement, file) {
       }
 
 }
+
+$(document).ready(function() {
+    $('a.edit').click(function() {
+        var dad = $(this).parent().parent();
+        dad.find('#label-name').hide();
+        dad.find('#selectLevel').show().focus();
+    });
+
+    $('#selectLevel').focusout(function() {
+        var dad = $(this).parent();
+        $(this).hide();
+        dad.find('#label-name').show().focus();
+    });
+});
 
 
 

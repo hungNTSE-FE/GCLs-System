@@ -11,8 +11,9 @@ import java.util.List;
 public interface MarketingGroupRepository extends JpaRepository<MarketingGroup, Long> {
     List<MarketingGroup> findAllByStatus(Status status);
     List<MarketingGroup> findAllByStatusAndCodeContainingAndNameContaining(Status status, String code, String name);
-    List<MarketingGroup> findAllById(Long id);
+    List<MarketingGroup> findAllByCodeOrName(String code, String name);
     MarketingGroup findMarketingGroupByCodeAndIdNot(String code, Long id);
     MarketingGroup findMarketingGroupByCode(String code);
     MarketingGroup findByIdAndStatus(Long id, Status status);
+    MarketingGroup findByCodeOrName(String code, String name);
 }

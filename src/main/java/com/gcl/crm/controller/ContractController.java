@@ -3,26 +3,20 @@ package com.gcl.crm.controller;
 import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.LevelEnum;
 import com.gcl.crm.enums.Status;
-import com.gcl.crm.form.CustomerDistributionForm;
-import com.gcl.crm.form.CustomerForm;
 import com.gcl.crm.form.CustomerSearchForm;
-import com.gcl.crm.form.PotentialSearchForm;
+import com.gcl.crm.repository.ContractRepository;
 import com.gcl.crm.service.*;
 import com.gcl.crm.utils.WebUtils;
 
-import org.apache.poi.ss.usermodel.PrintCellComments;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
@@ -32,32 +26,48 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/contract")
 public class ContractController {
+
+    private static final String VIEW_CUSTOMER_PAGE = "/contract/view-customer-page-v2";
+    private static final String VIEW_TRADING_ACCOUNT_PAGE = "/contract/view-tradingAccount-page";
+    private static final String OPEN_ACCOUNT_PAGE = "/contract/open-account-page";
+    private static final String CREATE_CONTRACT_PAGE = "/contract/create-contract-page";
+    private static final String  WAIT_CUSTOMER_PAGE="/contract/view-waiting-customer-page";
 
     @Autowired
     ContractService contractService;
 
     @Autowired
     CustomerService customerService;
+
     @Autowired
     CustomerProcessService customerProcessService;
+
+    @Autowired
+    ContractRepository contractRepository;
+
     @Autowired
     UserService userService;
+
     @Autowired
     TradingAccountService tradingAccountService;
+
     @Autowired
     ContractFileService contractFileService;
-    private static final String VIEW_CUSTOMER_PAGE = "/contract/view-customer-page-v2";
-    private static final String VIEW_TRADING_ACCOUNT_PAGE = "/contract/view-tradingAccount-page";
-    private static final String OPEN_ACCOUNT_PAGE = "/contract/open-account-page";
-    private static final String CREATE_CONTRACT_PAGE = "/contract/create-contract-page";
-    private static final String  WAIT_CUSTOMER_PAGE="/contract/view-waiting-customer-page";
-    @Autowired
-    private TransactionService transactionService;
+
+    @GetMapping("/viewContractCustomer")
+    public String goContractPage(Model model, Principal principal) {
+        User user = userService.getUserByUsername(principal.getName());
+        model.addAttribute("userName", principal.getName());
+        List<Contract> contracts = contractRepository.findAllByStatus("Đã Lưu HĐKH");
+        model.addAttribute("contracts", contracts);
+        model.addAttribute("userInfo", user);
+        return "customer/view-customer-contract-page";
+    }
+
     @GetMapping({"/manageCustomer"})
     public  String viewCustomer(Model model, Principal principal){
         User currentUser = userService.getUserByUsername(principal.getName());
@@ -323,7 +333,6 @@ public class ContractController {
             customerProcessService.saveCustomer(customer);
             return "redirect:/contract/manageTradingAccount";
         }
-
     }
 
 

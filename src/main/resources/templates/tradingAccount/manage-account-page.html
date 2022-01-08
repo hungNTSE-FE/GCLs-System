@@ -28,9 +28,7 @@
             >
                 <div class="container-fluid px-4">
                     <div class="page-header-content">
-                        <div
-                                class="row align-items-center justify-content-between pt-3"
-                        >
+                        <div class="row align-items-center justify-content-between pt-3">
                             <div class="col-auto mb-3">
                                 <nav class="rounded" aria-label="breadcrumb">
                                     <ol class="breadcrumb px-3 py-2 rounded mb-0">
@@ -42,7 +40,6 @@
                                 </nav>
                             </div>
                             <div class="col-12 col-xl-auto mb-3">
-                                <!-- Extra large modal -->
                                 <div class="d-flex">
                                     <button class="btn btn-outline-dark mx-1" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalXl">
                                         <i class="fas fa-file-import" style="padding-right: 2px"></i>
@@ -54,46 +51,44 @@
                     </div>
                 </div>
             </header>
-            <!-- Main page content-->
             <div class="container-fluid px-4">
                 <div style="height: 100%; position: relative">
                     <div class="row">
                         <div class="col-lg-3 mb-4">
-                            <!-- Report summary card example-->
                             <div class="card card-header-actions mb-4">
                                 <div class="card-header">
                                     TRA CỨU
                                 </div>
                                 <div class="card-body">
                                     <form th:action="@{/tradingAccount/searchBalanceAccount}" th:object="${searchForm}">
-
                                         <div class="mb-3">
                                             <label class="text-sm">Mã tài khoản</label>
-                                            <input
-                                                    th:field="*{number}"
-
-                                                    class="form-control" type="text" placeholder="Nhập mã tài khoản"/>
+                                            <input th:field="*{number}"
+                                                   class="form-control"
+                                                   type="text"
+                                                   placeholder="Nhập mã tài khoản"/>
                                         </div>
                                         <div class="mb-3">
                                             <label class="text-sm">Tên tài khoản</label>
-                                            <input
-                                                    th:field="*{name}"
-                                                    class="form-control" type="text" placeholder="Nhập tên tài khoản"/>
+                                            <input th:field="*{name}"
+                                                   class="form-control"
+                                                   type="text"
+                                                   placeholder="Nhập tên tài khoản"/>
                                         </div>
                                         <div class="mb-3">
                                             <label class="text-sm">Số dư từ </label>
-                                            <input
-                                                    th:field="*{min}"
-                                                    class="form-control" type="text" placeholder="Nhập số dư"/>
+                                            <input th:field="*{min}"
+                                                   class="form-control"
+                                                   type="text"
+                                                   placeholder="Nhập số dư"/>
                                         </div>
                                         <div class="mb-3">
                                             <label class="text-sm">Số dư đến</label>
-                                            <input
-                                                    th:field="*{max}"
-                                                    class="form-control" type="text" placeholder="Nhập số dư"/>
+                                            <input th:field="*{max}"
+                                                   class="form-control"
+                                                   type="text"
+                                                   placeholder="Nhập số dư"/>
                                         </div>
-
-
                                         <div class="d-flex align-center">
                                             <button type="submit"
                                                     class="btn btn-primary"
@@ -124,7 +119,6 @@
                                                     <th>TÊN TÀI KHOẢN</th>
                                                     <th>SỐ DƯ KHẢ DỤNG</th>
                                                     <th>CẬP NHẬT</th>
-
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -133,10 +127,8 @@
                                                     <td  th:text="${tradingAcount.accountName}"></td>
                                                     <td th:text="${numberFormat.format(tradingAcount.balance)}"></td>
                                                     <td>
-
                                                     <a th:href="@{'/tradingAccount/showUpdateBalance/'+${tradingAcount.accountNumber}}"><i data-feather="edit"></i>&nbsp;Cập nhật</a>
                                                     </td>
-
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -169,26 +161,22 @@
         </main>
         <th:block th:include="/common/footer.html"></th:block>
         <!-- Modal Import -->
-        <div
-                class="modal fade"
-                id="exampleModalXl"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="myExtraLargeModalLabel"
-                style="display: none"
-                aria-hidden="true"
-        >
+        <div class="modal fade"
+             id="exampleModalXl"
+             tabindex="-1"
+             role="dialog"
+             aria-labelledby="myExtraLargeModalLabel"
+             style="display: none"
+             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <form th:action="@{/tradingAccount/import}" method="POST" enctype="multipart/form-data">
                         <div class="modal-header">
                             <h5 class="modal-title">Nhập dữ liệu từ file Excel</h5>
-                            <button
-                                    class="btn-close"
+                            <button class="btn-close"
                                     type="button"
                                     data-bs-dismiss="modal"
-                                    aria-label="Close"
-                            ></button>
+                                    aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row gx-3 mb-2">
@@ -201,14 +189,12 @@
                                            type="file"
                                            name="upload"
                                            placeholder=""
-                                           style="border: 1px solid #aaa"
-                                    />
+                                           style="border: 1px solid #aaa"/>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button
-                                    class="btn btn-primary"
+                            <button class="btn btn-primary"
                                     type="submit">
                                 Tiếp tục
                             </button>
@@ -217,7 +203,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -227,46 +212,9 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/bundle.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script type="text/javascript" th:src="@{/js/mainTH.js}"></script>
 <script type="text/javascript" th:src="@{/js/datatables/datatables-simple-demo.js}"></script>
 <script type="text/javascript" th:src="@{/js/semantic/main.js}"></script>
 <script type="text/javascript" th:src="@{/js/litepicker.js}"></script>
-
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    var stompClient = null;
-    var userName = /*[[${userName}]]*/ "";
-
-    function connect() {
-        var socket = new SockJS('/hello');
-        stompClient = Stomp.over(socket);
-        stompClient.connect({ username: userName, }, function() {
-            console.log('Web Socket is connected');
-            stompClient.subscribe('/users/queue/messages', function(message) {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                })
-
-                Toast.fire({
-                    icon: 'success',
-                    title: message.body,
-                })
-            });
-        });
-    }
-
-    window.onload = connect;
-    /*]]>*/
-</script>
 </body>
 </html>
