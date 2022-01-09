@@ -167,7 +167,7 @@ public class PotentialController {
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String search(Model model, @Nullable @ModelAttribute("searchForm") PotentialSearchForm searchForm,
-                         Principal principal){
+                         Principal principal, RedirectAttributes redirectAttributes){
         if (searchForm == null){
             return CommonConst.REDIRECT + CommonConst.PATH_POTENTIAL_HOME;
         }
@@ -175,7 +175,7 @@ public class PotentialController {
         CustomerDistributionForm customerDistributionForm = new CustomerDistributionForm();
         List<Source> sources = sourceRepository.getAll();
         List<Level> levels = levelService.getAll();
-        List<Potential> potentials = potentialService.search(searchForm);
+
         List<MarketingGroup> marketingGroups = marketingGroupService.getAllMktByStatus();
         Map<Long, String > marketingGroupsMap = Optional.ofNullable(marketingGroups)
                 .orElse(Collections.emptyList())
@@ -187,12 +187,17 @@ public class PotentialController {
                     marketingGroupsMap.get(customerDistribution.getMarketingGroup().getId()));
         }
         model.addAttribute("userInfo", currentUser);
-        model.addAttribute("userName", principal.getName());
         model.addAttribute("sources", sources);
         model.addAttribute("levels", levels);
-        model.addAttribute("potentials", potentials);
-        model.addAttribute("customerDistributionForm", customerDistributionForm);
+        model.addAttribute("userName", principal.getName());
         model.addAttribute("potentialMap", potentialMap);
+        model.addAttribute("customerDistributionForm", customerDistributionForm);
+        try {
+            List<Potential> potentials = potentialService.search(searchForm);
+            model.addAttribute("potentials", potentials);
+        } catch (Exception e) {
+            LOGGER.error("Has exception when search ", e);
+        }
         return CommonConst.HOME_POTENTIAL_TEMPLATE;
     }
 
@@ -215,7 +220,7 @@ public class PotentialController {
         if (ValidateUtil.isNullOrEmpty(principal)) {
             return CommonConst.ERROR_400_TEMPLATE;
         }
-        if (ValidateUtil.isNullOrEmpty(id) || ValidateUtil.isNotNullOrEmpty(potential)){
+        if (ValidateUtil.isNullOrEmpty(id) || ValidateUtil.isNullOrEmpty(potential)){
             return CommonConst.REDIRECT + CommonConst.PATH_POTENTIAL_HOME;
         }
         if (ValidateUtil.isNullOrEmpty(potential.getSource())){

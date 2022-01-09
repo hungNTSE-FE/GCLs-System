@@ -20,8 +20,8 @@ public interface PotentialRepository extends JpaRepository<Potential, Long> {
     Potential findPotentialByIdAndStatus(Long id, Status status);
     Optional<Potential> findById(Long id);
     List<Potential> findAllByStatus(Status status);
-    List<Potential> findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndStatus
-            (String name, String phone, String email, Status status);
+    List<Potential> findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndSourceAndLevelAndStatus
+            (String name, String phone, String email, Source source, Integer level, Status status);
     List<Potential> findAllByDateContaining(String date);
     List<Potential> findAllByDate(String date);
     List<Potential> findAllByPhoneNumberOrEmail(String phone, String email);

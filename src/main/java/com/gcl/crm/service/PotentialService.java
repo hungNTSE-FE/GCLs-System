@@ -1,11 +1,14 @@
 package com.gcl.crm.service;
 
+import com.gcl.crm.config.AppConst;
 import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.LevelEnum;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.form.EmployeeSearchForm;
 import com.gcl.crm.form.PotentialSearchForm;
 import com.gcl.crm.repository.*;
+import com.gcl.crm.utils.DateTimeUtil;
+import com.gcl.crm.utils.ValidateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -167,40 +170,30 @@ public class PotentialService {
         return potentials;
     }
 
-    public List<Potential> search(PotentialSearchForm searchForm){
+    public List<Potential> search(PotentialSearchForm searchForm) throws ParseException{
         Level level = null;
         if (searchForm.getLevel() != null){
             level = levelService.getLevelById(searchForm.getLevel());
         }
         Source source = sourceService.getSourceByName(searchForm.getSource());
         List<Potential> potentials = potentialRepository
-                .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndStatus
-                        (searchForm.getName(), searchForm.getPhone(), searchForm.getEmail(), Status.ACTIVE);
-        if (searchForm.getTime() ==  null || searchForm.getTime().isEmpty()) {
+                .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndSourceAndLevelAndStatus
+                        (searchForm.getName(), searchForm.getPhone(), searchForm.getEmail(), source, level.getLevelId(), Status.ACTIVE);
+        if (ValidateUtil.isNotNullOrEmpty(potentials)) {
             return potentials;
         }
         String[] dateRange = searchForm.getTime().split("-");
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date date1 = null;
-        Date date2 = null;
-        try {
-            date1 = simpleDateFormat.parse(dateRange[0].trim());
-            date2 = simpleDateFormat.parse(dateRange[1].trim());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Date date1 = DateTimeUtil.convertStringToDate(dateRange[0].trim(), AppConst.FORMAT_DD_MM_YYYY_CROOSSIES);
+        Date date2 = DateTimeUtil.convertStringToDate(dateRange[1].trim(), AppConst.FORMAT_DD_MM_YYYY_CROOSSIES);
         List<Potential> result = new ArrayList<>();
         for (int i = 0; i < potentials.size(); i++) {
             Potential potential = potentials.get(i);
             boolean flag = true;
-            Date date = null;
-            try {
-                date = simpleDateFormat.parse(potential.getDate());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            if ((date.before(date1) || date.after(date2))){
-                flag = false;
+            Date date = DateTimeUtil.convertStringToDate(potential.getDate(), AppConst.FORMAT_DD_MM_YYYY_CROOSSIES);
+            if (ValidateUtil.isNotNullOrEmpty(date1) || ValidateUtil.isNotNullOrEmpty(date2)) {
+                if ((date.before(date1) || date.after(date2))){
+                    flag = false;
+                }
             }
             if (level != null){
                 if (!level.equals(potential.getLevel())){

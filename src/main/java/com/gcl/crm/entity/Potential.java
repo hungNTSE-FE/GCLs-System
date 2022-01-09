@@ -63,18 +63,6 @@ public class Potential implements Comparable<Potential> {
 
     private String address;
 
-    private String mktId;
-
-    private String mktTeam;
-
-    private String sale;
-
-    private String course;
-
-    private String initialState;
-
-    private String note;
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "potential")
     private List<Care> cares;
 
