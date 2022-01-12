@@ -11,4 +11,6 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
     @Query("select count(c.id) from Contract c")
     int countContractById();
     List<Contract> findAllByStatus(String status);
+    List<Contract> findAllById(String id);
+    Contract findContractById(String id);
 }

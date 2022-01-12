@@ -29,4 +29,6 @@ public class CustomerRepository {
         query.setParameter("level_id", levelId);
         query.executeUpdate();
     }
+
+
 }

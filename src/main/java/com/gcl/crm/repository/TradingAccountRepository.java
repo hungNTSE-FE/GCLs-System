@@ -1,6 +1,5 @@
 package com.gcl.crm.repository;
 
-import com.gcl.crm.entity.Documentary;
 import com.gcl.crm.entity.TradingAccount;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.form.TradingAccountForm;
@@ -22,6 +21,9 @@ public interface TradingAccountRepository  extends JpaRepository<TradingAccount,
     @Query("SELECT new TradingAccount (t.accountNumber,t.balance,t.accountName) FROM TradingAccount t where  t.balance < ?1 and t.balance > ?2   ORDER BY t.createDate DESC")
     List<TradingAccount> findAllByBalance(double high,double low);
 
+    TradingAccount findByAccountNumber(String accountNumber);
+
+    List<TradingAccount> findAllByAccountNumberAndBrokerCode(String accountNumber, String brokerCode);
 
 
 }

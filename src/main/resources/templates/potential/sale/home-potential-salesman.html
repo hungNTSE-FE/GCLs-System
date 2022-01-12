@@ -28,24 +28,22 @@
       >
         <div class="container-fluid px-4">
           <div class="page-header-content">
-            <div
-                    class="row align-items-center justify-content-between pt-3"
-            >
+            <div class="row align-items-center justify-content-between pt-3">
               <div class="col-auto mb-3">
                 <nav class="rounded" aria-label="breadcrumb">
                   <ol class="breadcrumb px-3 py-2 rounded mb-0">
                     <li class="breadcrumb-item">
-                      <a href="#">Đầu mối</a>
+                      <a href="#">Khách hàng</a>
                     </li>
                     <li class="breadcrumb-item active">Tất cả</li>
                   </ol>
                 </nav>
               </div>
               <div class="col-12 col-xl-auto mb-3">
-                <!-- Extra large modal -->
-                <div class="d-flex">
-                </div>
-
+                <button class="btn btn-outline-dark mx-1" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalXl">
+                  <i class="fas fa-file-import" style="padding-right: 2px"></i>
+                  Import excel
+                </button>
               </div>
             </div>
           </div>
@@ -64,11 +62,7 @@
                 <div class="card-body">
                   <form th:action="@{/potential/search}" th:object="${searchForm}">
                     <div class="mb-3">
-                      <label
-                              for="potential-name"
-                              class="text-sm"
-                      >Tên khách hàng</label
-                      >
+                      <label class="text-sm">Tên khách hàng</label>
                       <input th:field="*{name}"
                               class="form-control"
                               id="potential-name"
@@ -77,41 +71,33 @@
                       />
                     </div>
                     <div class="mb-3">
-                      <label
-                              for="phone-number"
-                              class="text-sm"
-                      >Số điện thoại</label
-                      >
-                      <!-- Joined input group append example-->
+                      <label class="text-sm">Số điện thoại</label>
                       <div class="input-group input-group-joined">
-                        <input id="phone-number" th:field="*{phone}"
-                                class="form-control pe-0"
-                                type="text"
-                                placeholder="Nhập số điện thoại"
-                                aria-label="Search"
+                        <input id="phone-number"
+                               th:field="*{phone}"
+                               class="form-control pe-0"
+                               type="text"
+                               placeholder="Nhập số điện thoại"
+                               aria-label="Search"
                         />
                         <span class="input-group-text">
-                              <i data-feather="phone"></i>
-                            </span>
+                          <i data-feather="phone"></i>
+                        </span>
                       </div>
                     </div>
                     <div class="mb-3">
-                      <label
-                              for="email"
-                              class="text-sm"
-                      >Email</label
-                      >
-                      <!-- Joined input group append example-->
+                      <label class="text-sm">Email</label>
                       <div class="input-group input-group-joined">
-                        <input id="email" th:field="*{email}"
-                                class="form-control pe-0"
-                                type="text"
-                                placeholder="Nhập mail"
-                                aria-label="Search"
+                        <input id="email"
+                               th:field="*{email}"
+                               class="form-control pe-0"
+                               type="text"
+                               placeholder="Nhập mail"
+                               aria-label="Search"
                         />
                         <span class="input-group-text">
-                              <i data-feather="mail"></i>
-                            </span>
+                          <i data-feather="mail"></i>
+                        </span>
                       </div>
                     </div>
                     <div class="mb-3">
@@ -143,16 +129,15 @@
                       </label>
                       <div class="input-group input-group-joined">
                         <input th:field="*{time}"
-                                class="form-control pointer"
-                                id="litepickerRangePlugin"
-                                placeholder="Lựa chọn"
+                               class="form-control pointer"
+                               id="litepickerRangePlugin"
+                               placeholder="Lựa chọn"
                         />
                         <span class="input-group-text">
                           <i data-feather="calendar"></i>
                         </span>
                       </div>
                     </div>
-
                     <div class="d-flex align-center">
                       <button type="submit"
                               class="btn btn-primary"
@@ -166,7 +151,6 @@
               </div>
             </div>
             <div class="col-lg-9 mb-4">
-              <!-- Area chart example-->
               <div class="card card-scrollable mb-4">
                 <div class="card-body" style="max-height: 45em;">
                   <form id="devel-generate-content-form">
@@ -284,10 +268,8 @@
       });
     }
   });
-
   var stompClient = null;
   var userName = /*[[${userName}]]*/ "";
-
   function connect() {
     var socket = new SockJS('/hello');
     stompClient = Stomp.over(socket);
@@ -305,7 +287,6 @@
             toast.addEventListener('mouseleave', Swal.resumeTimer)
           }
         })
-
         Toast.fire({
           icon: 'success',
           title: message.body,
@@ -313,7 +294,6 @@
       });
     });
   }
-
   window.onload = connect;
   /*]]>*/
 </script>

@@ -54,7 +54,6 @@ public class SalesmanController {
         model.addAttribute("levels", levels);
         model.addAttribute("searchForm", searchForm);
         model.addAttribute("userName", principal.getName());
-
         model.addAttribute("userInfo", user);
         return DASHBOARD_PAGE;
     }

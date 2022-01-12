@@ -1,11 +1,14 @@
 package com.gcl.crm.service;
 
+import com.gcl.crm.config.AppConst;
 import com.gcl.crm.entity.*;
 import com.gcl.crm.enums.LevelEnum;
 import com.gcl.crm.enums.Status;
 import com.gcl.crm.form.EmployeeSearchForm;
 import com.gcl.crm.form.PotentialSearchForm;
 import com.gcl.crm.repository.*;
+import com.gcl.crm.utils.DateTimeUtil;
+import com.gcl.crm.utils.ValidateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +63,7 @@ public class PotentialService {
             String sourceName = potential.getSourceName();
             Source source = sourceService.getSourceByName(sourceName);
             potential.setSource(source);
-            potential.setStatus(Status.ACTIVE);
+            potential.setStatus(true);
             potential.setMaker(user.getEmployee().getId());
             potentialRepository.save(potential);
         }
@@ -75,7 +78,7 @@ public class PotentialService {
     }
 
     public boolean editPotential(Potential newPotential, User currentUser){
-        Potential potential = potentialRepository.findPotentialByIdAndStatus(newPotential.getId(), Status.ACTIVE);
+        Potential potential = potentialRepository.findPotentialByIdAndStatus(newPotential.getId(), true);
         if (potential == null){
             return false;
         }
@@ -92,7 +95,7 @@ public class PotentialService {
     }
 
     public boolean editLevelPotential(Long id, int levelId, User currentUser) {
-        Potential potential = potentialRepository.findPotentialByIdAndStatus(id, Status.ACTIVE);
+        Potential potential = potentialRepository.findPotentialByIdAndStatus(id, true);
         if (potential == null) {
             return false;
         }
@@ -106,13 +109,13 @@ public class PotentialService {
     }
 
     public Potential getPotentialById(Long id){
-        return potentialRepository.findPotentialByIdAndStatus(id, Status.ACTIVE);
+        return potentialRepository.findPotentialByIdAndStatus(id, true);
     }
 
     public void removePotentials(List<Long> idList, User currentUser){
         for (Long id : idList){
-            Potential potential = potentialRepository.findPotentialByIdAndStatus(id, Status.ACTIVE);
-            potential.setStatus(Status.INACTIVE);
+            Potential potential = potentialRepository.findPotentialByIdAndStatus(id, true);
+            potential.setStatus(false);
             potential.setLastModified(this.getCurrentDate());
             potential.setLastModifier(currentUser.getEmployee().getId());
             potential = potentialRepository.save(potential);
@@ -124,7 +127,7 @@ public class PotentialService {
         String sourceName = potential.getSourceName();
         Source source = sourceService.getSourceByName(sourceName);
         potential.setSource(source);
-        potential.setStatus(Status.ACTIVE);
+        potential.setStatus(true);
         potential.setMaker(user.getUserId());
         potential.setDate(getStringCurrentDate());
         Potential poten = potentialRepository.save(potential);
@@ -133,11 +136,11 @@ public class PotentialService {
     }
 
     public boolean resetPotential(Long id,User currentUser) {
-        Potential potential = potentialRepository.findPotentialByIdAndStatus(id, Status.INACTIVE);
+        Potential potential = potentialRepository.findPotentialByIdAndStatus(id, false);
         if (potential == null) {
             return false;
         }
-        potential.setStatus(Status.ACTIVE);
+        potential.setStatus(true);
         Potential potential1 = potentialRepository.save(potential);
         diaryService.createDiary("Đầu mối được phục hồi từ thùng rác", currentUser, potential);
         return potential1 != null;
@@ -145,8 +148,8 @@ public class PotentialService {
 
     public boolean resetAllPotential(List<Long> checkedPotential, User currentUser) {
         for (int i = 0; i < checkedPotential.size(); i++) {
-            Potential potential = potentialRepository.findPotentialByIdAndStatus(checkedPotential.get(i), Status.INACTIVE);
-            potential.setStatus(Status.ACTIVE);
+            Potential potential = potentialRepository.findPotentialByIdAndStatus(checkedPotential.get(i), false);
+            potential.setStatus(true);
             potential.setLastModified(this.getCurrentDate());
             potential.setLastModifier(currentUser.getEmployee().getId());
             potential = potentialRepository.save(potential);
@@ -156,59 +159,54 @@ public class PotentialService {
     }
 
     public List<Potential> getAllPotentials(){
-        List<Potential> potentials = potentialRepository.findAllByStatus(Status.ACTIVE);
+        List<Potential> potentials = potentialRepository.findAllByStatus(true);
         Collections.sort(potentials);
         return potentials;
     }
 
     public List<Potential> getAllDeletedPotentials(){
-        List<Potential> potentials = potentialRepository.findAllByStatus(Status.INACTIVE);
+        List<Potential> potentials = potentialRepository.findAllByStatus(false);
         Collections.sort(potentials);
         return potentials;
     }
 
-    public List<Potential> search(PotentialSearchForm searchForm){
+    public List<Potential> search(PotentialSearchForm searchForm) throws ParseException{
         Level level = null;
-        if (searchForm.getLevel() != null){
+        Source source = null;
+        if (ValidateUtil.isNotNullOrEmpty(searchForm.getLevel())){
             level = levelService.getLevelById(searchForm.getLevel());
         }
-        Source source = sourceService.getSourceByName(searchForm.getSource());
+        if (ValidateUtil.isNotNullOrEmpty(searchForm.getSource())) {
+            source = sourceService.getSourceByName(searchForm.getSource());
+        }
+
         List<Potential> potentials = potentialRepository
-                .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndStatus
-                        (searchForm.getName(), searchForm.getPhone(), searchForm.getEmail(), Status.ACTIVE);
-        if (searchForm.getTime() ==  null || searchForm.getTime().isEmpty()) {
-            return potentials;
-        }
-        String[] dateRange = searchForm.getTime().split("-");
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date date1 = null;
-        Date date2 = null;
-        try {
-            date1 = simpleDateFormat.parse(dateRange[0].trim());
-            date2 = simpleDateFormat.parse(dateRange[1].trim());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+                .findAllByNameContainingAndPhoneNumberContainingAndEmailContainingAndStatus(searchForm.getName().trim(),
+                        searchForm.getPhone().trim(),
+                        searchForm.getEmail().trim(),
+                        true);
         List<Potential> result = new ArrayList<>();
         for (int i = 0; i < potentials.size(); i++) {
             Potential potential = potentials.get(i);
             boolean flag = true;
-            Date date = null;
-            try {
-                date = simpleDateFormat.parse(potential.getDate());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            if ((date.before(date1) || date.after(date2))){
-                flag = false;
-            }
-            if (level != null){
-                if (!level.equals(potential.getLevel())){
+            Date date1 = null;
+            Date date2 = null;
+            if (ValidateUtil.isNotNullOrEmpty(searchForm.getTime())) {
+                String[] dateRange = searchForm.getTime().split("-");
+                date1 = DateTimeUtil.convertStringToDate(dateRange[0].trim(), AppConst.FORMAT_DD_MM_YYYY_CROOSSIES);
+                date2 = DateTimeUtil.convertStringToDate(dateRange[1].trim(), AppConst.FORMAT_DD_MM_YYYY_CROOSSIES);
+                Date date = DateTimeUtil.convertStringToDate(potential.getDate(), AppConst.FORMAT_DD_MM_YYYY_CROOSSIES);
+                if ((date.before(date1) || date.after(date2))){
                     flag = false;
                 }
             }
-            if (source != null){
-                if (!source.equals(potential.getSource())){
+            if (ValidateUtil.isNotNullOrEmpty(source)) {
+                if (!source.equals(potential.getSource())) {
+                    flag = false;
+                }
+            }
+            if (ValidateUtil.isNotNullOrEmpty(level)){
+                if (!level.equals(potential.getLevel())){
                     flag = false;
                 }
             }

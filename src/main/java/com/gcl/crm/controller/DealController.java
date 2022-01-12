@@ -25,7 +25,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/deal")
 public class DealController {
+
     private static final String HOME_PAGE = "/deal/home-page";
+
     @Autowired
     UserService userService;
     @Autowired
@@ -40,6 +42,7 @@ public class DealController {
         model.addAttribute("userInfo", currentUser);
         return HOME_PAGE;
     }
+
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     public String importExcelFile(RedirectAttributes redirectAttributes, @RequestParam("upload") MultipartFile file,
                                   Principal principal){
@@ -51,9 +54,7 @@ public class DealController {
         try {
           List<TransactionHistory>  transactionHistoryList = excelReader.getTransactionData(file.getInputStream(), file.getOriginalFilename());
           transactionHistoryService.importTransactionHistory(transactionHistoryList);
-
-
-            redirectAttributes.addFlashAttribute("message", "Dữ liệu mới đã được lưu vào hệ thống");
+          redirectAttributes.addFlashAttribute("message", "Dữ liệu mới đã được lưu vào hệ thống");
         } catch (IOException e) {
             redirectAttributes.addFlashAttribute("error", "Không thể mở tệp đã chọn");
         } catch (IllegalStateException e){

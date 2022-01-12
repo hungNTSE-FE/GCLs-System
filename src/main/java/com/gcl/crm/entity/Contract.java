@@ -1,7 +1,7 @@
 package com.gcl.crm.entity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 
 @Entity
@@ -14,33 +14,22 @@ public class Contract {
 
     @OneToOne(mappedBy = "contract", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Customer customer;
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "file_id", referencedColumnName = "file_id")
     private ContractFile contractFile;
 
-    public ContractFile getContractFile() {
-        return contractFile;
-    }
-
-    public void setContractFile(ContractFile contractFile) {
-        this.contractFile = contractFile;
-    }
-
     private String number;
 
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
     @Column(name="status")
     private String status ;
+
     @Column(name="broker_code")
     private String brokerCode;
+
     @Column(name = "account_name")
     private String account_name;
+
     @Column(name="broker_name")
     private String broker_name;
 
@@ -57,6 +46,14 @@ public class Contract {
         this.id = id;
     }
 
+    public ContractFile getContractFile() {
+        return contractFile;
+    }
+
+    public void setContractFile(ContractFile contractFile) {
+        this.contractFile = contractFile;
+    }
+
     public Customer getCustomer() {
         return customer;
     }
@@ -65,8 +62,13 @@ public class Contract {
         this.customer = customer;
     }
 
+    public String getNumber() {
+        return number;
+    }
 
-
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
     public String getBrokerCode() {
         return brokerCode;

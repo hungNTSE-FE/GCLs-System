@@ -6,6 +6,5 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public interface ContractFileService {
-    void saveContractFile(ContractFile contractFile);
     void download(ContractFile file, HttpServletResponse httpServletResponse) throws IOException;
 }

@@ -1,9 +1,6 @@
 package com.gcl.crm.controller;
 
 import com.gcl.crm.entity.*;
-import com.gcl.crm.enums.Status;
-import com.gcl.crm.exporter.TradingAccountExcelExporter;
-import com.gcl.crm.form.CustomerSearchForm;
 import com.gcl.crm.form.TradingAccountForm;
 import com.gcl.crm.form.TradingAccountSearchForm;
 import com.gcl.crm.repository.TradingAccountRepository2;
@@ -11,10 +8,8 @@ import com.gcl.crm.service.CustomerProcessService;
 import com.gcl.crm.service.TradingAccountService;
 import com.gcl.crm.service.UserService;
 import com.gcl.crm.utils.ExcelReader;
-import com.gcl.crm.utils.WebUtils;
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,10 +20,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
-import java.sql.Date;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -51,28 +44,8 @@ public class TradingAccountController {
         response.setContentType("application/octet-stream");
         String headerKey = "Content-Disposition";
         User currentUser = userService.getUserByUsername(principal.getName());
-
         model.addAttribute("userInfo", currentUser);
         tradingAccountService.exportDateInMonth(response);
-//        String excelSheetName = "DSTK";
-//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-//        LocalDateTime nowTime = LocalDateTime.now();
-//        String now = dtf.format(nowTime)+"";
-//
-//        String month ="Tháng "+now.charAt(5)+now.charAt(6)+"/"+now.charAt(0)+now.charAt(1)+now.charAt(2)+now.charAt(3);
-//        String title ="DANH SÁCH TÀI KHOẢN";
-//        String monthInput = now.charAt(5)+""+now.charAt(6)+"";
-//        String yearInput = now.charAt(0)+""+now.charAt(1)+""+now.charAt(2)+""+now.charAt(3)+"";
-//        String headerValue ="attachment;"+" filename="+"Tong ket tai khoan giao dich thang "+ monthInput +"/"+yearInput+".xlsx";
-//
-//        response.setHeader(headerKey,headerValue);
-//        List<TradingAccount> tradingAccountList = tradingAccountService.findTradingAccountByMonthAndStatus(monthInput,"Active");
-//        List<TradingAccount> noneTradingAccountList = tradingAccountService.findTradingAccountByMonthAndStatus(monthInput,"Inactive");
-//        List<TradingAccount> blockTradingAccountList = tradingAccountService.findTradingAccountByMonthAndStatus(monthInput,"Block");
-//        List<TradingAccount> stopTradingAccountList = tradingAccountService.findTradingAccountByMonthAndStatus(monthInput,"Stop");
-//        TradingAccountExcelExporter excelExporter = new TradingAccountExcelExporter(title,month,excelSheetName,stopTradingAccountList,tradingAccountList,noneTradingAccountList,blockTradingAccountList);
-//        excelExporter.export(response);
-
     }
     @GetMapping({"/manageTradingAccountInMonth"})
     public  String viewTradingAccountUpdateInMonth(Model model,Principal principal){

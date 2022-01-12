@@ -118,13 +118,8 @@ public class TradingAccountServiceImpl implements TradingAccountService{
                     }
 
                 }
-            }else{
-
             }
-
-
         }
-
         return result;
     }
 

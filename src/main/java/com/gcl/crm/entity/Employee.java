@@ -50,6 +50,9 @@ public class Employee {
     @Column(name = "date_of_birth")
     private Date birthDate;
 
+    @Column(name = "broker_code")
+    private String brokerCode;
+
     private String avatar;
 
     @Column(name = "start_date")
@@ -77,9 +80,6 @@ public class Employee {
     @JoinColumn(name = "mkt_id")
     private MarketingGroup marketingGroup;
 
-    @ManyToMany(mappedBy = "employees", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Task> tasks;
-
     public String getAvatar() {
         if (avatar != null && !avatar.isEmpty())
             return "avatar/" + id + "/" + avatar;
@@ -87,14 +87,6 @@ public class Employee {
     }
 
     public Employee() {
-    }
-
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
     }
 
     public Employee(Long id) {
@@ -212,5 +204,13 @@ public class Employee {
 
     public void setMarketingGroup(MarketingGroup marketingGroup) {
         this.marketingGroup = marketingGroup;
+    }
+
+    public String getBrokerCode() {
+        return brokerCode;
+    }
+
+    public void setBrokerCode(String brokerCode) {
+        this.brokerCode = brokerCode;
     }
 }

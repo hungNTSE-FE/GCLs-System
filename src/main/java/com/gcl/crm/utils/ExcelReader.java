@@ -1,12 +1,15 @@
 package com.gcl.crm.utils;
 
-import com.gcl.crm.entity.Potential;
-import com.gcl.crm.entity.TradingAccount;
-import com.gcl.crm.entity.TransactionHistory;
+import com.gcl.crm.config.AppConst;
+import com.gcl.crm.dto.CustomerDTO;
+import com.gcl.crm.entity.*;
+import com.gcl.crm.form.CustomerForm;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,25 +20,7 @@ import java.util.*;
 
 public class ExcelReader {
 
-    public static final int COLUMN_INDEX_PHONE = 1;
-    public static final int COLUMN_INDEX_DATE = 2;
-    public static final int COLUMN_INDEX_NAME = 3;
-    public static final int COLUMN_INDEX_EMAIL = 4;
-    public static final int COLUMN_INDEX_SOURCE = 5;
-    public static final int COLUMN_INDEX_ADDRESS = 6;
-    public static final int COLUMN_INDEX_ID = 9 ;
-    public static final int COLUMN_INDEX_ACCOUNT_NUMBER =4;
-
-    public static final int COLUMN_INDEX_TYPE = 17 ;
-    public static final int COLUMN_INDEX_LOT = 20 ;
-    public static final int COLUMN_INDEX_INSERT_DATE = 26;
-    public static final int COLUMN_INDEX_MONEY = 22 ;
-    public static final int COLUMN_INDEX_BROKER_CODE = 3 ;
-    public static final int COLUMN_ACCOUNT_NUMBER = 1 ;
-    public static final int COLUMN_BALANCE = 7 ;
-
-
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExcelReader.class);
 
     private Workbook getWorkbook(InputStream stream, String filename) throws IOException, NotOfficeXmlFileException {
         Workbook workbook = null;
@@ -45,6 +30,140 @@ public class ExcelReader {
             workbook = new HSSFWorkbook(stream);
         }
         return workbook;
+    }
+
+    /**
+     * Read old customer data from excel file
+     * @param stream
+     * @param filename
+     * @return
+     * @throws IOException
+     * @throws IllegalStateException
+     */
+    public List<CustomerDTO> getCustomerData(InputStream stream, String filename) throws IOException, IllegalStateException {
+        LOGGER.info("Start getCustomerData");
+        List<CustomerDTO> customerData = new ArrayList<>();
+        try {
+            Workbook workbook = this.getWorkbook(stream, filename);
+            if (workbook == null) {
+                throw new IllegalStateException("Tập tịn đã chọn không đúng định dạng");
+            }
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rowIterator = sheet.rowIterator();
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                if (row.getRowNum() < 1) {
+                    continue;
+                }
+                if (row.getLastCellNum() != 21){
+                    continue;
+                }
+
+                Iterator<Cell> cellIterator = row.cellIterator();
+                CustomerDTO item = new CustomerDTO();
+                while (cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next();
+                    Object cellValue = this.getCellValue(cell);
+                    if (cellValue == null) {
+                        continue;
+                    }
+                    int columnIndex = cell.getColumnIndex();
+                    switch (columnIndex) {
+                        case AppConst.COLUMN_NO:
+                            long id = (long) Double.parseDouble(cellValue.toString());;
+                            item.setId(id);
+                            break;
+                        case AppConst.COLUMN_BROKER_CODE:
+                            String brokerCode = cellValue.toString();
+                            item.setBrokerCode(brokerCode);
+                            break;
+                        case AppConst.COLUMN_BROKER_NAME:
+                            String brokerName = cellValue.toString();
+                            item.setBrokerName(brokerName);
+                            break;
+                        case AppConst.COLUMN_BROKER_PHONE:
+                            String brokerPhone = cellValue.toString();
+                            item.setBrokerPhone(brokerPhone);
+                            break;
+                        case AppConst.COLUMN_BROKER_MAIL:
+                            String brokerEmail = cellValue.toString();
+                            item.setBrokerEmail(brokerEmail);
+                            break;
+                        case AppConst.COLUMN_TRADING_ACCOUNT_CODE:
+                            String tradingAccountCode = cellValue.toString();
+                            item.setTradingAccountCode(tradingAccountCode);
+                            break;
+                        case AppConst.COLUMN_TRADING_ACCOUNT_NAME:
+                            String tradingAccountName = cellValue.toString();
+                            item.setTradingAccountName(tradingAccountName);
+                            break;
+                        case AppConst.COLUMN_PHONE_NUMBER:
+                            String phoneNumber = cellValue.toString();
+                            item.setPhoneNumber(phoneNumber);
+                            break;
+                        case AppConst.COLUMN_EMAIL:
+                            String email = cellValue.toString();
+                            item.setEmail(email);
+                            break;
+                        case AppConst.COLUMN_ADDRESS:
+                            String address = cellValue.toString();
+                            item.setAddress(address);
+                            break;
+                        case AppConst.COLUMN_IDENTITY_NUMBER:
+                            String identityNumber = cellValue.toString();
+                            item.setIdentityNumber(identityNumber);
+                            break;
+                        case AppConst.COLUMN_BIRTHDATE:
+                            String birthdate = DateTimeUtil.convertCellValueToDate(cellValue, AppConst.FORMAT_DD_MM_YYYY_CROOSSIES);
+                            item.setBirthDate(birthdate);
+                            break;
+                        case AppConst.COLUMN_ISSUE_DATE:
+                            String issueDate = DateTimeUtil.convertCellValueToDate(cellValue, AppConst.FORMAT_DD_MM_YYYY_CROOSSIES);
+                            item.setIssueDate(issueDate);
+                            break;
+                        case AppConst.COLUMN_PLACE_OF_CREATION:
+                            String issuePlace = cellValue.toString();
+                            item.setIssuePlace(issuePlace);
+                            break;
+                        case AppConst.COLUMN_BANK_NAME:
+                            String bankName = cellValue.toString();
+                            item.setBankName(bankName);
+                            break;
+                        case AppConst.COLUMN_BANK_CODE:
+                            String bankCode = cellValue.toString();
+                            item.setBankCode(bankCode);
+                            break;
+                        case AppConst.COLUMN_CONTRACT_STATUS:
+                            String contractStatus = cellValue.toString();
+                            item.setContractStatus(contractStatus);
+                            break;
+                        case AppConst.COLUMN_DESCRIPTION:
+                            String description = cellValue.toString();
+                            item.setDescription(description);
+                            break;
+                        case AppConst.COLUMN_STATUS:
+                            String status = cellValue.toString();
+                            item.setStatus(status);
+                            break;
+                        case AppConst.COLUMN_CREATE_DATE_CONTRACT:
+                            String createDateContract = DateTimeUtil.convertCellValueToDate(cellValue, AppConst.TIME_FORMAT_DD_MM_YYYY);
+                            item.setCreateDateContract(createDateContract);
+                            break;
+                        case AppConst.COLUMN_CONTRACT_ID:
+                            String contractID = cellValue.toString();
+                            item.setContractID(contractID);
+                            break;
+                    }
+                }
+                if (!customerData.contains(item)){
+                    customerData.add(item);
+                }
+            }
+            LOGGER.info("End getCustomerData");
+        } catch (Exception e) {
+            LOGGER.error("Has exception when getCustomerData ", e);
+        }
+        return customerData;
     }
 
     public List<Potential> getPotentialData(InputStream stream, String filename) throws IOException, IllegalStateException {
@@ -71,7 +190,7 @@ public class ExcelReader {
                 }
                 int columnIndex = cell.getColumnIndex();
                 switch (columnIndex) {
-                    case COLUMN_INDEX_PHONE:
+                    case AppConst.COLUMN_INDEX_PHONE:
                         if (cellValue instanceof String) {
                             item.setPhoneNumber(cellValue.toString().trim().replace(" ", ""));
                         } else if (cellValue instanceof Double) {
@@ -86,7 +205,7 @@ public class ExcelReader {
                             }
                         }
                         break;
-                    case COLUMN_INDEX_DATE:
+                    case AppConst.COLUMN_INDEX_DATE:
                         Date date;
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
                         if (cellValue instanceof Double) {
@@ -101,19 +220,19 @@ public class ExcelReader {
                         }
                         item.setDate(simpleDateFormat.format(date));
                         break;
-                    case COLUMN_INDEX_NAME:
+                    case AppConst.COLUMN_INDEX_NAME:
                         String name = cellValue.toString();
                         item.setName(name);
                         break;
-                    case COLUMN_INDEX_EMAIL:
+                    case AppConst.COLUMN_INDEX_EMAIL:
                         String email = cellValue.toString();
                         item.setEmail(email);
                         break;
-                    case COLUMN_INDEX_SOURCE:
+                    case AppConst.COLUMN_INDEX_SOURCE:
                         String source = cellValue.toString();
                         item.setSourceName(source);
                         break;
-                    case COLUMN_INDEX_ADDRESS:
+                    case AppConst.COLUMN_INDEX_ADDRESS:
                         String address = cellValue.toString();
                         item.setAddress(address);
                         break;
@@ -152,11 +271,8 @@ public class ExcelReader {
                     continue;
                 }
                 int columnIndex = cell.getColumnIndex();
-                System.out.println("index " + columnIndex);
-                System.out.println("value " + cellValue);
-
                 switch (columnIndex) {
-                    case COLUMN_INDEX_INSERT_DATE:
+                    case AppConst.COLUMN_INDEX_INSERT_DATE:
                         Date date;
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
                         if (cellValue instanceof Double) {
@@ -172,46 +288,42 @@ public class ExcelReader {
                         item.setTransactionDate(date);
                         break;
 
-                    case COLUMN_INDEX_ACCOUNT_NUMBER:
+                    case AppConst.COLUMN_INDEX_ACCOUNT_NUMBER:
                         String account_number = cellValue.toString();
                         item.setTradingAccount(new TradingAccount(account_number));
                         break;
-                    case  COLUMN_INDEX_ID:
+                    case AppConst.COLUMN_INDEX_ID:
                         String id = cellValue.toString();
                         if(Objects.nonNull(id) && !id.isEmpty()) {
                             item.setTransactionID(Long.parseLong(id));
                         }
                         break;
-                    case COLUMN_INDEX_TYPE:
+                    case AppConst.COLUMN_INDEX_TYPE:
                         String type = cellValue.toString();
                         item.setTransactionType(type);
                         break;
-                    case COLUMN_INDEX_LOT:
+                    case AppConst.COLUMN_INDEX_LOT:
                         if(!cellValue.toString().isEmpty()){
                             String lot = cellValue.toString();
                             item.setLot((int) Math.round(Double.parseDouble(lot)));
-
-
                         }else{
                             return transactionData;
                         }
                         break;
-                    case COLUMN_INDEX_MONEY:
+                    case AppConst.COLUMN_INDEX_MONEY:
                         String money = cellValue.toString();
                         item.setMoney(money);
                         break;
 
-                    case COLUMN_INDEX_BROKER_CODE:
+                    case AppConst.COLUMN_INDEX_BROKER_CODE:
                         item.setBroker_code(cellValue.toString());
                         break;
-
                     default:
                         break;
                 }
             }
             if(item.getTransactionID() != null){
                 transactionData.add(item);
-                System.out.println(item.toString());
             }
         }
 
@@ -242,21 +354,15 @@ public class ExcelReader {
                     continue;
                 }
                 int columnIndex = cell.getColumnIndex();
-                System.out.println("index " + columnIndex);
-                System.out.println("value " + cellValue);
-
                 switch (columnIndex) {
-
-                    case COLUMN_ACCOUNT_NUMBER:
+                    case AppConst.COLUMN_ACCOUNT_NUMBER:
                         String account_number = cellValue.toString();
                         item.setAccountNumber(account_number);
                         break;
-                    case COLUMN_BALANCE:
+                    case AppConst.COLUMN_BALANCE:
                         String account_balance = cellValue.toString();
                         item.setBalance(Double.parseDouble(account_balance));
                         break;
-
-
                     default:
                         break;
                 }
@@ -264,10 +370,7 @@ public class ExcelReader {
             if(item.getAccountNumber() != null){
                 accountData.add(item);
             }
-
         }
-
-
         return accountData;
     }
 

@@ -3,7 +3,6 @@ package com.gcl.crm.entity;
 import com.gcl.crm.dto.SourceEvaluationDto;
 import com.gcl.crm.enums.PotentialRating;
 import com.gcl.crm.enums.Status;
-import com.gcl.crm.form.CustomerStatusEvaluationForm;
 import com.gcl.crm.form.PotentialSearchForm;
 import lombok.Data;
 
@@ -64,18 +63,6 @@ public class Potential implements Comparable<Potential> {
 
     private String address;
 
-    private String mktId;
-
-    private String mktTeam;
-
-    private String sale;
-
-    private String course;
-
-    private String initialState;
-
-    private String note;
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "potential")
     private List<Care> cares;
 
@@ -95,14 +82,7 @@ public class Potential implements Comparable<Potential> {
     @JoinColumn(name = "level_id")
     private Level level;
 
-    @Enumerated(EnumType.ORDINAL)
-    private Status status;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "potential")
-    private List<Comment> comments;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "potential")
-    private List<Activity> activities;
+    private boolean status;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "potential")
     private List<CustomerDistribution> customerDistributionList;
