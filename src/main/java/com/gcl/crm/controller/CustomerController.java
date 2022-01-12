@@ -546,7 +546,7 @@ public class CustomerController {
 
     @PostMapping(value = "/registerCustomer")
     public String registerCustomer(Model model, @Valid @ModelAttribute(CUSTOMER_FORM) CustomerForm customerForm
-            , BindingResult result, Errors errors, Principal principal,@RequestParam(value="imageAfter") MultipartFile after,@RequestParam(value="imageBefore") MultipartFile before) {
+            , BindingResult result, Errors errors, Principal principal,@RequestParam(value="imageAfter") MultipartFile after,@RequestParam(value="imageBefore") MultipartFile before, RedirectAttributes redirectAttributes) {
         User user = userService.getUserByUsername(principal.getName());
         customerForm.setImageAfter(after);
         customerForm.setImageBefore(before);
@@ -566,6 +566,7 @@ public class CustomerController {
         ComboboxForm comboboxForm = customerService.initComboboxData();
         customerForm.setComboboxForm(comboboxForm);
         model.addAttribute(CUSTOMER_FORM, customerForm);
+        redirectAttributes.addFlashAttribute("flag", "showAlertRegisterCustomerSuccess");
         model.addAttribute("userInfo", user);
         return "redirect:/potential/home";
     }
