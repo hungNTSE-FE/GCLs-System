@@ -7,6 +7,7 @@ import com.gcl.crm.config.CommonConst;
 import com.gcl.crm.dto.CustomerDTO;
 import com.gcl.crm.entity.*;
 import com.gcl.crm.form.CustomerDistributionForm;
+import com.gcl.crm.form.CustomerForm;
 import com.gcl.crm.form.EmployeeSearchForm;
 import com.gcl.crm.form.PotentialSearchForm;
 import com.gcl.crm.repository.CustomerDistributionRepository;
@@ -493,5 +494,16 @@ public class PotentialController {
         return "redirect:/potential/detail/sale/" + id;
     }
 
+    @GetMapping("/openTradingAccount")
+    public String goOpenTradingAccount(Model model,
+                                       @Nullable @RequestParam("potentialId") Long potentialId,
+                                       Principal principal) {
+        User user = userService.getUserByUsername(principal.getName());
+        CustomerForm customerForm = customerService.initForm(potentialId);
+        model.addAttribute(AppConst.CUSTOMER_FORM, customerForm);
+        model.addAttribute("userInfo", user);
+        model.addAttribute("userName",principal.getName());
+        return CommonConst.OPEN_TRADING_ACCOUNT_TEMPALTE;
+    }
 
 }

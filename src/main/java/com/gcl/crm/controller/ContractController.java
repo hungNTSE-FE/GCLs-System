@@ -41,9 +41,6 @@ public class ContractController {
     ContractService contractService;
 
     @Autowired
-    CustomerService customerService;
-
-    @Autowired
     CustomerProcessService customerProcessService;
 
     @Autowired

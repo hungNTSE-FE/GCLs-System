@@ -55,5 +55,6 @@ public class AppConst {
     public static final String EMPLOYEE_ENUM = "Nhân viên";
 
     public static final int BUSINESS_ENUM = 1;
+    public static final String CUSTOMER_FORM = "CustomerForm";
 
 }

@@ -11,6 +11,8 @@ public class CommonConst {
     public static final String GET_DETAIL_TAKECARE_MKT_POTENTIAL_TEMPLATE = "/potential/details/marketing/detail-potential-takecare-MKTpage";
     public static final String GET_DETAIL_DIARY_POTENTIAL_TEMPLATE = "/potential/details/detail-potential-diary-page";
 
+    public static final String OPEN_TRADING_ACCOUNT_TEMPALTE = "/potential/open-trading-account";
+
     public static final String PATH_SALESMAN_POTENTIAL_HOME = "/salesman/potential/home";
     public static final String PATH_POTENTIAL_HOME = "/potential/home";
     public static final String PATH_POTENTIAL_CREATE = "/potential/create";

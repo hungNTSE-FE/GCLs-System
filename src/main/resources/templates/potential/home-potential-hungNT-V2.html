@@ -111,13 +111,6 @@
                         </div>
                       </div>
                       <div class="mb-3">
-                        <label class="text-sm">Nguồn gốc</label>
-                        <select class="form-select" id="selectSource" th:field="*{source}">
-                          <option selected value="" >Tất cả</option>
-                          <option th:each="source : ${sources}" th:text="${source.sourceName}" th:value="${source.sourceName}"></option>
-                        </select>
-                      </div>
-                      <div class="mb-3">
                         <label class="text-sm">Tình trạng</label>
                         <select class="form-select" id="selectLevel" th:field="*{level}">
                           <option selected value="" >Tất cả</option>
@@ -125,12 +118,10 @@
                         </select>
                       </div>
                       <div class="mb-3">
-                        <label class="text-sm">Đánh giá</label>
-                        <select class="form-select" id="selectRanking" >
+                        <label class="text-sm">Nguồn gốc</label>
+                        <select class="form-select" id="selectSource" th:field="*{source}">
                           <option selected value="" >Tất cả</option>
-                          <option value="2" >HIGH</option>
-                          <option value="1" >MEDIUM</option>
-                          <option value="0" >LOW</option>
+                          <option th:each="source : ${sources}" th:text="${source.sourceName}" th:value="${source.sourceName}"></option>
                         </select>
                       </div>
                       <div class="mb-3">
@@ -154,7 +145,7 @@
                                 style="margin-right: 10px">
                           Tìm kiếm
                         </button>
-                        <button type="reset" class="btn btn-outline-dark">Mặc định</button>
+                        <a th:href="@{/potential/home}" class="btn btn-outline-dark">Mặc định</a>
                       </div>
                     </form>
                   </div>
@@ -188,7 +179,7 @@
                           <th>NGUỒN</th>
                           <th>TÌNH TRẠNG</th>
                           <th>GIAO CHO</th>
-                          <th>ĐÁNH GIÁ</th>
+                          <th>NGÀY THAM GIA</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -202,6 +193,9 @@
                               <a th:href="@{/potential/detail/edit/{id}(id=${potential.id})}" class="text-dark mx-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Cập nhật">
                                 <i class="fas fa-edit"></i>
                               </a>
+                              <a th:href="@{'/potential/openTradingAccount?potentialId=' + ${potential.id}}" class="text-dark mx-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Mở tài khoản">
+                                <i class="fas fa-user-lock"></i>
+                              </a>
                             </div>
                           </td>
                           <td th:text="${potential.name}"></td>
@@ -214,13 +208,14 @@
                             <span th:if="${potential.level}" th:text="${potential.level.levelName}"></span>
                           </td>
                           <td th:text="${potentialMap.get(potential.id)}"></td>
-                          <td>
-                            <span th:if="${potential.potentialRating != null}">
-                                <span th:if="${potential.potentialRating.getValue().equals(2)}" th:text="${potential.potentialRating}" class="text-danger"></span>
-                                <span th:if="${potential.potentialRating.getValue().equals(1)}" th:text="${potential.potentialRating}" class="text-primary"></span>
-                                <span th:if="${potential.potentialRating.getValue().equals(0)}" th:text="${potential.potentialRating}" class="text-warning"></span>
-                            </span>
-                          </td>
+                          <td th:text="${potential.date}"></td>
+<!--                          <td>-->
+<!--                            <span th:if="${potential.potentialRating != null}">-->
+<!--                                <span th:if="${potential.potentialRating.getValue().equals(2)}" th:text="${potential.potentialRating}" class="text-danger"></span>-->
+<!--                                <span th:if="${potential.potentialRating.getValue().equals(1)}" th:text="${potential.potentialRating}" class="text-primary"></span>-->
+<!--                                <span th:if="${potential.potentialRating.getValue().equals(0)}" th:text="${potential.potentialRating}" class="text-warning"></span>-->
+<!--                            </span>-->
+<!--                          </td>-->
                         </tr>
                         </tbody>
                       </table>

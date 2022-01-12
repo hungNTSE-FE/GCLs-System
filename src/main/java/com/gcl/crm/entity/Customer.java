@@ -68,7 +68,7 @@ public class Customer {
     private String email;
 
     @Column(name = "STATUS")
-    private Status status;
+    private boolean status;
 
     @Column(name = "DESCRIPTION")
     private String description;

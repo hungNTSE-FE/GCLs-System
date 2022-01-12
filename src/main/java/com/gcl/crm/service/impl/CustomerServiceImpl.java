@@ -27,7 +27,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerServiceImpl implements CustomerService{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerServiceImpl.class);
 
@@ -176,8 +176,9 @@ public class CustomerServiceImpl implements CustomerService {
                     potentialEntity.setMaker(user.getEmployee().getId());
                     potentialEntity.setName(customer.getTradingAccountName());
                     potentialEntity.setPhoneNumber(customer.getPhoneNumber());
-                    potentialEntity.setStatus(Status.ACTIVE);
+                    potentialEntity.setStatus(true);
                     potentialEntity.setLastModified(DateTimeUtil.getCurrentDate());
+                    potentialEntity.setDate(customer.getCreateDateContract());
                     potentialRepository.save(potentialEntity);
                 }
                 // Search for customer data in the system
@@ -188,7 +189,7 @@ public class CustomerServiceImpl implements CustomerService {
                     customerEntity.setEmail(customer.getEmail());
                     customerEntity.setPhoneNumber(customer.getPhoneNumber());
                     customerEntity.setAddress(customer.getAddress());
-                    customerEntity.setStatus(Status.ACTIVE);
+                    customerEntity.setStatus(true);
                     if (!identificationRepository.findById(customer.getIdentityNumber()).isPresent()) {
                         identificationEntity.setIdentityNumber(customer.getIdentityNumber());
                         identificationEntity.setBirthDate(DateTimeUtil.convertStringToDate(customer.getBirthDate(), AppConst.FORMAT_DD_MM_YYYY_CROOSSIES));
@@ -340,7 +341,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .ifPresent(customer::setSource);
         customer.setPhoneNumber(customerForm.getPhoneNumber());
         customer.setDescription(customerForm.getDescription());
-        customer.setStatus(Status.ACTIVE);
+        customer.setStatus(true);
         customer.setAddUser(user.getEmployee().getId());
         customer.setUpdUser(user.getEmployee().getId());
         customer.setCreateDate(WebUtils.getSystemDate());

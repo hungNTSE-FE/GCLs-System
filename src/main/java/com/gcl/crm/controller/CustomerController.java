@@ -1,6 +1,5 @@
 package com.gcl.crm.controller;
 
-import com.gcl.crm.config.AppConst;
 import com.gcl.crm.dto.ErrorInFo;
 import com.gcl.crm.dto.SummaryMKTReport;
 import com.gcl.crm.entity.*;
@@ -11,7 +10,6 @@ import com.gcl.crm.repository.MarketingRepository;
 import com.gcl.crm.service.CustomerProcessService;
 import com.gcl.crm.repository.SourceRepository;
 import com.gcl.crm.utils.ExcelReader;
-import com.gcl.crm.utils.ValidateUtil;
 import com.gcl.crm.utils.WebUtils;
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import org.slf4j.Logger;
@@ -77,8 +75,10 @@ public class CustomerController {
 
     @Autowired
     TradingAccountService tradingAccountService;
+
     @Autowired
     ContractService contractService;
+
     @Autowired
     EmployeeService employeeService;
 

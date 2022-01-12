@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Mở tài khoản giao dịch - Gia Cát Lợi</title>
+  <div th:replace="~{common/main :: myHeader}"></div>
+</head>
+<body class="nav-fixed">
+<th:block th:include="/common/nav-fixed.html"></th:block>
+<div id="layoutSidenav">
+  <th:block th:include="/common/layoutSidenav.html"></th:block>
+  <div id="layoutSidenav_content">
+    <main>
+      <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
+        <div class="container-fluid px-4">
+          <div class="page-header-content">
+            <div class="row align-items-center justify-content-between pt-3">
+              <div class="col-auto mb-3">
+                <nav class="rounded" aria-label="breadcrumb">
+                  <ol class="breadcrumb px-3 py-2 rounded mb-0">
+                    <li class="breadcrumb-item">
+                      <a href="#">Đầu mối</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a th:href="@{/potential/home}">Tất cả</a>
+                    </li>
+                    <li class="breadcrumb-item active">Mở tài khoản giao dịch</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="container-fluid px-4">
+        <div class="card mb-4">
+          <div class="card-header">THÔNG TIN CHUNG</div>
+          <div class="card-body">
+            <form id="form" class="ui form">
+              <div class="row mb-1">
+                <div class="col-lg-6 field description">
+                  <label class="text-sm">Tên khách hàng <span style="color: red">*</span></label>
+                  <input class="form-control"
+                         id="customerName"
+                         type="text"
+                         placeholder="Tên khách hàng"
+                         th:field="${CustomerForm.customerName}"/>
+                </div>
+                <div class="col-lg-6 field description">
+                  <label class="text-sm">Môi giới <span style="color: red">*</span></label>
+                  <select class="ui dropdown" id="selectBroker" name="sourceBroker">
+                    <option value="">Lựa chọn</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-lg-6 field description">
+                  <label class="text-sm">Số điện thoại <span style="color: red">*</span></label>
+                  <input class="form-control pe-0"
+                         id="phone"
+                         type="text"
+                         min="0"
+                         maxlength="10"
+                         pattern="\d*"
+                         th:field="${CustomerForm.phoneNumber}"
+                         placeholder="Nhập số điện thoại"
+                         aria-label="Search"/>
+                  <!--Tạo error ở đây-->
+                  <span th:if="${duplicatePhone}" th:text="${duplicatePhone}" style="color:red"></span>
+                </div>
+                <div class="col-lg-6 field description">
+                  <label class="text-sm">Nguồn</label>
+                  <select class="ui dropdown" id="selectSource" name="sourceName">
+                    <option value="">Lựa chọn</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-lg-6 field description">
+                  <label class="text-sm">Email<span style="color: red">*</span></label>
+                  <input class="form-control"
+                         id="customerName"
+                         type="text"
+                         placeholder="Nhập email"
+                         th:field="${CustomerForm.email}"/>
+                </div>
+                <div class="col-lg-6 field description">
+                  <label class="text-sm">Trạng thái</label>
+                  <select class="ui dropdown" id="selectStatus" name="statusName">
+                    <option value="">Lựa chọn</option>
+                    <option value="1">Đang hoạt động</option>
+                    <option value="2">Không hoạt động</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-1">
+                <div class="col-lg-6 field description">
+                  <label class="text-sm">Địa chỉ</label>
+                  <input class="form-control"
+                         id="customerAddress"
+                         type="text"
+                         placeholder="Nhập địa chỉ"
+                         th:field="${CustomerForm.address}"/>
+                </div>
+                <div class="col-lg-6 field description">
+                  <label class="text-sm">Giới tính</label>
+                  <select class="ui dropdown" id="selectGender" name="genderName">
+                    <option value="">Lựa chọn</option>
+                    <option value="1">Nam</option>
+                    <option value="2">Nữ</option>
+                  </select>
+                </div>
+              </div>
+              <div class="ui error message"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+    <th:block th:include="/common/footer.html"></th:block>
+  </div>
+</div>
+<div th:replace="~{common/main :: myScript_v2}"></div>
+<div th:replace="~{common/main :: mySweetalert}"></div>
+</body>
+</html>

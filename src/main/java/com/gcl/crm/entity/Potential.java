@@ -82,8 +82,7 @@ public class Potential implements Comparable<Potential> {
     @JoinColumn(name = "level_id")
     private Level level;
 
-    @Enumerated(EnumType.ORDINAL)
-    private Status status;
+    private boolean status;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "potential")
     private List<CustomerDistribution> customerDistributionList;
