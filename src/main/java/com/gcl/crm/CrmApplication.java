@@ -21,4 +21,5 @@ public class CrmApplication extends SpringBootServletInitializer {
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(CrmApplication.class);
     }
+
 }

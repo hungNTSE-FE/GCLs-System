@@ -6,6 +6,7 @@ import com.gcl.crm.enums.Status;
 import com.gcl.crm.form.CustomerSearchForm;
 import com.gcl.crm.repository.ContractRepository;
 import com.gcl.crm.service.*;
+import com.gcl.crm.utils.DateTimeUtil;
 import com.gcl.crm.utils.WebUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,14 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
 import java.sql.Date;
+import java.text.DateFormat;
 import java.text.ParseException;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 
 @Controller
@@ -331,7 +336,5 @@ public class ContractController {
             return "redirect:/contract/manageTradingAccount";
         }
     }
-
-
 }
 
