@@ -1,3 +1,2 @@
+web: java $JAVA_OPTS -Dserver.port=$PORT -jar target/*.jar
 
-web: gunicorn CrmApplication:app
--Dserver.port=$PORT
