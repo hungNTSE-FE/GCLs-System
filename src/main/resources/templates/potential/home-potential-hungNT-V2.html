@@ -193,7 +193,7 @@
                               <a th:href="@{/potential/detail/edit/{id}(id=${potential.id})}" class="text-dark mx-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Cập nhật">
                                 <i class="fas fa-edit"></i>
                               </a>
-                              <a th:href="@{'/potential/openTradingAccount?potentialId=' + ${potential.id}}" class="text-dark mx-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Mở tài khoản">
+                              <a th:href="@{'/customer/addCustomer?potentialId=' + ${potential.id}}" class="text-dark mx-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Mở tài khoản">
                                 <i class="fas fa-user-lock"></i>
                               </a>
                             </div>
