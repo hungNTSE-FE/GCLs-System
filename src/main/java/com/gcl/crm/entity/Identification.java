@@ -11,6 +11,9 @@ import java.util.Date;
 public class Identification {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name = "identity_number", length = 20)
     private String identityNumber;
 
@@ -34,6 +37,10 @@ public class Identification {
 
     @Column(name = "permanent_place")
     private String permanentPlace;
+
+    private Date createdDateTime;
+
+    private Date updatedDateTime;
 
     public Identification(String identityNumber, String issuePlace, String frontImageUrl, String backImageUrl, Date issueDate, Date birthDate) {
         this.identityNumber = identityNumber;

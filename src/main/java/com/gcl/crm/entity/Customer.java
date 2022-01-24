@@ -73,9 +73,6 @@ public class Customer {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "ACCOUNT_REGISTER_DATE")
-    private Date accountRegisterDate;
-
     @Column(name = "CREATE_DATE")
     private Date createDate;
 
@@ -99,7 +96,7 @@ public class Customer {
     private Level level;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "identity_number", referencedColumnName = "identity_number")
+    @JoinColumn(name = "identity_id")
     private Identification identification;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -114,7 +111,7 @@ public class Customer {
     private Employee employee;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "contract_id", referencedColumnName = "contract_id")
+    @JoinColumn(name = "contract_id")
     private Contract contract;
 
     @OneToOne

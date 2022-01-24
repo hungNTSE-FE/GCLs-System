@@ -317,26 +317,6 @@ public class PotentialController {
         return CommonConst.REDIRECT + CommonConst.PATH_POTENTIAL_HOME;
     }
 
-    @PostMapping(value = "/import")
-    public String importExcelFile(RedirectAttributes redirectAttributes, @RequestParam("upload") MultipartFile file,
-                                  Principal principal){
-        if (file.isEmpty()){
-            redirectAttributes.addFlashAttribute(CommonConst.ERROR_STRING, CommonConst.NULL_FILE_MESSAGE);
-            return CommonConst.REDIRECT + CommonConst.PATH_POTENTIAL_HOME;
-        }
-        ExcelReader excelReader = new ExcelReader();
-        try {
-            List<Potential> potentialData = excelReader.getPotentialData(file.getInputStream(), file.getOriginalFilename());
-            User currentUser = userService.getUserByUsername(principal.getName());
-            potentialService.importPotential(potentialData, currentUser);
-            redirectAttributes.addFlashAttribute(CommonConst.FLAG_STRING, CommonConst.SHOW_ALERT_IMPORT_OK);
-            redirectAttributes.addFlashAttribute(CommonConst.MESSAGE_STRING, CommonConst.IMPORT_SUCCESS_MESSAGE);
-        }  catch (Exception e){
-            redirectAttributes.addFlashAttribute(CommonConst.ERROR_STRING, CommonConst.IMPORT_ERROR_MESSAGE);
-        }
-        return CommonConst.REDIRECT + CommonConst.PATH_POTENTIAL_HOME;
-    }
-
     @PostMapping(value = "/importOldDataCustomer")
     public String importOldDataExcelFile(RedirectAttributes redirectAttributes,
                                          @RequestParam("upload") MultipartFile file,

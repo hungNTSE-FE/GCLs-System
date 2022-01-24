@@ -74,14 +74,12 @@ public class CustomerProcessServiceImpl implements CustomerProcessService {
 
     @Override
     public void createContract(Contract contract, Customer customer) {
-        contract.setId(contractService.getContractID());
         contract.setCreateDate(Date.valueOf(LocalDate.now()));
         contract.setAccount_name(customer.getTradingAccount().getAccountName());
         contract.setBroker_name(customer.getTradingAccount().getBrokerName());
         contract.setBrokerCode(customer.getTradingAccount().getBrokerCode());
         contract.setNumber(customer.getTradingAccount().getAccountNumber());
-        contract.setId(contract.getId());
-        customer.setContractNumber(contract.getId());
+        customer.setContractNumber(customer.getContractNumber());
         contract.setCustomer(customer);
         customer.setContract(contract);
 

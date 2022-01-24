@@ -80,6 +80,10 @@ public class Employee {
     @JoinColumn(name = "mkt_id")
     private MarketingGroup marketingGroup;
 
+    private java.util.Date createdDateTime;
+
+    private java.util.Date updatedDateTime;
+
     public String getAvatar() {
         if (avatar != null && !avatar.isEmpty())
             return "avatar/" + id + "/" + avatar;

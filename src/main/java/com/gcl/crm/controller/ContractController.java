@@ -202,7 +202,7 @@ public class ContractController {
             model.addAttribute("createDate",createDate[0]);
             Contract contract = new Contract();
             contract.setCustomer(customer);
-            contract.setId(contractService.getContractID());
+            contract.setContractNumber(contractService.getContractID());
             User currentUser = userService.getUserByUsername(principal.getName());
             model.addAttribute("userInfo", currentUser);
             model.addAttribute("contract",contract);
@@ -279,7 +279,7 @@ public class ContractController {
         if(customer == null){
             return "redirect:/contract/manageCustomer";
         }else {
-            contract.setId(contractService.getContractID());
+            contract.setContractNumber(contractService.getContractID());
             String filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 
             ContractFile contractFile = new ContractFile();

@@ -1,16 +1,10 @@
 package com.gcl.crm.entity;
 
-import com.gcl.crm.form.CustomerStatusForm;
 import com.gcl.crm.form.TradingAccountForm;
 import lombok.Data;
-import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.List;
-
 
 @Entity
 @Data
@@ -80,14 +74,6 @@ public class TradingAccount {
         this.accountNumber = accountNumber;
     }
 
-    public int getCustomerID() {
-        return customerID;
-    }
-
-    public void setCustomerID(int customerID) {
-        this.customerID = customerID;
-    }
-
     public TradingAccount(String accountNumber, double balance, String status, String accountName, String brokerCode, String brokerName, Date createDate) {
         this.accountNumber = accountNumber;
         this.balance = balance;
@@ -104,14 +90,6 @@ public class TradingAccount {
 
     public void setActiveDate(Date activeDate) {
         this.activeDate = activeDate;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 
     public String getAccountNumber() {

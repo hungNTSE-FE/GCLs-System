@@ -32,10 +32,6 @@
                       <i class="fas fa-file-import" style="padding-right: 2px"></i>
                       Import khách hàng
                     </button>
-                    <button class="btn btn-outline-dark mx-1" type="button" data-bs-toggle="modal" data-bs-target="#potentialModalXL">
-                      <i class="fas fa-file-import" style="padding-right: 2px"></i>
-                      Import đầu mối
-                    </button>
                     <a class="btn btn-outline-dark mx-1" th:href="@{/potential/create}">
                       <i class="fas fa-plus" style="padding-right: 2px"></i>
                       Thêm đầu mối
@@ -209,13 +205,6 @@
                           </td>
                           <td th:text="${potentialMap.get(potential.id)}"></td>
                           <td th:text="${potential.date}"></td>
-<!--                          <td>-->
-<!--                            <span th:if="${potential.potentialRating != null}">-->
-<!--                                <span th:if="${potential.potentialRating.getValue().equals(2)}" th:text="${potential.potentialRating}" class="text-danger"></span>-->
-<!--                                <span th:if="${potential.potentialRating.getValue().equals(1)}" th:text="${potential.potentialRating}" class="text-primary"></span>-->
-<!--                                <span th:if="${potential.potentialRating.getValue().equals(0)}" th:text="${potential.potentialRating}" class="text-warning"></span>-->
-<!--                            </span>-->
-<!--                          </td>-->
                         </tr>
                         </tbody>
                       </table>
@@ -231,7 +220,6 @@
 
       <!--Fragment-->
       <div th:replace="~{common/popup :: popupImport('cusotmerModalXL' , @{/potential/importOldDataCustomer})}"></div>
-      <div th:replace="~{common/popup :: popupImport('potentialModalXL' , @{/potential/import})}"></div>
       <div th:replace="~{common/popup :: popupShareCustomer}"></div>
       <div th:replace="~{common/popup :: popupError}"></div>
       <div th:replace="~{common/popup :: popupRemove}"></div>

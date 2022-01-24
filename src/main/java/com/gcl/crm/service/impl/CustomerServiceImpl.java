@@ -169,8 +169,8 @@ public class CustomerServiceImpl implements CustomerService{
                 CustomerDistribution customerDistribution = new CustomerDistribution();
                 TradingAccount tradingAccount = new TradingAccount();
                 Contract contract = new Contract();
-                // Search for potential data in the system
-                if (potentialRepository.findAllByPhoneNumberOrEmail(customer.getPhoneNumber(), customer.getEmail()).size() == 0) {
+                // Step ...: Insert POTENTIAL
+                if (potentialRepository.findAllByNameAndPhoneNumberAndEmail(customer.getTradingAccountName(), customer.getPhoneNumber(), customer.getEmail()).size() == 0) {
                     potentialEntity.setAddress(customer.getAddress());
                     potentialEntity.setEmail(customer.getEmail());
                     potentialEntity.setMaker(user.getEmployee().getId());
@@ -181,8 +181,25 @@ public class CustomerServiceImpl implements CustomerService{
                     potentialEntity.setDate(customer.getCreateDateContract());
                     potentialRepository.save(potentialEntity);
                 }
-                // Search for customer data in the system
-                if (customRepository.findAllByEmailOrPhoneNumber(customer.getEmail(), customer.getPhoneNumber()).size() == 0) {
+                // Step ...: Insert IDENTITY
+                if (ValidateUtil.isNotNullOrEmpty(customer.getIdentityNumber())) {
+                    if (ValidateUtil.isNullOrEmpty(identificationRepository.findByIdentityNumber(customer.getIdentityNumber()))) {
+                        identificationEntity.setIdentityNumber(customer.getIdentityNumber());
+                        if (!AppConst.NULL.equals(customer.getBirthDate())) {
+                            identificationEntity.setBirthDate(DateTimeUtil.convertStringToDate(customer.getBirthDate(), AppConst.FORMAT_DD_MM_YYYY_CROOSSIES));
+                        }
+                        if (!AppConst.NULL.equals(customer.getIssueDate())) {
+                            identificationEntity.setIssueDate(DateTimeUtil.convertStringToDate(customer.getIssueDate(), AppConst.FORMAT_DD_MM_YYYY_CROOSSIES));
+                        }
+                        identificationEntity.setIssuePlace(customer.getIssuePlace());
+                        identificationEntity.setCreatedDateTime(DateTimeUtil.getCurrentDate());
+                        identificationEntity.setUpdatedDateTime(DateTimeUtil.getCurrentDate());
+                        identificationRepository.save(identificationEntity);
+                    }
+                }
+                // STEP ...: Insert CUSTOMER
+                if (customRepository.findAllByEmailAndPhoneNumberAndCustomerName(customer.getEmail(), customer.getPhoneNumber(), customer.getTradingAccountName()).size() == 0) {
+                    identificationEntity = identificationRepository.findByIdentityNumber(customer.getIdentityNumber());
                     customerEntity.setCustomerCode(customer.getTradingAccountCode());
                     customerEntity.setCustomerName(customer.getTradingAccountName());
                     customerEntity.setDescription(customer.getDescription());
@@ -190,14 +207,6 @@ public class CustomerServiceImpl implements CustomerService{
                     customerEntity.setPhoneNumber(customer.getPhoneNumber());
                     customerEntity.setAddress(customer.getAddress());
                     customerEntity.setStatus(true);
-                    if (!identificationRepository.findById(customer.getIdentityNumber()).isPresent()) {
-                        identificationEntity.setIdentityNumber(customer.getIdentityNumber());
-                        identificationEntity.setBirthDate(DateTimeUtil.convertStringToDate(customer.getBirthDate(), AppConst.FORMAT_DD_MM_YYYY_CROOSSIES));
-                        identificationEntity.setIssueDate(DateTimeUtil.convertStringToDate(customer.getIssueDate(), AppConst.FORMAT_DD_MM_YYYY_CROOSSIES));
-                        identificationEntity.setIssuePlace(customer.getIssuePlace());
-                        identificationRepository.save(identificationEntity);
-                    }
-                    identificationEntity = identificationRepository.findByIdentityNumber(customer.getIdentityNumber());
                     customerEntity.setIdentification(identificationEntity);
                     customerEntity.setBankCode(customer.getBankCode());
                     customerEntity.setBankName(customer.getBankName());
@@ -207,19 +216,7 @@ public class CustomerServiceImpl implements CustomerService{
                     customerEntity.setCreateDate(DateTimeUtil.getCurrentDate());
                     customRepository.save(customerEntity);
                 }
-                // Search for employee data in the system
-                if (employeeRepository.findAllByPhoneOrCompanyEmail(customer.getBrokerPhone(), customer.getBrokerEmail()).size() == 0) {
-                    Position position = positionRepository.findByName(AppConst.EMPLOYEE_ENUM);
-                    Department department = departmentRepository.findByDepartmentName("business");
-                    employee.setDepartment(department);
-                    employee.setPosition(position);
-                    employee.setPhone(customer.getBrokerPhone());
-                    employee.setCompanyEmail(customer.getBrokerEmail());
-                    employee.setName(customer.getBrokerName());
-                    employee.setStatus(EmployeeStatus.WORKING);
-                    employeeRepository.save(employee);
-                }
-                // Search for marketing group data in the system
+                // STEP ...: Insert MARKETING GROUP
                 if (marketingGroupRepository.findAllByCodeOrName(customer.getBrokerCode(), customer.getBrokerName()).size() == 0) {
                     marketingGroup.setCode(customer.getBrokerCode());
                     marketingGroup.setName(customer.getBrokerName());
@@ -228,17 +225,24 @@ public class CustomerServiceImpl implements CustomerService{
                     marketingGroup.setCreateDate(DateTimeUtil.getCurrentDate());
                     marketingGroupRepository.save(marketingGroup);
                 }
-                //Get customer by email or phone.
-                customerEntity = customRepository.findByEmailOrPhoneNumber(customer.getEmail(), customer.getPhoneNumber());
-                //Get marketing group by code or name.
-                marketingGroup = marketingGroupRepository.findByCodeOrName(customer.getBankCode(), customer.getBrokerName());
-                if (employeeRepository.findAllByPhoneOrCompanyEmail(customer.getBrokerPhone(), customer.getBrokerEmail()).size() > 0) {
-                    // Step1: Set employee to group MKT
+                // Step ...: Insert EMPLOYEE
+                marketingGroup = marketingGroupRepository.findByCodeOrName(customer.getBrokerCode(), customer.getBrokerName());
+                if (employeeRepository.findAllByPhoneAndCompanyEmail(customer.getBrokerPhone(), customer.getBrokerEmail()).size() == 0) {
+                    Position position = positionRepository.findByName(AppConst.EMPLOYEE_ENUM);
+                    Department department = departmentRepository.findByDepartmentName("business");
+                    employee.setDepartment(department);
+                    employee.setPosition(position);
+                    employee.setPhone(customer.getBrokerPhone());
+                    employee.setCompanyEmail(customer.getBrokerEmail());
+                    employee.setName(customer.getBrokerName());
+                    employee.setStatus(EmployeeStatus.WORKING);
                     employee.setMarketingGroup(marketingGroup);
-                    // Step2: Update emp to group MKT
+                    employee.setCreatedDateTime(DateTimeUtil.getCurrentDate());
+                    employee.setUpdatedDateTime(DateTimeUtil.getCurrentDate());
                     employeeRepository.save(employee);
-                    // End Step2
                 }
+                // Step ...: Insert CUSTOMER_DISTRIBUTION
+                customerEntity = customRepository.findByCustomerCode(customer.getTradingAccountCode());
                 if (customerDistributionCustomRepository.findAllByCustomerAndMarketingGroup(customerEntity, marketingGroup).size() == 0) {
                     customerDistribution.setCustomer(customerEntity);
                     customerDistribution.setPotential(potentialEntity);
@@ -250,8 +254,7 @@ public class CustomerServiceImpl implements CustomerService{
                     customerDistribution.setUpd_user(user.getEmployee().getId());
                     customerDistributionCustomRepository.save(customerDistribution);
                 }
-
-                //Insert trading account.
+                // Step ...: Insert TRADING_ACCOUNT.
                 if (tradingAccountRepository.findAllByAccountNumberAndBrokerCode(customer.getTradingAccountCode(), customer.getBrokerCode()).size() == 0) {
                     tradingAccount.setAccountNumber(customer.getTradingAccountCode());
                     tradingAccount.setAccountName(customer.getTradingAccountName());
@@ -261,31 +264,28 @@ public class CustomerServiceImpl implements CustomerService{
                     tradingAccount.setStatus("Active");
                     tradingAccount.setCustomer(customerEntity);
                     tradingAccountRepository.save(tradingAccount);
-                    //End trading account.
                 }
-                if (customRepository.findAllByEmailOrPhoneNumber(customer.getEmail(), customer.getPhoneNumber()).size() > 0) {
-                    //Search trading account
-                    tradingAccount = tradingAccountRepository.findByAccountNumber(customer.getTradingAccountCode());
-                    //Update data trading account in customer
-                    customerEntity.setTradingAccount(tradingAccount);
-                    customRepository.save(customerEntity);
-                }
-                // Step3: Update contract
-                if (contractRepository.findAllById(customer.getContractID()).size() == 0) {
+                // Step ...: Insert CONTRACT.
+                if (contractRepository.findAllByBrokerCodeAndNumber(customer.getBrokerCode(), customer.getTradingAccountCode()).size() == 0) {
                     contract.setStatus(customer.getContractStatus());
-                    contract.setId(customer.getContractID());
-                    contract.setCreateDate(DateTimeUtil.convertStringToDate(customer.getCreateDateContract(), AppConst.FORMAT_DD_MM_YYYY_CROOSSIES));
+                    contract.setContractNumber(customer.getContractID());
+                    if (!AppConst.NULL.equals(customer.getCreateDateContract())) {
+                        contract.setCreateDate(DateTimeUtil.convertStringToDate(customer.getCreateDateContract(), AppConst.FORMAT_DD_MM_YYYY_CROOSSIES));
+                    }
                     contract.setBroker_name(customer.getBrokerName());
                     contract.setBrokerCode(customer.getBrokerCode());
                     contract.setAccount_name(customer.getTradingAccountName());
                     contract.setNumber(customer.getTradingAccountCode());
                     contractRepository.save(contract);
                 }
-                //End step3
-                if (customRepository.findAllByEmailOrPhoneNumber(customer.getEmail(), customer.getPhoneNumber()).size() > 0) {
-                    contract = contractRepository.findContractById(customer.getContractID());
-                    customerEntity.setContract(contract);
-                    customRepository.save(customerEntity);
+                // Step ...: Update trading account & contract to CUSTOMER.
+                Customer customerDetail = customRepository.findByEmailAndPhoneNumberAndCustomerName(customer.getEmail(), customer.getPhoneNumber(), customer.getTradingAccountName());
+                if (ValidateUtil.isNotNullOrEmpty(customerDetail)) {
+                    TradingAccount tradingAccountDetail = tradingAccountRepository.findByAccountNumber(customer.getTradingAccountCode());
+                    Contract contractDetail = contractRepository.findContractByContractNumberAndBrokerCodeAndNumber(customer.getContractID(), customer.getBrokerCode(), customer.getTradingAccountCode());
+                    customerDetail.setTradingAccount(tradingAccountDetail);
+                    customerDetail.setContract(contractDetail);
+                    customRepository.save(customerDetail);
                 }
             }
         } catch (Exception e) {
@@ -311,7 +311,7 @@ public class CustomerServiceImpl implements CustomerService{
         if (Objects.nonNull(bankRepository.findObjectByPrimaryKey(customerForm.getBankNumber()))){
             errorInFoList.add(new ErrorInFo("bank_number", "Số tài khoản ngân hàng đã tồn tại"));
         }
-        if (identificationRepository.findById(customerForm.getIdentifyNumber()).isPresent()){
+        if (ValidateUtil.isNotNullOrEmpty(identificationRepository.findByIdentityNumber(customerForm.getIdentifyNumber()))){
             errorInFoList.add(new ErrorInFo("identity_number", "Số căn cước công dân đã tồn tại"));
         }
         return errorInFoList;
