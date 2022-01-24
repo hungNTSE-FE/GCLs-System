@@ -52,29 +52,22 @@ public class TradingAccountController {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime nowTime = LocalDateTime.now();
         String now = dtf.format(nowTime)+"";
-
-
         String monthInput = now.charAt(5)+""+now.charAt(6)+"";
         User currentUser = userService.getUserByUsername(principal.getName());
-
-        model.addAttribute("userInfo", currentUser);
         List<TradingAccount> allTradingAccountList = tradingAccountService.findTradingAccountByMonth(monthInput);
         List<TradingAccount> tradingAccountList = tradingAccountService.findTradingAccountByMonthAndStatus(monthInput,"Active");
         List<TradingAccount> noneTradingAccountList = tradingAccountService.findTradingAccountByMonthAndStatus(monthInput,"Inactive");
         List<TradingAccount> blockTradingAccountList = tradingAccountService.findTradingAccountByMonthAndStatus(monthInput,"Block");
         List<TradingAccount> stopTradingAccountList = tradingAccountService.findTradingAccountByMonthAndStatus(monthInput,"Stop");
-
-
+        model.addAttribute("userInfo", currentUser);
         model.addAttribute("tradingAccountList",tradingAccountList);
         model.addAttribute("noneTradingAccountList",noneTradingAccountList);
         model.addAttribute("blockTradingAccountList",blockTradingAccountList);
         model.addAttribute("stopTradingAccountList",stopTradingAccountList);
-
         model.addAttribute("allTradingAccountList",allTradingAccountList);
-
-        List<TradingAccountForm> tradingAccountForms = tradingAccountRepository2.getTradingAccountByMonth("2021-07-17");
         return "tradingAccount/view-tradingAccount-page";
     }
+
     @GetMapping({"/manageTradingAccount"})
     public  String viewTradingAccount(Model model, Principal principal){
         User currentUser = userService.getUserByUsername(principal.getName());

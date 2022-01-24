@@ -50,33 +50,6 @@ public class PotentialService {
     @Autowired
     UserService userService;
 
-    @Transactional
-    public boolean importPotential(List<Potential> potentials, User user){
-        if (potentials.size() == 0){
-            return false;
-        }
-        for (Potential potential : potentials){
-
-            if (potentialRepository.findAllByPhoneNumberOrEmail(potential.getPhoneNumber(), potential.getEmail()).size() > 0){
-                continue;
-            }
-            String sourceName = potential.getSourceName();
-            Source source = sourceService.getSourceByName(sourceName);
-            potential.setSource(source);
-            potential.setStatus(true);
-            potential.setMaker(user.getEmployee().getId());
-            potentialRepository.save(potential);
-        }
-        potentialRepository2.ratingPotential();
-        return true;
-    }
-
-    public List<Potential> getPotentialByMakerId(Long makerId){
-        List<Potential> potentials = potentialRepository.findAllByMaker(makerId);
-        Collections.sort(potentials);
-        return potentials;
-    }
-
     public boolean editPotential(Potential newPotential, User currentUser){
         Potential potential = potentialRepository.findPotentialByIdAndStatus(newPotential.getId(), true);
         if (potential == null){

@@ -49,6 +49,7 @@ public class AppConst {
 
     public static final String REDIRECT = "redirect";
     public static final String COLON = ":";
+    public static final String NULL = " ";
 
     public static final String CEO_ENUM = "Trưởng phòng";
     public static final String MANAGER_ENUM = "Quản lý";

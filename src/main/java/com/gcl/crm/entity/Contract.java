@@ -1,16 +1,22 @@
 package com.gcl.crm.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Date;
 
 
 @Entity
+@Data
 @Table
 public class Contract {
 
     @Id
-    @Column(name = "CONTRACT_ID", nullable = false)
-    private String id ;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "contract_number")
+    private String contractNumber ;
 
     @OneToOne(mappedBy = "contract", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Customer customer;
@@ -38,12 +44,21 @@ public class Contract {
 
     public Contract() {
     }
-    public String getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getContractNumber() {
+        return contractNumber;
+    }
+
+    public void setContractNumber(String contractNumber) {
+        this.contractNumber = contractNumber;
     }
 
     public ContractFile getContractFile() {

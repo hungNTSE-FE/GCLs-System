@@ -44,14 +44,12 @@ public class Potential implements Comparable<Potential> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String phoneNumber;
 
     private String date;
 
     private String name;
 
-    @Column(unique = true)
     private String email;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

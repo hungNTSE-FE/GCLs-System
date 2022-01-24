@@ -3,7 +3,6 @@ package com.gcl.crm.utils;
 import com.gcl.crm.config.AppConst;
 import com.gcl.crm.dto.CustomerDTO;
 import com.gcl.crm.entity.*;
-import com.gcl.crm.form.CustomerForm;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import org.apache.poi.ss.usermodel.*;
@@ -82,11 +81,17 @@ public class ExcelReader {
                             item.setBrokerName(brokerName);
                             break;
                         case AppConst.COLUMN_BROKER_PHONE:
-                            String brokerPhone = cellValue.toString();
+                            String brokerPhone = null;
+                            if (!AppConst.NULL.equals(cellValue.toString())) {
+                                brokerPhone = cellValue.toString();
+                            }
                             item.setBrokerPhone(brokerPhone);
                             break;
                         case AppConst.COLUMN_BROKER_MAIL:
-                            String brokerEmail = cellValue.toString();
+                            String brokerEmail = null;
+                            if (!AppConst.NULL.equals(cellValue.toString())) {
+                                brokerEmail = cellValue.toString();
+                            }
                             item.setBrokerEmail(brokerEmail);
                             break;
                         case AppConst.COLUMN_TRADING_ACCOUNT_CODE:
@@ -98,59 +103,101 @@ public class ExcelReader {
                             item.setTradingAccountName(tradingAccountName);
                             break;
                         case AppConst.COLUMN_PHONE_NUMBER:
-                            String phoneNumber = cellValue.toString();
+                            String phoneNumber = null;
+                            if (!AppConst.NULL.equals(cellValue.toString())) {
+                                phoneNumber = cellValue.toString();
+                            }
                             item.setPhoneNumber(phoneNumber);
                             break;
                         case AppConst.COLUMN_EMAIL:
-                            String email = cellValue.toString();
+                            String email = null;
+                            if (!AppConst.NULL.equals(cellValue.toString())) {
+                                email = cellValue.toString();
+                            }
                             item.setEmail(email);
                             break;
                         case AppConst.COLUMN_ADDRESS:
-                            String address = cellValue.toString();
+                            String address = null;
+                            if (!AppConst.NULL.equals(cellValue.toString())) {
+                                address = cellValue.toString();
+                            }
                             item.setAddress(address);
                             break;
                         case AppConst.COLUMN_IDENTITY_NUMBER:
-                            String identityNumber = cellValue.toString();
+                            String identityNumber = null;
+                            if (!AppConst.NULL.equals(cellValue.toString())) {
+                                identityNumber = cellValue.toString();
+                            }
                             item.setIdentityNumber(identityNumber);
                             break;
                         case AppConst.COLUMN_BIRTHDATE:
-                            String birthdate = DateTimeUtil.convertCellValueToDate(cellValue, AppConst.FORMAT_DD_MM_YYYY_CROOSSIES);
-                            item.setBirthDate(birthdate);
+                            String birthDate = null;
+                            if (!AppConst.NULL.equals(cellValue.toString())) {
+                                birthDate = DateTimeUtil.convertCellValueToDate(cellValue, AppConst.FORMAT_DD_MM_YYYY_CROOSSIES);
+                            }
+                            item.setBirthDate(birthDate);
                             break;
                         case AppConst.COLUMN_ISSUE_DATE:
-                            String issueDate = DateTimeUtil.convertCellValueToDate(cellValue, AppConst.FORMAT_DD_MM_YYYY_CROOSSIES);
+                            String issueDate = null;
+                            if (!AppConst.NULL.equals(cellValue.toString())) {
+                                issueDate = DateTimeUtil.convertCellValueToDate(cellValue, AppConst.FORMAT_DD_MM_YYYY_CROOSSIES);
+                            }
                             item.setIssueDate(issueDate);
                             break;
                         case AppConst.COLUMN_PLACE_OF_CREATION:
-                            String issuePlace = cellValue.toString();
+                            String issuePlace = null;
+                            if (!AppConst.NULL.equals(cellValue.toString())) {
+                                issuePlace = cellValue.toString();
+                            }
                             item.setIssuePlace(issuePlace);
                             break;
                         case AppConst.COLUMN_BANK_NAME:
-                            String bankName = cellValue.toString();
+                            String bankName = null;
+                            if (!AppConst.NULL.equals(cellValue.toString())) {
+                                bankName = cellValue.toString();
+                            }
                             item.setBankName(bankName);
                             break;
                         case AppConst.COLUMN_BANK_CODE:
-                            String bankCode = cellValue.toString();
+                            String bankCode = null;
+                            if (!AppConst.NULL.equals(cellValue.toString())) {
+                                bankCode = cellValue.toString();
+                            }
                             item.setBankCode(bankCode);
                             break;
                         case AppConst.COLUMN_CONTRACT_STATUS:
-                            String contractStatus = cellValue.toString();
+                            String contractStatus = null;
+                            if (!AppConst.NULL.equals(cellValue.toString())) {
+                                contractStatus = cellValue.toString();
+                            }
                             item.setContractStatus(contractStatus);
                             break;
                         case AppConst.COLUMN_DESCRIPTION:
-                            String description = cellValue.toString();
+                            String description = null;
+                            if (!AppConst.NULL.equals(cellValue.toString())) {
+                                description = cellValue.toString();
+                            }
                             item.setDescription(description);
                             break;
                         case AppConst.COLUMN_STATUS:
-                            String status = cellValue.toString();
+                            String status = null;
+                            if (!AppConst.NULL.equals(cellValue.toString())) {
+                                status = cellValue.toString();
+                            }
                             item.setStatus(status);
                             break;
                         case AppConst.COLUMN_CREATE_DATE_CONTRACT:
-                            String createDateContract = DateTimeUtil.convertCellValueToDate(cellValue, AppConst.TIME_FORMAT_DD_MM_YYYY);
+                            String createDateContract = null;
+                            if (!AppConst.NULL.equals(cellValue.toString())) {
+                                createDateContract = DateTimeUtil.convertCellValueToDate(cellValue, AppConst.TIME_FORMAT_DD_MM_YYYY);
+                            }
                             item.setCreateDateContract(createDateContract);
                             break;
                         case AppConst.COLUMN_CONTRACT_ID:
-                            String contractID = cellValue.toString();
+                            String contractID = null;
+                            if (!AppConst.NULL.equals(cellValue.toString())) {
+                                contractID = cellValue.toString();
+                            }
                             item.setContractID(contractID);
                             break;
                     }

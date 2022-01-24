@@ -225,9 +225,7 @@ public class CustomerController {
             }else{
                 return "redirect:/contract/manageCustomer";
             }
-
         }
-
     }
     @GetMapping({"/contract/showCreateContract/{id}"})
     public String showContractCreatePage(@PathVariable(name="id") int id , Model model, Principal principal){
@@ -251,7 +249,7 @@ public class CustomerController {
             }
             Contract contract = new Contract();
             contract.setCustomer(customer);
-            contract.setId(contractService.getContractID());
+            contract.setContractNumber(contractService.getContractID());
             User currentUser = userService.getUserByUsername(principal.getName());
             model.addAttribute("userInfo", currentUser);
             model.addAttribute("contract",contract);
@@ -336,7 +334,7 @@ public class CustomerController {
             long fileSzie = multipartFile.getSize();
             System.out.println(fileSzie);
             if(multipartFile.getSize()<10000000) {
-                contract.setId(contractService.getContractID());
+                contract.setContractNumber(contractService.getContractID());
                 ContractFile contractFile = new ContractFile();
                 contractFile.setName("HopDongKhachHang"+customer.getCustomerCode()+".pdf");
                 contractFile.setContent(multipartFile.getBytes());

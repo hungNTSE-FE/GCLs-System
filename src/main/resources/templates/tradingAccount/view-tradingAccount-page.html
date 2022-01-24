@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <title>Báo cáo tài khoản trong tháng</title>
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
-    <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
+    <div th:replace="~{common/main :: mySimpleDatatables}"></div>
+    <div th:replace="~{common/main :: myHeader}"></div>
 </head>
 <body class="nav-fixed">
 <th:block th:include="/common/nav-fixed.html"></th:block>
@@ -18,13 +11,7 @@
     <th:block th:include="/common/layoutSidenav.html"></th:block>
     <div id="layoutSidenav_content">
         <main>
-            <header
-                    class="
-              page-header page-header-dark
-              bg-gradient-primary-to-secondary
-              pb-10
-            "
-            >
+            <header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
                 <div class="container-xl px-4">
                     <div class="page-header-content pt-4">
                         <div class="row align-items-center justify-content-between">
@@ -40,7 +27,6 @@
                     </div>
                 </div>
             </header>
-            <!-- Main page content-->
             <div class="container-xl px-4 mt-n10">
                 <div class="card mb-4 card-header-actions mx-auto">
                     <div class="card-header">
@@ -70,7 +56,6 @@
                                 <li class="nav-item">
                                     <a class="nav-link " id="stopTrading-tab" href="#stopTrading" data-bs-toggle="tab" role="tab" aria-controls="stopTrading" aria-selected="false">Tài khoản khóa </a>
                                 </li>
-
                             </ul>
                         </div>
                         <div class="card-body">
@@ -93,8 +78,8 @@
                                             <td th:text="${tradingAccount.accountName}"></td>
                                             <td th:text="${tradingAccount.brokerCode}"></td>
                                             <td th:text="${tradingAccount.brokerName}"></td>
-                                            <td th:text="${tradingAccount.customer.phoneNumber}"></td>
-                                            <td th:text="${tradingAccount.customer.email}"></td>
+                                            <td th:text="${tradingAccount?.customer?.phoneNumber}"></td>
+                                            <td th:text="${tradingAccount?.customer?.email}"></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -117,8 +102,8 @@
                                             <td th:text="${tradingAccount.accountName}"></td>
                                             <td th:text="${tradingAccount.brokerCode}"></td>
                                             <td th:text="${tradingAccount.brokerName}"></td>
-                                            <td th:text="${tradingAccount.customer.phoneNumber}"></td>
-                                            <td th:text="${tradingAccount.customer.email}"></td>
+                                            <td th:text="${tradingAccount?.customer?.phoneNumber}"></td>
+                                            <td th:text="${tradingAccount?.customer?.email}"></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -141,8 +126,8 @@
                                             <td th:text="${tradingAccount.accountName}"></td>
                                             <td th:text="${tradingAccount.brokerCode}"></td>
                                             <td th:text="${tradingAccount.brokerName}"></td>
-                                            <td th:text="${tradingAccount.customer.phoneNumber}"></td>
-                                            <td th:text="${tradingAccount.customer.email}"></td>
+                                            <td th:text="${tradingAccount?.customer?.phoneNumber}"></td>
+                                            <td th:text="${tradingAccount?.customer?.email}"></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -165,8 +150,8 @@
                                             <td th:text="${tradingAccount.accountName}"></td>
                                             <td th:text="${tradingAccount.brokerCode}"></td>
                                             <td th:text="${tradingAccount.brokerName}"></td>
-                                            <td th:text="${tradingAccount.customer.phoneNumber}"></td>
-                                            <td th:text="${tradingAccount.customer.email}"></td>
+                                            <td th:text="${tradingAccount?.customer?.phoneNumber}"></td>
+                                            <td th:text="${tradingAccount?.customer?.email}"></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -189,17 +174,15 @@
                                             <td th:text="${tradingAccount.accountName}"></td>
                                             <td th:text="${tradingAccount.brokerCode}"></td>
                                             <td th:text="${tradingAccount.brokerName}"></td>
-                                            <td th:text="${tradingAccount.customer.phoneNumber}"></td>
-                                            <td th:text="${tradingAccount.customer.email}"></td>
+                                            <td th:text="${tradingAccount?.customer?.phoneNumber}"></td>
+                                            <td th:text="${tradingAccount?.customer?.email}"></td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </main>

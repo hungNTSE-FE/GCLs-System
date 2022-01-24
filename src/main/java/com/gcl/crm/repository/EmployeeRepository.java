@@ -17,7 +17,7 @@ import java.util.Optional;
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findAllByStatusNot(EmployeeStatus status);
     List<Employee> findAllById(Long id);
-    List<Employee> findAllByPhoneOrCompanyEmail(String phone, String companyEmail);
+    List<Employee> findAllByPhoneAndCompanyEmail(String phone, String companyEmail);
     Optional<Employee> findByIdAndStatusNot(Long id, EmployeeStatus status);
     Employee findEmployeeByPhoneAndIdNot(String phone, Long id);
     Employee findEmployeeByCompanyEmailAndIdNot(String email, Long id);
