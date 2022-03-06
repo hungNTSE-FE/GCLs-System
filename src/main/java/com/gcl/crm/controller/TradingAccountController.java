@@ -7,6 +7,7 @@ import com.gcl.crm.repository.TradingAccountRepository2;
 import com.gcl.crm.service.CustomerProcessService;
 import com.gcl.crm.service.TradingAccountService;
 import com.gcl.crm.service.UserService;
+import com.gcl.crm.utils.DateTimeUtil;
 import com.gcl.crm.utils.ExcelReader;
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -47,14 +49,16 @@ public class TradingAccountController {
         model.addAttribute("userInfo", currentUser);
         tradingAccountService.exportDateInMonth(response);
     }
+
     @GetMapping({"/manageTradingAccountInMonth"})
-    public  String viewTradingAccountUpdateInMonth(Model model,Principal principal){
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime nowTime = LocalDateTime.now();
-        String now = dtf.format(nowTime)+"";
+    public String viewTradingAccountUpdateInMonth(Model model,Principal principal){
+//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+//        LocalDateTime nowTime = LocalDateTime.now();
+        Date currentDate = new Date();
+        String now = DateTimeUtil.convertDateToString(currentDate, DateTimeUtil.PATTERN_YY_MM_DD);
         String monthInput = now.charAt(5)+""+now.charAt(6)+"";
         User currentUser = userService.getUserByUsername(principal.getName());
-        List<TradingAccount> allTradingAccountList = tradingAccountService.findTradingAccountByMonth(monthInput);
+        List<TradingAccount> allTradingAccountList = tradingAccountService.findTradingAccountByMonth();
         List<TradingAccount> tradingAccountList = tradingAccountService.findTradingAccountByMonthAndStatus(monthInput,"Active");
         List<TradingAccount> noneTradingAccountList = tradingAccountService.findTradingAccountByMonthAndStatus(monthInput,"Inactive");
         List<TradingAccount> blockTradingAccountList = tradingAccountService.findTradingAccountByMonthAndStatus(monthInput,"Block");

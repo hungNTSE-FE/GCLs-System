@@ -13,13 +13,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     }
 
     const dataTable = new simpleDatatables.DataTable("#datatablesSimple", {
-        scrollY: "300px",
         scrollX: true,
-        scrollCollapse: true,
-        fixedColumns: {
-            leftColumns: 1,
-            rightColumns: 1,
-        },
     });
 });
 window.addEventListener("DOMContentLoaded", (event) => {

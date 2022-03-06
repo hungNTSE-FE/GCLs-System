@@ -24,25 +24,9 @@ public class TradingAccountServiceImpl implements TradingAccountService{
     private TradingAccountRepository tradingAccountRepository;
 
     @Override
-    public List<TradingAccount> findTradingAccountByMonth(String month) {
+    public List<TradingAccount> findTradingAccountByMonth() {
         List<TradingAccount> tradingAccountList = tradingAccountRepository.findAll();
-        List<TradingAccount> result = new ArrayList<>();
-        if(month.length()==1){
-            month = "0"+month;
-        }
-        String createDate = "";
-        for(int i = 0 ;i <tradingAccountList.size();i++){
-            createDate =tradingAccountList.get(i).getCreateDate()+"";
-
-            if(createDate.charAt(5)==month.charAt(0) &&
-                    createDate.charAt(6)==month.charAt(1)){
-                result.add(tradingAccountList.get(i));
-
-            }
-
-        }
-
-        return result;
+        return tradingAccountList;
     }
 
     @Override
@@ -57,18 +41,8 @@ public class TradingAccountServiceImpl implements TradingAccountService{
     }
 
     @Override
-    public void exportTradingAccountByMonth(List<TradingAccount> tradingAccountList) {
-
-    }
-
-    @Override
     public List<TradingAccount> findAll() {
         return tradingAccountRepository.findAll();
-    }
-
-    @Override
-    public List<TradingAccount> findAllByActive() {
-        return tradingAccountRepository.findAllByActive("Block");
     }
 
     @Override
@@ -88,20 +62,17 @@ public class TradingAccountServiceImpl implements TradingAccountService{
 
     @Override
     public void updateAccountBalance(String accountNumber, double balance) {
-    Optional<TradingAccount> tradingAccount = tradingAccountRepository.findById(accountNumber);
-
-    if(tradingAccount.isPresent()){
-        tradingAccount.get().setBalance(balance);
-        tradingAccountRepository.save(tradingAccount.get());
+        Optional<TradingAccount> tradingAccount = tradingAccountRepository.findById(accountNumber);
+        if(tradingAccount.isPresent()){
+            tradingAccount.get().setBalance(balance);
+            tradingAccountRepository.save(tradingAccount.get());
+        }
     }
-    }
-
 
     @Override
     public List<TradingAccount> findTradingAccountByMonthAndStatus(String month,String status) {
         List<TradingAccount> result = new ArrayList<>();
         List<TradingAccount> tradingAccountList = tradingAccountRepository.findAll();
-
         if(month.length()==1){
             month = "0"+month;
         }

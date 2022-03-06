@@ -8,11 +8,9 @@ import java.io.IOException;
 import java.util.List;
 
 public interface TradingAccountService {
-    List<TradingAccount> findTradingAccountByMonth(String month);
+    List<TradingAccount> findTradingAccountByMonth();
     TradingAccount findTradingAccountByID(String id);
-    void exportTradingAccountByMonth(List<TradingAccount> tradingAccountList);
     List<TradingAccount> findAll();
-    List<TradingAccount> findAllByActive();
     List<TradingAccount> findAccountStopDeal();
     TradingAccount  activateAccount(TradingAccount tradingAccount);
     void updateAccountBalance(String accountNumber,double balance);
