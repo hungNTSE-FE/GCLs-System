@@ -16,9 +16,13 @@ import com.gcl.crm.service.*;
 import com.gcl.crm.utils.ExcelReader;
 import com.gcl.crm.utils.ValidateUtil;
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
+import org.joda.time.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -29,15 +33,27 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.mail.MessagingException;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.swing.text.html.Option;
+import javax.xml.ws.Response;
 
 @Controller
 @RequestMapping("/potential")
@@ -74,6 +90,9 @@ public class PotentialController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private ServletContext context;
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String goHomePage(Model model, Principal principal) {
@@ -486,4 +505,22 @@ public class PotentialController {
         return CommonConst.OPEN_TRADING_ACCOUNT_TEMPALTE;
     }
 
+    @RequestMapping(value = {CommonConst.PATH_DOWNLOAD_OLD_CUSTOMER_SAMPLE_FILE}, method = RequestMethod.GET)
+    public ResponseEntity<?> getSampleFile() {
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        try {
+            File sampleFile = new File(classLoader.getResource(CommonConst.OLD_CUSTOMER_SAMPLE_DOCUMENT_FILE).toURI());
+            if (!sampleFile.exists()) {
+                LOGGER.error("The sample file is not exist");
+                return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            Resource resource = new UrlResource(sampleFile.toURI());
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + sampleFile.getName() + "\"")
+                    .body(resource);
+        } catch (Exception e) {
+            LOGGER.error("Error when download sample file cusotmer: {}", e);
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

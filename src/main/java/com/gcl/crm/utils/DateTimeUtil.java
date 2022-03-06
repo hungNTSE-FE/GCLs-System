@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateTimeUtil {
+    public static final String PATTERN_YY_MM_DD = "yyyy/MM/dd HH:mm:ss";
+
     public static Date convertStringToDate(String input, String pattern) throws ParseException {
         if (ValidateUtil.isNotNullOrEmpty(input)) {
             SimpleDateFormat sdf = new SimpleDateFormat(pattern);

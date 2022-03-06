@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,7 +41,7 @@ public class ExcelReader {
      * @throws IOException
      * @throws IllegalStateException
      */
-    public List<CustomerDTO> getCustomerData(InputStream stream, String filename) throws IOException, IllegalStateException {
+    public List<CustomerDTO> getCustomerData(InputStream stream, String filename) throws IllegalStateException {
         LOGGER.info("Start getCustomerData");
         List<CustomerDTO> customerData = new ArrayList<>();
         try {

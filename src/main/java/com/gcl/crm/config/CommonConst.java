@@ -18,6 +18,8 @@ public class CommonConst {
     public static final String PATH_POTENTIAL_CREATE = "/potential/create";
     public static final String PATH_POTENTIAL_DETAIL = "/potential/detail/edit/";
     public static final String PATH_POTENTIAL_DETAIL_TAKECARE_MKT = "/potential/detail/takecare/MKT/";
+    public static final String PATH_DOWNLOAD_OLD_CUSTOMER_SAMPLE_FILE = "/download-sample-file";
+    public static final String OLD_CUSTOMER_SAMPLE_DOCUMENT_FILE = "sample-file.xlsx";
 
     public static final String ERROR_400_TEMPLATE = "/error/error-400";
 
